@@ -16,8 +16,13 @@ _global_script_class_icons={
 [application]
 
 config/name="A Test of Artistry"
-run/main_scene="res://Scenes/MainScene.tscn"
+run/main_scene="res://Scenes/Overworld/Overworld_Scene.tscn"
 config/icon="res://icon.png"
+
+[debug]
+
+settings/fps/force_fps=30
+settings/stdout/print_fps=true
 
 [display]
 
@@ -34,5 +39,4 @@ window/stretch/shrink=4.0
 quality/driver/driver_name="GLES2"
 vram_compression/import_etc=true
 vram_compression/import_etc2=false
-environment/default_environment="res://default_env.tres"
 quality/dynamic_fonts/use_oversampling=false
