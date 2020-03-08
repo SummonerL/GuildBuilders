@@ -8,41 +8,97 @@ const DIA_TILE_WIDTH = 8
 const DIA_TILE_HEIGHT = 8
 const DIALOGUE_HEIGHT = 48
 const DIALOGUE_WIDTH = 160
+const MAX_CHARS_PER_ROW = 16
 
 onready var letters_symbols_obj = preload("res://Entities/HUD/Letters_Symbols/Letters_Symbols.tscn")
 onready var dialogue_sprite = get_node("Dialogue_Sprite")
 
 var letters_symbols
+var dialogueState
+var dialogueBuffer = []
 
+enum STATES {
+	TYPING,
+	AWAITING_CONFIRMATION
+}
 
 func dialogue_init():
 	# position the dialogue box to the bottom of the viewport
 	dialogue_sprite.position = Vector2(0, SCREEN_HEIGHT - DIALOGUE_HEIGHT)
 	
+	# initial state
+	dialogueState = STATES.TYPING
+	
 	# add the Tilemap as a child of dialogue
 	letters_symbols = letters_symbols_obj.instance()
 	add_child(letters_symbols)
 	
-	writeText("Sound is workingHow is it?")
+	writeText("Well, I finally got the dialogue working! " + 
+		"I'm stoked because I can write anything I want now. " +
+		"This is the first step in creating a MASTERPIECE!"
+	)
+
+func clearText():
+	letters_symbols.clearText()
 
 func writeText(text):
 	var textToOutput = str(text)
 	var startPos = (dialogue_sprite.position / 8.0)
+	
+	var availableSpace = MAX_CHARS_PER_ROW # wrap if we don't have enough space for a word
+	
 	startPos.x+=2
 	startPos.y+=1
 	
 	var currentPos = startPos
-	var index = 0 # need this to determine final iteration
+	var _letterIndex = 0 # need this to determine final iteration
+	var wordIndex = 0 # index of the outer loop (because gdscript won't do this for me...')
 	
-	for letter in textToOutput:
-		index+=1
-		letters_symbols.generateLetterSymbol(letter, currentPos, (index >= textToOutput.length()))
-		currentPos.x+=1
+	# split the dialogue into words
+	var words = textToOutput.split(" ")
+	
+	# get starting size 
+	var wordCount = words.size()
+	
+	for word in words:
+		wordIndex+=1
 		
-			# check bounds
-		if (currentPos.x > (SCREEN_WIDTH / float(DIA_TILE_WIDTH)) - 3):
+		word += " " # add a space to the end of the word
+		
+		if (word.length() > availableSpace): # wrap if not enough space
 			currentPos.x = startPos.x
 			currentPos.y += 2
+			availableSpace = MAX_CHARS_PER_ROW # reset available space (for the row)
+			
+			if currentPos.y >= ((SCREEN_HEIGHT / float(DIA_TILE_HEIGHT)) - 2):
+				dialogueState = STATES.AWAITING_CONFIRMATION
+				dialogueBuffer = words
+			
+		if (dialogueState == STATES.TYPING):
+			for letter in word:
+				_letterIndex+=1
+				letters_symbols.generateLetterSymbol(letter, currentPos)
+				availableSpace-=1
+				currentPos.x+=1
+		
+		if (wordIndex >= wordCount):
+			letters_symbols.startArrowDownTimer()
+			
+		if (dialogueState == STATES.AWAITING_CONFIRMATION): # we can break out of the loop if finished typing
+			letters_symbols.startArrowDownTimer()
+			break
+			
+		# now that we've printed that word, remove it
+		words.remove(0)
+
+# if something is pressed
+func _input(event):
+	if (event.is_action_pressed("ui_accept")):
+		match dialogueState:
+			STATES.AWAITING_CONFIRMATION:
+				clearText()
+				dialogueState = STATES.TYPING
+				writeText(dialogueBuffer.join(" "))
 	
 # Called when the node enters the scene tree for the first time.
 func _ready():

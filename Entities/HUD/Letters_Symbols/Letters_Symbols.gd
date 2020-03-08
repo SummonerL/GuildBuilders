@@ -17,17 +17,12 @@ onready var dialogueSound = get_node("Dialogue_Sound")
 var tileSet
 var currentTime = 0
 
-func setTextCell(letterSymbol, pos, timer, last):
-	print(letterSymbol.ord_at(0))
+func setTextCell(letterSymbol, pos, timer):
 	tileMap.set_cellv(pos, tileSet.find_tile_by_name("LS_Code_" + String(letterSymbol.ord_at(0))))
 	timer.stop() # stop the timer
 	
 	#play the dialogue sound
 	dialogueSound.play()
-	
-	# if last, make our down arrow visible
-	if (last):
-		showArrowDown()
 	
 func letters_symbols_init():
 	tileSet = tileMap.get_tileset()
@@ -35,18 +30,32 @@ func letters_symbols_init():
 	# position arrow down sprite
 	arrowDownSprite.position = Vector2(SCREEN_WIDTH - (DIA_TILE_WIDTH*3), SCREEN_HEIGHT - (DIA_TILE_HEIGHT*2))
 	
-func showArrowDown():
+func startArrowDownTimer():
+	var downArrowTimer = Timer.new()
+	downArrowTimer.wait_time = currentTime
+	downArrowTimer.connect("timeout", self, "showArrowDown", [downArrowTimer])
+	add_child(downArrowTimer)
+	downArrowTimer.start()
+	
+func showArrowDown(downArrowTimer):
 	arrowDownSprite.visible = true
+	downArrowTimer.stop()
 	
 func hideArrowDown():
 	arrowDownSprite.visible = false
-func generateLetterSymbol(letterSymbol, pos, last):
+	
+func clearText():
+	tileMap.clear()
+	hideArrowDown()
+	currentTime = 0
+	
+func generateLetterSymbol(letterSymbol, pos):
 	# generate text, using a timer
 	var textTimer = Timer.new()
 	textTimer.wait_time = currentTime + MESSAGE_SPEED
 	currentTime = currentTime + MESSAGE_SPEED
 	
-	textTimer.connect("timeout", self, "setTextCell", [letterSymbol, pos, textTimer, last])
+	textTimer.connect("timeout", self, "setTextCell", [letterSymbol, pos, textTimer])
 	add_child(textTimer)
 	
 	textTimer.start()
