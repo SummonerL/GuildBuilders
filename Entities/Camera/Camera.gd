@@ -26,8 +26,6 @@ func set_camera_pos(new_pos_x, new_pos_y):
 
 func check_pos(curs_x, curs_y):
 	# if cursor is offscreen, move the cam!
-	print(curs_x)
-	print(pos_x)
 	if curs_x < pos_x:
 		set_camera_pos(curs_x, pos_y)
 	if curs_x > (pos_x + (TILES_PER_ROW-1)):

@@ -21,7 +21,7 @@ script = ExtResource( 4 )
 position = Vector2( 8, 8 )
 frames = SubResource( 1 )
 animation = "New Anim"
-frame = 2
+frame = 4
 speed_scale = 1.28
 playing = true
 

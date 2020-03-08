@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Sprites/hud/hud_dialogue1.png" type="Texture" id=1]
+[ext_resource path="res://Entities/HUD/Dialogue.gd" type="Script" id=2]
+
+[node name="HUD_Layer" type="CanvasLayer"]
+script = ExtResource( 2 )
+
+[node name="Dialogue_Sprite" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+centered = false
