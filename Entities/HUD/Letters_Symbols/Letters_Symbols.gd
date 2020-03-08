@@ -12,6 +12,7 @@ const DIALOGUE_WIDTH = 160
 
 onready var tileMap = get_node("TileMap")
 onready var arrowDownSprite = get_node("Arrow_Down_Sprite")
+onready var dialogueSound = get_node("Dialogue_Sound")
 
 var tileSet
 var currentTime = 0
@@ -20,6 +21,9 @@ func setTextCell(letterSymbol, pos, timer, last):
 	print(letterSymbol.ord_at(0))
 	tileMap.set_cellv(pos, tileSet.find_tile_by_name("LS_Code_" + String(letterSymbol.ord_at(0))))
 	timer.stop() # stop the timer
+	
+	#play the dialogue sound
+	dialogueSound.play()
 	
 	# if last, make our down arrow visible
 	if (last):

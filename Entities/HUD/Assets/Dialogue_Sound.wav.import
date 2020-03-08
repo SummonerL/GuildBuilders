@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Dialogue_Sound.wav-1664ec32523a7e303d5d5743f1d040e7.sample"
+
+[deps]
+
+source_file="res://Entities/HUD/Assets/Dialogue_Sound.wav"
+dest_files=[ "res://.import/Dialogue_Sound.wav-1664ec32523a7e303d5d5743f1d040e7.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

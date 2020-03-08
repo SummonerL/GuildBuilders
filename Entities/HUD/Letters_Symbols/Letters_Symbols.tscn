@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Sprites/hud/letter_symbol_sheet.png" type="Texture" id=1]
 [ext_resource path="res://Entities/HUD/Letters_Symbols/Letters_Symbols.gd" type="Script" id=2]
 [ext_resource path="res://Sprites/hud/hud_symbol_down1.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/hud/hud_symbol_down2.png" type="Texture" id=4]
+[ext_resource path="res://Entities/HUD/Assets/Dialogue_Sound.wav" type="AudioStream" id=5]
 
 [sub_resource type="TileSet" id=1]
 0/name = "LS_Code_65"
@@ -750,3 +751,6 @@ frames = SubResource( 2 )
 speed_scale = 0.9
 playing = true
 centered = false
+
+[node name="Dialogue_Sound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 5 )

@@ -23,7 +23,7 @@ func dialogue_init():
 	letters_symbols = letters_symbols_obj.instance()
 	add_child(letters_symbols)
 	
-	writeText("Hello, what's your name?")
+	writeText("Sound is workingHow is it?")
 
 func writeText(text):
 	var textToOutput = str(text)
