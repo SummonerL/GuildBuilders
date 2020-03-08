@@ -23,22 +23,24 @@ func dialogue_init():
 	letters_symbols = letters_symbols_obj.instance()
 	add_child(letters_symbols)
 	
-	writeText("WHATSUP")
+	writeText("Hello, what's your name?")
 
 func writeText(text):
 	var textToOutput = str(text)
-	var startPos = (dialogue_sprite.position / 8)
+	var startPos = (dialogue_sprite.position / 8.0)
 	startPos.x+=2
 	startPos.y+=1
 	
 	var currentPos = startPos
+	var index = 0 # need this to determine final iteration
 	
 	for letter in textToOutput:
-		letters_symbols.generateLetterSymbol(letter, currentPos)
+		index+=1
+		letters_symbols.generateLetterSymbol(letter, currentPos, (index >= textToOutput.length()))
 		currentPos.x+=1
 		
 			# check bounds
-		if (currentPos.x > (SCREEN_WIDTH / DIA_TILE_WIDTH) - 3):
+		if (currentPos.x > (SCREEN_WIDTH / float(DIA_TILE_WIDTH)) - 3):
 			currentPos.x = startPos.x
 			currentPos.y += 2
 	
