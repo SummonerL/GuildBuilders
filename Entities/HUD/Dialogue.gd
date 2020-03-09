@@ -38,6 +38,12 @@ func dialogue_init():
 		"This is the first step in creating a MASTERPIECE!"
 	)
 
+func changeState(state):
+	dialogueState = state
+	
+func stopTimer(timer):
+	timer.stop()
+	
 func clearText():
 	letters_symbols.clearText()
 
@@ -60,6 +66,8 @@ func writeText(text):
 	# get starting size 
 	var wordCount = words.size()
 	
+	var finishedPrinting = false # finished printing the current block
+	
 	for word in words:
 		wordIndex+=1
 		
@@ -71,10 +79,17 @@ func writeText(text):
 			availableSpace = MAX_CHARS_PER_ROW # reset available space (for the row)
 			
 			if currentPos.y >= ((SCREEN_HEIGHT / float(DIA_TILE_HEIGHT)) - 2):
-				dialogueState = STATES.AWAITING_CONFIRMATION
+				var timer = Timer.new()
+				timer.wait_time = letters_symbols.currentTime
+				timer.connect("timeout", self, "changeState", [STATES.AWAITING_CONFIRMATION])
+				timer.connect("timeout", self, "stopTimer", [timer])
+				add_child(timer)
+				timer.start()
+	
+				finishedPrinting = true # finished printing this block
 				dialogueBuffer = words
 			
-		if (dialogueState == STATES.TYPING):
+		if (!finishedPrinting):
 			for letter in word:
 				_letterIndex+=1
 				letters_symbols.generateLetterSymbol(letter, currentPos)
@@ -84,7 +99,7 @@ func writeText(text):
 		if (wordIndex >= wordCount):
 			letters_symbols.startArrowDownTimer()
 			
-		if (dialogueState == STATES.AWAITING_CONFIRMATION): # we can break out of the loop if finished typing
+		if (finishedPrinting): # we can break out of the loop if finished typing
 			letters_symbols.startArrowDownTimer()
 			break
 			
