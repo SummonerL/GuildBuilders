@@ -43,6 +43,7 @@ func changeState(state):
 	
 func stopTimer(timer):
 	timer.stop()
+	remove_child(timer)
 	
 func clearText():
 	letters_symbols.clearText()

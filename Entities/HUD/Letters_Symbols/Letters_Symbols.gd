@@ -17,9 +17,13 @@ onready var dialogueSound = get_node("Dialogue_Sound")
 var tileSet
 var currentTime = 0
 
+func stopTimer(timer):
+	timer.stop()
+	remove_child(timer)
+	
 func setTextCell(letterSymbol, pos, timer):
 	tileMap.set_cellv(pos, tileSet.find_tile_by_name("LS_Code_" + String(letterSymbol.ord_at(0))))
-	timer.stop() # stop the timer
+	stopTimer(timer) # stop + remove the timer
 	
 	#play the dialogue sound
 	dialogueSound.play()
@@ -39,7 +43,7 @@ func startArrowDownTimer():
 	
 func showArrowDown(downArrowTimer):
 	arrowDownSprite.visible = true
-	downArrowTimer.stop()
+	stopTimer(downArrowTimer) # stop and remove timer
 	
 func hideArrowDown():
 	arrowDownSprite.visible = false
