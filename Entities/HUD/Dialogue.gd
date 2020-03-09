@@ -45,6 +45,9 @@ func stopTimer(timer):
 	timer.stop()
 	remove_child(timer)
 	
+func timeoutTimer(timer):
+	timer.start(.0001)
+	
 func clearText():
 	letters_symbols.clearText()
 
@@ -115,6 +118,14 @@ func _input(event):
 				clearText()
 				dialogueState = STATES.TYPING
 				writeText(dialogueBuffer.join(" "))
+			STATES.TYPING: # fast print!
+				for node in letters_symbols.get_children():
+					if node is Timer:
+						letters_symbols.timeoutTimer(node)
+				for node in self.get_children():
+					if node is Timer:
+						timeoutTimer(node)
+						
 	
 # Called when the node enters the scene tree for the first time.
 func _ready():

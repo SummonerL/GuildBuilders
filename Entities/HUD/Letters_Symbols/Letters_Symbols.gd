@@ -1,6 +1,6 @@
 extends CanvasLayer
 
-const MESSAGE_SPEED = .05
+const MESSAGE_SPEED = .06
 const SCREEN_HEIGHT = 144
 const SCREEN_WIDTH = 160
 const TILE_HEIGHT = 16
@@ -21,6 +21,10 @@ func stopTimer(timer):
 	timer.stop()
 	remove_child(timer)
 	
+func timeoutTimer(timer): # trigger the timeout early
+	timer.start(.0001)
+	
+
 func setTextCell(letterSymbol, pos, timer):
 	tileMap.set_cellv(pos, tileSet.find_tile_by_name("LS_Code_" + String(letterSymbol.ord_at(0))))
 	stopTimer(timer) # stop + remove the timer
