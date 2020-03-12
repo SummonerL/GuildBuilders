@@ -1,5 +1,8 @@
 extends Node2D
 
+# bring in our global constants
+onready var constants = get_node("/root/Game_Constants")
+
 # A Test of Artistry...
 # ... a game by
 # Arid Bard (Elliot Simpson)

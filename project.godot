@@ -21,7 +21,9 @@ config/icon="res://icon.png"
 
 [autoload]
 
-Game_Globals="*res://Autoload/Game_Globals.gd"
+Game_Constants="*res://Autoload/Game_Constants.gd"
+Game_Config="*res://Autoload/Game_Config.gd"
+Player_Globals="*res://Autoload/Player_Globals.gd"
 
 [debug]
 

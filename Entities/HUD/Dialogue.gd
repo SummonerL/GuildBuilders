@@ -1,9 +1,8 @@
 extends CanvasLayer
 
-const SCREEN_HEIGHT = 144
-const SCREEN_WIDTH = 160
-const TILE_HEIGHT = 16
-const TILE_WIDTH = 16
+# bring in our global constants
+onready var constants = get_node("/root/Game_Constants")
+
 const DIA_TILE_WIDTH = 8
 const DIA_TILE_HEIGHT = 8
 const DIALOGUE_HEIGHT = 48
@@ -25,7 +24,7 @@ enum STATES {
 
 func dialogue_init():
 	# position the dialogue box to the bottom of the viewport
-	dialogue_sprite.position = Vector2(0, SCREEN_HEIGHT - DIALOGUE_HEIGHT)
+	dialogue_sprite.position = Vector2(0, constants.SCREEN_HEIGHT - DIALOGUE_HEIGHT)
 	
 	# initial state
 	dialogueState = STATES.INACTIVE
@@ -87,7 +86,7 @@ func writeText(text):
 			currentPos.y += 2
 			availableSpace = MAX_CHARS_PER_ROW # reset available space (for the row)
 			
-			if currentPos.y >= ((SCREEN_HEIGHT / float(DIA_TILE_HEIGHT)) - 2):
+			if currentPos.y >= ((constants.SCREEN_HEIGHT / float(DIA_TILE_HEIGHT)) - 2):
 				finishedPrintingBlock = true # finished printing this block
 				dialogueBuffer = words
 			

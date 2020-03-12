@@ -1,10 +1,12 @@
 extends CanvasLayer
 
-const MESSAGE_SPEED = .06
-const SCREEN_HEIGHT = 144
-const SCREEN_WIDTH = 160
-const TILE_HEIGHT = 16
-const TILE_WIDTH = 16
+# bring in our global constants
+onready var constants = get_node("/root/Game_Constants")
+
+# bring in our game config vars
+onready var game_cfg_vars = get_node("/root/Game_Config")
+
+# local constants
 const DIA_TILE_WIDTH = 8
 const DIA_TILE_HEIGHT = 8
 const DIALOGUE_HEIGHT = 48
@@ -36,7 +38,7 @@ func letters_symbols_init():
 	tileSet = tileMap.get_tileset()
 	
 	# position arrow down sprite
-	arrowDownSprite.position = Vector2(SCREEN_WIDTH - (DIA_TILE_WIDTH*3), SCREEN_HEIGHT - (DIA_TILE_HEIGHT*2))
+	arrowDownSprite.position = Vector2(constants.SCREEN_WIDTH - (DIA_TILE_WIDTH*3), constants.SCREEN_HEIGHT - (DIA_TILE_HEIGHT*2))
 	
 func startArrowDownTimer():
 	var downArrowTimer = Timer.new()
@@ -60,8 +62,8 @@ func clearText():
 func generateLetterSymbol(letterSymbol, pos):
 	# generate text, using a timer
 	var textTimer = Timer.new()
-	textTimer.wait_time = currentTime + MESSAGE_SPEED
-	currentTime = currentTime + MESSAGE_SPEED
+	textTimer.wait_time = currentTime + game_cfg_vars.messageSpeed
+	currentTime = currentTime + game_cfg_vars.messageSpeed
 	
 	textTimer.connect("timeout", self, "setTextCell", [letterSymbol, pos, textTimer])
 	add_child(textTimer)
