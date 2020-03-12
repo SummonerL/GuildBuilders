@@ -27,15 +27,23 @@ func gameInit():
 	
 	# lights, camera, action!
 	camera.turnOn()
-	
-	pass
-
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	gameInit()
 	pass # Replace with function body.
 
+# temporarily use to text dialogue system
+func _input(event):
+	if (event.is_action_pressed("ui_cancel")):
+		match hud.dialogueState:
+			hud.STATES.INACTIVE:
+				hud.writeText("Well... I think we officially got the " +
+							"dialogue system working to perfection. " +
+							"Hopefully this will be the first step " + 
+							"in creating the game of my dreams. " + 
+							"As a matter of fact, I think I'll write " + 
+							"a novel in here... JK!")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 # func _process(delta):

@@ -18,6 +18,7 @@ var dialogueState
 var dialogueBuffer = []
 
 enum STATES {
+	INACTIVE
 	TYPING,
 	AWAITING_CONFIRMATION
 }
@@ -27,16 +28,11 @@ func dialogue_init():
 	dialogue_sprite.position = Vector2(0, SCREEN_HEIGHT - DIALOGUE_HEIGHT)
 	
 	# initial state
-	dialogueState = STATES.TYPING
+	dialogueState = STATES.INACTIVE
 	
 	# add the Tilemap as a child of dialogue
 	letters_symbols = letters_symbols_obj.instance()
 	add_child(letters_symbols)
-	
-	writeText("Well, I finally got the dialogue working! " + 
-		"I'm stoked because I can write anything I want now. " +
-		"This is the first step in creating a MASTERPIECE!"
-	)
 
 func changeState(state):
 	dialogueState = state
@@ -51,7 +47,16 @@ func timeoutTimer(timer):
 func clearText():
 	letters_symbols.clearText()
 
+func completeText():
+	dialogueState = STATES.INACTIVE
+	dialogue_sprite.visible = false
+
 func writeText(text):
+	# turn on the dialogue box, if it isn't turned on
+	if (dialogueState == STATES.INACTIVE):
+		dialogueState = STATES.TYPING
+		dialogue_sprite.visible = true
+	
 	var textToOutput = str(text)
 	var startPos = (dialogue_sprite.position / 8.0)
 	
@@ -70,7 +75,7 @@ func writeText(text):
 	# get starting size 
 	var wordCount = words.size()
 	
-	var finishedPrinting = false # finished printing the current block
+	var finishedPrintingBlock = false # finished printing the current block
 	
 	for word in words:
 		wordIndex+=1
@@ -83,27 +88,31 @@ func writeText(text):
 			availableSpace = MAX_CHARS_PER_ROW # reset available space (for the row)
 			
 			if currentPos.y >= ((SCREEN_HEIGHT / float(DIA_TILE_HEIGHT)) - 2):
-				var timer = Timer.new()
-				timer.wait_time = letters_symbols.currentTime
-				timer.connect("timeout", self, "changeState", [STATES.AWAITING_CONFIRMATION])
-				timer.connect("timeout", self, "stopTimer", [timer])
-				add_child(timer)
-				timer.start()
-	
-				finishedPrinting = true # finished printing this block
+				finishedPrintingBlock = true # finished printing this block
 				dialogueBuffer = words
 			
-		if (!finishedPrinting):
+		if (!finishedPrintingBlock):
 			for letter in word:
 				_letterIndex+=1
 				letters_symbols.generateLetterSymbol(letter, currentPos)
 				availableSpace-=1
 				currentPos.x+=1
 		
+		# if we've finished printing all of the text (not just the block)
 		if (wordIndex >= wordCount):
-			letters_symbols.startArrowDownTimer()
+			dialogueBuffer = []
+			finishedPrintingBlock = true
+			#letters_symbols.startArrowDownTimer()
 			
-		if (finishedPrinting): # we can break out of the loop if finished typing
+			
+		
+		if (finishedPrintingBlock): # we can break out of the loop if finished typing
+			var timer = Timer.new()
+			timer.wait_time = letters_symbols.currentTime
+			timer.connect("timeout", self, "changeState", [STATES.AWAITING_CONFIRMATION])
+			timer.connect("timeout", self, "stopTimer", [timer])
+			add_child(timer)
+			timer.start()
 			letters_symbols.startArrowDownTimer()
 			break
 			
@@ -117,7 +126,11 @@ func _input(event):
 			STATES.AWAITING_CONFIRMATION:
 				clearText()
 				dialogueState = STATES.TYPING
-				writeText(dialogueBuffer.join(" "))
+				if (dialogueBuffer.size() > 0):
+					writeText(dialogueBuffer.join(" "))
+				else:
+					completeText() # finished printing everything!
+	
 			STATES.TYPING: # fast print!
 				for node in letters_symbols.get_children():
 					if node is Timer:

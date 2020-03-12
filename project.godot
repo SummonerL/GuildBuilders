@@ -19,6 +19,10 @@ config/name="A Test of Artistry"
 run/main_scene="res://Scenes/Overworld/Overworld_Scene.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+Game_Globals="*res://Autoload/Game_Globals.gd"
+
 [debug]
 
 settings/fps/force_fps=30
