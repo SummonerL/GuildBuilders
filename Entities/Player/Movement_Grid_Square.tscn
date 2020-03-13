@@ -21,6 +21,7 @@ script = ExtResource( 2 )
 [node name="Movement_Grid_Sprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
 animation = "New Anim"
+frame = 5
 speed_scale = 1.2
 playing = true
 centered = false
