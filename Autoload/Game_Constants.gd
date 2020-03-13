@@ -6,3 +6,10 @@ const TILES_PER_ROW = 10
 const TILES_PER_COL = 9
 const SCREEN_HEIGHT = 144
 const SCREEN_WIDTH = 160
+
+enum DIRECTIONS {
+	UP,
+	RIGHT,
+	DOWN,
+	LEFT
+}

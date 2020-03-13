@@ -101,7 +101,6 @@ func writeText(text):
 		if (wordIndex >= wordCount):
 			dialogueBuffer = []
 			finishedPrintingBlock = true
-			#letters_symbols.startArrowDownTimer()
 			
 			
 		
