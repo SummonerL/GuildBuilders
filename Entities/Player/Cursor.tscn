@@ -21,8 +21,9 @@ script = ExtResource( 4 )
 position = Vector2( 8, 8 )
 frames = SubResource( 1 )
 animation = "New Anim"
+frame = 4
 speed_scale = 1.28
 playing = true
 
-[node name="Cursor_Move_Sound" type="AudioStreamPlayer2D" parent="."]
+[node name="Cursor_Move_Sound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )

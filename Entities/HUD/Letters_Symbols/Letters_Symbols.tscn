@@ -752,5 +752,5 @@ speed_scale = 0.9
 playing = true
 centered = false
 
-[node name="Dialogue_Sound" type="AudioStreamPlayer2D" parent="."]
+[node name="Dialogue_Sound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )
