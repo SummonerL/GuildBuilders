@@ -15,13 +15,14 @@ animations = [ {
 } ]
 
 [node name="Player_Cursor_Scene" type="Node2D"]
+z_index = 2
 script = ExtResource( 4 )
 
 [node name="Cursor_Animated_Sprite" type="AnimatedSprite" parent="."]
 position = Vector2( 8, 8 )
 frames = SubResource( 1 )
 animation = "New Anim"
-frame = 4
+frame = 2
 speed_scale = 1.28
 playing = true
 

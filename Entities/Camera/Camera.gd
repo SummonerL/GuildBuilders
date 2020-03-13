@@ -8,12 +8,11 @@ onready var player_globals = get_node("/root/Player_Globals")
 
 func turnOn():
 	get_node("Camera_Node").current = true
-	pass
 	
 func camera_init():
 	# position camera
-	self.global_position = Vector2(player_globals.cam_pos_x*16, player_globals.cam_pos_y*16)
-	pass
+	self.global_position = Vector2(player_globals.cam_pos_x*constants.TILE_HEIGHT, 
+									player_globals.cam_pos_y*constants.TILE_WIDTH)
 	
 func set_camera_pos(new_pos_x, new_pos_y):
 	player_globals.cam_pos_x = new_pos_x
@@ -35,5 +34,4 @@ func check_pos(curs_x, curs_y):
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	camera_init()
-	pass # Replace with function body.
 

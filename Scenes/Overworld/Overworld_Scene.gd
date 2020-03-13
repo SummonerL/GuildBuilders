@@ -3,6 +3,9 @@ extends Node2D
 # bring in our global constants
 onready var constants = get_node("/root/Game_Constants")
 
+# bring in our global player variables
+onready var player = get_node("/root/Player_Globals")
+
 # A Test of Artistry...
 # ... a game by
 # Arid Bard (Elliot Simpson)
@@ -24,6 +27,10 @@ func gameInit():
 	camera = camera_scn.instance()
 	hud = hud_scn.instance()
 	
+	# add units to the player's party
+	player.party.add_unit(constants.UNIT_TYPES.ANGLER_MALE)
+	player.party.add_unit(constants.UNIT_TYPES.ANGLER_FEMALE)
+	
 	add_child(camera)
 	add_child(cursor)
 	camera.add_child(hud) # make the hud a child of the camera
@@ -34,7 +41,6 @@ func gameInit():
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	gameInit()
-	pass # Replace with function body.
 
 # temporarily use to text dialogue system
 func _input(event):
@@ -48,6 +54,3 @@ func _input(event):
 							"As a matter of fact, I think I'll write " + 
 							"a novel in here... JK!")
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-# func _process(delta):
-#	pass
