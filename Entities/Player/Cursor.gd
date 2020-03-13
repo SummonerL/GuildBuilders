@@ -14,8 +14,8 @@ var cursor_moving = false
 
 # current wait time (for moving)
 # should speed up while the key is held
-const MAX_WAIT_TIME = .4
-const MIN_WAIT_TIME = .2
+const MAX_WAIT_TIME = .3
+const MIN_WAIT_TIME = .1
 const WAIT_TIME_INTERVAL = .1
 
 var cursor_wait_time = MAX_WAIT_TIME
@@ -125,6 +125,9 @@ func _process(_delta):
 		if (cursor_timer.time_left == 0):
 			cursor_timer.start(cursor_wait_time)
 			# bump down the wait time, unless we're at minimum (speed up)
-			if (cursor_wait_time >= MIN_WAIT_TIME):
-				cursor_wait_time -= WAIT_TIME_INTERVAL
+			# dev note - still trying to determine if the interval is necessary
+			# or just going with 2 speeds (slow, then fast)
+			if (cursor_wait_time > MIN_WAIT_TIME):
+				# cursor_wait_time -= WAIT_TIME_INTERVAL
+				cursor_wait_time = MIN_WAIT_TIME
 			
