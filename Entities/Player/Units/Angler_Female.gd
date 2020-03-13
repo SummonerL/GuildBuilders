@@ -7,8 +7,10 @@ onready var constants = get_node("/root/Game_Constants")
 onready var player = get_node("/root/Player_Globals")
 
 func unit_init():
-	unit_pos_x = 6
-	unit_pos_y = 6
+	unit_pos_x = 10
+	unit_pos_y = 7
+	
+	base_move = 3
 	
 	self.global_position = Vector2(unit_pos_x*constants.TILE_WIDTH, 
 									unit_pos_y*constants.TILE_HEIGHT)
