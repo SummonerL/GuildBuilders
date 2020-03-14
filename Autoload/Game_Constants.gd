@@ -7,6 +7,10 @@ const TILES_PER_COL = 9
 const SCREEN_HEIGHT = 144
 const SCREEN_WIDTH = 160
 
+const MAP_TILES_GROUP = 'map_tiles'
+
+const CANT_MOVE = 999999
+
 enum DIRECTIONS {
 	UP,
 	RIGHT,

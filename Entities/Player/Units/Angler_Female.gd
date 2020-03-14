@@ -1,8 +1,5 @@
 extends "res://Entities/Player/Units/Unit_Class.gd"
 
-# bring in our global constants
-onready var constants = get_node("/root/Game_Constants")
-
 # bring in our global player variables
 onready var player = get_node("/root/Player_Globals")
 
