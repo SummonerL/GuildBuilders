@@ -4,8 +4,8 @@ extends "res://Entities/Player/Units/Unit_Class.gd"
 onready var player = get_node("/root/Player_Globals")
 
 func unit_init():
-	unit_pos_x = 7
-	unit_pos_y = 1
+	unit_pos_x = 5
+	unit_pos_y = 4
 	
 	base_move = 3
 	
