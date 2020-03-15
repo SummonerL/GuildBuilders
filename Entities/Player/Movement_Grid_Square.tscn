@@ -17,13 +17,15 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[node name="Movement_Grid_Square" type="Node2D"]
+[node name="Movement_Grid_Square" type="Node2D" groups=[
+"grid_square",
+]]
 script = ExtResource( 2 )
 
 [node name="Movement_Grid_Sprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
 animation = "New Anim"
 frame = 7
-speed_scale = 1.3
+speed_scale = 1.5
 playing = true
 centered = false

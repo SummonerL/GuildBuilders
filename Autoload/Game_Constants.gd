@@ -8,6 +8,7 @@ const SCREEN_HEIGHT = 144
 const SCREEN_WIDTH = 160
 
 const MAP_TILES_GROUP = 'map_tiles'
+const GRID_SQUARE_GROUP = 'grid_square'
 
 const CANT_MOVE = 999999
 

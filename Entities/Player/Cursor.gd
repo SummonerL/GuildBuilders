@@ -3,6 +3,9 @@ extends Node2D
 # bring in our global constants
 onready var constants = get_node("/root/Game_Constants")
 
+# bring in the player's units
+onready var party = get_node("/root/Player_Party")
+
 # local variables 
 # -----------------------
 # position on world map
@@ -40,6 +43,13 @@ func cursor_init():
 	cursor_timer.connect("timeout", self, "stop_timer")
 	add_child(cursor_timer)
 	
+	
+func getSelectedTileUnits():
+	# find if there are any active units on the current tile
+	for unit in party.get_all_units():
+		if (unit.unit_pos_x == pos_x && unit.unit_pos_y == pos_y):
+			return unit
+
 func stop_timer():
 	cursor_timer.stop()
 	
@@ -117,6 +127,15 @@ func _input(event):
 		cursor_direction = constants.DIRECTIONS.LEFT
 		cursor_move()
 		cursor_moving = true
+		
+	# if the action button is pressed, we can select the tile/unit
+	if event.is_action_pressed("ui_focus_next"):
+		# get any units on this tile
+		var unit = getSelectedTileUnits()
+		if (unit != null):
+			# enable the unit's movement state
+			unit.enable_movement_state()
+		
 		
 # runs every frame
 func _process(_delta):

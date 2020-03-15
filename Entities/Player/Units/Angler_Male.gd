@@ -1,11 +1,8 @@
 extends "res://Entities/Player/Units/Unit_Class.gd"
 
-# bring in our global player variables
-onready var player = get_node("/root/Player_Globals")
-
 func unit_init():
-	unit_pos_x = 5
-	unit_pos_y = 4
+	unit_pos_x = 11
+	unit_pos_y = 10
 	
 	base_move = 3
 	
@@ -14,9 +11,3 @@ func unit_init():
 	
 func _ready():
 	unit_init()
-
-func _input(event):
-	if event.is_action_pressed("ui_focus_next"):
-		calculate_eligible_tiles()
-		
-
