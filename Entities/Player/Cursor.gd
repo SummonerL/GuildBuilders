@@ -6,6 +6,9 @@ onready var constants = get_node("/root/Game_Constants")
 # bring in the player's units
 onready var party = get_node("/root/Player_Party")
 
+# bring in the global player variables
+onready var player = get_node("/root/Player_Globals")
+
 # local variables 
 # -----------------------
 # position on world map
@@ -44,11 +47,21 @@ func cursor_init():
 	add_child(cursor_timer)
 	
 	
-func getSelectedTileUnits():
+func get_selected_tile_units():
 	# find if there are any active units on the current tile
 	for unit in party.get_all_units():
 		if (unit.unit_pos_x == pos_x && unit.unit_pos_y == pos_y):
 			return unit
+
+func select_tile():
+	# get any units on this tile
+	var unit = get_selected_tile_units()
+	if (unit != null):
+		# activate the unit
+		party.set_active_unit(unit)
+		
+		# enable the unit's movement state
+		unit.enable_movement_state()
 
 func stop_timer():
 	cursor_timer.stop()
@@ -130,13 +143,19 @@ func _input(event):
 		
 	# if the action button is pressed, we can select the tile/unit
 	if event.is_action_pressed("ui_focus_next"):
-		# get any units on this tile
-		var unit = getSelectedTileUnits()
-		if (unit != null):
-			# enable the unit's movement state
-			unit.enable_movement_state()
-		
-		
+		# regardless of the current state, if there are any units here, we need
+		# to activate them. This allows the user to select a unit to move,
+		# even while they are still selecting movement for another unit
+		if (get_selected_tile_units() != null):
+			select_tile()
+		else:	
+			match player.player_state:
+				player.PLAYER_STATE.SELECTING_TILE:
+					select_tile()
+				player.PLAYER_STATE.SELECTING_MOVEMENT:
+					if (party.get_active_unit() != null):
+						party.get_active_unit().move_unit_if_eligible(pos_x, pos_y)
+
 # runs every frame
 func _process(_delta):
 	# check to see if we're still moving 

@@ -7,8 +7,17 @@ onready var constants = get_node("/root/Game_Constants")
 onready var angler_male_scn = preload("res://Entities/Player/Units/Angler_Male.tscn")
 onready var angler_female_scn = preload("res://Entities/Player/Units/Angler_Female.tscn")
 
+# keep track of the unit that is currently 'active'
+var active_unit = null
+
 func get_all_units():
 	return get_children()
+
+func get_active_unit():
+	return active_unit
+	
+func set_active_unit(unit):
+	active_unit = unit
 
 func add_unit(unit):
 	match unit:
