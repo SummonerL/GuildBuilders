@@ -89,7 +89,11 @@ func calculate_eligible_tiles():
 	# keep track of all the tiles we're iterating over, as well as their distance
 	# to the unit
 	var tiles = {}
-	tiles[String(foc_x) + "_" + String(foc_y)] = 0 # the starting tile, distance of 0
+	tiles[String(foc_x) + "_" + String(foc_y)] = {
+		"pos_x": foc_x + unit_pos_x,
+		"pos_y": foc_y + unit_pos_y,
+		"distance": 0
+	} # the starting tile, distance of 0
 
 	var change_x = 0
 	var change_y = -1
@@ -98,22 +102,22 @@ func calculate_eligible_tiles():
 		var shortest_distance = constants.CANT_MOVE # by default, assume we can't move to the tile
 		
 		if (tiles.get(String(foc_x+1) + "_" + String(foc_y)) != null): # tile to the right
-			var neighbor_right_dist = tiles.get(String(foc_x+1) + "_" + String(foc_y))
+			var neighbor_right_dist = tiles.get(String(foc_x+1) + "_" + String(foc_y)).distance
 			if (neighbor_right_dist < shortest_distance):
 				shortest_distance = neighbor_right_dist
 			
 		if (tiles.get(String(foc_x-1) + "_" + String(foc_y)) != null): # tile to the left
-			var neighbor_left_dist = tiles.get(String(foc_x-1) + "_" + String(foc_y))
+			var neighbor_left_dist = tiles.get(String(foc_x-1) + "_" + String(foc_y)).distance
 			if (neighbor_left_dist < shortest_distance):
 				shortest_distance = neighbor_left_dist
 				
 		if (tiles.get(String(foc_x) + "_" + String(foc_y-1)) != null): # tile to the north
-			var neighbor_up_dist = tiles.get(String(foc_x) + "_" + String(foc_y-1))
+			var neighbor_up_dist = tiles.get(String(foc_x) + "_" + String(foc_y-1)).distance
 			if (neighbor_up_dist < shortest_distance):
 				shortest_distance = neighbor_up_dist
 			
 		if (tiles.get(String(foc_x) + "_" + String(foc_y+1)) != null): # tile to the south
-			var neighbor_down_dist = tiles.get(String(foc_x) + "_" + String(foc_y+1))
+			var neighbor_down_dist = tiles.get(String(foc_x) + "_" + String(foc_y+1)).distance
 			if (neighbor_down_dist < shortest_distance):
 				shortest_distance = neighbor_down_dist
 		
@@ -135,7 +139,11 @@ func calculate_eligible_tiles():
 		
 		# update the distance of this particular tile
 		if (!(foc_x == 0 && foc_y == 0)):
-			tiles[String(foc_x) + "_" + String(foc_y)] = new_tile_distance
+			tiles[String(foc_x) + "_" + String(foc_y)] = {
+				"pos_x": foc_x + unit_pos_x,
+				"pos_y": foc_y + unit_pos_y,
+				"distance": new_tile_distance
+			}
 		else:
 			new_tile_distance = 0
 		
@@ -156,10 +164,14 @@ func calculate_eligible_tiles():
 		var current_tile_right_distance = constants.CANT_MOVE
 		
 		if (tiles.get(String(foc_x+1) + "_" + String(foc_y)) != null):
-			current_tile_right_distance = tiles.get(String(foc_x+1) + "_" + String(foc_y))
+			current_tile_right_distance = tiles.get(String(foc_x+1) + "_" + String(foc_y)).distance
 		
 		if (current_tile_right_distance > (new_tile_distance + tile_right_move_cost)):
-			tiles[String(foc_x+1) + "_" + String(foc_y)] = new_tile_distance + tile_right_move_cost
+			tiles[String(foc_x+1) + "_" + String(foc_y)] = {
+				"pos_x": (foc_x+1) + unit_pos_x,
+				"pos_y": foc_y + unit_pos_y,
+				"distance": new_tile_distance + tile_right_move_cost
+			}
 		
 		# neighbor down
 		var tile_name_down_l1 = tileset_props_l1.get_tile_at_coordinates(Vector2(foc_x + unit_pos_x, foc_y + unit_pos_y+1))
@@ -176,10 +188,14 @@ func calculate_eligible_tiles():
 		var current_tile_down_distance = constants.CANT_MOVE
 		
 		if (tiles.get(String(foc_x) + "_" + String(foc_y+1)) != null):
-			current_tile_down_distance = tiles.get(String(foc_x) + "_" + String(foc_y+1))
+			current_tile_down_distance = tiles.get(String(foc_x) + "_" + String(foc_y+1)).distance
 		
 		if (current_tile_down_distance > (new_tile_distance + tile_down_move_cost)):
-			tiles[String(foc_x) + "_" + String(foc_y+1)] = new_tile_distance + tile_down_move_cost
+			tiles[String(foc_x) + "_" + String(foc_y+1)] = {
+				"pos_x": foc_x + unit_pos_x,
+				"pos_y": (foc_y+1) + unit_pos_y,
+				"distance": new_tile_distance + tile_down_move_cost
+			}
 			
 
 		# neighbor left
@@ -197,10 +213,14 @@ func calculate_eligible_tiles():
 		var current_tile_left_distance = constants.CANT_MOVE
 		
 		if (tiles.get(String(foc_x-1) + "_" + String(foc_y)) != null):
-			current_tile_left_distance = tiles.get(String(foc_x-1) + "_" + String(foc_y))
+			current_tile_left_distance = tiles.get(String(foc_x-1) + "_" + String(foc_y)).distance
 		
 		if (current_tile_left_distance > (new_tile_distance + tile_left_move_cost)):
-			tiles[String(foc_x-1) + "_" + String(foc_y)] = new_tile_distance + tile_left_move_cost
+			tiles[String(foc_x-1) + "_" + String(foc_y)] = {
+				"pos_x": (foc_x-1) + unit_pos_x,
+				"pos_y": foc_y + unit_pos_y,
+				"distance": new_tile_distance + tile_left_move_cost
+			}
 			
 		# neighbor up
 		var tile_name_up_l1 = tileset_props_l1.get_tile_at_coordinates(Vector2(foc_x + unit_pos_x, foc_y + unit_pos_y-1))
@@ -217,17 +237,14 @@ func calculate_eligible_tiles():
 		var current_tile_up_distance = constants.CANT_MOVE
 		
 		if (tiles.get(String(foc_x) + "_" + String(foc_y-1)) != null):
-			current_tile_up_distance = tiles.get(String(foc_x) + "_" + String(foc_y-1))
+			current_tile_up_distance = tiles.get(String(foc_x) + "_" + String(foc_y-1)).distance
 		
 		if (current_tile_up_distance > (new_tile_distance + tile_up_move_cost)):
-			tiles[String(foc_x) + "_" + String(foc_y-1)] = new_tile_distance + tile_up_move_cost
-			
-			
-		if (!(foc_x == 0 && foc_y == 0)):
-			# shifted to the actual location on map
-			if (new_tile_distance <= base_move): # if within the units movement
-				show_movement_grid_square(foc_x + unit_pos_x, foc_y + unit_pos_y)
-				eligible_movement_tiles.push_back(Vector2(foc_x + unit_pos_x, foc_y + unit_pos_y))
+			tiles[String(foc_x) + "_" + String(foc_y-1)] = {
+				"pos_x": foc_x + unit_pos_x,
+				"pos_y": (foc_y-1) + unit_pos_y,
+				"distance": new_tile_distance + tile_up_move_cost
+			}
 
 		if ((foc_x == foc_y) ||
 			(foc_x < 0 && foc_x == -foc_y) ||
@@ -238,3 +255,12 @@ func calculate_eligible_tiles():
 			change_y = temp_c_x
 		foc_x += change_x
 		foc_y += change_y
+	
+	# we've calculated the distance of all tiles, now let's determine if they
+	# are eligible for movement, or not
+	for tile in tiles:
+		var tileObj = tiles[tile]
+		# if the distance is less than the unit's movement, and we're not already there
+		if (tileObj.distance > 0 && tileObj.distance <= base_move): 
+			eligible_movement_tiles.push_back(Vector2(tileObj.pos_x, tileObj.pos_y))
+			show_movement_grid_square(tileObj.pos_x, tileObj.pos_y)
