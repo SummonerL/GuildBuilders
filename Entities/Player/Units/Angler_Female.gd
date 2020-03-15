@@ -1,8 +1,8 @@
 extends "res://Entities/Player/Units/Unit_Class.gd"
 
 func unit_init():
-	unit_pos_x = 10
-	unit_pos_y = 7
+	unit_pos_x = 12
+	unit_pos_y = 5
 	
 	unit_name = "Female Angler"
 	
