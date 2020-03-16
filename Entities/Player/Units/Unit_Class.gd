@@ -17,6 +17,9 @@ onready var tileset_props_l2 = get_tree().get_nodes_in_group(constants.MAP_TILES
 # keep track of the eligible tiles the unit can currently move to
 var eligible_movement_tiles = []
 
+# create a  set of tiles that we are iterating through, to track the current distance
+var s_tiles = {}
+
 # the unit's position on the map
 var unit_pos_x = 0
 var unit_pos_y = 0
@@ -82,22 +85,109 @@ func calculate_eligible_tiles():
 	# clear out the eligible movement tiles
 	eligible_movement_tiles.clear()
 	
-	# create a temporary set of tiles that we are spiraling through
-	var s_tiles = {}
-	# calculate the distance, spiraling out from the player
-	# we have to do this in both directions, to ensure no tiles are missed due to weird
-	# edge cases
-	spiral(s_tiles, direction.CLOCKWISE)
-	spiral(s_tiles, direction.COUNTERCLOCKWISE)
+	# clear our s_tiles tracker (for visited tiles)
+	s_tiles = {}
+	
+	# calculate the distance, using the flood fill algorithm
+	flood_fill(unit_pos_x, unit_pos_y, base_move, {})
+	
+#	spiral(s_tiles, direction.COUNTERCLOCKWISE)
+#	spiral(s_tiles, direction.CLOCKWISE)
+#	spiral(s_tiles, direction.COUNTERCLOCKWISE)
+#	spiral(s_tiles, direction.CLOCKWISE)
 	
 	# we've calculated the distance of all tiles, now let's determine if they
 	# are eligible for movement, or not
-	for tile in s_tiles:
-		var tileObj = s_tiles[tile]
-		# if the distance is less than the unit's movement, and we're not already there
-		if (tileObj.distance > 0 && tileObj.distance <= base_move): 
-			eligible_movement_tiles.push_back(Vector2(tileObj.pos_x, tileObj.pos_y))
-			show_movement_grid_square(tileObj.pos_x, tileObj.pos_y)
+#	for tile in s_tiles:
+#		var tileObj = s_tiles[tile]
+#		# if the distance is less than the unit's movement, and we're not already there
+#		if (tileObj.distance > 0 && tileObj.distance <= base_move): 
+#			eligible_movement_tiles.push_back(Vector2(tileObj.pos_x, tileObj.pos_y))
+#			show_movement_grid_square(tileObj.pos_x, tileObj.pos_y)
+
+# should have started with this...
+# flood fill is the best approach for calculating eligible tiles
+# it's a recursive function
+func flood_fill(foc_x, foc_y, remaining_move, visited_tiles):
+	
+	# first, let's find our boundaries
+	var left_bound = unit_pos_x - base_move
+	var right_bound = unit_pos_x + base_move
+	var up_bound = unit_pos_y - base_move
+	var down_bound = unit_pos_y + base_move
+	
+	# if we're out of remaining move, skip
+	if (remaining_move <= 0):
+		return
+		
+	# if we've hit a boundary, skip
+	if (foc_x < left_bound || foc_x > right_bound || 
+		foc_y < up_bound || foc_y > down_bound):
+		return
+	
+	# otherwise, calculate the distance
+	var tile_name_l1 = tileset_props_l1.get_tile_at_coordinates(Vector2(foc_x, foc_y))
+	var tile_name_l2 = tileset_props_l2.get_tile_at_coordinates(Vector2(foc_x, foc_y))
+
+	# usually, movement cost is 1. Some tiles may take more movement to move on to
+	# to determine this, we add the movement costs of both layers
+	# start by setting it to the distance of the last tile
+	
+	# subtract the cost of the l1 tiles (if they exist. Else, we DEFINITELY can't move there!)
+	if (tile_name_l1 != null):
+		remaining_move -= tileset_props_l1.get_movement_cost(tile_name_l1)
+	else:
+		remaining_move -= constants.CANT_MOVE
+	
+	# subtract the cost of the l2 tiles, if they exist
+	if (tile_name_l2 != null):
+		remaining_move -= tileset_props_l2.get_movement_cost(tile_name_l2)
+		
+	# the tile is eligible if the remaining_move is >= 0
+	if (foc_x == unit_pos_x && foc_y == unit_pos_y):
+		remaining_move = base_move # we're still at the base
+	else:
+		if (remaining_move >= 0):
+			eligible_movement_tiles.push_back(Vector2(foc_x, foc_y))
+			show_movement_grid_square(foc_x, foc_y)
+
+	print('FOC X ' + String(foc_x))
+	print('FOC_Y ' + String(foc_y))
+	print('REMAINING MOVE ' + String(remaining_move))
+	print(" ")
+	
+	var initiate_recursion = true
+	
+	# if we've already been here in this recursion chain, skip (otherwise, StackOverflow)
+	if (visited_tiles.get(String(foc_x) + "_" + String(foc_y)) != null):
+		if (foc_x == unit_pos_x && foc_y == unit_pos_y):
+			pass
+		else:
+			print("SKIPPING")
+			print(String(foc_x) + "_" + String(foc_y))
+			print(visited_tiles.get(String(foc_x) + "_" + String(foc_y)))
+			print(" ")
+			initiate_recursion = false
+	
+	# mark the tile as visited
+	var tile_visited = visited_tiles.get(String(foc_x) + "_" + String(foc_y))
+	if (tile_visited == null):
+		visited_tiles[String(foc_x) + "_" + String(foc_y)] = true
+
+	# mark the distance of the tile
+	if (s_tiles.get(String(foc_x) + "_" + String(foc_y)) == null):
+		s_tiles[String(foc_x) + "_" + String(foc_y)] = base_move - remaining_move
+	else:
+		if (s_tiles.get(String(foc_x) + "_" + String(foc_y)) > base_move - remaining_move):
+			# we've got a cheaper path to get here!
+			s_tiles[String(foc_x) + "_" + String(foc_y)] = base_move - remaining_move
+
+	if (initiate_recursion):
+		flood_fill(foc_x + 1, foc_y, remaining_move, visited_tiles); # tile to the east
+		flood_fill(foc_x - 1, foc_y, remaining_move, visited_tiles); # tile to the west
+		flood_fill(foc_x, foc_y + 1, remaining_move, visited_tiles); # tile to the south
+		flood_fill(foc_x, foc_y - 1, remaining_move, visited_tiles); # tile to the north
+
 
 # I can't claim to have come up with this 'Spiral' algorithm...
 # tbh, I grabbed it off of StackOverflow
