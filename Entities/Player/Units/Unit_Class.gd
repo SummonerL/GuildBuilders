@@ -14,8 +14,8 @@ onready var tileset_props_l2 = get_tree().get_nodes_in_group(constants.MAP_TILES
 
 # units can inherit from this class to access common variables
 
-# keep track of the eligible tiles the unit can currently move to
-var eligible_movement_tiles = []
+# a set of Vector2s that are currently eligible for movement (doesn't' include distance)
+var movement_set = []
 
 # this dict will be used to track the eligible movement tiles, as well as their total distance
 var eligible_tile_tracker = {}
@@ -55,7 +55,7 @@ func move_unit_if_eligible(target_x, target_y):
 	var can_move = false
 	
 	# make sure the unit can actually move to this tile
-	for eligible in eligible_movement_tiles:
+	for eligible in movement_set:
 		if (eligible.x == target_x && eligible.y == target_y):
 			can_move = true
 	
@@ -76,8 +76,8 @@ func show_movement_grid_square(pos_x, pos_y):
 # calculate all of the eligible tiles the unit can move to, as well as their
 # distance. 
 func calculate_eligible_tiles():
-	# clear out the eligible movement tiles
-	eligible_movement_tiles.clear()
+	# clear out the eligible movement set
+	movement_set.clear()
 	
 	# clear our eligible_tile_tracker (as we are calculating a new set of tiles)
 	eligible_tile_tracker = {}
@@ -130,7 +130,7 @@ func flood_fill(foc_x, foc_y, remaining_move, visited_tiles):
 		remaining_move = base_move # we're still at the origin tile
 	else:
 		if (remaining_move >= 0):
-			eligible_movement_tiles.push_back(Vector2(foc_x, foc_y))
+			movement_set.push_back(Vector2(foc_x, foc_y))
 			show_movement_grid_square(foc_x, foc_y)
 	
 	# whether or not we need to flood out from this tile
