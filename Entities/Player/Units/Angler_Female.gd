@@ -6,7 +6,7 @@ func unit_init():
 	
 	unit_name = "Female Angler"
 	
-	base_move = 3
+	base_move = 5
 	
 	self.global_position = Vector2(unit_pos_x*constants.TILE_WIDTH, 
 									unit_pos_y*constants.TILE_HEIGHT)

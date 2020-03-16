@@ -167,6 +167,7 @@ func flood_fill(foc_x, foc_y, remaining_move, visited_tiles):
 			print(String(foc_x) + "_" + String(foc_y))
 			print(visited_tiles.get(String(foc_x) + "_" + String(foc_y)))
 			print(" ")
+			
 			initiate_recursion = false
 	
 	# mark the tile as visited
@@ -181,6 +182,7 @@ func flood_fill(foc_x, foc_y, remaining_move, visited_tiles):
 		if (s_tiles.get(String(foc_x) + "_" + String(foc_y)) > base_move - remaining_move):
 			# we've got a cheaper path to get here!
 			s_tiles[String(foc_x) + "_" + String(foc_y)] = base_move - remaining_move
+			initiate_recursion = true
 
 	if (initiate_recursion):
 		flood_fill(foc_x + 1, foc_y, remaining_move, visited_tiles); # tile to the east
