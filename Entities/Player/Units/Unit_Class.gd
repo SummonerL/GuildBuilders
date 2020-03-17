@@ -61,6 +61,8 @@ func move_unit_if_eligible(target_x, target_y):
 	
 	if (!can_move):
 		return
+		
+	a_star(target_x, target_y)
 
 	set_unit_pos(target_x, target_y)
 	clear_movement_grid_squares()
@@ -84,8 +86,6 @@ func calculate_eligible_tiles():
 	
 	# calculate the eligible tiles + distance, using the flood fill algorithm
 	flood_fill(unit_pos_x, unit_pos_y, base_move, {})
-	
-	print(eligible_tile_tracker)
 	
 # should have started with this...
 # flood fill is the best approach for calculating eligible tiles
@@ -171,3 +171,126 @@ func flood_fill(foc_x, foc_y, remaining_move, visited_tiles):
 		flood_fill(foc_x - 1, foc_y, remaining_move, visited_tiles); # tile to the west
 		flood_fill(foc_x, foc_y + 1, remaining_move, visited_tiles); # tile to the south
 		flood_fill(foc_x, foc_y - 1, remaining_move, visited_tiles); # tile to the north
+
+# the pathfinding algorithm for moving the unit to the target
+# via the shortest path
+func a_star(target_x, target_y):
+	# establish our open list
+	var open_list = []
+	
+	# establish our closed list
+	var closed_list = []
+	
+	# our final, shortest path
+	var path = []
+	
+	var start_tile = eligible_tile_tracker.get(String(unit_pos_x) + "_" + String(unit_pos_y))
+
+	# g = the distance between the current node and the start node
+	# h = heuristic - the estimated distance from this node to the target
+	# f = g + h
+	start_tile.parent = null
+	start_tile.g = 0
+	start_tile.h = 0
+	start_tile.f = 0 # for the start tile, leave f at 0
+		
+	open_list.push_front(start_tile)
+	
+	while open_list.size() > 0:
+		var cheapest_tile = open_list[0]
+		# god, why can't gdscript keep track of the index
+		var cheapest_tile_index = 0
+		var index = 0
+		
+		# grab the tile with the lowest f value
+		for tile in open_list:
+			if tile.f < cheapest_tile.f:
+				cheapest_tile = tile
+				cheapest_tile_index = index
+			index+=1
+			
+		
+		# remove the tile from the open_list, and add to the close_list
+		open_list.remove(cheapest_tile_index)
+		closed_list.push_back(cheapest_tile)
+		
+		# if we've found the target, congrats!
+		if (cheapest_tile.pos_x == target_x && 
+			cheapest_tile.pos_y == target_y):
+			
+			# generate the path
+			var current = cheapest_tile
+			while current != null:
+				path.append({"pos_x": current.pos_x, "pos_y": current.pos_y})
+				current = current.parent
+			path.invert()
+			# we're done!
+			break
+			
+		if (path.size() > 0):
+			print("SHOULDNT BE HERE")
+
+		# generate a list of children (adjacent nodes)
+		var children = []
+		
+		# tile to the right
+		if (eligible_tile_tracker.get(String(cheapest_tile.pos_x+1) + "_" + 
+								String(cheapest_tile.pos_y))):
+			children.push_back(eligible_tile_tracker.get(String(cheapest_tile.pos_x+1) + "_" + 
+								String(cheapest_tile.pos_y)))
+		
+		# tile to the left
+		if (eligible_tile_tracker.get(String(cheapest_tile.pos_x-1) + "_" + 
+								String(cheapest_tile.pos_y))):
+			children.push_back(eligible_tile_tracker.get(String(cheapest_tile.pos_x-1) + "_" + 
+								String(cheapest_tile.pos_y)))
+								
+		# tile above
+		if (eligible_tile_tracker.get(String(cheapest_tile.pos_x) + "_" + 
+								String(cheapest_tile.pos_y-1))):
+			children.push_back(eligible_tile_tracker.get(String(cheapest_tile.pos_x) + "_" + 
+								String(cheapest_tile.pos_y-1)))
+		
+		# tile below
+		if (eligible_tile_tracker.get(String(cheapest_tile.pos_x) + "_" + 
+								String(cheapest_tile.pos_y+1))):
+			children.push_back(eligible_tile_tracker.get(String(cheapest_tile.pos_x) + "_" + 
+								String(cheapest_tile.pos_y+1)))
+		
+		for child in children:
+			
+			# if the child is in the closed list, continue
+			var hasChild = false
+			
+			for closed in closed_list:
+				if (closed.pos_x == child.pos_x && closed.pos_y == child.pos_y):
+					hasChild = true
+			
+			if (hasChild):
+				continue
+				
+			# create the f, g, and h values
+			child.g = child.distance
+			child.h = abs(target_x - child.pos_x) + abs(target_y - child.pos_y)
+			child.f = child.g + child.h
+			
+			# keep track of the parent
+			child.parent = cheapest_tile
+			
+			# if the child is already in the open list,
+			# and the current child's g cost is higher than
+			# what's in the open list, continue
+			var addTile = true
+			for open in open_list:
+				if (open.pos_x == child.pos_x && open.pos_y == child.pos_y):
+					if (child.g > open.g):
+						addTile = false
+			
+			# add the child to the open list!
+			if (addTile):
+				open_list.push_back(child)
+	
+	
+	print (path)
+	print ("Moving to " + String(target_x) + ", " + String(target_y))
+	pass
