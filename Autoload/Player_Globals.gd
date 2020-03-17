@@ -7,7 +7,8 @@ onready var party = get_node("/root/Player_Party")
 
 enum PLAYER_STATE {
 	SELECTING_TILE
-	SELECTING_MOVEMENT
+	SELECTING_MOVEMENT,
+	ANIMATING_MOVEMENT
 }
 
 var player_state = PLAYER_STATE.SELECTING_TILE

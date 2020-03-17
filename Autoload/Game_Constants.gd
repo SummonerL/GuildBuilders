@@ -12,6 +12,8 @@ const GRID_SQUARE_GROUP = 'grid_square'
 
 const CANT_MOVE = 999999
 
+const MOVE_ANIM_SPEED = .015 # how fast the player moves to the target tile
+
 enum DIRECTIONS {
 	UP,
 	RIGHT,

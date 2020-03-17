@@ -147,7 +147,9 @@ func _input(event):
 		# to activate them. This allows the user to select a unit to move,
 		# even while they are still selecting movement for another unit
 		if (get_selected_tile_units() != null):
-			select_tile()
+			# as long as another unit is not actively moving
+			if (player.player_state != player.PLAYER_STATE.ANIMATING_MOVEMENT):
+				select_tile()
 		else:	
 			match player.player_state:
 				player.PLAYER_STATE.SELECTING_TILE:

@@ -46,7 +46,19 @@ func enable_movement_state():
 	# change the state
 	player.player_state = player.PLAYER_STATE.SELECTING_MOVEMENT
 	calculate_eligible_tiles()
-
+	
+func enable_select_tile_state(timer = null):
+	player.player_state = player.PLAYER_STATE.SELECTING_TILE
+	if (timer):
+		timer.stop()
+		remove_child(timer)
+	
+func enable_animate_movement_state(timer = null):
+	player.player_state = player.PLAYER_STATE.ANIMATING_MOVEMENT
+	if (timer):
+		timer.stop()
+		remove_child(timer)
+	
 func clear_movement_grid_squares():
 	for square in get_tree().get_nodes_in_group(constants.GRID_SQUARE_GROUP):
 		square.get_parent().remove_child(square)
@@ -62,11 +74,10 @@ func move_unit_if_eligible(target_x, target_y):
 	if (!can_move):
 		return
 		
-	a_star(target_x, target_y)
-
-	set_unit_pos(target_x, target_y)
 	clear_movement_grid_squares()
-	player.player_state = player.PLAYER_STATE.SELECTING_TILE
+		
+	enable_animate_movement_state()
+	initiate_movement(a_star(target_x, target_y))
 
 # functions global to all unit types
 func show_movement_grid_square(pos_x, pos_y):
@@ -74,6 +85,61 @@ func show_movement_grid_square(pos_x, pos_y):
 	add_child(square)
 	
 	square.set_square_position(pos_x, pos_y)
+
+# once we've received the path the unit will take, this function will actually move
+# the unit based on a timer
+func initiate_movement(path):
+	var current_time = .001
+	var self_pos = self.global_position
+	
+	for tile in path:
+		while (self_pos.x != (tile.pos_x * constants.TILE_WIDTH)):
+			var change = 1
+			if (self_pos.x > tile.pos_x * constants.TILE_WIDTH):
+				change *= -1
+
+			var timer = Timer.new()
+			timer.wait_time = current_time
+			timer.connect("timeout", self, "animate_movement", 
+					[Vector2(self_pos.x + change, self_pos.y), timer])
+			# move the tracker variable
+			self_pos.x += change
+			add_child(timer)
+			timer.start()
+			current_time += constants.MOVE_ANIM_SPEED # change into a constant
+			
+		while (self_pos.y != (tile.pos_y * constants.TILE_HEIGHT)):
+			var change = 1
+			if (self_pos.y > tile.pos_y * constants.TILE_HEIGHT):
+				change *= -1
+			var timer = Timer.new()
+			timer.wait_time = current_time
+			timer.connect("timeout", self, "animate_movement", 
+					[Vector2(self_pos.x, self_pos.y + change), timer])
+			# move the tracker variable
+			self_pos.y += change
+			add_child(timer)
+			timer.start()
+			current_time += constants.MOVE_ANIM_SPEED # change into a constant
+		
+	# change the player state so the unit can start selecting tiles again
+	var timer = Timer.new()
+	timer.wait_time = current_time - constants.MOVE_ANIM_SPEED
+	timer.connect("timeout", self, "enable_select_tile_state", [timer])
+	add_child(timer)
+	timer.start()
+	
+
+	# make sure the units coordinates reflect this change in position
+	# and do a final teleportation to the global position just to make sure
+	set_unit_pos(path.back().pos_x, path.back().pos_y)
+
+	pass
+	
+func animate_movement(vector2, timer):
+	self.global_position = vector2
+	timer.stop()
+	remove_child(timer)
 
 # calculate all of the eligible tiles the unit can move to, as well as their
 # distance. 
@@ -123,6 +189,7 @@ func flood_fill(foc_x, foc_y, remaining_move, visited_tiles):
 		total_tile_cost += l1_cost
 	else:
 		remaining_move -= constants.CANT_MOVE
+		total_tile_cost = constants.CANT_MOVE
 	
 	# subtract the cost of the l2 tiles, if they exist
 	if (tile_name_l2 != null):
@@ -214,9 +281,6 @@ func a_star(target_x, target_y):
 		var index = 0
 		
 		# grab the tile with the lowest f value
-		#print("OPEN LIST")
-		#print(open_list)
-		#print(" ")
 		for tile in open_list:
 			if tile.f < cheapest_tile.f:
 				cheapest_tile = tile
@@ -239,9 +303,6 @@ func a_star(target_x, target_y):
 			path.invert()
 			# we're done!
 			break
-			
-		if (path.size() > 0):
-			print("SHOULDNT BE HERE")
 
 		# generate a list of children (adjacent nodes)
 		var children = []
@@ -291,13 +352,15 @@ func a_star(target_x, target_y):
 			
 			# create the f, g, and h values, unless the child is the target
 			# in that case, leave the f cost as 0
-			if (child.pos_x != target_x || child.pos_y != target_y):
-				child.g = child.parent.g + child.tile_cost
-				# experiment with different heuristics for more interesting
-				# pathfinding
-				child.h = abs(child.pos_x - target_x) + abs(child.pos_y + target_y) + child.tile_cost
-				#child.h = pow(child.pos_x - target_x, 2) + pow(child.pos_y - target_y, 2)
-				child.f = child.g + child.h
+			child.g = child.parent.g + (child.tile_cost*2)
+			# experiment with different heuristics for more interesting
+			# pathfinding
+			child.h = abs(child.pos_x - target_x) + abs(child.pos_y + target_y)
+			if (child.pos_x == target_x && child.pos_y == target_y):
+				child.h = 0
+				child.g = 0
+			#child.h = pow(child.pos_x - target_x, 2) + pow(child.pos_y - target_y, 2)
+			child.f = child.g + child.h
 			
 			
 
@@ -314,8 +377,6 @@ func a_star(target_x, target_y):
 			# add the child to the open list!
 			if (addTile):
 				open_list.push_back(child)
-	
-	
-	print (path)
-	print ("Moving to " + String(target_x) + ", " + String(target_y))
-	pass
+				
+	# return the path
+	return path
