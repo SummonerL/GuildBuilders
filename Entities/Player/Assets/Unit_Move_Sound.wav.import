@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Unit_Move_Sound.wav-ec2a8463360c6574b1ffa64bc570bcc4.sample"
+
+[deps]
+
+source_file="res://Entities/Player/Assets/Unit_Move_Sound.wav"
+dest_files=[ "res://.import/Unit_Move_Sound.wav-ec2a8463360c6574b1ffa64bc570bcc4.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

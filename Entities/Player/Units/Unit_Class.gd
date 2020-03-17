@@ -17,6 +17,10 @@ onready var tileset_props_l2 = get_tree().get_nodes_in_group(constants.MAP_TILES
 # a set of Vector2s that are currently eligible for movement (doesn't' include distance)
 var movement_set = []
 
+# the unit's movement sound
+onready var unit_move_sound = preload("res://Music/Unit_Move_Sound.wav")
+var unit_move_sound_node = null
+
 # this dict will be used to track the eligible movement tiles, as well as their total distance
 var eligible_tile_tracker = {}
 
@@ -29,6 +33,12 @@ var base_move = 0
 
 # the unit's name
 var unit_name = ""
+
+# initialize the unit (all units will need to call this)
+func unit_base_init():
+	unit_move_sound_node = AudioStreamPlayer.new()
+	unit_move_sound_node.stream = unit_move_sound
+	add_child(unit_move_sound_node)
 
 # set unit position
 func set_unit_pos(target_x, target_y):
@@ -49,12 +59,14 @@ func enable_movement_state():
 	
 func enable_select_tile_state(timer = null):
 	player.player_state = player.PLAYER_STATE.SELECTING_TILE
+	unit_move_sound_node.stop()
 	if (timer):
 		timer.stop()
 		remove_child(timer)
 	
 func enable_animate_movement_state(timer = null):
 	player.player_state = player.PLAYER_STATE.ANIMATING_MOVEMENT
+	unit_move_sound_node.play()
 	if (timer):
 		timer.stop()
 		remove_child(timer)
@@ -346,37 +358,44 @@ func a_star(target_x, target_y):
 			# make sure that the unit can actually walk here
 			if (child.tile_cost > base_move):
 				continue
-				
+
 			# keep track of the parent
-			child.parent = cheapest_tile
+			var parent = cheapest_tile
 			
 			# create the f, g, and h values, unless the child is the target
-			# in that case, leave the f cost as 0
-			child.g = child.parent.g + (child.tile_cost*2)
+			# in that case, leave the h cost as 0
+			var g = cheapest_tile.g + child.tile_cost
+			#child.g = child.parent.g + child.tile_cost
 			# experiment with different heuristics for more interesting
 			# pathfinding
-			child.h = abs(child.pos_x - target_x) + abs(child.pos_y + target_y)
+			var h = abs(child.pos_x - target_x) + abs(child.pos_y - target_y)
 			if (child.pos_x == target_x && child.pos_y == target_y):
-				child.h = 0
-				child.g = 0
-			#child.h = pow(child.pos_x - target_x, 2) + pow(child.pos_y - target_y, 2)
-			child.f = child.g + child.h
+				h = 0
 			
-			
-
+			var f = g + h
 			
 			# if the child is already in the open list,
 			# and the current child's g cost is higher than
 			# what's in the open list, continue
-			var addTile = true
+			var addTileBool = true
+			
 			for open in open_list:
 				if (open.pos_x == child.pos_x && open.pos_y == child.pos_y):
-					if (child.g > open.g):
-						addTile = false
-			
+					if (g > open.g):
+						addTileBool = false
+
+
+
 			# add the child to the open list!
-			if (addTile):
+			if (addTileBool == true):
+				child.parent = parent
+				child.g = g
+				child.h = h
+				child.f = f
 				open_list.push_back(child)
-				
+			
+	print("Final Path --")	
+	for tile in path:
+		print("(" + String(tile.pos_x) + ", " + String(tile.pos_y) + ")")
 	# return the path
 	return path

@@ -12,4 +12,5 @@ func unit_init():
 									unit_pos_y*constants.TILE_HEIGHT)
 	
 func _ready():
+	unit_base_init()
 	unit_init()
