@@ -393,9 +393,6 @@ func a_star(target_x, target_y):
 				child.h = h
 				child.f = f
 				open_list.push_back(child)
-			
-	print("Final Path --")	
-	for tile in path:
-		print("(" + String(tile.pos_x) + ", " + String(tile.pos_y) + ")")
+
 	# return the path
 	return path
