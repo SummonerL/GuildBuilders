@@ -51,7 +51,7 @@ func _input(event):
 	if (event.is_action_pressed("ui_cancel")):
 		match hud.dialogueState:
 			hud.STATES.INACTIVE:
-				hud.writeText("Well... I think we officially got the " +
+				hud.typeText("Well... I think we officially got the " +
 							"dialogue system working to perfection. " +
 							"Hopefully this will be the first step " + 
 							"in creating the game of my dreams. " + 

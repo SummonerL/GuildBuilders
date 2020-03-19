@@ -727,6 +727,16 @@
 71/navigation_offset = Vector2( 0, 0 )
 71/shapes = [  ]
 71/z_index = 0
+72/name = "LS_Code_216"
+72/texture = ExtResource( 1 )
+72/tex_offset = Vector2( 0, 0 )
+72/modulate = Color( 1, 1, 1, 1 )
+72/region = Rect2( 8, 32, 8, 8 )
+72/tile_mode = 0
+72/occluder_offset = Vector2( 0, 0 )
+72/navigation_offset = Vector2( 0, 0 )
+72/shapes = [  ]
+72/z_index = 0
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
@@ -748,7 +758,6 @@ format = 1
 [node name="Arrow_Down_Sprite" type="AnimatedSprite" parent="."]
 visible = false
 frames = SubResource( 2 )
-frame = 1
 speed_scale = 0.9
 playing = true
 centered = false

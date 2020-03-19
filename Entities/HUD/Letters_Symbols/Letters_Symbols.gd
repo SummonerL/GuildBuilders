@@ -27,12 +27,16 @@ func timeoutTimer(timer): # trigger the timeout early
 	timer.start(.0001)
 	
 
-func setTextCell(letterSymbol, pos, timer):
+func setTextCell(letterSymbol, pos, timer = null, sound = true):
 	tileMap.set_cellv(pos, tileSet.find_tile_by_name("LS_Code_" + String(letterSymbol.ord_at(0))))
-	stopTimer(timer) # stop + remove the timer
 	
-	#play the dialogue sound
-	dialogueSound.play()
+	# if there is a timer, stop it
+	if (timer):
+		stopTimer(timer)
+	
+	# play the dialogue sound
+	if (sound):
+		dialogueSound.play()
 	
 func letters_symbols_init():
 	tileSet = tileMap.get_tileset()
@@ -59,6 +63,9 @@ func clearText():
 	hideArrowDown()
 	currentTime = 0
 	
+func clear_text_non_dialogue():
+	tileMap.clear()
+	
 func generateLetterSymbol(letterSymbol, pos):
 	# generate text, using a timer
 	var textTimer = Timer.new()
@@ -69,6 +76,12 @@ func generateLetterSymbol(letterSymbol, pos):
 	add_child(textTimer)
 	
 	textTimer.start()
+
+func print_immediately(text, start_pos):
+	for letter in text:
+		setTextCell(letter, start_pos, null, false)
+		start_pos.x += 1
+	pass
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

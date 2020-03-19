@@ -8,7 +8,23 @@ const TILES = {2: 'WATER', 3: 'GRASSLAND',
 				6: 'GRASSLAND_DEC3', 7: 'SAND',
 				8: 'GRASSLAND_TREE', 9: 'SAND_TREE',
 				10: 'HILL', 11: 'DUNE', 
-				12: 'BOULDER', 13: 'OCEAN', 14: 'FISH_ICON'}
+				12: 'BOULDER', 13: 'OCEAN'}
+
+const TILE_INFO_HUD_NAME = { 
+	'WATER':  'Water',
+	'GRASSLAND': 'Grass',
+	'GRASSLAND_DEC1':  'Grass', 
+	'GRASSLAND_DEC2': 'Grass', 
+	'GRASSLAND_DEC3': 'Grass',
+	'SAND': 'Sand', 
+	'GRASSLAND_TREE': 'Trees',
+	'SAND_TREE': 'Tree',
+	'HILL': 'Hill',
+	'DUNE': 'Dune', 
+	'BOULDER': 'Stone',
+	'OCEAN': 'Ocean'
+}
+
 
 enum MOVEMENT_COST {
 	WATER = CANT_MOVE,
@@ -22,8 +38,7 @@ enum MOVEMENT_COST {
 	HILL = NORMAL_MOVE + 1,
 	DUNE = NORMAL_MOVE + 1,
 	BOULDER = NORMAL_MOVE + 1, # boulders are l2 tiles, so they get added to whatever they sit on top of
-	OCEAN = CANT_MOVE,
-	FISH_ICON = 0
+	OCEAN = CANT_MOVE
 }
 
 func get_tile_at_coordinates(vec2):

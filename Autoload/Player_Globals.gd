@@ -16,3 +16,7 @@ var player_state = PLAYER_STATE.SELECTING_TILE
 # camera position on world map
 var cam_pos_x = 0
 var cam_pos_y = 0
+
+# cursor position on the map
+var curs_pos_x = 4
+var curs_pos_y = 4

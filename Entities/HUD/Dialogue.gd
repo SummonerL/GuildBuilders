@@ -50,7 +50,7 @@ func completeText():
 	dialogueState = STATES.INACTIVE
 	dialogue_sprite.visible = false
 
-func writeText(text):
+func typeText(text):
 	# turn on the dialogue box, if it isn't turned on
 	if (dialogueState == STATES.INACTIVE):
 		dialogueState = STATES.TYPING
@@ -125,7 +125,7 @@ func _input(event):
 				clearText()
 				dialogueState = STATES.TYPING
 				if (dialogueBuffer.size() > 0):
-					writeText(dialogueBuffer.join(" "))
+					typeText(dialogueBuffer.join(" "))
 				else:
 					completeText() # finished printing everything!
 	

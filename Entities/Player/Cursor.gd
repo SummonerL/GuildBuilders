@@ -15,11 +15,7 @@ onready var overworld_scene = get_parent()
 # holds the tile information node (HUD)
 var tile_info_node
 
-# local variables 
-# -----------------------
-# position on world map
-var pos_x = 4
-var pos_y = 4
+# the cursor position is stored in the player globals
 
 # whether or not the cursor is moving
 var cursor_moving = false
@@ -44,7 +40,7 @@ onready var camera = get_tree().get_nodes_in_group("Camera")[0]
 
 func cursor_init():
 	# position cursor
-	self.global_position = Vector2(pos_x*16, pos_y*16)
+	self.global_position = Vector2(player.curs_pos_x*16, player.curs_pos_y*16)
 	
 	# create a timer for tracking cursor movement
 	cursor_timer = Timer.new()
@@ -53,12 +49,11 @@ func cursor_init():
 	add_child(cursor_timer)
 
 	tile_info_node = get_tree().get_nodes_in_group(constants.TILE_INFO_GROUP)[0]
-	print(tile_info_node)
 	
 func get_selected_tile_units():
 	# find if there are any active units on the current tile
 	for unit in party.get_all_units():
-		if (unit.unit_pos_x == pos_x && unit.unit_pos_y == pos_y):
+		if (unit.unit_pos_x == player.curs_pos_x && unit.unit_pos_y == player.curs_pos_y):
 			return unit
 
 func select_tile():
@@ -76,19 +71,21 @@ func stop_timer():
 	
 func cursor_move():
 	if (cursor_direction == constants.DIRECTIONS.UP):
-		set_cursor_pos(pos_x, pos_y-1)
+		set_cursor_pos(player.curs_pos_x, player.curs_pos_y-1)
 	elif (cursor_direction == constants.DIRECTIONS.RIGHT):
-		set_cursor_pos(pos_x+1, pos_y)
+		set_cursor_pos(player.curs_pos_x+1, player.curs_pos_y)
 	elif (cursor_direction == constants.DIRECTIONS.DOWN):
-		set_cursor_pos(pos_x, pos_y+1)
+		set_cursor_pos(player.curs_pos_x, player.curs_pos_y+1)
 	elif (cursor_direction == constants.DIRECTIONS.LEFT):
-		set_cursor_pos(pos_x-1, pos_y)
+		set_cursor_pos(player.curs_pos_x-1, player.curs_pos_y)
 		
 	# play the cursor moving sound
 	move_sound.play()
 	
 	# check if we need to move the tile info hud
-	tile_info_node.check_if_move_needed(pos_x - player.cam_pos_x)
+	tile_info_node.check_if_move_needed(player.curs_pos_x - player.cam_pos_x)
+	# print the tile info
+	tile_info_node.update_tile_info_text()
 		
 func cursor_reset():
 	stop_timer()
@@ -98,13 +95,13 @@ func cursor_reset():
 	cursor_wait_time = MAX_WAIT_TIME
 
 func set_cursor_pos(new_pos_x, new_pos_y):
-	pos_x = new_pos_x
-	pos_y = new_pos_y
+	player.curs_pos_x = new_pos_x
+	player.curs_pos_y = new_pos_y
 	
-	self.global_position = Vector2(pos_x*constants.TILE_WIDTH, pos_y*constants.TILE_HEIGHT)
+	self.global_position = Vector2(player.curs_pos_x*constants.TILE_WIDTH, player.curs_pos_y*constants.TILE_HEIGHT)
 
 	# update the camera, if necessary
-	camera.check_pos(pos_x, pos_y)
+	camera.check_pos(player.curs_pos_x, player.curs_pos_y)
 	
 # called when the node enters the scene tree for the first time.
 func _ready():
@@ -167,7 +164,7 @@ func _input(event):
 					select_tile()
 				player.PLAYER_STATE.SELECTING_MOVEMENT:
 					if (party.get_active_unit() != null):
-						party.get_active_unit().move_unit_if_eligible(pos_x, pos_y)
+						party.get_active_unit().move_unit_if_eligible(player.curs_pos_x, player.curs_pos_y)
 
 # runs every frame
 func _process(_delta):
