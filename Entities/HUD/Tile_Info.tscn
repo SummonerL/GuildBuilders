@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Sprites/hud/hud_dialogue_tile_info.png" type="Texture" id=1]
+[ext_resource path="res://Entities/HUD/Tile_Info.gd" type="Script" id=2]
+
+[node name="Tile_Info" type="CanvasLayer" groups=[
+"tile_info",
+]]
+script = ExtResource( 2 )
+
+[node name="Tile_Info_Sprite" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+centered = false

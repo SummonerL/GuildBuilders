@@ -9,6 +9,12 @@ onready var party = get_node("/root/Player_Party")
 # bring in the global player variables
 onready var player = get_node("/root/Player_Globals")
 
+# get our main overworld scene
+onready var overworld_scene = get_parent()
+
+# holds the tile information node (HUD)
+var tile_info_node
+
 # local variables 
 # -----------------------
 # position on world map
@@ -45,7 +51,9 @@ func cursor_init():
 	cursor_timer.connect("timeout", self, "cursor_move")
 	cursor_timer.connect("timeout", self, "stop_timer")
 	add_child(cursor_timer)
-	
+
+	tile_info_node = get_tree().get_nodes_in_group(constants.TILE_INFO_GROUP)[0]
+	print(tile_info_node)
 	
 func get_selected_tile_units():
 	# find if there are any active units on the current tile
@@ -78,6 +86,9 @@ func cursor_move():
 		
 	# play the cursor moving sound
 	move_sound.play()
+	
+	# check if we need to move the tile info hud
+	tile_info_node.check_if_move_needed(pos_x - player.cam_pos_x)
 		
 func cursor_reset():
 	stop_timer()

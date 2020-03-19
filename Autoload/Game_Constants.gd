@@ -9,6 +9,7 @@ const SCREEN_WIDTH = 160
 
 const MAP_TILES_GROUP = 'map_tiles'
 const GRID_SQUARE_GROUP = 'grid_square'
+const TILE_INFO_GROUP = 'tile_info'
 
 const CANT_MOVE = 999999
 
@@ -19,6 +20,11 @@ enum DIRECTIONS {
 	RIGHT,
 	DOWN,
 	LEFT
+}
+
+enum SIDES {
+	LEFT,
+	RIGHT
 }
 
 enum UNIT_TYPES {
