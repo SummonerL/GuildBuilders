@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scenes/Overworld/Assets/TileSets/Map_TS.tres" type="TileSet" id=1]
 [ext_resource path="res://Scenes/Overworld/Overworld_Scene.gd" type="Script" id=2]
 [ext_resource path="res://Scenes/Overworld/Tileset_Props.gd" type="Script" id=3]
+[ext_resource path="res://Music/12PM_Loop.wav" type="AudioStream" id=4]
 
 [node name="Overworld_Scene" type="Node2D"]
 script = ExtResource( 2 )
@@ -30,3 +31,7 @@ tile_set = ExtResource( 1 )
 cell_size = Vector2( 16, 16 )
 format = 1
 tile_data = PoolIntArray( 65544, 15, 0, 131080, 16, 0, 196617, 16, 0, 196621, 15, 0, 262151, 14, 0, 327681, 14, 0, 327693, 14, 0, 393223, 15, 0, 524297, 15, 0 )
+
+[node name="12PM_Loop" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+volume_db = -5.0

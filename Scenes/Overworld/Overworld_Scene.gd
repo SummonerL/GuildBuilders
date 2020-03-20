@@ -18,6 +18,10 @@ onready var camera_scn = preload("res://Entities/Camera/Camera.tscn")
 onready var hud_scn = preload("res://Entities/HUD/Dialogue.tscn")
 onready var hud_tile_info_scn = preload("res://Entities/HUD/Tile_Info.tscn")
 
+
+# game music
+onready var twelve_pm_loop = get_node("12PM_Loop")
+
 # game instances
 var cursor
 var camera
@@ -41,10 +45,18 @@ func gameInit():
 	
 	# lights, camera, action!
 	camera.turnOn()
+	
+	# start looping our '12PM' track
+	twelve_pm_loop.connect("finished", self, "loop_audio", [twelve_pm_loop])
+	twelve_pm_loop.play()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	gameInit()
+	
+# used to loop the current background music
+func loop_audio(track):
+	track.play()
 
 # temporarily use to text dialogue system
 func _input(event):
