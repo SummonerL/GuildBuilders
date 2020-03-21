@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Sprites/characters/woodcutter_male2.png" type="Texture" id=1]
+[ext_resource path="res://Sprites/characters/woodcutter_male1.png" type="Texture" id=2]
+[ext_resource path="res://Entities/Player/Units/Woodcutter_Male.gd" type="Script" id=3]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 2 ), ExtResource( 1 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[node name="Woodcutter_Male" type="Node2D"]
+z_index = 1
+script = ExtResource( 3 )
+
+[node name="Woodcutter_Male_Sprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 1 )
+frame = 1
+speed_scale = 0.5
+playing = true
+centered = false

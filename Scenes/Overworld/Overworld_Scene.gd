@@ -37,6 +37,7 @@ func gameInit():
 	# add units to the player's party
 	player.party.add_unit(constants.UNIT_TYPES.ANGLER_MALE)
 	player.party.add_unit(constants.UNIT_TYPES.ANGLER_FEMALE)
+	player.party.add_unit(constants.UNIT_TYPES.WOODCUTTER_MALE)
 	
 	add_child(camera)
 	camera.add_child(hud_tile_info) # make the hud a child of the camera

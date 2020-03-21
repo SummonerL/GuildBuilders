@@ -30,7 +30,7 @@ script = ExtResource( 3 )
 tile_set = ExtResource( 1 )
 cell_size = Vector2( 16, 16 )
 format = 1
-tile_data = PoolIntArray( 65544, 15, 0, 131080, 16, 0, 196617, 16, 0, 196621, 15, 0, 262151, 14, 0, 327681, 14, 0, 327693, 14, 0, 393223, 15, 0, 524297, 15, 0 )
+tile_data = PoolIntArray( 65544, 15, 0, 131074, 16, 0, 131080, 16, 0, 196617, 16, 0, 196621, 15, 0, 262151, 14, 0, 327681, 14, 0, 327693, 14, 0, 393223, 15, 0, 458756, 16, 0, 524291, 16, 0, 524297, 15, 0 )
 
 [node name="12PM_Loop" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )

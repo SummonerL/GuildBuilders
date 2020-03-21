@@ -6,6 +6,7 @@ onready var constants = get_node("/root/Game_Constants")
 # all of the unit types
 onready var angler_male_scn = preload("res://Entities/Player/Units/Angler_Male.tscn")
 onready var angler_female_scn = preload("res://Entities/Player/Units/Angler_Female.tscn")
+onready var woodcutter_male_scn = preload("res://Entities/Player/Units/Woodcutter_Male.tscn")
 
 # keep track of the unit that is currently 'active'
 var active_unit = null
@@ -25,3 +26,5 @@ func add_unit(unit):
 			add_child(angler_male_scn.instance())
 		constants.UNIT_TYPES.ANGLER_FEMALE:
 			add_child(angler_female_scn.instance())
+		constants.UNIT_TYPES.WOODCUTTER_MALE:
+			add_child(woodcutter_male_scn.instance())
