@@ -7,6 +7,10 @@ onready var constants = get_node("/root/Game_Constants")
 onready var angler_male_scn = preload("res://Entities/Player/Units/Angler_Male.tscn")
 onready var angler_female_scn = preload("res://Entities/Player/Units/Angler_Female.tscn")
 onready var woodcutter_male_scn = preload("res://Entities/Player/Units/Woodcutter_Male.tscn")
+onready var woodcutter_female_scn = preload("res://Entities/Player/Units/Woodcutter_Female.tscn")
+
+# keep track of all the nodes in our party
+var party_members = []
 
 # keep track of the unit that is currently 'active'
 var active_unit = null
@@ -23,8 +27,14 @@ func set_active_unit(unit):
 func add_unit(unit):
 	match unit:
 		constants.UNIT_TYPES.ANGLER_MALE:
-			add_child(angler_male_scn.instance())
+			var angler_male_node = add_child(angler_male_scn.instance())
+			party_members.append(angler_male_node)
 		constants.UNIT_TYPES.ANGLER_FEMALE:
-			add_child(angler_female_scn.instance())
+			var angler_female_node = add_child(angler_female_scn.instance())
+			party_members.append(angler_female_node)
 		constants.UNIT_TYPES.WOODCUTTER_MALE:
-			add_child(woodcutter_male_scn.instance())
+			var woodcutter_male_node = add_child(woodcutter_male_scn.instance())
+			party_members.append(woodcutter_male_node)
+		constants.UNIT_TYPES.WOODCUTTER_FEMALE:
+			var woodcutter_female_node = add_child(woodcutter_female_scn.instance())
+			party_members.append(woodcutter_female_node)
