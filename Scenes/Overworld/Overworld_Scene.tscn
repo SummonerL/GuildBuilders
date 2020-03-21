@@ -34,4 +34,4 @@ tile_data = PoolIntArray( 65544, 15, 0, 131080, 16, 0, 196617, 16, 0, 196621, 15
 
 [node name="12PM_Loop" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )
-volume_db = -5.0
+volume_db = -8.0

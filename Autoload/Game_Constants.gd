@@ -17,6 +17,8 @@ const CANT_MOVE = 999999
 
 const MOVE_ANIM_SPEED = .015 # how fast the player moves to the target tile
 
+const GAME_VOLUME = -2
+
 enum DIRECTIONS {
 	UP,
 	RIGHT,

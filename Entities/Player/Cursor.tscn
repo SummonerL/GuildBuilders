@@ -4,7 +4,7 @@
 [ext_resource path="res://Sprites/hud/hud_selected_tile2.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/hud/hud_selected_tile3.png" type="Texture" id=3]
 [ext_resource path="res://Entities/Player/Cursor.gd" type="Script" id=4]
-[ext_resource path="res://Entities/Player/Assets/cursor_move.wav" type="AudioStream" id=5]
+[ext_resource path="res://Entities/Player/Assets/cursor_move_sound.wav" type="AudioStream" id=5]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -22,10 +22,9 @@ script = ExtResource( 4 )
 position = Vector2( 8, 8 )
 frames = SubResource( 1 )
 animation = "New Anim"
-frame = 1
 speed_scale = 1.28
 playing = true
 
 [node name="Cursor_Move_Sound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )
-volume_db = -10.0
+volume_db = -2.0

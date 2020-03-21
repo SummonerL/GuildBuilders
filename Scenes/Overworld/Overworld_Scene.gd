@@ -47,7 +47,7 @@ func gameInit():
 	camera.turnOn()
 	
 	# start looping our '12PM' track
-	twelve_pm_loop.connect("finished", self, "loop_audio", [twelve_pm_loop])
+	#twelve_pm_loop.connect("finished", self, "loop_audio", [twelve_pm_loop])
 	twelve_pm_loop.play()
 
 # Called when the node enters the scene tree for the first time.

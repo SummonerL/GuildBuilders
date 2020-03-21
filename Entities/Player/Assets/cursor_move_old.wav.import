@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/cursor_move_old.wav-29024f895862f5d08f76cba0ad7efc2b.sample"
+
+[deps]
+
+source_file="res://Entities/Player/Assets/cursor_move_old.wav"
+dest_files=[ "res://.import/cursor_move_old.wav-29024f895862f5d08f76cba0ad7efc2b.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

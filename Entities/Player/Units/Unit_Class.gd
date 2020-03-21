@@ -38,6 +38,7 @@ var unit_name = ""
 func unit_base_init():
 	unit_move_sound_node = AudioStreamPlayer.new()
 	unit_move_sound_node.stream = unit_move_sound
+	unit_move_sound_node.volume_db = constants.GAME_VOLUME
 	add_child(unit_move_sound_node)
 
 # set unit position
