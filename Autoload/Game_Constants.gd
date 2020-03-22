@@ -3,8 +3,10 @@ extends Node2D
 const TILE_HEIGHT = 16
 const TILE_WIDTH = 16
 const TILES_PER_ROW = 10
+const DIA_TILE_WIDTH = 8
+const DIA_TILE_HEIGHT = 8
 const DIA_TILES_PER_ROW = 20
-const DIA_TILES_PER_COL = 32
+const DIA_TILES_PER_COL = 18
 const TILES_PER_COL = 9
 const SCREEN_HEIGHT = 144
 const SCREEN_WIDTH = 160
@@ -31,9 +33,31 @@ enum SIDES {
 	RIGHT
 }
 
+enum SPECIAL_SYMBOLS {
+	RIGHT_ARROW
+}
+
 enum UNIT_TYPES {
 	ANGLER_MALE,
 	ANGLER_FEMALE,
 	WOODCUTTER_MALE,
 	WOODCUTTER_FEMALE
+}
+
+# full list of actions
+const ALL_ACTIONS = [
+	'MOVE',
+	'FISH',
+	'CHOP',
+	'MINE',
+	'UNIT'
+]
+
+# full list of action names
+const ALL_ACTION_PRETTY_NAMES = { 
+	'MOVE':  'Move',
+	'FISH':  'Fish',
+	'CHOP': 'Chop',
+	'MINE': 'Mine',
+	'UNIT': 'Unit'
 }

@@ -34,16 +34,16 @@ func gameInit():
 	hud = hud_scn.instance()
 	hud_tile_info = hud_tile_info_scn.instance()
 	
+	add_child(camera)
+	camera.add_child(hud_tile_info) # make the hud a child of the camera
+	add_child(cursor)
+	camera.add_child(hud)
+	
 	# add units to the player's party
 	player.party.add_unit(constants.UNIT_TYPES.ANGLER_MALE)
 	player.party.add_unit(constants.UNIT_TYPES.ANGLER_FEMALE)
 	player.party.add_unit(constants.UNIT_TYPES.WOODCUTTER_MALE)
 	player.party.add_unit(constants.UNIT_TYPES.WOODCUTTER_FEMALE)
-	
-	add_child(camera)
-	camera.add_child(hud_tile_info) # make the hud a child of the camera
-	add_child(cursor)
-	camera.add_child(hud)
 	
 	# lights, camera, action!
 	camera.turnOn()

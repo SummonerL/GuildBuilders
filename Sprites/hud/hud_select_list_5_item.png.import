@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/hud_symbol_right.png-4ec0444cd195794dbfe5b2ba0dc704bb.stex"
+path="res://.import/hud_select_list_5_item.png-19363d1268364c843e163eaf6f1eaf73.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/hud/hud_symbol_right.png"
-dest_files=[ "res://.import/hud_symbol_right.png-4ec0444cd195794dbfe5b2ba0dc704bb.stex" ]
+source_file="res://Sprites/hud/hud_select_list_5_item.png"
+dest_files=[ "res://.import/hud_select_list_5_item.png-19363d1268364c843e163eaf6f1eaf73.stex" ]
 
 [params]
 

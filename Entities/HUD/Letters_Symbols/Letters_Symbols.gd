@@ -14,6 +14,7 @@ const DIALOGUE_WIDTH = 160
 
 onready var tileMap = get_node("TileMap")
 onready var arrowDownSprite = get_node("Arrow_Down_Sprite")
+onready var arrowRightSprite = get_node("Arrow_Right_Sprite")
 onready var dialogueSound = get_node("Dialogue_Sound")
 
 var tileSet
@@ -82,6 +83,14 @@ func print_immediately(text, start_pos):
 		setTextCell(letter, start_pos, null, false)
 		start_pos.x += 1
 	pass
+	
+func print_special_immediately(special_symbol, pos):
+	match(special_symbol):
+		constants.SPECIAL_SYMBOLS.RIGHT_ARROW:
+			print('TRYEW')
+			arrowRightSprite.position = pos
+			arrowRightSprite.visible = true
+			
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

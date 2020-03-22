@@ -6,7 +6,8 @@ extends Node2D
 onready var party = get_node("/root/Player_Party")
 
 enum PLAYER_STATE {
-	SELECTING_TILE
+	SELECTING_TILE,
+	SELECTING_ACTION,
 	SELECTING_MOVEMENT,
 	ANIMATING_MOVEMENT
 }

@@ -8,9 +8,14 @@ onready var player = get_node("/root/Player_Globals")
 
 onready var movement_grid_square = preload("res://Entities/Player/Movement_Grid_Square.tscn")
 
+onready var hud_selection_list_scn = preload("res://Entities/HUD/Selection_List.tscn")
+
 # have 2 layers of potential tiles
 onready var tileset_props_l1 = get_tree().get_nodes_in_group(constants.MAP_TILES_GROUP)[0]
 onready var tileset_props_l2 = get_tree().get_nodes_in_group(constants.MAP_TILES_GROUP)[1]
+
+# make sure we have access to the main camera node
+onready var camera = get_tree().get_nodes_in_group("Camera")[0]
 
 # units can inherit from this class to access common variables
 
@@ -34,6 +39,25 @@ var base_move = 0
 # the unit's name
 var unit_name = ""
 
+enum BASIC_ACTIONS {
+	MOVE,
+	TEST1,
+	TEST2,
+	TEST3,
+	UNIT
+}
+
+# list of actions that are available to the unit
+const initial_action_list = [
+	BASIC_ACTIONS.MOVE,
+	BASIC_ACTIONS.TEST1,
+	BASIC_ACTIONS.TEST2,
+	BASIC_ACTIONS.TEST3,
+	BASIC_ACTIONS.UNIT,
+]
+
+var current_action_list = initial_action_list
+
 # initialize the unit (all units will need to call this)
 func unit_base_init():
 	unit_move_sound_node = AudioStreamPlayer.new()
@@ -48,6 +72,18 @@ func set_unit_pos(target_x, target_y):
 	self.global_position = Vector2(target_x*constants.TILE_WIDTH, 
 								target_y*constants.TILE_HEIGHT)
 	
+	
+func show_action_list():
+	# add a selection list istance to our camera
+	var hud_selection_list_node = hud_selection_list_scn.instance()
+	camera.add_hud_item(hud_selection_list_node)
+	
+	# populate the action list with the current list of actions this unit can take
+	hud_selection_list_node.populate_selection_list(current_action_list)
+	
+# reset our action list to the initial action list
+func reset_action_list():
+	current_action_list = initial_action_list
 
 # we can now enable the unit's movement state + show movement grid
 func enable_movement_state():

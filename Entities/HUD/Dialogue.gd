@@ -3,8 +3,6 @@ extends CanvasLayer
 # bring in our global constants
 onready var constants = get_node("/root/Game_Constants")
 
-const DIA_TILE_WIDTH = 8
-const DIA_TILE_HEIGHT = 8
 const DIALOGUE_HEIGHT = 48
 const DIALOGUE_WIDTH = 160
 const MAX_CHARS_PER_ROW = 16
@@ -86,7 +84,7 @@ func typeText(text):
 			currentPos.y += 2
 			availableSpace = MAX_CHARS_PER_ROW # reset available space (for the row)
 			
-			if currentPos.y >= ((constants.SCREEN_HEIGHT / float(DIA_TILE_HEIGHT)) - 2):
+			if currentPos.y >= ((constants.SCREEN_HEIGHT / float(constants.DIA_TILE_HEIGHT)) - 2):
 				finishedPrintingBlock = true # finished printing this block
 				dialogueBuffer = words
 			

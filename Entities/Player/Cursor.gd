@@ -60,11 +60,18 @@ func select_tile():
 	# get any units on this tile
 	var unit = get_selected_tile_units()
 	if (unit != null):
+		# update the player state
+		player.player_state = player.PLAYER_STATE.SELECTING_ACTION
+		cursor_reset()
+			
 		# activate the unit
 		party.set_active_unit(unit)
 		
+		# show the unit's action list
+		unit.show_action_list()
+		
 		# enable the unit's movement state
-		unit.enable_movement_state()
+		#unit.enable_movement_state()
 
 func stop_timer():
 	cursor_timer.stop()
@@ -108,52 +115,53 @@ func _ready():
 	cursor_init()
 
 func _input(event):
-	
 	# if any of the directional keys are released, reset the cursor speed/timer
 	if ( (event.is_action_released("ui_up") && cursor_direction ==  constants.DIRECTIONS.UP) ||
 		(event.is_action_released("ui_right") && cursor_direction ==  constants.DIRECTIONS.RIGHT) ||
 		(event.is_action_released("ui_down") && cursor_direction ==  constants.DIRECTIONS.DOWN) ||
 		(event.is_action_released("ui_left") && cursor_direction ==  constants.DIRECTIONS.LEFT) ):
 		cursor_reset()
-
-	# immediately move, then continue moving
-	if event.is_action_pressed("ui_up"):
-		# if we're changing directions, act as if we're resetting
-		if (cursor_direction != constants.DIRECTIONS.UP):
-			cursor_reset()
-		cursor_direction = constants.DIRECTIONS.UP
-		cursor_move()
-		cursor_moving = true
 		
-	if event.is_action_pressed("ui_right"):
-		# if we're changing directions, act as if we're resetting
-		if (cursor_direction != constants.DIRECTIONS.RIGHT):
-			cursor_reset()
-		cursor_direction = constants.DIRECTIONS.RIGHT
-		cursor_move()
-		cursor_moving = true
-		
-	if event.is_action_pressed("ui_down"):
-		# if we're changing directions, act as if we're resetting
-		if (cursor_direction != constants.DIRECTIONS.DOWN):
-			cursor_reset()
-		cursor_direction = constants.DIRECTIONS.DOWN
-		cursor_move()
-		cursor_moving = true
-		
-	if event.is_action_pressed("ui_left"):
-		# if we're changing directions, act as if we're resetting
-		if (cursor_direction != constants.DIRECTIONS.LEFT):
-			cursor_reset()
-		cursor_direction = constants.DIRECTIONS.LEFT
-		cursor_move()
-		cursor_moving = true
-		
+	if (player.player_state == player.PLAYER_STATE.SELECTING_MOVEMENT ||
+		player.player_state == player.PLAYER_STATE.SELECTING_TILE):
+		# immediately move, then continue moving
+		if event.is_action_pressed("ui_up"):
+			# if we're changing directions, act as if we're resetting
+			if (cursor_direction != constants.DIRECTIONS.UP):
+				cursor_reset()
+			cursor_direction = constants.DIRECTIONS.UP
+			cursor_move()
+			cursor_moving = true
+			
+		if event.is_action_pressed("ui_right"):
+			# if we're changing directions, act as if we're resetting
+			if (cursor_direction != constants.DIRECTIONS.RIGHT):
+				cursor_reset()
+			cursor_direction = constants.DIRECTIONS.RIGHT
+			cursor_move()
+			cursor_moving = true
+			
+		if event.is_action_pressed("ui_down"):
+			# if we're changing directions, act as if we're resetting
+			if (cursor_direction != constants.DIRECTIONS.DOWN):
+				cursor_reset()
+			cursor_direction = constants.DIRECTIONS.DOWN
+			cursor_move()
+			cursor_moving = true
+			
+		if event.is_action_pressed("ui_left"):
+			# if we're changing directions, act as if we're resetting
+			if (cursor_direction != constants.DIRECTIONS.LEFT):
+				cursor_reset()
+			cursor_direction = constants.DIRECTIONS.LEFT
+			cursor_move()
+			cursor_moving = true
+			
 	# if the action button is pressed, we can select the tile/unit
 	if event.is_action_pressed("ui_focus_next"):
 		# regardless of the current state, if there are any units here, we need
-		# to activate them. This allows the user to select a unit to move,
-		# even while they are still selecting movement for another unit
+		# to activate them. This allows the user to select a unit to do an action,
+	# even while they are still selecting movement for another unit
 		if (get_selected_tile_units() != null):
 			# as long as another unit is not actively moving
 			if (player.player_state != player.PLAYER_STATE.ANIMATING_MOVEMENT):

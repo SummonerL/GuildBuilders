@@ -27,14 +27,18 @@ func set_active_unit(unit):
 func add_unit(unit):
 	match unit:
 		constants.UNIT_TYPES.ANGLER_MALE:
-			var angler_male_node = add_child(angler_male_scn.instance())
+			var angler_male_node = angler_male_scn.instance()
+			add_child(angler_male_node)
 			party_members.append(angler_male_node)
 		constants.UNIT_TYPES.ANGLER_FEMALE:
-			var angler_female_node = add_child(angler_female_scn.instance())
+			var angler_female_node = angler_female_scn.instance()
+			add_child(angler_female_node)
 			party_members.append(angler_female_node)
 		constants.UNIT_TYPES.WOODCUTTER_MALE:
-			var woodcutter_male_node = add_child(woodcutter_male_scn.instance())
+			var woodcutter_male_node = woodcutter_male_scn.instance()
+			add_child(woodcutter_male_node)
 			party_members.append(woodcutter_male_node)
 		constants.UNIT_TYPES.WOODCUTTER_FEMALE:
-			var woodcutter_female_node = add_child(woodcutter_female_scn.instance())
+			var woodcutter_female_node = woodcutter_female_scn.instance()
+			add_child(woodcutter_female_node)
 			party_members.append(woodcutter_female_node)

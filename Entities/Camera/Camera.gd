@@ -31,6 +31,10 @@ func check_pos(curs_x, curs_y):
 	if curs_y > (player_globals.cam_pos_y + (constants.TILES_PER_COL-1)):
 		set_camera_pos(player_globals.cam_pos_x, player_globals.cam_pos_y+1)
 		
+# add a new hud item as a child of camera
+func add_hud_item(hud_item):
+	add_child(hud_item)
+		
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	camera_init()
