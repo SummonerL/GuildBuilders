@@ -79,7 +79,7 @@ func show_action_list():
 	camera.add_hud_item(hud_selection_list_node)
 	
 	# populate the action list with the current list of actions this unit can take
-	hud_selection_list_node.populate_selection_list(current_action_list)
+	hud_selection_list_node.populate_selection_list(current_action_list, self)
 	
 # reset our action list to the initial action list
 func reset_action_list():
@@ -94,6 +94,19 @@ func enable_movement_state():
 	player.player_state = player.PLAYER_STATE.SELECTING_MOVEMENT
 	calculate_eligible_tiles()
 	
+
+# this function is called once a selection is made in the selection list
+func do_action(action):
+	match (action):
+		BASIC_ACTIONS.MOVE:
+			# enable the unit's movement state
+			enable_movement_state()
+		_: #default
+			# do something
+			enable_select_tile_state()
+			
+		
+
 func enable_select_tile_state(timer = null):
 	player.player_state = player.PLAYER_STATE.SELECTING_TILE
 	unit_move_sound_node.stop()

@@ -12,6 +12,9 @@ onready var player = get_node("/root/Player_Globals")
 onready var letters_symbols_obj = preload("res://Entities/HUD/Letters_Symbols/Letters_Symbols.tscn")
 var letters_symbols_node
 
+# the change selection sound
+onready var confirm_selection_sound = get_node("Confirm_Selection_Sound")
+
 # select list is 4 tiles wide
 const SELECT_LIST_WIDTH = 5
 
@@ -36,8 +39,19 @@ var right_5
 
 var side
 
+var dead = false
+
 # keep track of the current selection
 var current_selected_item
+var current_selected_item_index
+
+var current_selected_pos
+
+# keep track of the parent that created this selection list
+var parent
+
+# and all of the currently accessible actions
+var action_list = []
 
 # our actual selection list sprites
 onready var selection_list_1_item = get_node("List_1_Item_Sprite")
@@ -93,7 +107,8 @@ func position_selection_list():
 		pass
 	pass
 
-func populate_selection_list(actions):
+func populate_selection_list(actions, caller):
+	parent = caller
 	var start_pos_x = 2
 	if (side == constants.SIDES.RIGHT):
 		start_pos_x += (constants.TILES_PER_ROW * 2) - (SELECT_LIST_WIDTH * 2)
@@ -118,16 +133,61 @@ func populate_selection_list(actions):
 			start_pos_y += (constants.TILES_PER_COL * 2) - (SELECT_LIST_5_HEIGHT * 2)
 
 	# print the 'selection' icon beside the first option
-	
-	letters_symbols_node.print_special_immediately(constants.SPECIAL_SYMBOLS.RIGHT_ARROW, 
-							Vector2(start_pos_x * constants.DIA_TILE_WIDTH, start_pos_y * constants.DIA_TILE_HEIGHT))
+	current_selected_pos = Vector2(start_pos_x * constants.DIA_TILE_WIDTH, start_pos_y * constants.DIA_TILE_HEIGHT)
+	letters_symbols_node.print_special_immediately(constants.SPECIAL_SYMBOLS.RIGHT_ARROW, current_selected_pos)
+
 	start_pos_x += 1
 
 	for action in actions:
 		letters_symbols_node.print_immediately(constants.ALL_ACTION_PRETTY_NAMES[constants.ALL_ACTIONS[action]], Vector2(start_pos_x, start_pos_y))
 		start_pos_y += 2
 	
+	# keep track of the currently selected item
 	current_selected_item = actions[0]
+	current_selected_item_index = 0
+	
+	action_list = actions
+	
 
 func _ready():
 	selection_list_init()
+	
+func _input(event):
+	if (!dead):
+		# inputs for moving the selector
+		if (event.is_action_pressed("ui_down")):
+			# move the selector down
+			var num_of_actions = action_list.size()
+			if current_selected_item_index < (num_of_actions - 1): # account for 0 index
+				current_selected_item = action_list[current_selected_item_index+1]
+				current_selected_item_index += 1
+				current_selected_pos.y += constants.TILE_HEIGHT
+				letters_symbols_node.print_special_immediately(constants.SPECIAL_SYMBOLS.RIGHT_ARROW, current_selected_pos)
+		if (event.is_action_pressed("ui_up")):
+			# move the selector up
+			if current_selected_item_index > 0:
+				current_selected_item = action_list[current_selected_item_index-1]
+				current_selected_item_index -= 1
+				current_selected_pos.y -= constants.TILE_HEIGHT
+				letters_symbols_node.print_special_immediately(constants.SPECIAL_SYMBOLS.RIGHT_ARROW, current_selected_pos)
+				
+		# confirm selection
+		if (event.is_action_pressed("ui_accept")):
+			parent.do_action(current_selected_item)
+			
+			# play the confirmation sound
+			confirm_selection_sound.play()
+	
+			# and kill ourself :(
+			selection_list_1_item.visible = false
+			selection_list_2_item.visible = false
+			selection_list_3_item.visible = false
+			selection_list_4_item.visible = false
+			selection_list_5_item.visible = false
+			letters_symbols_node.clear_text_non_dialogue()
+			letters_symbols_node.clear_specials()
+			confirm_selection_sound.connect("finished", self, "kill_select_list")
+			dead = true
+
+func kill_select_list():
+	get_parent().remove_child(self)

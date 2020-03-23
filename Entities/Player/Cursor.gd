@@ -59,7 +59,7 @@ func get_selected_tile_units():
 func select_tile():
 	# get any units on this tile
 	var unit = get_selected_tile_units()
-	if (unit != null):
+	if (unit != null && player.player_state != player.PLAYER_STATE.SELECTING_ACTION):
 		# update the player state
 		player.player_state = player.PLAYER_STATE.SELECTING_ACTION
 		cursor_reset()
@@ -69,9 +69,6 @@ func select_tile():
 		
 		# show the unit's action list
 		unit.show_action_list()
-		
-		# enable the unit's movement state
-		#unit.enable_movement_state()
 
 func stop_timer():
 	cursor_timer.stop()
@@ -158,7 +155,7 @@ func _input(event):
 			cursor_moving = true
 			
 	# if the action button is pressed, we can select the tile/unit
-	if event.is_action_pressed("ui_focus_next"):
+	if event.is_action_pressed("ui_accept"):
 		# regardless of the current state, if there are any units here, we need
 		# to activate them. This allows the user to select a unit to do an action,
 	# even while they are still selecting movement for another unit
