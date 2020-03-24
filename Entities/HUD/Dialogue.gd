@@ -108,14 +108,15 @@ func typeText(text, keep = false):
 			
 		
 		if (finishedPrintingBlock): # we can break out of the loop if finished typing
-			var timer = Timer.new()
-			timer.wait_time = letters_symbols.currentTime
-			timer.connect("timeout", self, "changeState", [STATES.AWAITING_CONFIRMATION])
-			timer.connect("timeout", self, "stopTimer", [timer])
-			add_child(timer)
-			timer.start()
-			letters_symbols.startArrowDownTimer()
-			break
+			if (!keep_text_on_screen || dialogueBuffer.size()  > 0):
+				var timer = Timer.new()
+				timer.wait_time = letters_symbols.currentTime
+				timer.connect("timeout", self, "changeState", [STATES.AWAITING_CONFIRMATION])
+				timer.connect("timeout", self, "stopTimer", [timer])
+				add_child(timer)
+				timer.start()
+				letters_symbols.startArrowDownTimer()
+				break
 			
 		# now that we've printed that word, remove it
 		words.remove(0)

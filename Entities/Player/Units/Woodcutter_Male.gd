@@ -11,6 +11,11 @@ func unit_init():
 	unit_name = "Axel"
 	unit_class = "Woodcutter"
 	
+	age = 27
+	
+	unit_bio = "Yo! I'm Axel. I'm all about living the simple life. Nothing makes me happier than the smell of freshly cut "
+	unit_bio += "cedar. All I want is a quiet life surrounded by nature. That pretty much sums me up!"
+	
 	base_move = 3
 	
 	self.global_position = Vector2(unit_pos_x*constants.TILE_WIDTH, 

@@ -11,6 +11,10 @@ func unit_init():
 	unit_name = "Rodrik"
 	unit_class = "Angler"
 	
+	age = 16
+	
+	unit_bio = "..."
+	
 	base_move = 3
 	
 	self.global_position = Vector2(unit_pos_x*constants.TILE_WIDTH, 

@@ -12,7 +12,7 @@
 
 [sub_resource type="SpriteFrames" id=4]
 animations = [ {
-"frames": [ ExtResource( 9 ), ExtResource( 8 ) ],
+"frames": [ ExtResource( 8 ), ExtResource( 9 ) ],
 "loop": true,
 "name": "default",
 "speed": 5.0
@@ -783,6 +783,7 @@ script = ExtResource( 2 )
 [node name="Arrow_Left_Sprite" type="AnimatedSprite" parent="."]
 visible = false
 frames = SubResource( 4 )
+frame = 1
 speed_scale = 0.9
 playing = true
 centered = false
