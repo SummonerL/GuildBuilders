@@ -8,7 +8,7 @@ func get_unit_move_sound():
 func unit_init():
 	unit_pos_x = 19
 	unit_pos_y = 4
-	unit_name = "Female Angler"
+	unit_name = "Coral"
 	
 	unit_portrait_sprite = ps
 	

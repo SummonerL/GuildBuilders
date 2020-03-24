@@ -83,6 +83,7 @@ func generateLetterSymbol(letterSymbol, pos):
 	textTimer.start()
 
 func print_immediately(text, start_pos):
+	print(text)
 	for letter in text:
 		setTextCell(letter, start_pos, null, false)
 		start_pos.x += 1

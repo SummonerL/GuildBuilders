@@ -768,7 +768,6 @@ format = 1
 [node name="Arrow_Down_Sprite" type="AnimatedSprite" parent="."]
 visible = false
 frames = SubResource( 2 )
-frame = 1
 speed_scale = 0.9
 playing = true
 centered = false
@@ -780,6 +779,7 @@ volume_db = -6.0
 [node name="Arrow_Right_Sprite" type="AnimatedSprite" parent="."]
 visible = false
 frames = SubResource( 3 )
+frame = 1
 speed_scale = 0.9
 playing = true
 centered = false

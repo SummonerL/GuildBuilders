@@ -118,6 +118,7 @@ func show_unit_info_full_screen():
 	camera.add_child(hud_unit_info_full_node)
 	
 	hud_unit_info_full_node.set_unit(self)
+	hud_unit_info_full_node.initialize_screen()
 
 func enable_select_tile_state(timer = null):
 	player.player_state = player.PLAYER_STATE.SELECTING_TILE
