@@ -6,7 +6,7 @@
 [ext_resource path="res://Sprites/hud/hud_select_list_3_item.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/hud/hud_select_list_4_item.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/hud/hud_select_list_1_item.png" type="Texture" id=6]
-[ext_resource path="res://Entities/HUD/Assets/Select_Arrow_Sound.wav" type="AudioStream" id=7]
+[ext_resource path="res://Entities/HUD/Assets/Menu_Confirmation_Sound.wav" type="AudioStream" id=7]
 
 [node name="Selection_List" type="CanvasLayer"]
 script = ExtResource( 2 )
@@ -38,4 +38,3 @@ centered = false
 
 [node name="Confirm_Selection_Sound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 7 )
-volume_db = -7.0

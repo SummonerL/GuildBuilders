@@ -55,9 +55,9 @@ const ALL_ACTIONS = [
 
 # full list of action names
 const ALL_ACTION_PRETTY_NAMES = { 
-	'MOVE':  'Move',
-	'FISH':  'Fish',
-	'CHOP': 'Chop',
-	'MINE': 'Mine',
-	'UNIT': 'Unit'
+	'MOVE':  'MOVE',
+	'FISH':  'FISH',
+	'CHOP': 'CHOP',
+	'MINE': 'MINE',
+	'UNIT': 'UNIT'
 }

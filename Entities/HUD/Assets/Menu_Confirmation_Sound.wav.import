@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Menu_Confirmation_Sound.wav-8b95053e0338aa18a50ec10ac1876ee2.sample"
+
+[deps]
+
+source_file="res://Entities/HUD/Assets/Menu_Confirmation_Sound.wav"
+dest_files=[ "res://.import/Menu_Confirmation_Sound.wav-8b95053e0338aa18a50ec10ac1876ee2.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
