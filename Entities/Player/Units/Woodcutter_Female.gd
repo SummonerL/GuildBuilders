@@ -10,6 +10,10 @@ func unit_init():
 	
 	unit_name = "Willow"
 	unit_class = "Woodcutter"
+	age = 17
+	unit_bio = "Hey there! Willow here. I may be young, but don't count me out. I can swing an axe with the best of 'em! "
+	unit_bio += "My parents passed away when I was a young child, so I had to grow up fast. My goal in life is simply to be "
+	unit_bio += "reliable and provide for those I love. Thanks for reading!"
 	
 	base_move = 4
 	

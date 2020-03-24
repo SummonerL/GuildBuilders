@@ -26,6 +26,7 @@ var screen_list = [
 var current_screen = screen_list[0]
 
 const NAME_TEXT = "Name:"
+const AGE_TEXT = "Age:"
 const CLASS_TEXT = "Class:"
 const MOVE_TEXT = "Mv."
 
@@ -55,11 +56,14 @@ func initialize_screen():
 	
 	# print the name
 	letters_symbols_node.print_immediately(NAME_TEXT, Vector2(1, 2))
-	letters_symbols_node.print_immediately(active_unit.unit_name, Vector2(1, 4))
+	letters_symbols_node.print_immediately(active_unit.unit_name, Vector2(1, 3))
+	
+	# print the unit's age
+	letters_symbols_node.print_immediately(AGE_TEXT + String(active_unit.age), Vector2(1, 5))
 	
 	# class
 	letters_symbols_node.print_immediately(CLASS_TEXT, Vector2(1, 7))
-	letters_symbols_node.print_immediately(active_unit.unit_class, Vector2(1, 9))
+	letters_symbols_node.print_immediately(active_unit.unit_class, Vector2(1, 8))
 
 	# print the unit's movement
 	letters_symbols_node.print_immediately(MOVE_TEXT + String(active_unit.base_move), Vector2(13, 9))

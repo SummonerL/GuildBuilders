@@ -134,8 +134,6 @@ func _input(event):
 						clearText()
 						dialogueState = STATES.TYPING
 						completeText() # finished printing everything!
-					else:
-						print("Test???")
 	
 			STATES.TYPING: # fast print!
 				for node in letters_symbols.get_children():
