@@ -27,6 +27,7 @@ var current_screen = screen_list[0]
 
 const NAME_TEXT = "Name:"
 const CLASS_TEXT = "Class:"
+const MOVE_TEXT = "Mv."
 
 func unit_info_full_init():
 	letters_symbols_node = letters_symbols_scn.instance()
@@ -59,6 +60,11 @@ func initialize_screen():
 	# class
 	letters_symbols_node.print_immediately(CLASS_TEXT, Vector2(1, 7))
 	letters_symbols_node.print_immediately(active_unit.unit_class, Vector2(1, 9))
+
+	# print the unit's movement
+	letters_symbols_node.print_immediately(MOVE_TEXT + String(active_unit.base_move), Vector2(13, 9))
+	
+
 
 	# start rendering the unit description
 	player.hud.dialogueState = player.hud.STATES.INACTIVE
