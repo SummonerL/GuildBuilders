@@ -34,7 +34,8 @@ enum SIDES {
 }
 
 enum SPECIAL_SYMBOLS {
-	RIGHT_ARROW
+	RIGHT_ARROW,
+	LEFT_ARROW
 }
 
 enum UNIT_TYPES {

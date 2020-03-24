@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Sprites/hud/letter_symbol_sheet.png" type="Texture" id=1]
 [ext_resource path="res://Entities/HUD/Letters_Symbols/Letters_Symbols.gd" type="Script" id=2]
@@ -7,6 +7,16 @@
 [ext_resource path="res://Entities/HUD/Assets/Dialogue_Sound.wav" type="AudioStream" id=5]
 [ext_resource path="res://Sprites/hud/hud_symbol_right2.png" type="Texture" id=6]
 [ext_resource path="res://Sprites/hud/hud_symbol_right1.png" type="Texture" id=7]
+[ext_resource path="res://Sprites/hud/hud_symbol_left2.png" type="Texture" id=8]
+[ext_resource path="res://Sprites/hud/hud_symbol_left1.png" type="Texture" id=9]
+
+[sub_resource type="SpriteFrames" id=4]
+animations = [ {
+"frames": [ ExtResource( 9 ), ExtResource( 8 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
 
 [sub_resource type="TileSet" id=1]
 0/name = "LS_Code_65"
@@ -770,6 +780,13 @@ animations = [ {
 layer = 2
 script = ExtResource( 2 )
 
+[node name="Arrow_Left_Sprite" type="AnimatedSprite" parent="."]
+visible = false
+frames = SubResource( 4 )
+speed_scale = 0.9
+playing = true
+centered = false
+
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource( 1 )
 cell_size = Vector2( 8, 8 )
@@ -778,7 +795,6 @@ format = 1
 [node name="Arrow_Down_Sprite" type="AnimatedSprite" parent="."]
 visible = false
 frames = SubResource( 2 )
-frame = 1
 speed_scale = 0.9
 playing = true
 centered = false
@@ -790,6 +806,7 @@ volume_db = -6.0
 [node name="Arrow_Right_Sprite" type="AnimatedSprite" parent="."]
 visible = false
 frames = SubResource( 3 )
+frame = 1
 speed_scale = 0.9
 playing = true
 centered = false

@@ -55,25 +55,31 @@ func initialize_screen():
 	set_portrait_sprite()
 	
 	# print the name
-	letters_symbols_node.print_immediately(NAME_TEXT, Vector2(1, 2))
-	letters_symbols_node.print_immediately(active_unit.unit_name, Vector2(1, 3))
+	letters_symbols_node.print_immediately(active_unit.unit_name, Vector2(1, 2))
 	
 	# print the unit's age
 	letters_symbols_node.print_immediately(AGE_TEXT + String(active_unit.age), Vector2(1, 5))
 	
 	# class
-	letters_symbols_node.print_immediately(CLASS_TEXT, Vector2(1, 7))
 	letters_symbols_node.print_immediately(active_unit.unit_class, Vector2(1, 8))
 
 	# print the unit's movement
 	letters_symbols_node.print_immediately(MOVE_TEXT + String(active_unit.base_move), Vector2(13, 9))
+	
+	# show the right arrow (for moving to the next screen)
+	letters_symbols_node.print_special_immediately(constants.SPECIAL_SYMBOLS.RIGHT_ARROW, 
+		Vector2((constants.DIA_TILES_PER_ROW - 2) * constants.DIA_TILE_WIDTH, 10 * constants.DIA_TILE_HEIGHT))
+	
+	# show the left arrow (for moving to the next screen)
+	letters_symbols_node.print_special_immediately(constants.SPECIAL_SYMBOLS.LEFT_ARROW, 
+		Vector2(1 * constants.DIA_TILE_WIDTH, 10 * constants.DIA_TILE_HEIGHT))
 	
 	# start rendering the unit description
 	# we need to add a small timer to 'buffer' the input, so the opening of the menu doesn't
 	# interact with the _input of the dialogue hud
 	var timer = Timer.new()
 	timer.connect("timeout", self, "type_unit_bio", [timer])
-	timer.wait_time = .01
+	timer.wait_time = .05
 	add_child(timer)
 	timer.start()
 
