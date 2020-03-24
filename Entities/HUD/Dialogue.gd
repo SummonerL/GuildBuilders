@@ -20,6 +20,9 @@ enum STATES {
 	AWAITING_CONFIRMATION
 }
 
+# boolean for whether or not the text should stay on screen upon completion
+var keep_text_on_screen = false
+
 func dialogue_init():
 	# position the dialogue box to the bottom of the viewport
 	dialogue_sprite.position = Vector2(0, constants.SCREEN_HEIGHT - DIALOGUE_HEIGHT)
@@ -30,6 +33,7 @@ func dialogue_init():
 	# add the Tilemap as a child of dialogue
 	letters_symbols = letters_symbols_obj.instance()
 	add_child(letters_symbols)
+	letters_symbols.layer = self.layer + 1
 
 func changeState(state):
 	dialogueState = state
@@ -48,7 +52,8 @@ func completeText():
 	dialogueState = STATES.INACTIVE
 	dialogue_sprite.visible = false
 
-func typeText(text):
+func typeText(text, keep = false):
+	keep_text_on_screen = keep
 	# turn on the dialogue box, if it isn't turned on
 	if (dialogueState == STATES.INACTIVE):
 		dialogueState = STATES.TYPING
@@ -120,12 +125,17 @@ func _input(event):
 	if (event.is_action_pressed("ui_accept")):
 		match dialogueState:
 			STATES.AWAITING_CONFIRMATION:
-				clearText()
-				dialogueState = STATES.TYPING
 				if (dialogueBuffer.size() > 0):
-					typeText(dialogueBuffer.join(" "))
+					clearText()
+					dialogueState = STATES.TYPING
+					typeText(dialogueBuffer.join(" "), keep_text_on_screen)
 				else:
-					completeText() # finished printing everything!
+					if (!keep_text_on_screen): # for instances when we want to leave the text on screen
+						clearText()
+						dialogueState = STATES.TYPING
+						completeText() # finished printing everything!
+					else:
+						print("Test???")
 	
 			STATES.TYPING: # fast print!
 				for node in letters_symbols.get_children():

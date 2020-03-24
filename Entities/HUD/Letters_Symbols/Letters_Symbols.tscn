@@ -739,6 +739,16 @@
 72/navigation_offset = Vector2( 0, 0 )
 72/shapes = [  ]
 72/z_index = 0
+73/name = "LS_Code_58"
+73/texture = ExtResource( 1 )
+73/tex_offset = Vector2( 0, 0 )
+73/modulate = Color( 1, 1, 1, 1 )
+73/region = Rect2( 128, 24, 8, 8 )
+73/tile_mode = 0
+73/occluder_offset = Vector2( 0, 0 )
+73/navigation_offset = Vector2( 0, 0 )
+73/shapes = [  ]
+73/z_index = 0
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
@@ -768,6 +778,7 @@ format = 1
 [node name="Arrow_Down_Sprite" type="AnimatedSprite" parent="."]
 visible = false
 frames = SubResource( 2 )
+frame = 1
 speed_scale = 0.9
 playing = true
 centered = false
@@ -779,7 +790,6 @@ volume_db = -6.0
 [node name="Arrow_Right_Sprite" type="AnimatedSprite" parent="."]
 visible = false
 frames = SubResource( 3 )
-frame = 1
 speed_scale = 0.9
 playing = true
 centered = false

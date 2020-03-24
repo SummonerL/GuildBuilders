@@ -44,6 +44,12 @@ var base_move = 0
 # the unit's name
 var unit_name = ""
 
+# the unit's class
+var unit_class = ""
+
+# a short bio about the unit
+var unit_bio = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+
 enum BASIC_ACTIONS {
 	MOVE,
 	TEST1,

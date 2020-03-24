@@ -21,3 +21,6 @@ var cam_pos_y = 0
 # cursor position on the map
 var curs_pos_x = 4
 var curs_pos_y = 4
+
+# keep track of the dialogue box
+var hud

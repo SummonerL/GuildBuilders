@@ -9,6 +9,7 @@ func unit_init():
 	unit_portrait_sprite = ps
 	
 	unit_name = "Willow"
+	unit_class = "Woodcutter"
 	
 	base_move = 4
 	

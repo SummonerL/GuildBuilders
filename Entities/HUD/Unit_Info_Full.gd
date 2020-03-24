@@ -16,6 +16,18 @@ const PORTRAIT_HEIGHT = 3
 var active_unit
 var portrait_sprite
 
+var typing_description = false
+
+
+# keep track of the 'active' screen
+var screen_list = [
+	"BASIC_INFO"
+]
+var current_screen = screen_list[0]
+
+const NAME_TEXT = "Name:"
+const CLASS_TEXT = "Class:"
+
 func unit_info_full_init():
 	letters_symbols_node = letters_symbols_scn.instance()
 	add_child(letters_symbols_node)
@@ -40,7 +52,19 @@ func set_portrait_sprite():
 func initialize_screen():
 	set_portrait_sprite()
 	
-	letters_symbols_node.print_immediately(active_unit.unit_name, Vector2(3, 3))
+	# print the name
+	letters_symbols_node.print_immediately(NAME_TEXT, Vector2(1, 2))
+	letters_symbols_node.print_immediately(active_unit.unit_name, Vector2(1, 4))
+	
+	# class
+	letters_symbols_node.print_immediately(CLASS_TEXT, Vector2(1, 7))
+	letters_symbols_node.print_immediately(active_unit.unit_class, Vector2(1, 9))
+
+	# start rendering the unit description
+	player.hud.dialogueState = player.hud.STATES.INACTIVE
+	player.hud.typeText(active_unit.unit_bio, true)
+	typing_description = true
+
 
 func _ready():
 	unit_info_full_init()
@@ -49,7 +73,10 @@ func _ready():
 func _input(event):
 	if (event.is_action_pressed("ui_cancel")):
 		close_unit_screen()
-	
+		# make sure we close the dialogue box as well, if it's present
+		player.hud.clearText()
+		player.hud.completeText()
+
 func close_unit_screen():
 	# change the player state
 	player.player_state = player.PLAYER_STATE.SELECTING_TILE

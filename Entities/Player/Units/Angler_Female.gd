@@ -9,6 +9,7 @@ func unit_init():
 	unit_pos_x = 19
 	unit_pos_y = 4
 	unit_name = "Coral"
+	unit_class = "Angler"
 	
 	unit_portrait_sprite = ps
 	
