@@ -68,9 +68,20 @@ func initialize_screen():
 	# print the unit's movement
 	letters_symbols_node.print_immediately(MOVE_TEXT + String(active_unit.base_move), Vector2(13, 9))
 	
-
-
 	# start rendering the unit description
+	# we need to add a small timer to 'buffer' the input, so the opening of the menu doesn't
+	# interact with the _input of the dialogue hud
+	var timer = Timer.new()
+	timer.connect("timeout", self, "type_unit_bio", [timer])
+	timer.wait_time = .01
+	add_child(timer)
+	timer.start()
+
+func type_unit_bio(timer = null):
+	if (timer):
+		timer.stop()
+		remove_child(timer)
+
 	player.hud.dialogueState = player.hud.STATES.INACTIVE
 	player.hud.typeText(active_unit.unit_bio, true)
 	typing_description = true
