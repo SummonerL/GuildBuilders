@@ -57,7 +57,7 @@ func _ready():
 
 # temporarily use to text dialogue system
 func _input(event):
-	if (event.is_action_pressed("ui_cancel")):
+	if (event.is_action_pressed("ui_focus_next"):
 		match hud.dialogueState:
 			hud.STATES.INACTIVE:
 				hud.typeText("Well... I think we officially got the " +

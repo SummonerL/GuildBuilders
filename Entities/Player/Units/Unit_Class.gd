@@ -8,7 +8,9 @@ onready var player = get_node("/root/Player_Globals")
 
 onready var movement_grid_square = preload("res://Entities/Player/Movement_Grid_Square.tscn")
 
+# various hud scenes
 onready var hud_selection_list_scn = preload("res://Entities/HUD/Selection_List.tscn")
+onready var hud_unit_info_full_scn = preload("res://Entities/HUD/Unit_Info_Full.tscn")
 
 # have 2 layers of potential tiles
 onready var tileset_props_l1 = get_tree().get_nodes_in_group(constants.MAP_TILES_GROUP)[0]
@@ -16,6 +18,9 @@ onready var tileset_props_l2 = get_tree().get_nodes_in_group(constants.MAP_TILES
 
 # make sure we have access to the main camera node
 onready var camera = get_tree().get_nodes_in_group("Camera")[0]
+
+# keep track of the unit's portrait sprite
+var unit_portrait_sprite
 
 # units can inherit from this class to access common variables
 
@@ -101,11 +106,18 @@ func do_action(action):
 		BASIC_ACTIONS.MOVE:
 			# enable the unit's movement state
 			enable_movement_state()
+		BASIC_ACTIONS.UNIT:
+			show_unit_info_full_screen()
 		_: #default
 			# do something
 			enable_select_tile_state()
 			
 		
+func show_unit_info_full_screen():
+	var hud_unit_info_full_node = hud_unit_info_full_scn.instance()
+	camera.add_child(hud_unit_info_full_node)
+	
+	hud_unit_info_full_node.set_unit(self)
 
 func enable_select_tile_state(timer = null):
 	player.player_state = player.PLAYER_STATE.SELECTING_TILE
