@@ -121,6 +121,9 @@ func do_action(action):
 			# do something
 			enable_select_tile_state()
 			
+# when the action list is cancelled, go back to selecting a tile
+func cancel_select_list():
+	player.player_state = player.PLAYER_STATE.SELECTING_TILE
 		
 func show_unit_info_full_screen():
 	var hud_unit_info_full_node = hud_unit_info_full_scn.instance()

@@ -37,6 +37,8 @@ var right_3
 var right_4
 var right_5
 
+var cancel_allowed
+
 var side
 
 var dead = false
@@ -107,7 +109,10 @@ func position_selection_list():
 		pass
 	pass
 
-func populate_selection_list(actions, caller):
+func populate_selection_list(actions, caller, can_cancel = true):
+	# allows the user to cancel out of the menu
+	cancel_allowed = can_cancel
+	
 	parent = caller
 	var start_pos_x = 2
 	if (side == constants.SIDES.RIGHT):
@@ -171,6 +176,19 @@ func _input(event):
 				current_selected_pos.y -= constants.TILE_HEIGHT
 				letters_symbols_node.print_special_immediately(constants.SPECIAL_SYMBOLS.RIGHT_ARROW, current_selected_pos)
 				
+		# cancel the selection list
+		if (event.is_action_pressed("ui_cancel")):
+			selection_list_1_item.visible = false
+			selection_list_2_item.visible = false
+			selection_list_3_item.visible = false
+			selection_list_4_item.visible = false
+			selection_list_5_item.visible = false
+			letters_symbols_node.clear_text_non_dialogue()
+			letters_symbols_node.clear_specials()
+			dead = true
+			kill_select_list()
+			parent.cancel_select_list()
+
 		# confirm selection
 		if (event.is_action_pressed("ui_accept")):
 			parent.do_action(current_selected_item)
