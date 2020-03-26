@@ -58,7 +58,7 @@ enum BASIC_ACTIONS {
 	TEST1,
 	TEST2,
 	TEST3,
-	UNIT
+	INFO
 }
 
 # list of actions that are available to the unit
@@ -67,7 +67,7 @@ const initial_action_list = [
 	BASIC_ACTIONS.TEST1,
 	BASIC_ACTIONS.TEST2,
 	BASIC_ACTIONS.TEST3,
-	BASIC_ACTIONS.UNIT,
+	BASIC_ACTIONS.INFO,
 ]
 
 var current_action_list = initial_action_list
@@ -115,7 +115,7 @@ func do_action(action):
 		BASIC_ACTIONS.MOVE:
 			# enable the unit's movement state
 			enable_movement_state()
-		BASIC_ACTIONS.UNIT:
+		BASIC_ACTIONS.INFO:
 			show_unit_info_full_screen()
 		_: #default
 			# do something

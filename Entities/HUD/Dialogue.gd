@@ -47,6 +47,14 @@ func timeoutTimer(timer):
 	
 func clearText():
 	letters_symbols.clearText()
+	
+func kill_timers():
+	for node in letters_symbols.get_children():
+		if node is Timer:
+			letters_symbols.remove_child(node)
+	for node in self.get_children():
+		if node is Timer:
+			remove_child(node)
 
 func completeText():
 	dialogueState = STATES.INACTIVE

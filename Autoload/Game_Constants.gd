@@ -51,7 +51,7 @@ const ALL_ACTIONS = [
 	'FISH',
 	'CHOP',
 	'MINE',
-	'UNIT'
+	'INFO'
 ]
 
 # full list of action names
@@ -60,5 +60,5 @@ const ALL_ACTION_PRETTY_NAMES = {
 	'FISH':  'FISH',
 	'CHOP': 'CHOP',
 	'MINE': 'MINE',
-	'UNIT': 'UNIT'
+	'INFO': 'INFO'
 }

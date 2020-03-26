@@ -13,6 +13,12 @@ var letters_symbols_node
 const PORTRAIT_WIDTH = 3
 const PORTRAIT_HEIGHT = 3
 
+# the unit info background sprite
+onready var unit_info_background_sprite = get_node("Unit_Info_Background_Sprite")
+
+# misc info background sprite
+onready var misc_info_background_sprite = get_node("Misc_Info_Background_Full_Sprite")
+
 var active_unit
 var portrait_sprite
 
@@ -20,10 +26,12 @@ var typing_description = false
 
 
 # keep track of the 'active' screen
-var screen_list = [
-	"BASIC_INFO"
-]
-var current_screen = screen_list[0]
+enum screen_list {
+	BASIC_INFO,
+	SKILL_INFO
+}
+
+var current_screen = screen_list.BASIC_INFO
 
 const NAME_TEXT = "Name:"
 const AGE_TEXT = "Age:"
@@ -46,6 +54,7 @@ func set_portrait_sprite():
 	portrait_sprite = Sprite.new()
 	portrait_sprite.texture = active_unit.unit_portrait_sprite
 	portrait_sprite.centered = false
+	portrait_sprite.visible = false
 	add_child(portrait_sprite)
 	
 	portrait_sprite.position = Vector2((constants.TILES_PER_ROW * constants.TILE_WIDTH) - ((PORTRAIT_WIDTH + 1) * constants.TILE_WIDTH), 
@@ -53,6 +62,24 @@ func set_portrait_sprite():
 
 func initialize_screen():
 	set_portrait_sprite()
+	change_screen()
+
+
+func type_unit_bio(timer = null):
+	if (timer):
+		timer.stop()
+		remove_child(timer)
+
+	player.hud.dialogueState = player.hud.STATES.INACTIVE
+	player.hud.typeText(active_unit.unit_bio, true)
+	typing_description = true
+
+func populate_basic_info_screen():
+	# make the background screen visible
+	unit_info_background_sprite.visible = true
+	
+	# make the portrait sprite visible
+	portrait_sprite.visible = true
 	
 	# print the name
 	letters_symbols_node.print_immediately(active_unit.unit_name, Vector2(1, 2))
@@ -83,15 +110,33 @@ func initialize_screen():
 	add_child(timer)
 	timer.start()
 
-func type_unit_bio(timer = null):
-	if (timer):
-		timer.stop()
-		remove_child(timer)
+func populate_skill_info_screen():
+	misc_info_background_sprite.visible = true
+	pass
 
-	player.hud.dialogueState = player.hud.STATES.INACTIVE
-	player.hud.typeText(active_unit.unit_bio, true)
-	typing_description = true
-
+func change_screen():
+	# clear any letters / symbols
+	letters_symbols_node.clearText()
+	# hide the portrait
+	portrait_sprite.visible = false
+	# hide any background screens
+	unit_info_background_sprite.visible = false
+	misc_info_background_sprite.visible = false
+	
+	# make sure we close the dialogue box as well, if it's present
+	player.hud.clearText()
+	player.hud.completeText()
+	player.hud.kill_timers()
+	
+	# change the screen
+	match(current_screen):
+		screen_list.BASIC_INFO:
+			populate_basic_info_screen()
+		screen_list.SKILL_INFO:
+			populate_skill_info_screen()
+			pass
+	
+	pass
 
 func _ready():
 	unit_info_full_init()
@@ -103,6 +148,24 @@ func _input(event):
 		# make sure we close the dialogue box as well, if it's present
 		player.hud.clearText()
 		player.hud.completeText()
+		player.hud.kill_timers()
+	if (event.is_action_pressed("ui_right")):
+		# change screens!
+		if (current_screen >= (len(screen_list) - 1) ): # account for index		
+			current_screen = 0
+		else:
+			current_screen += 1
+			
+		change_screen()
+
+	if (event.is_action_pressed("ui_left")):
+		# change screens!
+		if (current_screen <= 0 ): # account for index		
+			current_screen = len(screen_list) - 1 # account for index
+		else:
+			current_screen -= 1
+			
+		change_screen()
 
 func close_unit_screen():
 	# change the player state
