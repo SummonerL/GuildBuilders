@@ -53,6 +53,11 @@ var age = 0
 # a short bio about the unit
 var unit_bio = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
 
+# a basic unit's skill starting levels
+var fishing_level = 1
+var mining_level = 1
+var woodcutting_level = 1
+
 enum BASIC_ACTIONS {
 	MOVE,
 	TEST1,

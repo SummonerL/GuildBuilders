@@ -16,6 +16,11 @@ visible = false
 texture = ExtResource( 1 )
 centered = false
 
+[node name="Skill_Info_Background_Full_Sprite" type="Sprite" parent="."]
+visible = false
+texture = ExtResource( 6 )
+centered = false
+
 [node name="Mining_Skill_Icon" type="Sprite" parent="."]
 visible = false
 texture = ExtResource( 3 )
@@ -29,9 +34,4 @@ centered = false
 [node name="Fishing_Skill_Icon" type="Sprite" parent="."]
 visible = false
 texture = ExtResource( 5 )
-centered = false
-
-[node name="Misc_Info_Background_Full_Sprite" type="Sprite" parent="."]
-visible = false
-texture = ExtResource( 6 )
 centered = false

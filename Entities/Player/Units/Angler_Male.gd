@@ -17,6 +17,8 @@ func unit_init():
 	
 	base_move = 3
 	
+	fishing_level = 5
+	
 	self.global_position = Vector2(unit_pos_x*constants.TILE_WIDTH, 
 									unit_pos_y*constants.TILE_HEIGHT)
 	

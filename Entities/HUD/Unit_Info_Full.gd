@@ -16,8 +16,13 @@ const PORTRAIT_HEIGHT = 3
 # the unit info background sprite
 onready var unit_info_background_sprite = get_node("Unit_Info_Background_Sprite")
 
-# misc info background sprite
-onready var misc_info_background_sprite = get_node("Misc_Info_Background_Full_Sprite")
+# skill info background sprite
+onready var skill_info_background_sprite = get_node("Skill_Info_Background_Full_Sprite")
+
+# all of the skill sprites
+onready var mining_skill_icon_sprite = get_node("Mining_Skill_Icon")
+onready var fishing_skill_icon_sprite = get_node("Fishing_Skill_Icon")
+onready var woodcutting_skill_icon_sprite = get_node("Woodcutting_Skill_Icon")
 
 var active_unit
 var portrait_sprite
@@ -37,6 +42,11 @@ const NAME_TEXT = "Name:"
 const AGE_TEXT = "Age:"
 const CLASS_TEXT = "Class:"
 const MOVE_TEXT = "Mv."
+const SKILL_TEXT = "Skills"
+const LVL_TEXT = "Lv."
+const WOODCUTTING_TEXT = "Woodcutting"
+const FISHING_TEXT = "Fishing"
+const MINING_TEXT = "Mining"
 
 func unit_info_full_init():
 	letters_symbols_node = letters_symbols_scn.instance()
@@ -60,7 +70,7 @@ func set_portrait_sprite():
 	portrait_sprite.position = Vector2((constants.TILES_PER_ROW * constants.TILE_WIDTH) - ((PORTRAIT_WIDTH + 1) * constants.TILE_WIDTH), 
 								constants.TILE_HEIGHT)
 
-func initialize_screen():
+func initialize_screen():		
 	set_portrait_sprite()
 	change_screen()
 
@@ -81,6 +91,14 @@ func populate_basic_info_screen():
 	# make the portrait sprite visible
 	portrait_sprite.visible = true
 	
+	# show the right arrow (for moving to the next screen)
+	letters_symbols_node.print_special_immediately(constants.SPECIAL_SYMBOLS.RIGHT_ARROW, 
+		Vector2((constants.DIA_TILES_PER_ROW - 2) * constants.DIA_TILE_WIDTH, 10 * constants.DIA_TILE_HEIGHT))
+	
+	# show the left arrow (for moving to the next screen)
+	letters_symbols_node.print_special_immediately(constants.SPECIAL_SYMBOLS.LEFT_ARROW, 
+		Vector2(1 * constants.DIA_TILE_WIDTH, 10 * constants.DIA_TILE_HEIGHT))
+	
 	# print the name
 	letters_symbols_node.print_immediately(active_unit.unit_name, Vector2(1, 2))
 	
@@ -93,14 +111,6 @@ func populate_basic_info_screen():
 	# print the unit's movement
 	letters_symbols_node.print_immediately(MOVE_TEXT + String(active_unit.base_move), Vector2(13, 9))
 	
-	# show the right arrow (for moving to the next screen)
-	letters_symbols_node.print_special_immediately(constants.SPECIAL_SYMBOLS.RIGHT_ARROW, 
-		Vector2((constants.DIA_TILES_PER_ROW - 2) * constants.DIA_TILE_WIDTH, 10 * constants.DIA_TILE_HEIGHT))
-	
-	# show the left arrow (for moving to the next screen)
-	letters_symbols_node.print_special_immediately(constants.SPECIAL_SYMBOLS.LEFT_ARROW, 
-		Vector2(1 * constants.DIA_TILE_WIDTH, 10 * constants.DIA_TILE_HEIGHT))
-	
 	# start rendering the unit description
 	# we need to add a small timer to 'buffer' the input, so the opening of the menu doesn't
 	# interact with the _input of the dialogue hud
@@ -111,17 +121,56 @@ func populate_basic_info_screen():
 	timer.start()
 
 func populate_skill_info_screen():
-	misc_info_background_sprite.visible = true
-	pass
+	# make the skill info background sprite visible
+	skill_info_background_sprite.visible = true
+	
+	mining_skill_icon_sprite.visible = true
+	fishing_skill_icon_sprite.visible = true
+	woodcutting_skill_icon_sprite.visible = true
+	
+	# show the right arrow (for moving to the next screen)
+	letters_symbols_node.print_special_immediately(constants.SPECIAL_SYMBOLS.RIGHT_ARROW, 
+		Vector2((constants.DIA_TILES_PER_ROW - 2) * constants.DIA_TILE_WIDTH, 1 * constants.DIA_TILE_HEIGHT))
+	
+	# show the left arrow (for moving to the next screen)
+	letters_symbols_node.print_special_immediately(constants.SPECIAL_SYMBOLS.LEFT_ARROW, 
+		Vector2(1 * constants.DIA_TILE_WIDTH, 1 * constants.DIA_TILE_HEIGHT))
+	
+	# skills text
+	letters_symbols_node.print_immediately(SKILL_TEXT, Vector2((constants.DIA_TILES_PER_ROW - len(SKILL_TEXT)) / 2, 1))
+	
+	
+	var start_x = 1
+	var start_y = 2
+	
+	# fishing
+	fishing_skill_icon_sprite.position = Vector2(start_x * constants.TILE_WIDTH, start_y * constants.TILE_HEIGHT)
+	letters_symbols_node.print_immediately(FISHING_TEXT, Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2)))
+	letters_symbols_node.print_immediately(LVL_TEXT + String(active_unit.fishing_level), Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2) + 2))
+	start_y += 2
+
+	# woodcutting
+	woodcutting_skill_icon_sprite.position = Vector2(start_x * constants.TILE_WIDTH, start_y * constants.TILE_HEIGHT)
+	letters_symbols_node.print_immediately(WOODCUTTING_TEXT, Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2)))
+	letters_symbols_node.print_immediately(LVL_TEXT + String(active_unit.woodcutting_level), Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2) + 2))
+	start_y += 2
+	
+	# mining
+	mining_skill_icon_sprite.position = Vector2(start_x * constants.TILE_WIDTH, start_y * constants.TILE_HEIGHT)
+	letters_symbols_node.print_immediately(MINING_TEXT, Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2)))
+	letters_symbols_node.print_immediately(LVL_TEXT + String(active_unit.mining_level), Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2) + 2))
+	
+func make_all_sprites_invisible():
+	for node in self.get_children():
+		if node is Sprite:
+			node.visible = false
 
 func change_screen():
 	# clear any letters / symbols
 	letters_symbols_node.clearText()
-	# hide the portrait
-	portrait_sprite.visible = false
-	# hide any background screens
-	unit_info_background_sprite.visible = false
-	misc_info_background_sprite.visible = false
+	
+	# make all sprites invisible
+	make_all_sprites_invisible()
 	
 	# make sure we close the dialogue box as well, if it's present
 	player.hud.clearText()
@@ -134,9 +183,6 @@ func change_screen():
 			populate_basic_info_screen()
 		screen_list.SKILL_INFO:
 			populate_skill_info_screen()
-			pass
-	
-	pass
 
 func _ready():
 	unit_info_full_init()
