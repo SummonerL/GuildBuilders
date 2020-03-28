@@ -17,7 +17,7 @@ func unit_init():
 	
 	base_move = 4
 	
-	woodcutting_level = 5
+	skill_levels[constants.WOODCUTTING] = 5
 	
 	self.global_position = Vector2(unit_pos_x*constants.TILE_WIDTH, 
 									unit_pos_y*constants.TILE_HEIGHT)

@@ -10,7 +10,7 @@
 [ext_resource path="res://Sprites/hud/hud_symbol_left2.png" type="Texture" id=8]
 [ext_resource path="res://Sprites/hud/hud_symbol_left1.png" type="Texture" id=9]
 
-[sub_resource type="SpriteFrames" id=4]
+[sub_resource type="SpriteFrames" id=1]
 animations = [ {
 "frames": [ ExtResource( 9 ), ExtResource( 8 ) ],
 "loop": true,
@@ -18,7 +18,7 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="TileSet" id=1]
+[sub_resource type="TileSet" id=2]
 0/name = "LS_Code_65"
 0/texture = ExtResource( 1 )
 0/tex_offset = Vector2( 0, 0 )
@@ -760,7 +760,7 @@ animations = [ {
 73/shapes = [  ]
 73/z_index = 0
 
-[sub_resource type="SpriteFrames" id=2]
+[sub_resource type="SpriteFrames" id=3]
 animations = [ {
 "frames": [ ExtResource( 3 ), ExtResource( 4 ) ],
 "loop": true,
@@ -768,7 +768,7 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="SpriteFrames" id=3]
+[sub_resource type="SpriteFrames" id=4]
 animations = [ {
 "frames": [ ExtResource( 7 ), ExtResource( 6 ) ],
 "loop": true,
@@ -782,20 +782,20 @@ script = ExtResource( 2 )
 
 [node name="Arrow_Left_Sprite" type="AnimatedSprite" parent="."]
 visible = false
-frames = SubResource( 4 )
-frame = 1
+frames = SubResource( 1 )
 speed_scale = 0.9
 playing = true
 centered = false
 
 [node name="TileMap" type="TileMap" parent="."]
-tile_set = SubResource( 1 )
+tile_set = SubResource( 2 )
 cell_size = Vector2( 8, 8 )
 format = 1
 
 [node name="Arrow_Down_Sprite" type="AnimatedSprite" parent="."]
 visible = false
-frames = SubResource( 2 )
+frames = SubResource( 3 )
+frame = 1
 speed_scale = 0.9
 playing = true
 centered = false
@@ -806,8 +806,7 @@ volume_db = -6.0
 
 [node name="Arrow_Right_Sprite" type="AnimatedSprite" parent="."]
 visible = false
-frames = SubResource( 3 )
-frame = 1
+frames = SubResource( 4 )
 speed_scale = 0.9
 playing = true
 centered = false

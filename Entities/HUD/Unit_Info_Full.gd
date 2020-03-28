@@ -42,6 +42,7 @@ const NAME_TEXT = "Name:"
 const AGE_TEXT = "Age:"
 const CLASS_TEXT = "Class:"
 const MOVE_TEXT = "Mv."
+const WAKE_TEXT = "Wk."
 const SKILL_TEXT = "Skills"
 const LVL_TEXT = "Lv."
 const WOODCUTTING_TEXT = "Woodcutting"
@@ -103,13 +104,18 @@ func populate_basic_info_screen():
 	letters_symbols_node.print_immediately(active_unit.unit_name, Vector2(1, 2))
 	
 	# print the unit's age
-	letters_symbols_node.print_immediately(AGE_TEXT + String(active_unit.age), Vector2(1, 5))
-	
-	# class
-	letters_symbols_node.print_immediately(active_unit.unit_class, Vector2(1, 8))
+	letters_symbols_node.print_immediately(AGE_TEXT + String(active_unit.age), Vector2(1, 4))
 
 	# print the unit's movement
-	letters_symbols_node.print_immediately(MOVE_TEXT + String(active_unit.base_move), Vector2(13, 9))
+	letters_symbols_node.print_immediately(MOVE_TEXT + String(active_unit.base_move), Vector2(1, 6))
+	
+	# print the unit's wake-up time
+	letters_symbols_node.print_immediately(WAKE_TEXT + String(constants.TIMES_OF_DAY[active_unit.wake_up_time]), Vector2(1, 8))
+	
+	# class
+	var class_length = len(active_unit.unit_class)
+	
+	letters_symbols_node.print_immediately(active_unit.unit_class, Vector2((constants.DIA_TILES_PER_ROW - class_length) / 2, 10))
 	
 	# start rendering the unit description
 	# we need to add a small timer to 'buffer' the input, so the opening of the menu doesn't
@@ -146,19 +152,19 @@ func populate_skill_info_screen():
 	# fishing
 	fishing_skill_icon_sprite.position = Vector2(start_x * constants.TILE_WIDTH, start_y * constants.TILE_HEIGHT)
 	letters_symbols_node.print_immediately(FISHING_TEXT, Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2)))
-	letters_symbols_node.print_immediately(LVL_TEXT + String(active_unit.fishing_level), Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2) + 2))
+	letters_symbols_node.print_immediately(LVL_TEXT + String(active_unit.skill_levels[constants.FISHING]), Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2) + 2))
 	start_y += 2
 
 	# woodcutting
 	woodcutting_skill_icon_sprite.position = Vector2(start_x * constants.TILE_WIDTH, start_y * constants.TILE_HEIGHT)
 	letters_symbols_node.print_immediately(WOODCUTTING_TEXT, Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2)))
-	letters_symbols_node.print_immediately(LVL_TEXT + String(active_unit.woodcutting_level), Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2) + 2))
+	letters_symbols_node.print_immediately(LVL_TEXT + String(active_unit.skill_levels[constants.WOODCUTTING]), Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2) + 2))
 	start_y += 2
 	
 	# mining
 	mining_skill_icon_sprite.position = Vector2(start_x * constants.TILE_WIDTH, start_y * constants.TILE_HEIGHT)
 	letters_symbols_node.print_immediately(MINING_TEXT, Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2)))
-	letters_symbols_node.print_immediately(LVL_TEXT + String(active_unit.mining_level), Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2) + 2))
+	letters_symbols_node.print_immediately(LVL_TEXT + String(active_unit.skill_levels[constants.MINING]), Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2) + 2))
 	
 func make_all_sprites_invisible():
 	for node in self.get_children():

@@ -41,6 +41,9 @@ var unit_pos_y = 0
 # the unit's base movement (can be modified)
 var base_move = 0
 
+# the unit's base wake-up time (default 8am)
+var wake_up_time = 8
+
 # the unit's name
 var unit_name = ""
 
@@ -54,9 +57,17 @@ var age = 0
 var unit_bio = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
 
 # a basic unit's skill starting levels
-var fishing_level = 1
-var mining_level = 1
-var woodcutting_level = 1
+var skill_levels = {
+	"fishing": 1,
+	"mining": 1,
+	"woodcutting": 1
+}
+
+var skill_xp = {
+	"fishing": 1,
+	"mining": 1,
+	"woodcutting": 1
+}
 
 enum BASIC_ACTIONS {
 	MOVE,
