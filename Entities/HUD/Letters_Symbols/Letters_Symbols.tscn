@@ -759,6 +759,16 @@ animations = [ {
 73/navigation_offset = Vector2( 0, 0 )
 73/shapes = [  ]
 73/z_index = 0
+74/name = "LS_Code_37"
+74/texture = ExtResource( 1 )
+74/tex_offset = Vector2( 0, 0 )
+74/modulate = Color( 1, 1, 1, 1 )
+74/region = Rect2( 16, 32, 8, 8 )
+74/tile_mode = 0
+74/occluder_offset = Vector2( 0, 0 )
+74/navigation_offset = Vector2( 0, 0 )
+74/shapes = [  ]
+74/z_index = 0
 
 [sub_resource type="SpriteFrames" id=3]
 animations = [ {
@@ -783,6 +793,7 @@ script = ExtResource( 2 )
 [node name="Arrow_Left_Sprite" type="AnimatedSprite" parent="."]
 visible = false
 frames = SubResource( 1 )
+frame = 1
 speed_scale = 0.9
 playing = true
 centered = false
@@ -795,7 +806,6 @@ format = 1
 [node name="Arrow_Down_Sprite" type="AnimatedSprite" parent="."]
 visible = false
 frames = SubResource( 3 )
-frame = 1
 speed_scale = 0.9
 playing = true
 centered = false
@@ -807,6 +817,7 @@ volume_db = -6.0
 [node name="Arrow_Right_Sprite" type="AnimatedSprite" parent="."]
 visible = false
 frames = SubResource( 4 )
+frame = 1
 speed_scale = 0.9
 playing = true
 centered = false

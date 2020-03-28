@@ -64,9 +64,9 @@ var skill_levels = {
 }
 
 var skill_xp = {
-	"fishing": 1,
-	"mining": 1,
-	"woodcutting": 1
+	"fishing": 0,
+	"mining": 0,
+	"woodcutting": 0
 }
 
 enum BASIC_ACTIONS {

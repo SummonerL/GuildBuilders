@@ -88,8 +88,32 @@ const TIMES_OF_DAY = [
 	"8PM",
 	"9PM",
 	"10PM",
-	"11PM",
-	
+	"11PM"
+]
+
+# experience required for each level
+var experience_required = [
+	0,
+	4,
+	6,
+	8,
+	10,
+	12,
+	14,
+	16,
+	17,
+	18,
+	20,
+	22,
+	24,
+	26,
+	28,
+	30,
+	32,
+	34,
+	36,
+	38,
+	40
 ]
 
 # skill names

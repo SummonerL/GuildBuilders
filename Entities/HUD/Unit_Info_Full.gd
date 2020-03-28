@@ -44,6 +44,7 @@ const CLASS_TEXT = "Class:"
 const MOVE_TEXT = "Mv."
 const WAKE_TEXT = "Wk."
 const SKILL_TEXT = "Skills"
+const NEXT_LEVEL_TEXT = "Nxt."
 const LVL_TEXT = "Lv."
 const WOODCUTTING_TEXT = "Woodcutting"
 const FISHING_TEXT = "Fishing"
@@ -126,6 +127,10 @@ func populate_basic_info_screen():
 	add_child(timer)
 	timer.start()
 
+# useful functioning for quickly calculating the next level experience percentage
+func calculate_next_level_percent(skill):
+	return stepify(active_unit.skill_xp[skill] / float(constants.experience_required[active_unit.skill_levels[skill]]) * 100, 1)
+	
 func populate_skill_info_screen():
 	# make the skill info background sprite visible
 	skill_info_background_sprite.visible = true
@@ -149,22 +154,33 @@ func populate_skill_info_screen():
 	var start_x = 1
 	var start_y = 2
 	
+	var calc_next = 0
+	
 	# fishing
 	fishing_skill_icon_sprite.position = Vector2(start_x * constants.TILE_WIDTH, start_y * constants.TILE_HEIGHT)
 	letters_symbols_node.print_immediately(FISHING_TEXT, Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2)))
-	letters_symbols_node.print_immediately(LVL_TEXT + String(active_unit.skill_levels[constants.FISHING]), Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2) + 2))
+	var fishing_lv_text = LVL_TEXT + String(active_unit.skill_levels[constants.FISHING])
+	calc_next = calculate_next_level_percent(constants.FISHING)
+	fishing_lv_text += "  " + NEXT_LEVEL_TEXT + String(calc_next) + "%"
+	letters_symbols_node.print_immediately(fishing_lv_text, Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2) + 2))
 	start_y += 2
 
 	# woodcutting
 	woodcutting_skill_icon_sprite.position = Vector2(start_x * constants.TILE_WIDTH, start_y * constants.TILE_HEIGHT)
 	letters_symbols_node.print_immediately(WOODCUTTING_TEXT, Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2)))
-	letters_symbols_node.print_immediately(LVL_TEXT + String(active_unit.skill_levels[constants.WOODCUTTING]), Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2) + 2))
+	var woodcutting_lv_text = LVL_TEXT + String(active_unit.skill_levels[constants.WOODCUTTING])
+	calc_next = calculate_next_level_percent(constants.WOODCUTTING)
+	woodcutting_lv_text += "  " + NEXT_LEVEL_TEXT + String(calc_next) + "%"
+	letters_symbols_node.print_immediately(woodcutting_lv_text, Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2) + 2))
 	start_y += 2
 	
 	# mining
 	mining_skill_icon_sprite.position = Vector2(start_x * constants.TILE_WIDTH, start_y * constants.TILE_HEIGHT)
 	letters_symbols_node.print_immediately(MINING_TEXT, Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2)))
-	letters_symbols_node.print_immediately(LVL_TEXT + String(active_unit.skill_levels[constants.MINING]), Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2) + 2))
+	var mining_lv_text = LVL_TEXT + String(active_unit.skill_levels[constants.MINING])
+	calc_next = calculate_next_level_percent(constants.MINING)
+	mining_lv_text += "  " + NEXT_LEVEL_TEXT + String(calc_next) + "%"
+	letters_symbols_node.print_immediately(mining_lv_text, Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2) + 2))
 	
 func make_all_sprites_invisible():
 	for node in self.get_children():
