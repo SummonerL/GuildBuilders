@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Sprites/hud/unit_info_backdrop.png" type="Texture" id=1]
 [ext_resource path="res://Entities/HUD/Unit_Info_Full.gd" type="Script" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Sprites/Skills/woodcutting_skill_icon.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/Skills/fishing_skill_icon.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/hud/unit_info_backdrop_full.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/hud/item_info_backdrop.png" type="Texture" id=7]
 
 [node name="Unit_Info_Full" type="CanvasLayer"]
 layer = 2
@@ -34,4 +35,9 @@ centered = false
 [node name="Fishing_Skill_Icon" type="Sprite" parent="."]
 visible = false
 texture = ExtResource( 5 )
+centered = false
+
+[node name="Item_Info_Background_Sprite" type="Sprite" parent="."]
+visible = false
+texture = ExtResource( 7 )
 centered = false

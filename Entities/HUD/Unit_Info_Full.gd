@@ -19,6 +19,9 @@ onready var unit_info_background_sprite = get_node("Unit_Info_Background_Sprite"
 # skill info background sprite
 onready var skill_info_background_sprite = get_node("Skill_Info_Background_Full_Sprite")
 
+# item info background sprite
+onready var item_info_background_sprite = get_node("Item_Info_Background_Sprite")
+
 # all of the skill sprites
 onready var mining_skill_icon_sprite = get_node("Mining_Skill_Icon")
 onready var fishing_skill_icon_sprite = get_node("Fishing_Skill_Icon")
@@ -27,14 +30,22 @@ onready var woodcutting_skill_icon_sprite = get_node("Woodcutting_Skill_Icon")
 var active_unit
 var portrait_sprite
 
-var typing_description = false
-
-
 # keep track of the 'active' screen
 enum screen_list {
 	BASIC_INFO,
-	SKILL_INFO
+	SKILL_INFO,
+	ITEMS,
+	ABILITY_INFO
 }
+
+# keep an extra arrow to act as a selector 
+var selector_arrow
+
+# keep track of the currently selected item in the item screen
+var current_item_set = []
+var current_item = 0
+var inv_start_index_tracker = 0
+var inv_end_index_tracker = 0
 
 var current_screen = screen_list.BASIC_INFO
 
@@ -44,15 +55,22 @@ const CLASS_TEXT = "Class:"
 const MOVE_TEXT = "Mv."
 const WAKE_TEXT = "Wk."
 const SKILL_TEXT = "Skills"
+const ITEM_TEXT = "Inventory"
 const NEXT_LEVEL_TEXT = "Nxt."
 const LVL_TEXT = "Lv."
 const WOODCUTTING_TEXT = "Woodcutting"
 const FISHING_TEXT = "Fishing"
 const MINING_TEXT = "Mining"
 
+const NO_ITEMS_TEXT = "No items..."
+
 func unit_info_full_init():
 	letters_symbols_node = letters_symbols_scn.instance()
 	add_child(letters_symbols_node)
+	
+	# add an extra right arrow symbol to act as a selector
+	selector_arrow = letters_symbols_node.arrow_right_sprite.duplicate()
+	add_child(selector_arrow)
 	
 	# make sure the letters sit on top
 	letters_symbols_node.layer = self.layer + 1
@@ -84,7 +102,6 @@ func type_unit_bio(timer = null):
 
 	player.hud.dialogueState = player.hud.STATES.INACTIVE
 	player.hud.typeText(active_unit.unit_bio, true)
-	typing_description = true
 
 func populate_basic_info_screen():
 	# make the background screen visible
@@ -182,14 +199,134 @@ func populate_skill_info_screen():
 	mining_lv_text += "  " + NEXT_LEVEL_TEXT + String(calc_next) + "%"
 	letters_symbols_node.print_immediately(mining_lv_text, Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2) + 2))
 	
+func populate_item_screen(inv_start_index = 0):
+	inv_start_index_tracker = inv_start_index
+	
+	# make the item info screen visible
+	item_info_background_sprite.visible = true
+	
+	# show the right arrow (for moving to the next screen)
+	letters_symbols_node.print_special_immediately(constants.SPECIAL_SYMBOLS.RIGHT_ARROW, 
+		Vector2((constants.DIA_TILES_PER_ROW - 2) * constants.DIA_TILE_WIDTH, 1 * constants.DIA_TILE_HEIGHT))
+	
+	# show the left arrow (for moving to the next screen)
+	letters_symbols_node.print_special_immediately(constants.SPECIAL_SYMBOLS.LEFT_ARROW, 
+		Vector2(1 * constants.DIA_TILE_WIDTH, 1 * constants.DIA_TILE_HEIGHT))
+
+	# inventory use / limit
+	var usage_text = String(active_unit.current_items.size()) + "/" + String(active_unit.item_limit)
+
+	# item text
+	letters_symbols_node.print_immediately(ITEM_TEXT + "  " + usage_text, 
+		Vector2((constants.DIA_TILES_PER_ROW - len(ITEM_TEXT) - len("  ") - len(usage_text)) / 2, 1))
+	
+	var start_x = 2
+	var start_y = 3
+	
+	inv_end_index_tracker = inv_start_index_tracker + 3
+	if (inv_end_index_tracker > active_unit.current_items.size() - 1): # account for index
+		inv_end_index_tracker = active_unit.current_items.size() - 1
+		
+	print(inv_end_index_tracker)
+	
+	current_item_set = active_unit.current_items.slice(inv_start_index_tracker, inv_end_index_tracker, 1) # only show 4 items at a time
+	
+	# make the selector arrow visible, and start typing the initial item
+	if (active_unit.current_items.size() > 0):
+		selector_arrow.visible = true
+		selector_arrow.position = Vector2((start_x - 1) * constants.DIA_TILE_WIDTH, (start_y + ((current_item - inv_start_index_tracker) * 2)) * constants.DIA_TILE_HEIGHT)
+
+		# type the item description
+		player.hud.dialogueState = player.hud.STATES.INACTIVE
+		player.hud.typeText(current_item_set[current_item - inv_start_index_tracker].description, true)
+	else:
+		player.hud.dialogueState = player.hud.STATES.INACTIVE
+		player.hud.typeText(NO_ITEMS_TEXT, true)
+	
+	# print the down / up arrow, depending on where we are in the list of items
+	if (current_item_set.size() >= 4 && (inv_start_index_tracker + 3) < active_unit.current_items.size() - 1): # account for index
+		letters_symbols_node.print_special_immediately(constants.SPECIAL_SYMBOLS.DOWN_ARROW, 
+			Vector2(((constants.DIA_TILES_PER_ROW - 1) / 2) * constants.DIA_TILE_WIDTH, 10 * constants.DIA_TILE_HEIGHT))
+			
+	if (inv_start_index_tracker > 0):
+		letters_symbols_node.print_special_immediately(constants.SPECIAL_SYMBOLS.UP_ARROW, 
+			Vector2(((constants.DIA_TILES_PER_ROW - 1) / 2) * constants.DIA_TILE_WIDTH, 2 * constants.DIA_TILE_HEIGHT))
+	
+	for item in current_item_set:
+		letters_symbols_node.print_immediately(item.name, Vector2(start_x, start_y))
+		start_y += 2
+
+# a function used on the item screen to move the currently selected item
+func move_items(direction):
+	var start_x = 2
+	var start_y = 3
+	
+	if (direction < 0):
+		# move up
+		print('move up')
+		if (current_item > inv_start_index_tracker):
+			current_item += direction
+			print(current_item)
+			print("----")
+			print(inv_end_index_tracker)
+			selector_arrow.visible = true
+			selector_arrow.position = Vector2((start_x - 1) * constants.DIA_TILE_WIDTH, 
+				(start_y + ((current_item - inv_start_index_tracker) * 2)) * constants.DIA_TILE_HEIGHT)
+			player.hud.clearText()
+			player.hud.completeText()
+			player.hud.kill_timers()
+			player.hud.dialogueState = player.hud.STATES.INACTIVE
+			player.hud.typeText(current_item_set[current_item - inv_start_index_tracker].description, true)
+		else:
+			print('changing screens up')
+			if (letters_symbols_node.arrow_up_sprite.visible): # if we are allowed to move up
+				current_item += direction
+				inv_start_index_tracker -= 4
+				inv_end_index_tracker = inv_start_index_tracker + 3
+				print("current item")
+				print(current_item)
+				print("inv start index")
+				print(inv_start_index_tracker)
+				print("inv end index")
+				print(inv_end_index_tracker)
+				change_screen(inv_start_index_tracker)
+	else:
+		print('move down')
+		if (current_item < inv_end_index_tracker):
+			current_item += direction
+			print(current_item)
+			print("----")
+			print(inv_end_index_tracker)
+			selector_arrow.visible = true
+			selector_arrow.position = Vector2((start_x - 1) * constants.DIA_TILE_WIDTH, 
+				(start_y + ((current_item - inv_start_index_tracker) * 2)) * constants.DIA_TILE_HEIGHT)
+			player.hud.clearText()
+			player.hud.completeText()
+			player.hud.kill_timers()
+			player.hud.dialogueState = player.hud.STATES.INACTIVE
+			player.hud.typeText(current_item_set[current_item - inv_start_index_tracker].description, true)
+		else:
+			if (letters_symbols_node.arrow_down_sprite.visible): # if we are allowed to move down
+				current_item += direction
+				change_screen(inv_end_index_tracker + direction)
+			
+		
+
+func populate_ability_screen():
+	pass
+
 func make_all_sprites_invisible():
+	# make the selector arrow invisible
+	selector_arrow.visible = false
+	
 	for node in self.get_children():
 		if node is Sprite:
 			node.visible = false
 
-func change_screen():
+func change_screen(item_screen_start_index = 0):
 	# clear any letters / symbols
 	letters_symbols_node.clearText()
+	letters_symbols_node.clear_specials()
 	
 	# make all sprites invisible
 	make_all_sprites_invisible()
@@ -205,6 +342,10 @@ func change_screen():
 			populate_basic_info_screen()
 		screen_list.SKILL_INFO:
 			populate_skill_info_screen()
+		screen_list.ITEMS:
+			populate_item_screen(item_screen_start_index)
+		screen_list.ABILITY_INFO:
+			populate_ability_screen()
 
 func _ready():
 	unit_info_full_init()
@@ -218,6 +359,10 @@ func _input(event):
 		player.hud.completeText()
 		player.hud.kill_timers()
 	if (event.is_action_pressed("ui_right")):
+		# reset variables if on specific screens
+		match(current_screen):
+			screen_list.ITEMS:
+				current_item = 0
 		# change screens!
 		if (current_screen >= (len(screen_list) - 1) ): # account for index		
 			current_screen = 0
@@ -227,6 +372,10 @@ func _input(event):
 		change_screen()
 
 	if (event.is_action_pressed("ui_left")):
+		# reset variables if on specific screens
+		match(current_screen):
+			screen_list.ITEMS:
+				current_item = 0
 		# change screens!
 		if (current_screen <= 0 ): # account for index		
 			current_screen = len(screen_list) - 1 # account for index
@@ -234,6 +383,16 @@ func _input(event):
 			current_screen -= 1
 			
 		change_screen()
+		
+	if (event.is_action_pressed("ui_down")):
+		match (current_screen):
+			screen_list.ITEMS:
+				move_items(1)
+		
+	if (event.is_action_pressed("ui_up")):
+		match (current_screen):
+			screen_list.ITEMS:
+				move_items(-1)
 
 func close_unit_screen():
 	# change the player state

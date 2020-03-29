@@ -44,6 +44,16 @@ var base_move = 0
 # the unit's base wake-up time (default 8am)
 var wake_up_time = 8
 
+# keep track of the unit's items
+var item_limit = 5 # default
+
+var current_items = [
+	{
+		"name": "Fishing Rod",
+		"description": "A simple wooden fishing rod. Allows the unit to catch fish."
+	}
+]
+
 # the unit's name
 var unit_name = ""
 

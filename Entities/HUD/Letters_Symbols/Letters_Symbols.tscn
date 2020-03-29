@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Sprites/hud/letter_symbol_sheet.png" type="Texture" id=1]
 [ext_resource path="res://Entities/HUD/Letters_Symbols/Letters_Symbols.gd" type="Script" id=2]
@@ -9,6 +9,8 @@
 [ext_resource path="res://Sprites/hud/hud_symbol_right1.png" type="Texture" id=7]
 [ext_resource path="res://Sprites/hud/hud_symbol_left2.png" type="Texture" id=8]
 [ext_resource path="res://Sprites/hud/hud_symbol_left1.png" type="Texture" id=9]
+[ext_resource path="res://Sprites/hud/hud_symbol_up1.png" type="Texture" id=10]
+[ext_resource path="res://Sprites/hud/hud_symbol_up2.png" type="Texture" id=11]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -769,6 +771,16 @@ animations = [ {
 74/navigation_offset = Vector2( 0, 0 )
 74/shapes = [  ]
 74/z_index = 0
+75/name = "LS_Code_47"
+75/texture = ExtResource( 1 )
+75/tex_offset = Vector2( 0, 0 )
+75/modulate = Color( 1, 1, 1, 1 )
+75/region = Rect2( 24, 32, 8, 8 )
+75/tile_mode = 0
+75/occluder_offset = Vector2( 0, 0 )
+75/navigation_offset = Vector2( 0, 0 )
+75/shapes = [  ]
+75/z_index = 0
 
 [sub_resource type="SpriteFrames" id=3]
 animations = [ {
@@ -781,6 +793,14 @@ animations = [ {
 [sub_resource type="SpriteFrames" id=4]
 animations = [ {
 "frames": [ ExtResource( 7 ), ExtResource( 6 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="SpriteFrames" id=5]
+animations = [ {
+"frames": [ ExtResource( 10 ), ExtResource( 11 ) ],
 "loop": true,
 "name": "default",
 "speed": 5.0
@@ -817,6 +837,14 @@ volume_db = -6.0
 [node name="Arrow_Right_Sprite" type="AnimatedSprite" parent="."]
 visible = false
 frames = SubResource( 4 )
+frame = 1
+speed_scale = 0.9
+playing = true
+centered = false
+
+[node name="Arrow_Up_Sprite" type="AnimatedSprite" parent="."]
+visible = false
+frames = SubResource( 5 )
 frame = 1
 speed_scale = 0.9
 playing = true

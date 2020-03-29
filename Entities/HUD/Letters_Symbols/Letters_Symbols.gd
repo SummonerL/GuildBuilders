@@ -16,6 +16,7 @@ onready var tile_map = get_node("TileMap")
 onready var arrow_down_sprite = get_node("Arrow_Down_Sprite")
 onready var arrow_right_sprite = get_node("Arrow_Right_Sprite")
 onready var arrow_left_sprite = get_node("Arrow_Left_Sprite")
+onready var arrow_up_sprite = get_node("Arrow_Up_Sprite")
 onready var dialogue_sound = get_node("Dialogue_Sound")
 
 var tileSet
@@ -72,6 +73,7 @@ func clear_specials():
 	arrow_down_sprite.visible = false
 	arrow_right_sprite.visible = false
 	arrow_left_sprite.visible = false
+	arrow_up_sprite.visible = false
 	
 func generateLetterSymbol(letterSymbol, pos):
 	# generate text, using a timer
@@ -98,6 +100,12 @@ func print_special_immediately(special_symbol, pos):
 		constants.SPECIAL_SYMBOLS.LEFT_ARROW:
 			arrow_left_sprite.position = pos
 			arrow_left_sprite.visible = true
+		constants.SPECIAL_SYMBOLS.DOWN_ARROW:
+			arrow_down_sprite.position = pos
+			arrow_down_sprite.visible = true
+		constants.SPECIAL_SYMBOLS.UP_ARROW:
+			arrow_up_sprite.position = pos
+			arrow_up_sprite.visible = true
 			
 
 # Called when the node enters the scene tree for the first time.
