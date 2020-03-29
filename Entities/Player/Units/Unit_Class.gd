@@ -49,8 +49,15 @@ var item_limit = 5 # default
 
 var current_items = [
 	{
-		"name": "Fishing Rod",
+		"name": "Softwood Rod",
 		"description": "A simple wooden fishing rod. Allows the unit to catch fish."
+	}
+]
+
+var unit_abilities = [
+	{
+		"name": "Test",
+		"description": "A test ability"
 	}
 ]
 

@@ -33,8 +33,8 @@ var portrait_sprite
 # keep track of the 'active' screen
 enum screen_list {
 	BASIC_INFO,
-	SKILL_INFO,
 	ITEMS,
+	SKILL_INFO,
 	ABILITY_INFO
 }
 
@@ -47,6 +47,12 @@ var current_item = 0
 var inv_start_index_tracker = 0
 var inv_end_index_tracker = 0
 
+# keep track of the currently selected ability in the ability screen
+var current_abil_set = []
+var current_abil = 0
+var abil_start_index_tracker = 0
+var abil_end_index_tracker = 0
+
 var current_screen = screen_list.BASIC_INFO
 
 const NAME_TEXT = "Name:"
@@ -56,6 +62,7 @@ const MOVE_TEXT = "Mv."
 const WAKE_TEXT = "Wk."
 const SKILL_TEXT = "Skills"
 const ITEM_TEXT = "Inventory"
+const ABILITIES_TEXT = "Abilities"
 const NEXT_LEVEL_TEXT = "Nxt."
 const LVL_TEXT = "Lv."
 const WOODCUTTING_TEXT = "Woodcutting"
@@ -63,6 +70,7 @@ const FISHING_TEXT = "Fishing"
 const MINING_TEXT = "Mining"
 
 const NO_ITEMS_TEXT = "No items..."
+const NO_ABIL_TEXT = "No abilities..."
 
 func unit_info_full_init():
 	letters_symbols_node = letters_symbols_scn.instance()
@@ -140,7 +148,7 @@ func populate_basic_info_screen():
 	# interact with the _input of the dialogue hud
 	var timer = Timer.new()
 	timer.connect("timeout", self, "type_unit_bio", [timer])
-	timer.wait_time = .05
+	timer.wait_time = .01
 	add_child(timer)
 	timer.start()
 
@@ -226,8 +234,6 @@ func populate_item_screen(inv_start_index = 0):
 	inv_end_index_tracker = inv_start_index_tracker + 3
 	if (inv_end_index_tracker > active_unit.current_items.size() - 1): # account for index
 		inv_end_index_tracker = active_unit.current_items.size() - 1
-		
-	print(inv_end_index_tracker)
 	
 	current_item_set = active_unit.current_items.slice(inv_start_index_tracker, inv_end_index_tracker, 1) # only show 4 items at a time
 	
@@ -263,12 +269,8 @@ func move_items(direction):
 	
 	if (direction < 0):
 		# move up
-		print('move up')
 		if (current_item > inv_start_index_tracker):
 			current_item += direction
-			print(current_item)
-			print("----")
-			print(inv_end_index_tracker)
 			selector_arrow.visible = true
 			selector_arrow.position = Vector2((start_x - 1) * constants.DIA_TILE_WIDTH, 
 				(start_y + ((current_item - inv_start_index_tracker) * 2)) * constants.DIA_TILE_HEIGHT)
@@ -278,25 +280,14 @@ func move_items(direction):
 			player.hud.dialogueState = player.hud.STATES.INACTIVE
 			player.hud.typeText(current_item_set[current_item - inv_start_index_tracker].description, true)
 		else:
-			print('changing screens up')
 			if (letters_symbols_node.arrow_up_sprite.visible): # if we are allowed to move up
 				current_item += direction
 				inv_start_index_tracker -= 4
 				inv_end_index_tracker = inv_start_index_tracker + 3
-				print("current item")
-				print(current_item)
-				print("inv start index")
-				print(inv_start_index_tracker)
-				print("inv end index")
-				print(inv_end_index_tracker)
 				change_screen(inv_start_index_tracker)
 	else:
-		print('move down')
 		if (current_item < inv_end_index_tracker):
 			current_item += direction
-			print(current_item)
-			print("----")
-			print(inv_end_index_tracker)
 			selector_arrow.visible = true
 			selector_arrow.position = Vector2((start_x - 1) * constants.DIA_TILE_WIDTH, 
 				(start_y + ((current_item - inv_start_index_tracker) * 2)) * constants.DIA_TILE_HEIGHT)
@@ -309,11 +300,96 @@ func move_items(direction):
 			if (letters_symbols_node.arrow_down_sprite.visible): # if we are allowed to move down
 				current_item += direction
 				change_screen(inv_end_index_tracker + direction)
-			
-		
 
-func populate_ability_screen():
-	pass
+func populate_ability_screen(abil_start_index = 0):
+	abil_start_index_tracker = abil_start_index
+	
+	# reuse the item info background sprite
+	item_info_background_sprite.visible = true
+
+	# show the right arrow (for moving to the next screen)
+	letters_symbols_node.print_special_immediately(constants.SPECIAL_SYMBOLS.RIGHT_ARROW, 
+		Vector2((constants.DIA_TILES_PER_ROW - 2) * constants.DIA_TILE_WIDTH, 1 * constants.DIA_TILE_HEIGHT))
+	
+	# show the left arrow (for moving to the next screen)
+	letters_symbols_node.print_special_immediately(constants.SPECIAL_SYMBOLS.LEFT_ARROW, 
+		Vector2(1 * constants.DIA_TILE_WIDTH, 1 * constants.DIA_TILE_HEIGHT))
+		
+	# ability text
+	letters_symbols_node.print_immediately(ABILITIES_TEXT, 
+		Vector2((constants.DIA_TILES_PER_ROW - len(ABILITIES_TEXT)) / 2, 1))
+	
+	var start_x = 2
+	var start_y = 3
+	
+	abil_end_index_tracker = abil_start_index_tracker + 3
+	if (abil_end_index_tracker > active_unit.unit_abilities.size() - 1): # account for index
+		abil_end_index_tracker = active_unit.unit_abilities.size() - 1
+	
+	current_abil_set = active_unit.unit_abilities.slice(abil_start_index_tracker, abil_end_index_tracker, 1) # only show 4 abilities at a time
+	
+	# make the selector arrow visible, and start typing the initial ability
+	if (active_unit.unit_abilities.size() > 0):
+		selector_arrow.visible = true
+		selector_arrow.position = Vector2((start_x - 1) * constants.DIA_TILE_WIDTH, (start_y + ((current_abil - abil_start_index_tracker) * 2)) * constants.DIA_TILE_HEIGHT)
+
+		# type the ability description
+		player.hud.dialogueState = player.hud.STATES.INACTIVE
+		player.hud.typeText(current_abil_set[current_abil - abil_start_index_tracker].description, true)
+	else:
+		player.hud.dialogueState = player.hud.STATES.INACTIVE
+		player.hud.typeText(NO_ABIL_TEXT, true)
+	
+	# print the down / up arrow, depending on where we are in the list of abilities
+	if (current_abil_set.size() >= 4 && (abil_start_index_tracker + 3) < active_unit.unit_abilities.size() - 1): # account for index
+		letters_symbols_node.print_special_immediately(constants.SPECIAL_SYMBOLS.DOWN_ARROW, 
+			Vector2(((constants.DIA_TILES_PER_ROW - 1) / 2) * constants.DIA_TILE_WIDTH, 10 * constants.DIA_TILE_HEIGHT))
+			
+	if (abil_start_index_tracker > 0):
+		letters_symbols_node.print_special_immediately(constants.SPECIAL_SYMBOLS.UP_ARROW, 
+			Vector2(((constants.DIA_TILES_PER_ROW - 1) / 2) * constants.DIA_TILE_WIDTH, 2 * constants.DIA_TILE_HEIGHT))
+	
+	for ability in current_abil_set:
+		letters_symbols_node.print_immediately(ability.name, Vector2(start_x, start_y))
+		start_y += 2
+	
+func move_abilities(direction):
+	var start_x = 2
+	var start_y = 3
+	
+	if (direction < 0):
+		# move up
+		if (current_abil > abil_start_index_tracker):
+			current_abil += direction
+			selector_arrow.visible = true
+			selector_arrow.position = Vector2((start_x - 1) * constants.DIA_TILE_WIDTH, 
+				(start_y + ((current_abil - abil_start_index_tracker) * 2)) * constants.DIA_TILE_HEIGHT)
+			player.hud.clearText()
+			player.hud.completeText()
+			player.hud.kill_timers()
+			player.hud.dialogueState = player.hud.STATES.INACTIVE
+			player.hud.typeText(current_abil_set[current_abil - abil_start_index_tracker].description, true)
+		else:
+			if (letters_symbols_node.arrow_up_sprite.visible): # if we are allowed to move up
+				current_abil += direction
+				abil_start_index_tracker -= 4
+				abil_end_index_tracker = abil_start_index_tracker + 3
+				change_screen(abil_start_index_tracker)
+	else:
+		if (current_abil < abil_end_index_tracker):
+			current_abil += direction
+			selector_arrow.visible = true
+			selector_arrow.position = Vector2((start_x - 1) * constants.DIA_TILE_WIDTH, 
+				(start_y + ((current_abil - abil_start_index_tracker) * 2)) * constants.DIA_TILE_HEIGHT)
+			player.hud.clearText()
+			player.hud.completeText()
+			player.hud.kill_timers()
+			player.hud.dialogueState = player.hud.STATES.INACTIVE
+			player.hud.typeText(current_abil_set[current_abil - abil_start_index_tracker].description, true)
+		else:
+			if (letters_symbols_node.arrow_down_sprite.visible): # if we are allowed to move down
+				current_abil += direction
+				change_screen(abil_end_index_tracker + direction)
 
 func make_all_sprites_invisible():
 	# make the selector arrow invisible
@@ -323,7 +399,7 @@ func make_all_sprites_invisible():
 		if node is Sprite:
 			node.visible = false
 
-func change_screen(item_screen_start_index = 0):
+func change_screen(screen_start_index = 0):
 	# clear any letters / symbols
 	letters_symbols_node.clearText()
 	letters_symbols_node.clear_specials()
@@ -343,9 +419,9 @@ func change_screen(item_screen_start_index = 0):
 		screen_list.SKILL_INFO:
 			populate_skill_info_screen()
 		screen_list.ITEMS:
-			populate_item_screen(item_screen_start_index)
+			populate_item_screen(screen_start_index)
 		screen_list.ABILITY_INFO:
-			populate_ability_screen()
+			populate_ability_screen(screen_start_index)
 
 func _ready():
 	unit_info_full_init()
@@ -363,6 +439,8 @@ func _input(event):
 		match(current_screen):
 			screen_list.ITEMS:
 				current_item = 0
+			screen_list.ABILITY_INFO:
+				current_abil = 0
 		# change screens!
 		if (current_screen >= (len(screen_list) - 1) ): # account for index		
 			current_screen = 0
@@ -376,6 +454,8 @@ func _input(event):
 		match(current_screen):
 			screen_list.ITEMS:
 				current_item = 0
+			screen_list.ABILITY_INFO:
+				current_abil = 0
 		# change screens!
 		if (current_screen <= 0 ): # account for index		
 			current_screen = len(screen_list) - 1 # account for index
@@ -388,11 +468,15 @@ func _input(event):
 		match (current_screen):
 			screen_list.ITEMS:
 				move_items(1)
+			screen_list.ABILITY_INFO:
+				move_abilities(1)
 		
 	if (event.is_action_pressed("ui_up")):
 		match (current_screen):
 			screen_list.ITEMS:
 				move_items(-1)
+			screen_list.ABILITY_INFO:
+				move_abilities(-1)
 
 func close_unit_screen():
 	# change the player state
