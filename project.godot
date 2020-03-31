@@ -26,6 +26,7 @@ Game_Config="*res://Autoload/Game_Config.gd"
 Player_Globals="*res://Autoload/Player_Globals.gd"
 Player_Party="*res://Entities/Player/Party.tscn"
 Items="*res://Autoload/Items.gd"
+Abilities="*res://Autoload/Abilities.gd"
 
 [debug]
 

@@ -9,6 +9,9 @@ onready var player = get_node("/root/Player_Globals")
 # bring in our items
 onready var global_items_list = get_node("/root/Items")
 
+# bring in our abilities
+onready var global_ability_list = get_node("/root/Abilities")
+
 onready var movement_grid_square = preload("res://Entities/Player/Movement_Grid_Square.tscn")
 
 # various hud scenes
@@ -54,10 +57,6 @@ var current_items = [
 ]
 
 var unit_abilities = [
-	{
-		"name": "Test",
-		"description": "A test ability"
-	}
 ]
 
 # the unit's name

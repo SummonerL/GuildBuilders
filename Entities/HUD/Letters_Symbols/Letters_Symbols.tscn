@@ -813,6 +813,7 @@ script = ExtResource( 2 )
 [node name="Arrow_Left_Sprite" type="AnimatedSprite" parent="."]
 visible = false
 frames = SubResource( 1 )
+frame = 1
 speed_scale = 0.9
 playing = true
 centered = false
@@ -825,7 +826,6 @@ format = 1
 [node name="Arrow_Down_Sprite" type="AnimatedSprite" parent="."]
 visible = false
 frames = SubResource( 3 )
-frame = 1
 speed_scale = 0.9
 playing = true
 centered = false
@@ -837,6 +837,7 @@ volume_db = -7.0
 [node name="Arrow_Right_Sprite" type="AnimatedSprite" parent="."]
 visible = false
 frames = SubResource( 4 )
+frame = 1
 speed_scale = 0.9
 playing = true
 centered = false
@@ -844,6 +845,7 @@ centered = false
 [node name="Arrow_Up_Sprite" type="AnimatedSprite" parent="."]
 visible = false
 frames = SubResource( 5 )
+frame = 1
 speed_scale = 0.9
 playing = true
 centered = false

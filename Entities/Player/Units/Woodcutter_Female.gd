@@ -19,6 +19,9 @@ func unit_init():
 	
 	skill_levels[constants.WOODCUTTING] = 5
 	
+	# add the unit's starting ability
+	global_ability_list.add_ability_to_unit(self, global_ability_list.ability_reliable)
+	
 	self.global_position = Vector2(unit_pos_x*constants.TILE_WIDTH, 
 									unit_pos_y*constants.TILE_HEIGHT)
 	

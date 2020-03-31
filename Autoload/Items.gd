@@ -1,6 +1,6 @@
 extends Node
 
-# this file will keep track of the items that the player can obtain throughout the course of the game
+# this file will keep track of the items that a unit can obtain throughout the course of the game
 # each item should consist of a name, description, type, and any other properties specific to the item type
 
 enum ITEM_TYPES {
