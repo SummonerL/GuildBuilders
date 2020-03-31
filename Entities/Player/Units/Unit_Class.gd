@@ -6,6 +6,9 @@ onready var constants = get_node("/root/Game_Constants")
 # bring in the global player variables
 onready var player = get_node("/root/Player_Globals")
 
+# bring in our items
+onready var global_items_list = get_node("/root/Items")
+
 onready var movement_grid_square = preload("res://Entities/Player/Movement_Grid_Square.tscn")
 
 # various hud scenes
@@ -48,10 +51,6 @@ var wake_up_time = 8
 var item_limit = 5 # default
 
 var current_items = [
-	{
-		"name": "Softwood Rod",
-		"description": "A simple wooden fishing rod. Allows the unit to catch fish."
-	}
 ]
 
 var unit_abilities = [

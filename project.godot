@@ -25,6 +25,7 @@ Game_Constants="*res://Autoload/Game_Constants.gd"
 Game_Config="*res://Autoload/Game_Config.gd"
 Player_Globals="*res://Autoload/Player_Globals.gd"
 Player_Party="*res://Entities/Player/Party.tscn"
+Items="*res://Autoload/Items.gd"
 
 [debug]
 

@@ -1,4 +1,4 @@
 extends Node2D
 
 # speed of dialogue messages (seconds between)
-var messageSpeed = .05
+var messageSpeed = .06
