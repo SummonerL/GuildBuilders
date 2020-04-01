@@ -21,6 +21,7 @@ onready var hud_tile_info_scn = preload("res://Entities/HUD/Tile_Info.tscn")
 
 # game music
 onready var twelve_pm_loop = get_node("12PM_Loop")
+onready var five_pm_loop = get_node("5PM_Loop")
 
 # game instances
 var cursor
@@ -48,7 +49,8 @@ func gameInit():
 	camera.turnOn()
 	
 	# start looping our '12PM' track
-	twelve_pm_loop.play()
+	#twelve_pm_loop.play()
+	five_pm_loop.play()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
