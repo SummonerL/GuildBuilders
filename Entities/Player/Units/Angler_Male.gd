@@ -19,8 +19,8 @@ func unit_init():
 	
 	skill_levels[constants.FISHING] = 5
 	
-	# give the female angler some starting items
-	current_items.append(global_items_list.item_softwood_rod)
+	# give the male angler some starting items
+	global_items_list.add_item_to_unit(self, global_items_list.item_softwood_rod)
 	
 	self.global_position = Vector2(unit_pos_x*constants.TILE_WIDTH, 
 									unit_pos_y*constants.TILE_HEIGHT)
