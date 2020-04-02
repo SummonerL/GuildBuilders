@@ -4,10 +4,16 @@ extends Node
 # each ability should consist of a name, description and any other properties specific to the item type
 
 const ABILITY_EARLY_RISER_NAME = 'Early Riser'
+const ABILITY_ROUGHING_IT = 'Roughing It'
 
 const ability_early_riser = {
 	"name": ABILITY_EARLY_RISER_NAME,
 	"description": "This unit wakes up 3 hours earlier than usual."
+}
+
+const ability_roughing_it = {
+	"name": ABILITY_ROUGHING_IT,
+	"description": "This unit does not have to return home at night."
 }
 
 # a helper function for adding abilities to a unit
