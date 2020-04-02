@@ -25,6 +25,9 @@ onready var tileset_props_l2 = get_tree().get_nodes_in_group(constants.MAP_TILES
 # make sure we have access to the main camera node
 onready var camera = get_tree().get_nodes_in_group("Camera")[0]
 
+# holds the day / time information (HUD)
+var time_of_day_info_node
+
 # keep track of the unit's portrait sprite
 var unit_portrait_sprite
 
@@ -103,7 +106,7 @@ const depleted_action_list = [
 	BASIC_ACTIONS.INFO
 ]
 
-var current_action_list = initial_action_list
+var current_action_list = initial_action_list.duplicate()
 
 # initialize the unit (all units will need to call this)
 func unit_base_init():
@@ -111,6 +114,9 @@ func unit_base_init():
 	unit_move_sound_node.stream = unit_move_sound
 	unit_move_sound_node.volume_db = constants.GAME_VOLUME
 	add_child(unit_move_sound_node)
+	
+	# get the time of day info node ()
+	time_of_day_info_node = get_tree().get_nodes_in_group(constants.TIME_OF_DAY_INFO_GROUP)[0]
 
 # set unit position
 func set_unit_pos(target_x, target_y):
@@ -130,7 +136,7 @@ func show_action_list():
 	
 # reset our action list to the initial action list
 func reset_action_list():
-	current_action_list = initial_action_list
+	current_action_list = initial_action_list.duplicate()
 
 # we can now enable the unit's movement state + show movement grid
 func enable_movement_state():
@@ -166,6 +172,13 @@ func show_unit_info_full_screen():
 	hud_unit_info_full_node.initialize_screen()
 
 func enable_select_tile_state(timer = null):
+	if (player.player_state == player.PLAYER_STATE.ANIMATING_MOVEMENT):
+		# deplete the unit's action list
+		current_action_list = depleted_action_list.duplicate()
+		
+		# the unit has 'acted'
+		player.party.remove_from_yet_to_act(unit_id, time_of_day_info_node)
+		
 	player.player_state = player.PLAYER_STATE.SELECTING_TILE
 	unit_move_sound_node.stop()
 	if (timer):
@@ -198,13 +211,6 @@ func move_unit_if_eligible(target_x, target_y):
 		
 	enable_animate_movement_state()
 	initiate_movement(a_star(target_x, target_y))
-	
-	# now that the unit has officially moved, he has 'acted'
-	player.party.remove_from_yet_to_act(unit_id)
-	
-	# deplete the unit's action list
-	current_action_list = depleted_action_list
-	
 
 # functions global to all unit types
 func show_movement_grid_square(pos_x, pos_y):

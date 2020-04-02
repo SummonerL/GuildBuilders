@@ -5,6 +5,9 @@ extends Node2D
 # our players party of units
 onready var party = get_node("/root/Player_Party")
 
+# bring in our global constants
+onready var constants = get_node("/root/Game_Constants")
+
 enum PLAYER_STATE {
 	SELECTING_TILE,
 	SELECTING_ACTION,
@@ -26,4 +29,10 @@ var curs_pos_y = 4
 var hud
 
 # keep track of the current time of day
-var current_time_of_day = 12
+var current_time_of_day = 23
+
+# function for moving the game clock forward (one turn)
+func move_to_next_hour():
+	current_time_of_day += 1
+	if (current_time_of_day > (constants.TIMES_OF_DAY.size() - 1)):
+		current_time_of_day = 0
