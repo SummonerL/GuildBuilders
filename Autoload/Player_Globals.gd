@@ -24,3 +24,6 @@ var curs_pos_y = 4
 
 # keep track of the dialogue box
 var hud
+
+# keep track of the current time of day
+var current_time_of_day = 12

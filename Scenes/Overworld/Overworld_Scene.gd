@@ -17,6 +17,7 @@ onready var cursor_scn = preload("res://Entities/Player/Cursor.tscn")
 onready var camera_scn = preload("res://Entities/Camera/Camera.tscn")
 onready var hud_scn = preload("res://Entities/HUD/Dialogue.tscn")
 onready var hud_tile_info_scn = preload("res://Entities/HUD/Tile_Info.tscn")
+onready var hud_time_of_day_info_scn = preload("res://Entities/HUD/Time_Of_Day_Info.tscn")
 
 
 # game music
@@ -27,15 +28,18 @@ onready var five_pm_loop = get_node("5PM_Loop")
 var cursor
 var camera
 var hud_tile_info
+var hud_tod_info
 
 func gameInit():
 	cursor = cursor_scn.instance()
 	camera = camera_scn.instance()
 	player.hud = hud_scn.instance()
 	hud_tile_info = hud_tile_info_scn.instance()
+	hud_tod_info = hud_time_of_day_info_scn.instance()
 	
 	add_child(camera)
 	camera.add_child(hud_tile_info) # make the hud a child of the camera
+	camera.add_child(hud_tod_info)
 	add_child(cursor)
 	camera.add_child(player.hud)
 	

@@ -14,6 +14,7 @@ const SCREEN_WIDTH = 160
 const MAP_TILES_GROUP = 'map_tiles'
 const GRID_SQUARE_GROUP = 'grid_square'
 const TILE_INFO_GROUP = 'tile_info'
+const TIME_OF_DAY_INFO_GROUP = 'time_of_day_info'
 
 const CANT_MOVE = 999999
 
@@ -31,6 +32,11 @@ enum DIRECTIONS {
 enum SIDES {
 	LEFT,
 	RIGHT
+}
+
+enum TOP_BOTTOM {
+	TOP,
+	BOTTOM
 }
 
 enum SPECIAL_SYMBOLS {

@@ -11,7 +11,7 @@ func unit_init():
 	unit_name = "Rodrik"
 	unit_class = "Angler"
 	
-	age = 16
+	age = 13
 	
 	unit_bio = "..."
 	

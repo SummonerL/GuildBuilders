@@ -15,6 +15,9 @@ onready var overworld_scene = get_parent()
 # holds the tile information node (HUD)
 var tile_info_node
 
+# holds the day / time information (HUD)
+var time_of_day_info_node
+
 # the cursor position is stored in the player globals
 
 # whether or not the cursor is moving
@@ -49,6 +52,7 @@ func cursor_init():
 	add_child(cursor_timer)
 
 	tile_info_node = get_tree().get_nodes_in_group(constants.TILE_INFO_GROUP)[0]
+	time_of_day_info_node = get_tree().get_nodes_in_group(constants.TIME_OF_DAY_INFO_GROUP)[0]
 	
 func get_selected_tile_units():
 	# find if there are any active units on the current tile
@@ -86,10 +90,13 @@ func cursor_move():
 	# play the cursor moving sound
 	move_sound.play()
 	
-	# check if we need to move the tile info hud
+	# check if we need to move the info tiles (hud)
 	tile_info_node.check_if_move_needed(player.curs_pos_x - player.cam_pos_x)
-	# print the tile info
+	time_of_day_info_node.check_if_move_needed(player.curs_pos_x - player.cam_pos_x, player.curs_pos_y - player.cam_pos_y)
+	
+	# print the info tiles
 	tile_info_node.update_tile_info_text()
+	time_of_day_info_node.update_time_of_day_info_text()
 		
 func cursor_reset():
 	stop_timer()
