@@ -8,6 +8,8 @@ func unit_init():
 	
 	unit_portrait_sprite = ps
 	
+	unit_id = 1
+	
 	unit_name = "Willow"
 	unit_class = "Woodcutter"
 	age = 17

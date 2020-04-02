@@ -59,6 +59,9 @@ var current_items = [
 var unit_abilities = [
 ]
 
+# a unique ID to identify this unit
+var unit_id = 0
+
 # the unit's name
 var unit_name = ""
 
@@ -86,19 +89,18 @@ var skill_xp = {
 
 enum BASIC_ACTIONS {
 	MOVE,
-	TEST1,
-	TEST2,
-	TEST3,
 	INFO
 }
 
 # list of actions that are available to the unit
 const initial_action_list = [
 	BASIC_ACTIONS.MOVE,
-	BASIC_ACTIONS.TEST1,
-	BASIC_ACTIONS.TEST2,
-	BASIC_ACTIONS.TEST3,
 	BASIC_ACTIONS.INFO,
+]
+
+# a list of actions available to the unit after they've acted
+const depleted_action_list = [
+	BASIC_ACTIONS.INFO
 ]
 
 var current_action_list = initial_action_list
@@ -196,6 +198,13 @@ func move_unit_if_eligible(target_x, target_y):
 		
 	enable_animate_movement_state()
 	initiate_movement(a_star(target_x, target_y))
+	
+	# now that the unit has officially moved, he has 'acted'
+	player.party.remove_from_yet_to_act(unit_id)
+	
+	# deplete the unit's action list
+	current_action_list = depleted_action_list
+	
 
 # functions global to all unit types
 func show_movement_grid_square(pos_x, pos_y):

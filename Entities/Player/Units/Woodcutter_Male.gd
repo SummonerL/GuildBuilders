@@ -8,6 +8,8 @@ func unit_init():
 	
 	unit_portrait_sprite = ps
 	
+	unit_id = 2
+
 	unit_name = "Axel"
 	unit_class = "Woodcutter"
 	

@@ -49,6 +49,9 @@ func gameInit():
 	player.party.add_unit(constants.UNIT_TYPES.WOODCUTTER_MALE)
 	player.party.add_unit(constants.UNIT_TYPES.WOODCUTTER_FEMALE)
 	
+	# mark all units as 'yet to act'
+	player.party.reset_yet_to_act()
+	
 	# lights, camera, action!
 	camera.turnOn()
 	

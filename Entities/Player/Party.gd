@@ -15,6 +15,9 @@ var party_members = []
 # keep track of the unit that is currently 'active'
 var active_unit = null
 
+# keep track of which units have yet to act this turn
+var yet_to_act = []
+
 func get_all_units():
 	return get_children()
 
@@ -23,6 +26,23 @@ func get_active_unit():
 	
 func set_active_unit(unit):
 	active_unit = unit
+	
+func reset_yet_to_act():
+	yet_to_act = party_members
+
+func remove_from_yet_to_act(unit_id):
+	var index = 0
+	var final_index = index
+	var found = false
+	
+	for unit in yet_to_act:
+		if (unit.unit_id == unit_id):
+			final_index = index
+			found = true
+		index += 1
+		
+	if (final_index >= 0 && found):
+		yet_to_act.remove(final_index)
 
 func add_unit(unit):
 	match unit:

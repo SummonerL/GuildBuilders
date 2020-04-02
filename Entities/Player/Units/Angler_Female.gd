@@ -8,6 +8,9 @@ func get_unit_move_sound():
 func unit_init():
 	unit_pos_x = 19
 	unit_pos_y = 4
+	
+	unit_id = 3
+
 	unit_name = "Coral"
 	age = 17
 	unit_class = "Angler"

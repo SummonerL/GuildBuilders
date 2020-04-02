@@ -56,18 +56,12 @@ enum UNIT_TYPES {
 # full list of actions
 const ALL_ACTIONS = [
 	'MOVE',
-	'FISH',
-	'CHOP',
-	'MINE',
 	'INFO'
 ]
 
 # full list of action names
 const ALL_ACTION_PRETTY_NAMES = { 
 	'MOVE':  'MOVE',
-	'FISH':  'FISH',
-	'CHOP': 'CHOP',
-	'MINE': 'MINE',
 	'INFO': 'INFO'
 }
 
