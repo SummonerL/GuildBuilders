@@ -18,6 +18,9 @@ onready var movement_grid_square = preload("res://Entities/Player/Movement_Grid_
 onready var hud_selection_list_scn = preload("res://Entities/HUD/Selection_List.tscn")
 onready var hud_unit_info_full_scn = preload("res://Entities/HUD/Unit_Info_Full.tscn")
 
+# bring in any shaders that we can use on our unit sprite
+onready var unit_spent_shader = preload("res://Sprites/Shaders/spent_unit.tres")
+
 # have 2 layers of potential tiles
 onready var tileset_props_l1 = get_tree().get_nodes_in_group(constants.MAP_TILES_GROUP)[0]
 onready var tileset_props_l2 = get_tree().get_nodes_in_group(constants.MAP_TILES_GROUP)[1]
@@ -27,6 +30,9 @@ onready var camera = get_tree().get_nodes_in_group("Camera")[0]
 
 # holds the day / time information (HUD)
 var time_of_day_info_node
+
+# keep track of our overworld sprite
+var unit_sprite_node
 
 # keep track of the unit's portrait sprite
 var unit_portrait_sprite
@@ -135,8 +141,12 @@ func show_action_list():
 	hud_selection_list_node.populate_selection_list(current_action_list, self)
 	
 # reset our action list to the initial action list
-func reset_action_list():
+func reset_action_list():	
 	current_action_list = initial_action_list.duplicate()
+	
+func remove_used_shader():
+	# remove the 'used' shader
+	unit_sprite_node.material = null
 
 # we can now enable the unit's movement state + show movement grid
 func enable_movement_state():
@@ -175,6 +185,9 @@ func enable_select_tile_state(timer = null):
 	if (player.player_state == player.PLAYER_STATE.ANIMATING_MOVEMENT):
 		# deplete the unit's action list
 		current_action_list = depleted_action_list.duplicate()
+		
+		# add the 'unit_spent' shader to the unit's sprite
+		unit_sprite_node.material = unit_spent_shader
 		
 		# the unit has 'acted'
 		player.party.remove_from_yet_to_act(unit_id, time_of_day_info_node)

@@ -60,6 +60,10 @@ func reset_unit_actions():
 	for unit in party_members:
 		unit.reset_action_list()
 
+func reset_shaders():
+	for unit in party_members:
+		unit.remove_used_shader()
+
 func add_unit(unit):
 	match unit:
 		constants.UNIT_TYPES.ANGLER_MALE:

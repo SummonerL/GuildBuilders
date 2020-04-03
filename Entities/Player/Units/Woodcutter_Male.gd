@@ -7,6 +7,8 @@ func unit_init():
 	unit_pos_y = 7
 	
 	unit_portrait_sprite = ps
+
+	unit_sprite_node = get_node("Woodcutter_Male_Sprite")
 	
 	unit_id = 2
 

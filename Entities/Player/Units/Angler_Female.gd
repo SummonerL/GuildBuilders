@@ -17,6 +17,8 @@ func unit_init():
 	
 	unit_portrait_sprite = ps
 	
+	unit_sprite_node = get_node("Angler_Female_Sprite")
+	
 	base_move = 6
 	
 	skill_levels[constants.FISHING] = 5

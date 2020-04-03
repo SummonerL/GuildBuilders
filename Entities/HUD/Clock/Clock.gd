@@ -93,6 +93,8 @@ func kill_clock(timer = null):
 		timer.stop()
 		remove_child(timer)
 		
+	player.party.reset_shaders()
+		
 	get_parent().remove_child(self)
 
 func _ready():

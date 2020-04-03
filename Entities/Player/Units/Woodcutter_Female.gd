@@ -8,6 +8,8 @@ func unit_init():
 	
 	unit_portrait_sprite = ps
 	
+	unit_sprite_node = get_node("Woodcutter_Female_Sprite")
+	
 	unit_id = 1
 	
 	unit_name = "Willow"
