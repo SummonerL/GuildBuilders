@@ -59,6 +59,9 @@ var base_move = 0
 # the unit's base wake-up time (default 8am)
 var wake_up_time = 8
 
+# the unit's bed time (default 9pm)
+var bed_time = 21
+
 # keep track of the unit's items
 var item_limit = 5 # default
 

@@ -59,7 +59,8 @@ const NAME_TEXT = "Name:"
 const AGE_TEXT = "Age:"
 const CLASS_TEXT = "Class:"
 const MOVE_TEXT = "Mv."
-const WAKE_TEXT = "Wk."
+const WAKE_TEXT = "Wake:"
+const BED_TEXT = "Bed:"
 const SKILL_TEXT = "Skills"
 const ITEM_TEXT = "Inventory"
 const ABILITIES_TEXT = "Abilities"
@@ -96,7 +97,7 @@ func set_portrait_sprite():
 	add_child(portrait_sprite)
 	
 	portrait_sprite.position = Vector2((constants.TILES_PER_ROW * constants.TILE_WIDTH) - ((PORTRAIT_WIDTH + 1) * constants.TILE_WIDTH), 
-								constants.TILE_HEIGHT)
+								constants.DIA_TILE_HEIGHT)
 
 func initialize_screen():		
 	set_portrait_sprite()
@@ -137,6 +138,10 @@ func populate_basic_info_screen():
 	
 	# print the unit's wake-up time
 	letters_symbols_node.print_immediately(WAKE_TEXT + String(constants.TIMES_OF_DAY[active_unit.wake_up_time]), Vector2(1, 8))
+	
+	# print the unit's bed time
+	letters_symbols_node.print_immediately(BED_TEXT + String(constants.TIMES_OF_DAY[active_unit.bed_time]), 
+		Vector2((constants.DIA_TILES_PER_ROW - len(BED_TEXT + String(constants.TIMES_OF_DAY[active_unit.bed_time]))) - 1, 8))
 	
 	# class
 	var class_length = len(active_unit.unit_class)
