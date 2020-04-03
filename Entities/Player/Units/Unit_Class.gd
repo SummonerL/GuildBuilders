@@ -28,9 +28,6 @@ onready var tileset_props_l2 = get_tree().get_nodes_in_group(constants.MAP_TILES
 # make sure we have access to the main camera node
 onready var camera = get_tree().get_nodes_in_group("Camera")[0]
 
-# holds the day / time information (HUD)
-var time_of_day_info_node
-
 # keep track of our overworld sprite
 var unit_sprite_node
 
@@ -123,9 +120,6 @@ func unit_base_init():
 	unit_move_sound_node.stream = unit_move_sound
 	unit_move_sound_node.volume_db = constants.GAME_VOLUME
 	add_child(unit_move_sound_node)
-	
-	# get the time of day info node ()
-	time_of_day_info_node = get_tree().get_nodes_in_group(constants.TIME_OF_DAY_INFO_GROUP)[0]
 
 # set unit position
 func set_unit_pos(target_x, target_y):
@@ -171,7 +165,7 @@ func do_action(action):
 			show_unit_info_full_screen()
 		_: #default
 			# do something
-			enable_select_tile_state()
+			player.enable_state(player.PLAYER_STATE.SELECTING_TILE)
 			
 # when the action list is cancelled, go back to selecting a tile
 func cancel_select_list():
@@ -184,22 +178,25 @@ func show_unit_info_full_screen():
 	hud_unit_info_full_node.set_unit(self)
 	hud_unit_info_full_node.initialize_screen()
 
-func enable_select_tile_state(timer = null):
-	if (player.player_state == player.PLAYER_STATE.ANIMATING_MOVEMENT):
-		# deplete the unit's action list
-		current_action_list = depleted_action_list.duplicate()
-		
-		# add the 'unit_spent' shader to the unit's sprite
-		unit_sprite_node.material = unit_spent_shader
-		
-		# the unit has 'acted'
-		player.party.remove_from_yet_to_act(unit_id, time_of_day_info_node)
-		
-	player.player_state = player.PLAYER_STATE.SELECTING_TILE
-	unit_move_sound_node.stop()
+func end_action(timer = null):
 	if (timer):
 		timer.stop()
 		remove_child(timer)
+	
+	# stop the unit move sound, in case they are moving
+	unit_move_sound_node.stop()
+
+	# deplete the unit's action list
+	current_action_list = depleted_action_list.duplicate()
+	
+	# add the 'unit_spent' shader to the unit's sprite
+	unit_sprite_node.material = unit_spent_shader
+	
+	# the unit has 'acted'
+	player.party.remove_from_yet_to_act(unit_id)
+	
+	# determine the next player state
+	player.determine_next_state()
 	
 func enable_animate_movement_state(timer = null):
 	player.player_state = player.PLAYER_STATE.ANIMATING_MOVEMENT
@@ -271,10 +268,10 @@ func initiate_movement(path):
 			timer.start()
 			current_time += constants.MOVE_ANIM_SPEED # change into a constant
 		
-	# change the player state so the unit can start selecting tiles again
+	# after the unit has moved, we need to end their action
 	var timer = Timer.new()
 	timer.wait_time = current_time - constants.MOVE_ANIM_SPEED
-	timer.connect("timeout", self, "enable_select_tile_state", [timer])
+	timer.connect("timeout", self, "end_action", [timer])
 	add_child(timer)
 	timer.start()
 	

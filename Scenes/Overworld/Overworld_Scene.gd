@@ -58,6 +58,10 @@ func gameInit():
 	# start looping our '12PM' track
 	#twelve_pm_loop.play()
 	five_pm_loop.play()
+	
+	# initialize some player variables (that haven't already been initialized')
+	# get the time of day info node ()
+	player.time_of_day_info_node = get_tree().get_nodes_in_group(constants.TIME_OF_DAY_INFO_GROUP)[0]
 
 # called to show the clock animation when the time moves forward
 func show_clock_anim():

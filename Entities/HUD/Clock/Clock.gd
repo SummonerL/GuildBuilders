@@ -95,6 +95,9 @@ func kill_clock(timer = null):
 		
 	player.party.reset_shaders()
 		
+	# determine the next player state
+	player.determine_next_state()
+	
 	get_parent().remove_child(self)
 
 func _ready():

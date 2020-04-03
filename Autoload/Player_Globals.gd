@@ -12,7 +12,8 @@ enum PLAYER_STATE {
 	SELECTING_TILE,
 	SELECTING_ACTION,
 	SELECTING_MOVEMENT,
-	ANIMATING_MOVEMENT
+	ANIMATING_MOVEMENT,
+	BETWEEN_TURNS
 }
 
 var player_state = PLAYER_STATE.SELECTING_TILE
@@ -28,6 +29,9 @@ var curs_pos_y = 4
 # keep track of the dialogue box
 var hud
 
+# holds the day / time information (HUD)
+var time_of_day_info_node
+
 # keep track of the current time of day
 var current_time_of_day = 23
 
@@ -39,3 +43,27 @@ func move_to_next_hour():
 		
 	# show the clock sprite
 	get_tree().get_current_scene().show_clock_anim()
+
+# function used to determine the next player state, based on several conditions
+func determine_next_state():
+	match (player_state):
+		PLAYER_STATE.BETWEEN_TURNS:
+			if (time_of_day_info_node != null):
+				time_of_day_info_node.update_time_of_day_info_text()
+			
+			# set the state back to 'selecting tile'
+			enable_state(PLAYER_STATE.SELECTING_TILE)
+		_:		
+			# if all the unit's have acted
+			if (party.yet_to_act.size() == 0):
+				enable_state(PLAYER_STATE.BETWEEN_TURNS)
+				
+				# let's move the game clock forward an hour
+				move_to_next_hour()
+				party.reset_yet_to_act()
+				party.reset_unit_actions()
+			else:
+				enable_state(PLAYER_STATE.SELECTING_TILE)
+
+func enable_state(state):
+	player_state = state

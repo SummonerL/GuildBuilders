@@ -33,7 +33,7 @@ func set_active_unit(unit):
 func reset_yet_to_act():
 	yet_to_act = party_members.duplicate()
 
-func remove_from_yet_to_act(unit_id, hour_node = null):
+func remove_from_yet_to_act(unit_id):
 	var index = 0
 	var final_index = index
 	var found = false
@@ -46,15 +46,6 @@ func remove_from_yet_to_act(unit_id, hour_node = null):
 		
 	if (final_index >= 0 && found):
 		yet_to_act.remove(final_index)
-		
-	# if all of the unit's have acted, move forward a turn (hour)
-	if (yet_to_act.size() == 0):
-		player.move_to_next_hour()
-		reset_yet_to_act()
-		reset_unit_actions()
-		
-		if (hour_node != null):
-			hour_node.update_time_of_day_info_text()
 
 func reset_unit_actions():
 	for unit in party_members:
