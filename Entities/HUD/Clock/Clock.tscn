@@ -1,0 +1,78 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://Sprites/Misc/clock_5.png" type="Texture" id=1]
+[ext_resource path="res://Sprites/Misc/clock_10.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Misc/clock_2.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/Misc/clock_7.png" type="Texture" id=4]
+[ext_resource path="res://Sprites/Misc/clock_3.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/Misc/clock_6.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/Misc/clock_12.png" type="Texture" id=7]
+[ext_resource path="res://Sprites/Misc/clock_11.png" type="Texture" id=8]
+[ext_resource path="res://Sprites/Misc/clock_8.png" type="Texture" id=9]
+[ext_resource path="res://Entities/HUD/Clock/Clock.gd" type="Script" id=10]
+[ext_resource path="res://Sprites/Misc/clock_4.png" type="Texture" id=11]
+[ext_resource path="res://Sprites/Misc/clock_9.png" type="Texture" id=12]
+[ext_resource path="res://Sprites/Misc/clock_1.png" type="Texture" id=13]
+
+[node name="Clock" type="CanvasLayer"]
+script = ExtResource( 10 )
+
+[node name="Clock_12_Sprite" type="Sprite" parent="."]
+visible = false
+texture = ExtResource( 7 )
+centered = false
+
+[node name="Clock_1_Sprite" type="Sprite" parent="."]
+visible = false
+texture = ExtResource( 13 )
+centered = false
+
+[node name="Clock_2_Sprite" type="Sprite" parent="."]
+visible = false
+texture = ExtResource( 3 )
+centered = false
+
+[node name="Clock_3_Sprite" type="Sprite" parent="."]
+visible = false
+texture = ExtResource( 5 )
+centered = false
+
+[node name="Clock_4_Sprite" type="Sprite" parent="."]
+visible = false
+texture = ExtResource( 11 )
+centered = false
+
+[node name="Clock_5_Sprite" type="Sprite" parent="."]
+visible = false
+texture = ExtResource( 1 )
+centered = false
+
+[node name="Clock_6_Sprite" type="Sprite" parent="."]
+visible = false
+texture = ExtResource( 6 )
+centered = false
+
+[node name="Clock_7_Sprite" type="Sprite" parent="."]
+visible = false
+texture = ExtResource( 4 )
+centered = false
+
+[node name="Clock_8_Sprite" type="Sprite" parent="."]
+visible = false
+texture = ExtResource( 9 )
+centered = false
+
+[node name="Clock_9_Sprite" type="Sprite" parent="."]
+visible = false
+texture = ExtResource( 12 )
+centered = false
+
+[node name="Clock_10_Sprite" type="Sprite" parent="."]
+visible = false
+texture = ExtResource( 2 )
+centered = false
+
+[node name="Clock_11_Sprite" type="Sprite" parent="."]
+visible = false
+texture = ExtResource( 8 )
+centered = false

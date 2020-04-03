@@ -18,7 +18,7 @@ onready var camera_scn = preload("res://Entities/Camera/Camera.tscn")
 onready var hud_scn = preload("res://Entities/HUD/Dialogue.tscn")
 onready var hud_tile_info_scn = preload("res://Entities/HUD/Tile_Info.tscn")
 onready var hud_time_of_day_info_scn = preload("res://Entities/HUD/Time_Of_Day_Info.tscn")
-
+onready var clock_scn = preload("res://Entities/HUD/Clock/Clock.tscn")
 
 # game music
 onready var twelve_pm_loop = get_node("12PM_Loop")
@@ -58,6 +58,10 @@ func gameInit():
 	# start looping our '12PM' track
 	#twelve_pm_loop.play()
 	five_pm_loop.play()
+
+# called to show the clock animation when the time moves forward
+func show_clock_anim():
+	add_child(clock_scn.instance())
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

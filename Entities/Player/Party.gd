@@ -61,8 +61,6 @@ func reset_unit_actions():
 		unit.reset_action_list()
 
 func add_unit(unit):
-	print('add unit')
-	print (party_members)
 	match unit:
 		constants.UNIT_TYPES.ANGLER_MALE:
 			var angler_male_node = angler_male_scn.instance()

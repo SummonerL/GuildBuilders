@@ -36,3 +36,6 @@ func move_to_next_hour():
 	current_time_of_day += 1
 	if (current_time_of_day > (constants.TIMES_OF_DAY.size() - 1)):
 		current_time_of_day = 0
+		
+	# show the clock sprite
+	get_tree().get_current_scene().show_clock_anim()
