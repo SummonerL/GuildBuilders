@@ -15,6 +15,7 @@ const MAP_TILES_GROUP = 'map_tiles'
 const GRID_SQUARE_GROUP = 'grid_square'
 const TILE_INFO_GROUP = 'tile_info'
 const TIME_OF_DAY_INFO_GROUP = 'time_of_day_info'
+const MAP_ICONS_GROUP = 'map_icons'
 
 const CANT_MOVE = 999999
 
@@ -51,18 +52,6 @@ enum UNIT_TYPES {
 	ANGLER_FEMALE,
 	WOODCUTTER_MALE,
 	WOODCUTTER_FEMALE
-}
-
-# full list of actions
-const ALL_ACTIONS = [
-	'MOVE',
-	'INFO'
-]
-
-# full list of action names
-const ALL_ACTION_PRETTY_NAMES = { 
-	'MOVE':  'MOVE',
-	'INFO': 'INFO'
 }
 
 # times of day

@@ -71,6 +71,9 @@ func select_tile():
 		# activate the unit
 		party.set_active_unit(unit)
 		
+		# determine and set the action list based on the unit's current position
+		unit.determine_action_list()
+		
 		# show the unit's action list
 		unit.show_action_list()
 

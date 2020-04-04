@@ -91,7 +91,7 @@ func determine_music_state():
 		17:
 			fade_out_background_music()
 		_:
-			# bau - keep playing music :)
+			# bau - keep playing music :
 			pass
 	
 # fade out the active background music

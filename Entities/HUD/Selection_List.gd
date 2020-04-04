@@ -8,6 +8,9 @@ onready var constants = get_node("/root/Game_Constants")
 # bring in the global player variables
 onready var player = get_node("/root/Player_Globals")
 
+# bring in our global action list
+onready var global_action_list = get_node("/root/Actions")
+
 # the letters and symbol scene
 onready var letters_symbols_obj = preload("res://Entities/HUD/Letters_Symbols/Letters_Symbols.tscn")
 var letters_symbols_node
@@ -144,7 +147,8 @@ func populate_selection_list(actions, caller, can_cancel = true):
 	start_pos_x += 1
 
 	for action in actions:
-		letters_symbols_node.print_immediately(constants.ALL_ACTION_PRETTY_NAMES[constants.ALL_ACTIONS[action]], Vector2(start_pos_x, start_pos_y))
+		letters_symbols_node.print_immediately(global_action_list.ACTION_LIST_NAMES[action], 
+				Vector2(start_pos_x, start_pos_y))
 		start_pos_y += 2
 	
 	# keep track of the currently selected item

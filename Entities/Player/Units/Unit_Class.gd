@@ -12,6 +12,9 @@ onready var global_items_list = get_node("/root/Items")
 # bring in our abilities
 onready var global_ability_list = get_node("/root/Abilities")
 
+# bring in our global action list
+onready var global_action_list = get_node("/root/Actions")
+
 onready var movement_grid_square = preload("res://Entities/Player/Movement_Grid_Square.tscn")
 
 # various hud scenes
@@ -24,6 +27,9 @@ onready var unit_spent_shader = preload("res://Sprites/Shaders/spent_unit.tres")
 # have 2 layers of potential tiles
 onready var tileset_props_l1 = get_tree().get_nodes_in_group(constants.MAP_TILES_GROUP)[0]
 onready var tileset_props_l2 = get_tree().get_nodes_in_group(constants.MAP_TILES_GROUP)[1]
+
+# have our icons layer, for populating action lists
+onready var icon_props = get_tree().get_nodes_in_group(constants.MAP_ICONS_GROUP)[0]
 
 # make sure we have access to the main camera node
 onready var camera = get_tree().get_nodes_in_group("Camera")[0]
@@ -96,23 +102,18 @@ var skill_xp = {
 	"woodcutting": 0
 }
 
-enum BASIC_ACTIONS {
-	MOVE,
-	INFO
-}
-
 # list of actions that are available to the unit
-const initial_action_list = [
-	BASIC_ACTIONS.MOVE,
-	BASIC_ACTIONS.INFO,
+onready var initial_action_list = [
+	global_action_list.COMPLETE_ACTION_LIST.MOVE,
+	global_action_list.COMPLETE_ACTION_LIST.INFO,
 ]
 
 # a list of actions available to the unit after they've acted
-const depleted_action_list = [
-	BASIC_ACTIONS.INFO
+onready var depleted_action_list = [
+	global_action_list.COMPLETE_ACTION_LIST.INFO,
 ]
 
-var current_action_list = initial_action_list.duplicate()
+onready var current_action_list = initial_action_list.duplicate()
 
 # initialize the unit (all units will need to call this)
 func unit_base_init():
@@ -128,6 +129,38 @@ func set_unit_pos(target_x, target_y):
 	self.global_position = Vector2(target_x*constants.TILE_WIDTH, 
 								target_y*constants.TILE_HEIGHT)
 	
+	
+# function for determining the action list, based on the current location
+func determine_action_list():
+	# if there are any icons on our tile
+	var current_tile_icon = icon_props.get_icon_at_coordinates(Vector2(unit_pos_x, unit_pos_y))
+	var adjacent_tile_icons = []
+	var new_actions = []
+	
+	if (current_tile_icon):
+		new_actions.append(current_tile_icon)
+
+	# check adjacent tiles
+	
+	# north
+	adjacent_tile_icons.append(icon_props.get_icon_at_coordinates(Vector2(unit_pos_x, unit_pos_y - 1)))
+	
+	# south
+	adjacent_tile_icons.append(icon_props.get_icon_at_coordinates(Vector2(unit_pos_x, unit_pos_y + 1)))
+	
+	# east
+	adjacent_tile_icons.append(icon_props.get_icon_at_coordinates(Vector2(unit_pos_x + 1, unit_pos_y)))
+	
+	# west
+	adjacent_tile_icons.append(icon_props.get_icon_at_coordinates(Vector2(unit_pos_x - 1, unit_pos_y)))
+	
+	# make sure adjacent tiles apply (most icons require actually being on the tile)
+	for icon in adjacent_tile_icons:
+		if (icon):
+			if (icon_props.adjacent_applicable.has(icon)):
+				new_actions.append(icon)
+				
+	print(new_actions)
 	
 func show_action_list():
 	# add a selection list istance to our camera
@@ -158,10 +191,10 @@ func enable_movement_state():
 # this function is called once a selection is made in the selection list
 func do_action(action):
 	match (action):
-		BASIC_ACTIONS.MOVE:
+		global_action_list.COMPLETE_ACTION_LIST.MOVE:
 			# enable the unit's movement state
 			enable_movement_state()
-		BASIC_ACTIONS.INFO:
+		global_action_list.COMPLETE_ACTION_LIST.INFO:
 			show_unit_info_full_screen()
 		_: #default
 			# do something
