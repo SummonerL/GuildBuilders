@@ -40,3 +40,7 @@ volume_db = -8.0
 [node name="5PM_Loop" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )
 volume_db = -8.0
+
+[node name="Fade_Out_Tween" type="Tween" parent="."]
+
+[node name="Fade_In_Tween" type="Tween" parent="."]

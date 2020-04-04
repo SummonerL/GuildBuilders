@@ -5,6 +5,7 @@ extends Node
 
 const ABILITY_EARLY_RISER_NAME = 'Early Riser'
 const ABILITY_ROUGHING_IT = 'Roughing It'
+const ABILITY_GROWING_BOY = 'Growing Boy'
 
 const ability_early_riser = {
 	"name": ABILITY_EARLY_RISER_NAME,
@@ -14,6 +15,11 @@ const ability_early_riser = {
 const ability_roughing_it = {
 	"name": ABILITY_ROUGHING_IT,
 	"description": "This unit does not have to return home at night."
+}
+
+const ability_growing_boy = {
+	"name": ABILITY_GROWING_BOY,
+	"description": "This unit can benefit from an additional meal every day."
 }
 
 # a helper function for adding abilities to a unit
@@ -35,5 +41,5 @@ func on_add_to_unit(unit, ability):
 			unit.wake_up_time -= 3
 
 # when a specific ability is removed from a unit
-func on_remove_from_unit(unit, ability):
+func on_remove_from_unit(_unit, _ability):
 	pass

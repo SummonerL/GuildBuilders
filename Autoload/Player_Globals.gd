@@ -33,7 +33,7 @@ var hud
 var time_of_day_info_node
 
 # keep track of the current time of day
-var current_time_of_day = 23
+var current_time_of_day = 11
 
 # function for moving the game clock forward (one turn)
 func move_to_next_hour():
@@ -43,6 +43,9 @@ func move_to_next_hour():
 		
 	# show the clock sprite
 	get_tree().get_current_scene().show_clock_anim()
+	
+	# make necessary changes to the background music
+	get_tree().get_current_scene().determine_music_state()
 
 # function used to determine the next player state, based on several conditions
 func determine_next_state():

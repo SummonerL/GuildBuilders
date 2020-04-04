@@ -18,5 +18,5 @@ func add_item_to_unit(unit, item):
 	unit.current_items.append(item)
 	
 # a helper function for removing items from a unit
-func remove_item_from_ubnit(unit, item, index):
+func remove_item_from_unit(unit, _item, index):
 	unit.current_items.remove(index)

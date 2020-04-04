@@ -3,6 +3,9 @@ extends Node2D
 # bring in our global constants
 onready var constants = get_node("/root/Game_Constants")
 
+# bring in our game config vars
+onready var game_cfg_vars = get_node("/root/Game_Config")
+
 # bring in our global player variables
 onready var player = get_node("/root/Player_Globals")
 
@@ -21,8 +24,20 @@ onready var hud_time_of_day_info_scn = preload("res://Entities/HUD/Time_Of_Day_I
 onready var clock_scn = preload("res://Entities/HUD/Clock/Clock.tscn")
 
 # game music
+const MIN_VOL = -80 # used for fading in / out
+const MED_VOL = -25
+var active_bg_music
+
 onready var twelve_pm_loop = get_node("12PM_Loop")
+
 onready var five_pm_loop = get_node("5PM_Loop")
+
+# tween for fading in / out audio
+onready var tween_out = get_node("Fade_Out_Tween")
+onready var tween_in = get_node("Fade_In_Tween")
+export var transition_duration_out = 3.0
+export var transition_duration_in = 1.5
+export var transition_type = 1 # TRANS_SINE
 
 # game instances
 var cursor
@@ -55,9 +70,9 @@ func gameInit():
 	# lights, camera, action!
 	camera.turnOn()
 	
-	# start looping our '12PM' track
-	#twelve_pm_loop.play()
+	# start looping our background music
 	five_pm_loop.play()
+	active_bg_music = five_pm_loop
 	
 	# initialize some player variables (that haven't already been initialized')
 	# get the time of day info node ()
@@ -66,6 +81,58 @@ func gameInit():
 # called to show the clock animation when the time moves forward
 func show_clock_anim():
 	add_child(clock_scn.instance())
+
+# determine the current background music state. Whether or not it needs to be changed, based on the current time
+func determine_music_state():
+	match(player.current_time_of_day):
+		12:
+			# time to change songs
+			fade_out_background_music()
+		17:
+			fade_out_background_music()
+		_:
+			# bau - keep playing music :)
+			pass
+	
+# fade out the active background music
+func fade_out_background_music():
+	fade_out(active_bg_music)
+
+# helper function to fade out audio streams
+func fade_out(audio_stream):
+	# tween music volume down to 0
+	tween_out.interpolate_property(audio_stream, "volume_db", audio_stream.volume_db, MIN_VOL, transition_duration_out, transition_type, Tween.EASE_IN, 0)
+	
+	# when the tween ends, the music will be stopped
+	tween_out.connect("tween_completed", self, "stop_audio")
+	tween_out.start()
+
+# helper function to fade in an audio stream	
+func fade_in(audio_stream, vol_buffer = 0):
+	var fade_to_vol = game_cfg_vars.background_music_vol + vol_buffer # volume buffer is used for tracks that are slightly quieter / louder
+	audio_stream.volume_db = MED_VOL
+	audio_stream.play()
+	tween_in.interpolate_property(audio_stream, "volume_db", MED_VOL, fade_to_vol, transition_duration_in, transition_type, Tween.EASE_IN, 0)
+	tween_in.start()
+
+func stop_audio(audio_stream, _key = null):
+	# stop the music -- otherwise it continues to run at silent volume
+	audio_stream.stop()
+
+	# determine the next track to play
+	determine_background_music()
+
+func determine_background_music():
+	match(player.current_time_of_day):
+		12:
+			active_bg_music = twelve_pm_loop
+			fade_in(active_bg_music, 4) # add a volume buffer (this song is quieter :( )
+		17:
+			active_bg_music = five_pm_loop
+			fade_in(active_bg_music)
+		_:
+			# play nothing (this should never happen)
+			pass
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
