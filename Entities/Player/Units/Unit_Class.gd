@@ -52,6 +52,9 @@ var unit_move_sound_node = null
 # this dict will be used to track the eligible movement tiles, as well as their total distance
 var eligible_tile_tracker = {}
 
+# keep track of whether or not the unit has acted
+var has_acted = false
+
 # the unit's position on the map
 var unit_pos_x = 0
 var unit_pos_y = 0
@@ -132,35 +135,44 @@ func set_unit_pos(target_x, target_y):
 	
 # function for determining the action list, based on the current location
 func determine_action_list():
-	# if there are any icons on our tile
-	var current_tile_icon = icon_props.get_icon_at_coordinates(Vector2(unit_pos_x, unit_pos_y))
-	var adjacent_tile_icons = []
-	var new_actions = []
+	# first, make sure the unit hasn't already acted
+	if (!has_acted):
+		# empty the action list
+		current_action_list = initial_action_list.duplicate()
+		
+		# if there are any actions on our tile, based on the icon
+		var current_tile_action = icon_props.get_action_at_coordinates(Vector2(unit_pos_x, unit_pos_y))
+		var adjacent_tile_actions = []
+		var new_actions = []
+		
+		if (current_tile_action):
+			new_actions.append(current_tile_action)
 	
-	if (current_tile_icon):
-		new_actions.append(current_tile_icon)
-
-	# check adjacent tiles
-	
-	# north
-	adjacent_tile_icons.append(icon_props.get_icon_at_coordinates(Vector2(unit_pos_x, unit_pos_y - 1)))
-	
-	# south
-	adjacent_tile_icons.append(icon_props.get_icon_at_coordinates(Vector2(unit_pos_x, unit_pos_y + 1)))
-	
-	# east
-	adjacent_tile_icons.append(icon_props.get_icon_at_coordinates(Vector2(unit_pos_x + 1, unit_pos_y)))
-	
-	# west
-	adjacent_tile_icons.append(icon_props.get_icon_at_coordinates(Vector2(unit_pos_x - 1, unit_pos_y)))
-	
-	# make sure adjacent tiles apply (most icons require actually being on the tile)
-	for icon in adjacent_tile_icons:
-		if (icon):
-			if (icon_props.adjacent_applicable.has(icon)):
-				new_actions.append(icon)
+		# check adjacent tiles
+		
+		# north
+		adjacent_tile_actions.append(icon_props.get_action_at_coordinates(Vector2(unit_pos_x, unit_pos_y - 1)))
+		
+		# south
+		adjacent_tile_actions.append(icon_props.get_action_at_coordinates(Vector2(unit_pos_x, unit_pos_y + 1)))
+		
+		# east
+		adjacent_tile_actions.append(icon_props.get_action_at_coordinates(Vector2(unit_pos_x + 1, unit_pos_y)))
+		
+		# west
+		adjacent_tile_actions.append(icon_props.get_action_at_coordinates(Vector2(unit_pos_x - 1, unit_pos_y)))
+		
+		# make sure adjacent tiles apply (most actions require actually being on the tile)
+		for action in adjacent_tile_actions:
+			if (action):
+				if (icon_props.adjacent_applicable.has(action)):
+					new_actions.append(action)
 				
-	print(new_actions)
+		# update the action list	
+		current_action_list += new_actions
+		
+		# sort them
+		current_action_list.sort()
 	
 func show_action_list():
 	# add a selection list istance to our camera
@@ -173,6 +185,9 @@ func show_action_list():
 # reset our action list to the initial action list
 func reset_action_list():	
 	current_action_list = initial_action_list.duplicate()
+	
+func set_has_acted_state(state):
+	has_acted = state
 	
 func remove_used_shader():
 	# remove the 'used' shader
@@ -226,6 +241,7 @@ func end_action(timer = null):
 	unit_sprite_node.material = unit_spent_shader
 	
 	# the unit has 'acted'
+	set_has_acted_state(true)
 	player.party.remove_from_yet_to_act(unit_id)
 	
 	# determine the next player state

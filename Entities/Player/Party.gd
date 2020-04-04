@@ -50,6 +50,8 @@ func remove_from_yet_to_act(unit_id):
 func reset_unit_actions():
 	for unit in party_members:
 		unit.reset_action_list()
+		# also make sure we update their 'acted' state for the new turn
+		unit.set_has_acted_state(false)
 
 func reset_shaders():
 	for unit in party_members:
