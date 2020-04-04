@@ -22,6 +22,8 @@ onready var ten = get_node("Clock_10_Sprite")
 onready var eleven = get_node("Clock_11_Sprite")
 onready var twelve = get_node("Clock_12_Sprite")
 
+onready var clock_tick_sound = get_node("Clock_Tick_Sound")
+
 onready var clocks = [
 	twelve,
 	one,
@@ -78,6 +80,9 @@ func show_time_now(time_before, time_now, timer = null):
 	if (timer):
 		timer.stop()
 		remove_child(timer)
+		
+	# play clock tick sound
+	clock_tick_sound.play()
 		
 	clocks[time_before].visible = false
 	clocks[time_now].visible = true
