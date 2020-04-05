@@ -3,7 +3,8 @@ extends "res://Entities/Player/Units/Unit_Class.gd"
 onready var ps = preload("res://Sprites/characters/angler_female_portrait1.png")
 
 # keep track of all the unique dialogue for this charater
-const CANT_FISH_WITHOUT_ROD = 'How could I forget my fishing equipment? I guess I\'ll have to come back later...'
+const CANT_FISH_WITHOUT_ROD_TEXT = 'How could I forget my fishing equipment? I guess I\'ll have to come back later...'
+const NO_MORE_FISH_TEXT = 'Even with my eyes, I\'m not seeing any more fish here.' 
 
 func get_unit_move_sound():
 	return unit_move_sound

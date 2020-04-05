@@ -112,3 +112,8 @@ var experience_required = [
 const FISHING = 'fishing'
 const MINING = 'mining'
 const WOODCUTTING = 'woodcutting'
+
+# skill pretty names
+const FISHING_PRETTY = 'Fishing'
+const MINING_PRETTY = 'Mining'
+const WOODCUTTING_PRETTY = 'Woodcutting'

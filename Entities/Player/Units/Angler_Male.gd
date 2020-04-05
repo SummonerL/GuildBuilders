@@ -3,7 +3,8 @@ extends "res://Entities/Player/Units/Unit_Class.gd"
 onready var ps = preload("res://Sprites/characters/angler_male_portrait1.png")
 
 # keep track of all the unique dialogue for this charater
-const CANT_FISH_WITHOUT_ROD = 'Oh no.. I don\'t have any fishing equipment. It looks like I can\'t do this right now...'
+const CANT_FISH_WITHOUT_ROD_TEXT = 'Oh no.. I don\'t have any fishing equipment. It looks like I can\'t do this right now...'
+const NO_MORE_FISH_TEXT = 'No more fish... There\'s never enough in the world.' 
 
 func unit_init():
 	unit_pos_x = 11

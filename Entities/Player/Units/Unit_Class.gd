@@ -247,6 +247,14 @@ func end_action(timer = null):
 	# determine the next player state
 	player.determine_next_state()
 	
+# function for gaining xp in a specific skill
+func gain_xp(xp, skill):
+	skill_xp[skill] += xp
+	
+	if (skill_xp[skill] >= constants.experience_required[skill_levels[skill]]): # leveled up
+		skill_xp[skill]
+		skill_levels[skill] += 1
+	
 func enable_animate_movement_state(timer = null):
 	player.player_state = player.PLAYER_STATE.ANIMATING_MOVEMENT
 	unit_move_sound_node.play()

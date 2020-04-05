@@ -4,13 +4,25 @@ extends Node
 # each item should consist of a name, description, type, and any other properties specific to the item type
 
 enum ITEM_TYPES {
-	ROD	
+	ROD	,
+	FISH
 }
 
+# tools
 const item_softwood_rod = {
 	"name": "Softwood Rod",
 	"description": "A simple wooden fishing rod. Allows the unit to catch fish.",
 	"type": ITEM_TYPES.ROD
+}
+
+
+
+# fish
+const item_musclefish = {
+	"name": "Musclefish",
+	"description": "Eating this will allow the unit to carry an additional 3 items that day.",
+	"type": ITEM_TYPES.FISH,
+	"xp": 2 # xp upon receiving
 }
 
 # a helper function for adding items to a unit
