@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Scenes/Overworld/Assets/TileSets/Map_TS.tres" type="TileSet" id=1]
 [ext_resource path="res://Scenes/Overworld/Overworld_Scene.gd" type="Script" id=2]
@@ -6,6 +6,30 @@
 [ext_resource path="res://Music/12PM_Loop.wav" type="AudioStream" id=4]
 [ext_resource path="res://Music/5PM_Loop.wav" type="AudioStream" id=5]
 [ext_resource path="res://Scenes/Overworld/World_Map_Icons.gd" type="Script" id=6]
+[ext_resource path="res://Scenes/Overworld/Action_Tracker.gd" type="Script" id=7]
+[ext_resource path="res://Sprites/Actions/action_tracker_sheet.png" type="Texture" id=8]
+
+[sub_resource type="TileSet" id=1]
+0/name = "Fishing_Spot_1"
+0/texture = ExtResource( 8 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 0, 0, 16, 16 )
+0/tile_mode = 0
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shapes = [  ]
+0/z_index = 0
+1/name = "Fishing_Spot_2"
+1/texture = ExtResource( 8 )
+1/tex_offset = Vector2( 0, 0 )
+1/modulate = Color( 1, 1, 1, 1 )
+1/region = Rect2( 16, 0, 16, 16 )
+1/tile_mode = 0
+1/occluder_offset = Vector2( 0, 0 )
+1/navigation_offset = Vector2( 0, 0 )
+1/shapes = [  ]
+1/z_index = 0
 
 [node name="Overworld_Scene" type="Node2D"]
 script = ExtResource( 2 )
@@ -36,6 +60,15 @@ cell_size = Vector2( 16, 16 )
 format = 1
 tile_data = PoolIntArray( 65544, 15, 0, 131074, 16, 0, 131080, 16, 0, 196617, 16, 0, 196621, 15, 0, 262151, 14, 0, 327681, 14, 0, 327693, 14, 0, 393223, 15, 0, 458756, 16, 0, 524291, 16, 0, 524297, 15, 0, 589835, 14, 0 )
 script = ExtResource( 6 )
+
+[node name="Action_Tracker" type="TileMap" parent="." groups=[
+"map_actions",
+]]
+tile_set = SubResource( 1 )
+cell_size = Vector2( 16, 16 )
+format = 1
+tile_data = PoolIntArray( 262151, 0, 0, 327681, 1, 0, 327693, 0, 0, 589835, 0, 0 )
+script = ExtResource( 7 )
 
 [node name="12PM_Loop" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )

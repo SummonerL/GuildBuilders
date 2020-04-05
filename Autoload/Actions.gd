@@ -10,6 +10,12 @@ onready var global_items_list = get_node("/root/Items")
 # bring in the global player variables
 onready var player = get_node("/root/Player_Globals")
 
+# bring in our global constants
+onready var constants = get_node("/root/Game_Constants")
+
+# have our map_actions layer, for determining more details about the tile
+onready var map_actions = get_tree().get_nodes_in_group(constants.MAP_ACTIONS_GROUP)[0]
+
 enum COMPLETE_ACTION_LIST {
 	MOVE,
 	FISH,
@@ -49,6 +55,25 @@ func initiate_fish_action(unit):
 			rod = item
 	
 	if (rod):
-		print('CAN FISH')
+		# determine which fishing spot the unit is targeting
+		var spot = map_actions.get_action_at_coordinates(Vector2(player.curs_pos_x, player.curs_pos_y))
+		
+		# check north
+		if (spot == null):
+			spot = map_actions.get_action_at_coordinates(Vector2(player.curs_pos_x, player.curs_pos_y - 1))
+			
+		# check east
+		if (spot == null):
+			spot = map_actions.get_action_at_coordinates(Vector2(player.curs_pos_x + 1, player.curs_pos_y))
+			
+		# check south
+		if (spot == null):
+			spot = map_actions.get_action_at_coordinates(Vector2(player.curs_pos_x, player.curs_pos_y + 1))
+			
+		# check west
+		if (spot == null):
+			spot = map_actions.get_action_at_coordinates(Vector2(player.curs_pos_x - 1, player.curs_pos_y))
+			
+		print(spot)
 	else:
 		player.hud.typeTextWithBuffer(unit.CANT_FISH_WITHOUT_ROD)

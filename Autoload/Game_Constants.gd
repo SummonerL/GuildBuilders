@@ -16,6 +16,7 @@ const GRID_SQUARE_GROUP = 'grid_square'
 const TILE_INFO_GROUP = 'tile_info'
 const TIME_OF_DAY_INFO_GROUP = 'time_of_day_info'
 const MAP_ICONS_GROUP = 'map_icons'
+const MAP_ACTIONS_GROUP = 'map_actions'
 
 const CANT_MOVE = 999999
 

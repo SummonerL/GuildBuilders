@@ -9,7 +9,7 @@ func get_unit_move_sound():
 	return unit_move_sound
 	
 func unit_init():
-	unit_pos_x = 14
+	unit_pos_x = 2
 	unit_pos_y = 5
 	
 	unit_id = 3
