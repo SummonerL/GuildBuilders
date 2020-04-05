@@ -19,7 +19,7 @@ onready var woodcutting_icon_sprite = get_node("Woodcutting_Skill_Icon")
 onready var fishing_icon_sprite = get_node("Fishing_Skill_Icon")
 
 # constants
-const GOT_TEXT = 'Got '
+const GOT_TEXT = 'Got'
 const EXCLAMATION = '!'
 const NEXT_LEVEL_TEXT = "Nxt."
 const LVL_TEXT = "Lv."
@@ -71,8 +71,13 @@ func set_skill(skill):
 			fishing_icon_sprite.visible = true
 
 func receive_item(item):
-	var receive_text = GOT_TEXT + item.name + EXCLAMATION
-	letters_symbols_node.print_immediately(receive_text, Vector2((pos_x / constants.DIA_TILE_WIDTH) + 1, 
+	var receive_text = item.name + EXCLAMATION
+	var window_end_x = pos_x + window_sprite.texture.get_width()
+
+	letters_symbols_node.print_immediately(GOT_TEXT, Vector2((window_end_x / constants.DIA_TILE_WIDTH) / 2 - (len(GOT_TEXT) / 2),
+		(pos_y / constants.DIA_TILE_HEIGHT) + 3))
+
+	letters_symbols_node.print_immediately(receive_text, Vector2((window_end_x / constants.DIA_TILE_WIDTH) / 2 - (len(receive_text) / 2),
 		(pos_y / constants.DIA_TILE_HEIGHT) + 4))
 		
 	
