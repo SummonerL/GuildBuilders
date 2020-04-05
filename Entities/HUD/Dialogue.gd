@@ -60,7 +60,21 @@ func completeText():
 	dialogueState = STATES.INACTIVE
 	dialogue_sprite.visible = false
 
-func typeText(text, keep = false):
+# used to provide a small time buffer before typing the text. This is useful for the selection menu,
+# when an _input gets triggered for the select list as well as the dialogue window
+func typeTextWithBuffer(text, keep = false):
+	var timer_for_buffer = Timer.new()
+	timer_for_buffer.connect("timeout", self, "typeText", [text, keep, timer_for_buffer])
+	timer_for_buffer.wait_time = .01
+	add_child(timer_for_buffer)
+	timer_for_buffer.start()
+
+func typeText(text, keep = false, timer_for_buffer = null):
+	# kill the timer, if there is one
+	if (timer_for_buffer):
+		timer_for_buffer.stop()
+		remove_child(timer_for_buffer)
+	
 	keep_text_on_screen = keep
 	# turn on the dialogue box, if it isn't turned on
 	if (dialogueState == STATES.INACTIVE):
@@ -100,6 +114,7 @@ func typeText(text, keep = false):
 			if currentPos.y >= ((constants.SCREEN_HEIGHT / float(constants.DIA_TILE_HEIGHT)) - 2):
 				finishedPrintingBlock = true # finished printing this block
 				dialogueBuffer = words
+				wordIndex -= 1
 			
 		if (!finishedPrintingBlock):
 			for letter in word:

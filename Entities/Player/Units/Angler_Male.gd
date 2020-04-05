@@ -2,6 +2,9 @@ extends "res://Entities/Player/Units/Unit_Class.gd"
 
 onready var ps = preload("res://Sprites/characters/angler_male_portrait1.png")
 
+# keep track of all the unique dialogue for this charater
+const CANT_FISH_WITHOUT_ROD = 'Oh no.. I don\'t have any fishing equipment. It looks like I can\'t do this right now...'
+
 func unit_init():
 	unit_pos_x = 11
 	unit_pos_y = 10

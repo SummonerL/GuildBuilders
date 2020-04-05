@@ -195,7 +195,7 @@ func _input(event):
 
 		# confirm selection
 		if (event.is_action_pressed("ui_accept")):
-			parent.do_action(current_selected_item)
+			global_action_list.do_action(current_selected_item, parent)
 			
 			# play the confirmation sound
 			confirm_selection_sound.play()

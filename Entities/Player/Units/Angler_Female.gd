@@ -2,12 +2,15 @@ extends "res://Entities/Player/Units/Unit_Class.gd"
 
 onready var ps = preload("res://Sprites/characters/angler_female_portrait1.png")
 
+# keep track of all the unique dialogue for this charater
+const CANT_FISH_WITHOUT_ROD = 'How could I forget my fishing equipment? I guess I\'ll have to come back later...'
+
 func get_unit_move_sound():
 	return unit_move_sound
 	
 func unit_init():
-	unit_pos_x = 19
-	unit_pos_y = 4
+	unit_pos_x = 14
+	unit_pos_y = 5
 	
 	unit_id = 3
 
