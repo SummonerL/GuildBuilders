@@ -98,7 +98,7 @@ func show_action_window(skill, reward):
 	
 	# and then, show the experience gained
 	var timer_xp = Timer.new()
-	timer_xp.wait_time = SKILL_WAIT_TIME + 1
+	timer_xp.wait_time = SKILL_WAIT_TIME + 1.5
 	timer_xp.connect("timeout", self, "show_xp_reward", [reward, skill, level_before, xp_after, xp_before, timer_xp])
 	add_child(timer_xp)
 	timer_xp.start()

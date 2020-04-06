@@ -252,7 +252,7 @@ func gain_xp(xp, skill):
 	skill_xp[skill] += xp
 	
 	if (skill_xp[skill] >= constants.experience_required[skill_levels[skill]]): # leveled up
-		skill_xp[skill]
+		skill_xp[skill] = 0
 		skill_levels[skill] += 1
 	
 func enable_animate_movement_state(timer = null):

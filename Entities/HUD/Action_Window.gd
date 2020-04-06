@@ -21,6 +21,9 @@ onready var fishing_icon_sprite = get_node("Fishing_Skill_Icon")
 # the xp gain sound
 onready var xp_gain_sound = get_node("XP_Gain_Sound")
 
+# the item received sound
+onready var item_get_sound = get_node("Item_Get_Sound")
+
 # constants
 const GOT_TEXT = 'Got'
 const EXCLAMATION = '!'
@@ -30,7 +33,10 @@ const LVL_TEXT = "Lv."
 const XP_GAINED_SPEED = .1
 
 const WINDOW_WIDTH = 8
-const window_HEIGHT = 4
+const WINDOW_HEIGHT = 4
+
+const WINDOW_WIDTH_IN_DIA = 16
+const WINDOW_HEIGHT_IN_DIA = 8
 
 var pos_x
 var pos_y
@@ -60,28 +66,28 @@ func calculate_next_level_percent(xp, level_before, skill):
 
 func set_skill(skill):
 	var pretty_name = ''
-	var window_end_x = pos_x + window_sprite.texture.get_width()
-	
-	var window_start_y = window_sprite.position.y
 	
 	match(skill):
 		constants.FISHING:
 			pretty_name = constants.FISHING_PRETTY
 			
-			letters_symbols_node.print_immediately(pretty_name, Vector2(window_end_x / constants.DIA_TILE_WIDTH / 2 - (len(pretty_name) / 2), 
+			letters_symbols_node.print_immediately(pretty_name, Vector2((WINDOW_WIDTH + 2) - floor(len(pretty_name) / 2.0),
 				(pos_y / constants.DIA_TILE_HEIGHT) + 1))
 				
 			fishing_icon_sprite.visible = true
 
 func receive_item(item):
 	var receive_text = item.name + EXCLAMATION
-	var window_end_x = pos_x + window_sprite.texture.get_width()
 
-	letters_symbols_node.print_immediately(GOT_TEXT, Vector2((window_end_x / constants.DIA_TILE_WIDTH) / 2 - (len(GOT_TEXT) / 2),
+	letters_symbols_node.print_immediately(GOT_TEXT, Vector2((WINDOW_WIDTH + 2) - floor(len(GOT_TEXT) / 2.0),
 		(pos_y / constants.DIA_TILE_HEIGHT) + 3))
 
-	letters_symbols_node.print_immediately(receive_text, Vector2((window_end_x / constants.DIA_TILE_WIDTH) / 2 - (len(receive_text) / 2),
+
+	letters_symbols_node.print_immediately(receive_text, Vector2((WINDOW_WIDTH + 2) - floor(len(receive_text) / 2.0),
 		(pos_y / constants.DIA_TILE_HEIGHT) + 4))
+		
+	# play the item get sound
+	item_get_sound.play()
 		
 	
 func show_xp_reward(unit, reward, skill, level_before, xp_after, xp_before):
@@ -96,7 +102,7 @@ func show_xp_reward(unit, reward, skill, level_before, xp_after, xp_before):
 		timer.connect("timeout", self, "print_lvl_xp", [level_before, percent, timer])
 		add_child(timer)
 		timer.start()
-		current_wait_time += XP_GAINED_SPEED
+		current_wait_time += XP_GAINED_SPEED #+ (percent / 200.0)   -- Maybe slow down as we approach 100% (mob psycho)
 
 func print_lvl_xp(level, percent, timer = null):
 	if timer:
