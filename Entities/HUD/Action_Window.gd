@@ -18,6 +18,9 @@ onready var mining_icon_sprite = get_node("Mining_Skill_Icon")
 onready var woodcutting_icon_sprite = get_node("Woodcutting_Skill_Icon")
 onready var fishing_icon_sprite = get_node("Fishing_Skill_Icon")
 
+# the xp gain sound
+onready var xp_gain_sound = get_node("XP_Gain_Sound")
+
 # constants
 const GOT_TEXT = 'Got'
 const EXCLAMATION = '!'
@@ -96,7 +99,6 @@ func show_xp_reward(unit, reward, skill, level_before, xp_after, xp_before):
 		current_wait_time += XP_GAINED_SPEED
 
 func print_lvl_xp(level, percent, timer = null):
-	print(percent)
 	if timer:
 		timer.stop()
 		remove_child(timer)
@@ -105,6 +107,9 @@ func print_lvl_xp(level, percent, timer = null):
 	lv_text += "  " + NEXT_LEVEL_TEXT + String(percent) + "%"
 	letters_symbols_node.print_immediately(lv_text, Vector2((pos_x / constants.DIA_TILE_WIDTH) + 1, 
 		(pos_y / constants.DIA_TILE_HEIGHT) + 6))
+		
+	# play the xp gain sound
+	xp_gain_sound.play()
 
 func _ready():
 	window_init()
