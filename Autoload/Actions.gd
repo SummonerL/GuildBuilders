@@ -13,6 +13,9 @@ onready var player = get_node("/root/Player_Globals")
 # bring in our global constants
 onready var constants = get_node("/root/Game_Constants")
 
+# bring in our signals
+onready var signals = get_node("/root/Signal_Manager")
+
 # have our map_actions layer, for determining more details about the tile
 onready var map_actions = get_tree().get_nodes_in_group(constants.MAP_ACTIONS_GROUP)[0]
 
@@ -34,6 +37,7 @@ const WAIT_FOR_REWARD_SCREEN = 2
 
 # text related to the various actions
 const FISHING_TEXT = " started fishing..."
+const FISH_RECEIVED_TEXT = "and caught a "
 
 enum COMPLETE_ACTION_LIST {
 	MOVE,
@@ -67,7 +71,27 @@ func do_action(action, unit):
 		COMPLETE_ACTION_LIST.INFO:
 			# let the unit handle this action
 			unit.do_action(action)
-			
+
+func action_window_finished(skill, reward):
+	# clear existing text
+	player.hud.clearText()
+	
+	# show different wording based on the action
+	match(skill):
+		constants.FISHING:
+			player.hud.typeText(FISH_RECEIVED_TEXT + reward.name + constants.EXCLAMATION, false, 'finished_action') # we do have a signal
+		_:
+			# do nothing
+			pass
+		
+		
+func finished_action(): # callback from dialogue
+	# we are finished with the action
+	camera.remove_child(action_screen_node)
+	
+	# turn the music back up
+	get_tree().get_current_scene().heighten_background_music()
+	
 # a function used for showing the action window, reward, and experience gained
 func show_action_window(skill, reward):
 	# dampen the background music
@@ -111,7 +135,7 @@ func show_xp_reward(reward, skill, level_before, xp_after, xp_before, timer = nu
 		timer.stop()
 		remove_child(timer)
 		
-	action_screen_node.show_xp_reward(active_unit, reward, skill, level_before, xp_after, xp_before)
+	action_screen_node.show_xp_reward(active_unit, reward, skill, level_before, xp_after, xp_before, self)
 
 func set_item_reward(reward, timer = null):
 	if (timer):
@@ -164,3 +188,6 @@ func initiate_fish_action():
 			
 	else:
 		player.hud.typeTextWithBuffer(active_unit.CANT_FISH_WITHOUT_ROD_TEXT)
+
+func _ready():
+	signals.connect("finished_action", self, "finished_action")

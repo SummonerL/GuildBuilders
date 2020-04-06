@@ -3,6 +3,9 @@ extends CanvasLayer
 # bring in our global constants
 onready var constants = get_node("/root/Game_Constants")
 
+# bring in our signals
+onready var signals = get_node("/root/Signal_Manager")
+
 const DIALOGUE_HEIGHT = 48
 const DIALOGUE_WIDTH = 160
 const MAX_CHARS_PER_ROW = 16
@@ -13,6 +16,7 @@ onready var dialogue_sprite = get_node("Dialogue_Sprite")
 var letters_symbols
 var dialogueState
 var dialogueBuffer = []
+var dialogue_sig # keep track of the signal that we need to emit upon completion
 
 enum STATES {
 	INACTIVE
@@ -59,21 +63,28 @@ func kill_timers():
 func completeText():
 	dialogueState = STATES.INACTIVE
 	dialogue_sprite.visible = false
+	
+	# if we have a dialogue_sig, emit it upon completion (callback)
+	if (dialogue_sig):
+		signals.emit_signal(dialogue_sig)
 
 # used to provide a small time buffer before typing the text. This is useful for the selection menu,
 # when an _input gets triggered for the select list as well as the dialogue window
-func typeTextWithBuffer(text, keep = false):
+func typeTextWithBuffer(text, keep = false, sig = null):
 	var timer_for_buffer = Timer.new()
-	timer_for_buffer.connect("timeout", self, "typeText", [text, keep, timer_for_buffer])
+	timer_for_buffer.connect("timeout", self, "typeText", [text, keep, sig, timer_for_buffer])
 	timer_for_buffer.wait_time = .01
 	add_child(timer_for_buffer)
 	timer_for_buffer.start()
 
-func typeText(text, keep = false, timer_for_buffer = null):
+func typeText(text, keep = false, sig = null, timer_for_buffer = null):
 	# kill the timer, if there is one
 	if (timer_for_buffer):
 		timer_for_buffer.stop()
 		remove_child(timer_for_buffer)
+		
+	# set the dialogue_sig, if there is one
+	dialogue_sig = sig	
 	
 	keep_text_on_screen = keep
 	# turn on the dialogue box, if it isn't turned on

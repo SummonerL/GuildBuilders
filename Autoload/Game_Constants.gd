@@ -18,6 +18,8 @@ const TIME_OF_DAY_INFO_GROUP = 'time_of_day_info'
 const MAP_ICONS_GROUP = 'map_icons'
 const MAP_ACTIONS_GROUP = 'map_actions'
 
+const EXCLAMATION = '!'
+
 const CANT_MOVE = 999999
 
 const MOVE_ANIM_SPEED = .015 # how fast the player moves to the target tile
@@ -117,3 +119,9 @@ const WOODCUTTING = 'woodcutting'
 const FISHING_PRETTY = 'Fishing'
 const MINING_PRETTY = 'Mining'
 const WOODCUTTING_PRETTY = 'Woodcutting'
+
+
+# keep track of all of the signals that can be emitted / connected -------------------------------
+
+# is emitted from the dialogue window after an action is completed and the player has confirmed
+signal finished_action

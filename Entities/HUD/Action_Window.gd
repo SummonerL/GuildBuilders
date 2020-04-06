@@ -90,7 +90,7 @@ func receive_item(item):
 	item_get_sound.play()
 		
 	
-func show_xp_reward(unit, reward, skill, level_before, xp_after, xp_before):
+func show_xp_reward(unit, reward, skill, level_before, xp_after, xp_before, parent):
 
 	var calc_next_lv_before = calculate_next_level_percent(xp_before, level_before, constants.FISHING)
 	var calc_next_lv_after = calculate_next_level_percent(xp_after, level_before, constants.FISHING)
@@ -103,6 +103,13 @@ func show_xp_reward(unit, reward, skill, level_before, xp_after, xp_before):
 		add_child(timer)
 		timer.start()
 		current_wait_time += XP_GAINED_SPEED #+ (percent / 200.0)   -- Maybe slow down as we approach 100% (mob psycho)
+		
+	# after showing the xp, call back to the parent to indicate we've finished with the action screen
+	var timer = Timer.new()
+	timer.wait_time = current_wait_time
+	timer.connect("timeout", self, "action_window_finished", [parent, skill, reward, timer])
+	add_child(timer)
+	timer.start()
 
 func print_lvl_xp(level, percent, timer = null):
 	if timer:
@@ -116,6 +123,13 @@ func print_lvl_xp(level, percent, timer = null):
 		
 	# play the xp gain sound
 	xp_gain_sound.play()
+
+func action_window_finished(parent, skill, reward, timer = null):
+	if (timer):
+		timer.stop()
+		remove_child(timer)
+	
+	parent.action_window_finished(skill, reward)
 
 func _ready():
 	window_init()

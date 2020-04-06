@@ -26,7 +26,7 @@ onready var clock_scn = preload("res://Entities/HUD/Clock/Clock.tscn")
 # game music
 const MIN_VOL = -80 # used for fading in / out
 const MED_VOL = -25
-const DAMPENED_VOL = -20
+const DAMPENED_VOL = -15
 var active_bg_music
 var bg_music_vol
 
@@ -98,9 +98,11 @@ func determine_music_state():
 	
 # dampen background music
 func dampen_background_music():
-	active_bg_music.volume_db = DAMPENED_VOL
+	active_bg_music.volume_db += DAMPENED_VOL
 	
 # raise background music
+func heighten_background_music():
+	active_bg_music.volume_db -= DAMPENED_VOL
 	
 # fade out the active background music
 func fade_out_background_music():
@@ -130,6 +132,9 @@ func stop_audio(audio_stream, _key = null):
 	# determine the next track to play
 	determine_background_music()
 
+func determine_background_vol_buffer():
+	pass
+	
 func determine_background_music():
 	match(player.current_time_of_day):
 		12:
