@@ -61,7 +61,7 @@ func window_init():
 	fishing_icon_sprite.position.y = pos_y + constants.DIA_TILE_HEIGHT
 
 # useful functioning for quickly calculating the next level experience percentage
-func calculate_next_level_percent(xp, level_before, skill):
+func calculate_next_level_percent(xp, level_before):
 	return stepify(xp / float(constants.experience_required[level_before]) * 100, 1)
 
 func set_skill(skill):
@@ -92,8 +92,8 @@ func receive_item(item):
 	
 func show_xp_reward(unit, reward, skill, level_before, xp_after, xp_before, parent):
 
-	var calc_next_lv_before = calculate_next_level_percent(xp_before, level_before, constants.FISHING)
-	var calc_next_lv_after = calculate_next_level_percent(xp_after, level_before, constants.FISHING)
+	var calc_next_lv_before = calculate_next_level_percent(xp_before, level_before)
+	var calc_next_lv_after = calculate_next_level_percent(xp_after, level_before)
 		
 	var current_wait_time = XP_GAINED_SPEED
 	for percent in range(calc_next_lv_before, calc_next_lv_after):

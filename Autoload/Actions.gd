@@ -79,18 +79,22 @@ func action_window_finished(skill, reward):
 	# show different wording based on the action
 	match(skill):
 		constants.FISHING:
-			player.hud.typeText(FISH_RECEIVED_TEXT + reward.name + constants.EXCLAMATION, false, 'finished_action') # we do have a signal
+			player.hud.typeText(FISH_RECEIVED_TEXT + reward.name + constants.EXCLAMATION, false, 'finished_action_success') # we do have a signal
 		_:
 			# do nothing
 			pass
 		
 		
-func finished_action(): # callback from dialogue
-	# we are finished with the action
-	camera.remove_child(action_screen_node)
+func _on_finished_action(success = false): # signal callback
+	if (success):
+		# we are finished with the action
+		camera.remove_child(action_screen_node)
+		
+		# turn the music back up
+		get_tree().get_current_scene().heighten_background_music()
 	
-	# turn the music back up
-	get_tree().get_current_scene().heighten_background_music()
+	# and let the unit know he/she has finished acting :)
+	active_unit.end_action(success)
 	
 # a function used for showing the action window, reward, and experience gained
 func show_action_window(skill, reward):
@@ -175,7 +179,7 @@ func initiate_fish_action():
 		var available_fish = map_actions.get_items_at_spot(spot)
 		
 		if (available_fish.size() == 0):
-			player.hud.typeTextWithBuffer(active_unit.NO_MORE_FISH_TEXT)
+			player.hud.typeTextWithBuffer(active_unit.NO_MORE_FISH_TEXT, false, 'finished_action_failed') # they did not succeed 
 		else:
 			# get a random fish from the list
 			available_fish.shuffle()
@@ -187,7 +191,8 @@ func initiate_fish_action():
 			show_action_window(constants.FISHING, received_fish)
 			
 	else:
-		player.hud.typeTextWithBuffer(active_unit.CANT_FISH_WITHOUT_ROD_TEXT)
+		player.hud.typeTextWithBuffer(active_unit.CANT_FISH_WITHOUT_ROD_TEXT, false, 'finished_action_failed') # they did not succeed
 
 func _ready():
-	signals.connect("finished_action", self, "finished_action")
+	signals.connect("finished_action_success", self, "_on_finished_action", [true])
+	signals.connect("finished_action_failed", self, "_on_finished_action", [false])

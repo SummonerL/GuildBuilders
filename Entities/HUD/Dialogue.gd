@@ -60,12 +60,12 @@ func kill_timers():
 		if node is Timer:
 			remove_child(node)
 
-func completeText():
+func completeText(used_for_resetting = true):
 	dialogueState = STATES.INACTIVE
 	dialogue_sprite.visible = false
-	
+
 	# if we have a dialogue_sig, emit it upon completion (callback)
-	if (dialogue_sig):
+	if (dialogue_sig && !used_for_resetting):
 		signals.emit_signal(dialogue_sig)
 
 # used to provide a small time buffer before typing the text. This is useful for the selection menu,
@@ -163,12 +163,12 @@ func _input(event):
 				if (dialogueBuffer.size() > 0):
 					clearText()
 					dialogueState = STATES.TYPING
-					typeText(dialogueBuffer.join(" "), keep_text_on_screen)
+					typeText(dialogueBuffer.join(" "), keep_text_on_screen, dialogue_sig)
 				else:
 					if (!keep_text_on_screen): # for instances when we want to leave the text on screen
 						clearText()
 						dialogueState = STATES.TYPING
-						completeText() # finished printing everything!
+						completeText(false) # finished printing everything!
 	
 			STATES.TYPING: # fast print!
 				for node in letters_symbols.get_children():

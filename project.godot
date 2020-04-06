@@ -33,6 +33,7 @@ Signal_Manager="*res://Autoload/Signal_Manager.gd"
 [debug]
 
 settings/fps/force_fps=30
+gdscript/warnings/unused_signal=false
 
 [display]
 

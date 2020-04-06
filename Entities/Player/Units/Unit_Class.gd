@@ -214,7 +214,7 @@ func do_action(action):
 		_: #default
 			# do something
 			player.enable_state(player.PLAYER_STATE.SELECTING_TILE)
-			
+		
 # when the action list is cancelled, go back to selecting a tile
 func cancel_select_list():
 	player.player_state = player.PLAYER_STATE.SELECTING_TILE
@@ -226,23 +226,24 @@ func show_unit_info_full_screen():
 	hud_unit_info_full_node.set_unit(self)
 	hud_unit_info_full_node.initialize_screen()
 
-func end_action(timer = null):
+func end_action(success = false, timer = null):
 	if (timer):
 		timer.stop()
 		remove_child(timer)
 	
-	# stop the unit move sound, in case they are moving
-	unit_move_sound_node.stop()
+	if (success): # if the action was successfully completed
+		# stop the unit move sound, in case they are moving
+		unit_move_sound_node.stop()
 
-	# deplete the unit's action list
-	current_action_list = depleted_action_list.duplicate()
+		# deplete the unit's action list
+		current_action_list = depleted_action_list.duplicate()
 	
-	# add the 'unit_spent' shader to the unit's sprite
-	unit_sprite_node.material = unit_spent_shader
+		# add the 'unit_spent' shader to the unit's sprite
+		unit_sprite_node.material = unit_spent_shader
 	
-	# the unit has 'acted'
-	set_has_acted_state(true)
-	player.party.remove_from_yet_to_act(unit_id)
+		# the unit has 'acted'
+		set_has_acted_state(true)
+		player.party.remove_from_yet_to_act(unit_id)
 	
 	# determine the next player state
 	player.determine_next_state()
@@ -328,7 +329,7 @@ func initiate_movement(path):
 	# after the unit has moved, we need to end their action
 	var timer = Timer.new()
 	timer.wait_time = current_time - constants.MOVE_ANIM_SPEED
-	timer.connect("timeout", self, "end_action", [timer])
+	timer.connect("timeout", self, "end_action", [true, timer])
 	add_child(timer)
 	timer.start()
 	
