@@ -62,7 +62,7 @@ func window_init():
 
 # useful functioning for quickly calculating the next level experience percentage
 func calculate_next_level_percent(xp, level_before):
-	return stepify(xp / float(constants.experience_required[level_before]) * 100, 1)
+	return floor(xp / float(constants.experience_required[level_before]) * 100)
 
 func set_skill(skill):
 	var pretty_name = ''
@@ -96,7 +96,7 @@ func show_xp_reward(unit, reward, skill, level_before, xp_after, xp_before, pare
 	var calc_next_lv_after = calculate_next_level_percent(xp_after, level_before)
 		
 	var current_wait_time = XP_GAINED_SPEED
-	for percent in range(calc_next_lv_before, calc_next_lv_after):
+	for percent in range(calc_next_lv_before, calc_next_lv_after +1):
 		var timer = Timer.new()
 		timer.wait_time = current_wait_time
 		timer.connect("timeout", self, "print_lvl_xp", [level_before, percent, timer])

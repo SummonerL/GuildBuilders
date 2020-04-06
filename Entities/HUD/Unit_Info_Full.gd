@@ -159,7 +159,7 @@ func populate_basic_info_screen():
 
 # useful functioning for quickly calculating the next level experience percentage
 func calculate_next_level_percent(skill):
-	return stepify(active_unit.skill_xp[skill] / float(constants.experience_required[active_unit.skill_levels[skill]]) * 100, 1)
+	return floor(active_unit.skill_xp[skill] / float(constants.experience_required[active_unit.skill_levels[skill]]) * 100.0)
 	
 func populate_skill_info_screen():
 	# make the skill info background sprite visible
