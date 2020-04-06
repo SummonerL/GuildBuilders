@@ -253,13 +253,11 @@ func gain_xp(xp, skill):
 	skill_xp[skill] += xp
 	
 	# so that the player can gain multiple levels at once (xp can carry over)
-	var index = 0
-	while (skill_xp[skill] >= constants.experience_required[skill_levels[skill] + index]):
-		skill_xp[skill] -= constants.experience_required[skill_levels[skill] + index]
+	while (skill_xp[skill] >= constants.experience_required[skill_levels[skill]]):
+		skill_xp[skill] -= constants.experience_required[skill_levels[skill]]
 		
 		# level up!
 		skill_levels[skill] += 1
-		index += 1
 	
 func enable_animate_movement_state(timer = null):
 	player.player_state = player.PLAYER_STATE.ANIMATING_MOVEMENT
