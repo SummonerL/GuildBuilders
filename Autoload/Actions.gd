@@ -70,6 +70,9 @@ func do_action(action, unit):
 			
 # a function used for showing the action window, reward, and experience gained
 func show_action_window(skill, reward):
+	# dampen the background music
+	get_tree().get_current_scene().dampen_background_music()
+	
 	# create a new action window
 	action_screen_node = action_screen_scn.instance()
 	

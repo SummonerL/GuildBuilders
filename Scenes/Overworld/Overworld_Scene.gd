@@ -26,7 +26,9 @@ onready var clock_scn = preload("res://Entities/HUD/Clock/Clock.tscn")
 # game music
 const MIN_VOL = -80 # used for fading in / out
 const MED_VOL = -25
+const DAMPENED_VOL = -20
 var active_bg_music
+var bg_music_vol
 
 onready var twelve_pm_loop = get_node("12PM_Loop")
 
@@ -93,6 +95,12 @@ func determine_music_state():
 		_:
 			# bau - keep playing music :
 			pass
+	
+# dampen background music
+func dampen_background_music():
+	active_bg_music.volume_db = DAMPENED_VOL
+	
+# raise background music
 	
 # fade out the active background music
 func fade_out_background_music():
