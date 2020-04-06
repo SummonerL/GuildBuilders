@@ -21,6 +21,9 @@ onready var fishing_icon_sprite = get_node("Fishing_Skill_Icon")
 # the xp gain sound
 onready var xp_gain_sound = get_node("XP_Gain_Sound")
 
+# the level up fanfare
+onready var level_up_fanfare = get_node("Level_Up_Fanfare")
+
 # the item received sound
 onready var item_get_sound = get_node("Item_Get_Sound")
 
@@ -90,39 +93,74 @@ func receive_item(item):
 	item_get_sound.play()
 		
 	
-func show_xp_reward(unit, reward, skill, level_before, xp_after, xp_before, parent):
+func show_xp_reward(unit, reward, skill, level_before, level_after, xp_after, xp_before, parent, timer = null):
+	
+	if (timer):
+		timer.stop()
+		remove_child(timer)
 
 	var calc_next_lv_before = calculate_next_level_percent(xp_before, level_before)
 	var calc_next_lv_after = calculate_next_level_percent(xp_after, level_before)
+	
+	if (level_after > level_before): # the unit leveled up!
+		calc_next_lv_after = 100
 		
 	var current_wait_time = XP_GAINED_SPEED
 	for percent in range(calc_next_lv_before, calc_next_lv_after +1):
-		var timer = Timer.new()
-		timer.wait_time = current_wait_time
-		timer.connect("timeout", self, "print_lvl_xp", [level_before, percent, timer])
-		add_child(timer)
-		timer.start()
+		var level_up = false
+		if (percent == 100):
+			level_up = true
+			
+		var print_timer = Timer.new()
+		print_timer.wait_time = current_wait_time
+		print_timer.connect("timeout", self, "print_lvl_xp", [level_before, percent, level_up, print_timer])
+		add_child(print_timer)
+		print_timer.start()
 		current_wait_time += XP_GAINED_SPEED #+ (percent / 200.0)   -- Maybe slow down as we approach 100% (mob psycho)
 		
+		# if the player leveled up. retrigger this function to show more xp at the next level
+		if (level_up):
+			var show_more_timer = Timer.new()
+			show_more_timer.wait_time = current_wait_time + 3 # account for level up fanfare
+			show_more_timer.connect("timeout", self, "show_xp_reward", [unit, reward, skill, level_before + 1, level_after, xp_after, 0, parent, show_more_timer])
+			add_child(show_more_timer)
+			show_more_timer.start()
+			return
+		
 	# after showing the xp, call back to the parent to indicate we've finished with the action screen
-	var timer = Timer.new()
-	timer.wait_time = current_wait_time
-	timer.connect("timeout", self, "action_window_finished", [parent, skill, reward, timer])
-	add_child(timer)
-	timer.start()
+	var finished_timer = Timer.new()
+	finished_timer.wait_time = current_wait_time
+	finished_timer.connect("timeout", self, "action_window_finished", [parent, skill, reward, finished_timer])
+	add_child(finished_timer)
+	finished_timer.start()
 
-func print_lvl_xp(level, percent, timer = null):
+func print_lvl_xp(level, percent, level_up = false, timer = null):
 	if timer:
 		timer.stop()
 		remove_child(timer)
 		
 	var lv_text = LVL_TEXT + String(level)
-	lv_text += "  " + NEXT_LEVEL_TEXT + String(percent) + "%"
+	lv_text += "  " + NEXT_LEVEL_TEXT + String(percent) + "%  "
 	letters_symbols_node.print_immediately(lv_text, Vector2((pos_x / constants.DIA_TILE_WIDTH) + 1, 
 		(pos_y / constants.DIA_TILE_HEIGHT) + 6))
 		
 	# play the xp gain sound
 	xp_gain_sound.play()
+	
+	if (level_up): # congrats!
+		var sound_timer = Timer.new()
+		sound_timer.wait_time = 1
+		sound_timer.connect("timeout", self, "play_level_up_sound", [sound_timer])
+		add_child(sound_timer)
+		sound_timer.start()
+
+func play_level_up_sound(timer = null):
+	if (timer):
+		timer.stop()
+		remove_child(timer)
+
+	level_up_fanfare.play()
+	
 
 func action_window_finished(parent, skill, reward, timer = null):
 	if (timer):

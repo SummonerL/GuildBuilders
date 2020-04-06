@@ -126,20 +126,21 @@ func show_action_window(skill, reward):
 	var xp_to_gain = reward.xp
 	active_unit.gain_xp(xp_to_gain, skill)
 	var xp_after = active_unit.skill_xp[skill]
+	var level_after = active_unit.skill_levels[skill]
 	
 	# and then, show the experience gained
 	var timer_xp = Timer.new()
 	timer_xp.wait_time = SKILL_WAIT_TIME + 1.5
-	timer_xp.connect("timeout", self, "show_xp_reward", [reward, skill, level_before, xp_after, xp_before, timer_xp])
+	timer_xp.connect("timeout", self, "show_xp_reward", [reward, skill, level_before, level_after, xp_after, xp_before, timer_xp])
 	add_child(timer_xp)
 	timer_xp.start()
 	
-func show_xp_reward(reward, skill, level_before, xp_after, xp_before, timer = null):
+func show_xp_reward(reward, skill, level_before, level_after, xp_after, xp_before, timer = null):
 	if (timer):
 		timer.stop()
 		remove_child(timer)
 		
-	action_screen_node.show_xp_reward(active_unit, reward, skill, level_before, xp_after, xp_before, self)
+	action_screen_node.show_xp_reward(active_unit, reward, skill, level_before, level_after, xp_after, xp_before, self)
 
 func set_item_reward(reward, timer = null):
 	if (timer):
