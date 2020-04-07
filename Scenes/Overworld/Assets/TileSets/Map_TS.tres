@@ -1,9 +1,10 @@
-[gd_resource type="TileSet" load_steps=5 format=2]
+[gd_resource type="TileSet" load_steps=6 format=2]
 
 [ext_resource path="res://Sprites/terrain/sheet_3.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Animated Textures/fish_spot_icon.tres" type="Texture" id=2]
 [ext_resource path="res://Sprites/Animated Textures/mining_spot_icon.tres" type="Texture" id=3]
 [ext_resource path="res://Sprites/Animated Textures/woodcutting_spot_icon.tres" type="Texture" id=4]
+[ext_resource path="res://Sprites/Animated Textures/guild_hall.tres" type="Texture" id=5]
 
 [resource]
 2/name = "water"
@@ -184,3 +185,13 @@
 17/navigation_offset = Vector2( 0, 0 )
 17/shapes = [  ]
 17/z_index = 0
+18/name = "guild_hall"
+18/texture = ExtResource( 5 )
+18/tex_offset = Vector2( 0, 0 )
+18/modulate = Color( 1, 1, 1, 1 )
+18/region = Rect2( 0, 0, 32, 32 )
+18/tile_mode = 0
+18/occluder_offset = Vector2( 0, 0 )
+18/navigation_offset = Vector2( 0, 0 )
+18/shapes = [  ]
+18/z_index = 0
