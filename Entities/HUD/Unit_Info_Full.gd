@@ -83,6 +83,9 @@ func unit_info_full_init():
 	
 	# make sure the letters sit on top
 	letters_symbols_node.layer = self.layer + 1
+	
+	# dampen the background music while we are viewing the unit's information
+	get_tree().get_current_scene().dampen_background_music()
 
 # set the active unit that we are viewing information about
 func set_unit(unit):
@@ -486,5 +489,9 @@ func _input(event):
 func close_unit_screen():
 	# change the player state
 	player.player_state = player.PLAYER_STATE.SELECTING_TILE
+	
+	# turn the music back up
+	get_tree().get_current_scene().heighten_background_music()
+	
 	# kill ourself :(
 	get_parent().remove_child(self)
