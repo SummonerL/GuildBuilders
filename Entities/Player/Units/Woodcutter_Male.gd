@@ -6,6 +6,8 @@ onready var ps = preload("res://Sprites/characters/woodcutter_male_portrait1.png
 const CANT_FISH_WITHOUT_ROD_TEXT = 'I don\'t know how I\'m going to be able to fish without any equipment...'
 const NO_MORE_FISH_TEXT = 'There\'s no more fish here. I guess I must have scared them away.' 
 
+const INVENTORY_FULL_TEXT = 'Surprisingly, I don\'t think I can carry any thing else. I\'ll try this again later.'
+
 func unit_init():
 	unit_pos_x = 9
 	unit_pos_y = 7

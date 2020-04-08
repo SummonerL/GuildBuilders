@@ -6,6 +6,8 @@ onready var ps = preload("res://Sprites/characters/angler_male_portrait1.png")
 const CANT_FISH_WITHOUT_ROD_TEXT = 'Oh no.. I don\'t have any fishing equipment. It looks like I can\'t do this right now...'
 const NO_MORE_FISH_TEXT = 'No more fish... There\'s never enough in the world.' 
 
+const INVENTORY_FULL_TEXT = 'Hmm... I don\'t think I can carry anything else. I should try that later.'
+
 func unit_init():
 	unit_pos_x = 11
 	unit_pos_y = 10
@@ -29,6 +31,7 @@ func unit_init():
 	
 	# give the male angler some starting items
 	global_items_list.add_item_to_unit(self, global_items_list.item_softwood_rod)
+	global_items_list.add_item_to_unit(self, global_items_list.item_musclefish)
 	
 	# add the unit's starting ability
 	global_ability_list.add_ability_to_unit(self, global_ability_list.ability_growing_boy)

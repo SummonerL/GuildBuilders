@@ -6,6 +6,8 @@ onready var ps = preload("res://Sprites/characters/woodcutter_female_portrait.pn
 const CANT_FISH_WITHOUT_ROD_TEXT = 'I\'m ill-prepared for this. I should come back next time with some fishing equipment.'
 const NO_MORE_FISH_TEXT = 'There\'s no more fish here.... I should come back later.' 
 
+const INVENTORY_FULL_TEXT = 'If only I had a bigger bag... I should try this again after I free up some space.'
+
 func unit_init():
 	unit_pos_x = 7
 	unit_pos_y = 7

@@ -119,6 +119,7 @@ func show_action_window(skill, reward):
 	timer.start()
 	
 	# give the item to the unit
+	active_unit.receive_item(reward)
 	
 	# give the xp to the unit
 	var level_before = active_unit.skill_levels[skill]
@@ -181,6 +182,8 @@ func initiate_fish_action():
 		
 		if (available_fish.size() == 0):
 			player.hud.typeTextWithBuffer(active_unit.NO_MORE_FISH_TEXT, false, 'finished_action_failed') # they did not succeed 
+		elif (active_unit.is_inventory_full()):
+			player.hud.typeTextWithBuffer(active_unit.INVENTORY_FULL_TEXT, false, 'finished_action_failed') # they did not succeed
 		else:
 			# get a random fish from the list
 			available_fish.shuffle()

@@ -6,6 +6,8 @@ onready var ps = preload("res://Sprites/characters/angler_female_portrait1.png")
 const CANT_FISH_WITHOUT_ROD_TEXT = 'How could I forget my fishing equipment? I guess I\'ll have to come back later...'
 const NO_MORE_FISH_TEXT = 'Even with my eyes, I\'m not seeing any more fish here.' 
 
+const INVENTORY_FULL_TEXT = 'My hands are full... Looks like I\'m going to have to come back later.'
+
 func get_unit_move_sound():
 	return unit_move_sound
 	

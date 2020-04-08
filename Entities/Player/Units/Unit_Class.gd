@@ -248,6 +248,17 @@ func end_action(success = false, timer = null):
 	# determine the next player state
 	player.determine_next_state()
 	
+# add an item to the unit's inventory
+func receive_item(item):
+	if (current_items.size() < item_limit):
+		current_items.append(item)
+		
+	# otherwise... sorry? You probably shouldn't have gotten here ;) 
+	
+# quick function for checking if the unit's inventory is full
+func is_inventory_full():
+	return (current_items.size() >= item_limit)
+	
 # function for gaining xp in a specific skill
 func gain_xp(xp, skill):
 	skill_xp[skill] += xp
