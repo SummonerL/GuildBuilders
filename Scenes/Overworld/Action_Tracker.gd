@@ -9,18 +9,24 @@ onready var global_items_list = get_node("/root/Items")
 const ACTIONS = {
 	0: 'FISH_SPOT_1',
 	1: 'FISH_SPOT_2',
+	2: 'WOODCUTTING_SPOT_1',
+	3: 'WOODCUTTING_SPOT_2'
 }
 
 # keep track of the kind of resources that can be gained on specific action spots
 onready var ITEMS_AT_SPOT = {
 	'FISH_SPOT_1': [global_items_list.item_musclefish],
-	'FISH_SPOT_2': []
+	'FISH_SPOT_2': [],
+	'WOODCUTTING_SPOT_1': [global_items_list.item_softwood],
+	'WOODCUTTING_SPOT_2': []
 }
 
 # specific actions associated with these tiles
 onready var associated_actions = {
 	'FISH_SPOT_1': global_action_list.COMPLETE_ACTION_LIST.FISH,
 	'FISH_SPOT_2': global_action_list.COMPLETE_ACTION_LIST.FISH,
+	'WOODCUTTING_SPOT_1': global_action_list.COMPLETE_ACTION_LIST.CHOP,
+	'WOODCUTTING_SPOT_2': global_action_list.COMPLETE_ACTION_LIST.CHOP
 }
 
 # list of actions in which still apply when adjacent

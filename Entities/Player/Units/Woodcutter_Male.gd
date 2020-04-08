@@ -6,11 +6,14 @@ onready var ps = preload("res://Sprites/characters/woodcutter_male_portrait1.png
 const CANT_FISH_WITHOUT_ROD_TEXT = 'I don\'t know how I\'m going to be able to fish without any equipment...'
 const NO_MORE_FISH_TEXT = 'There\'s no more fish here. I guess I must have scared them away.' 
 
-const INVENTORY_FULL_TEXT = 'Surprisingly, I don\'t think I can carry any thing else. I\'ll try this again later.'
+const CANT_WOODCUT_WITHOUT_AXE_TEXT = 'I\'m pretty skilled at this, but not enough to cut wood with my bare hands.'
+const NO_MORE_WOOD_TEXT = 'No more wood here! Let\'s find someplace else.'
+
+const INVENTORY_FULL_TEXT = 'Surprisingly, I don\'t think I can carry anything else. I\'ll try this again later.'
 
 func unit_init():
 	unit_pos_x = 9
-	unit_pos_y = 7
+	unit_pos_y = 3
 	
 	unit_portrait_sprite = ps
 
@@ -29,6 +32,9 @@ func unit_init():
 	base_move = 3
 	
 	skill_levels[constants.WOODCUTTING] = 5
+	
+	# give the male woodcutter some starting items
+	global_items_list.add_item_to_unit(self, global_items_list.item_sturdy_axe)
 	
 	# add the unit's starting ability
 	global_ability_list.add_ability_to_unit(self, global_ability_list.ability_roughing_it)

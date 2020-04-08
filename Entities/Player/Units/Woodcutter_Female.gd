@@ -6,6 +6,9 @@ onready var ps = preload("res://Sprites/characters/woodcutter_female_portrait.pn
 const CANT_FISH_WITHOUT_ROD_TEXT = 'I\'m ill-prepared for this. I should come back next time with some fishing equipment.'
 const NO_MORE_FISH_TEXT = 'There\'s no more fish here.... I should come back later.' 
 
+const CANT_WOODCUT_WITHOUT_AXE_TEXT = 'How could I forget my trusty axe...? Better come back later.'
+const NO_MORE_WOOD_TEXT = '...and that\'s enough for that area. Let\'s look elsewhere.'
+
 const INVENTORY_FULL_TEXT = 'If only I had a bigger bag... I should try this again after I free up some space.'
 
 func unit_init():
@@ -28,6 +31,9 @@ func unit_init():
 	base_move = 4
 	
 	skill_levels[constants.WOODCUTTING] = 5
+	
+	# give the female woodcutter some starting items
+	global_items_list.add_item_to_unit(self, global_items_list.item_sturdy_axe)
 	
 	# add the unit's starting ability
 	global_ability_list.add_ability_to_unit(self, global_ability_list.ability_early_riser)

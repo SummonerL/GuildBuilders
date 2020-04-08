@@ -37,7 +37,10 @@ const WAIT_FOR_REWARD_SCREEN = 2
 
 # text related to the various actions
 const FISHING_TEXT = " started fishing..."
+const WOODCUTTING_TEXT = " started chopping..."
+
 const FISH_RECEIVED_TEXT = "and caught a "
+const WOOD_RECEIVED_TEXT = "and got some "
 
 enum COMPLETE_ACTION_LIST {
 	MOVE,
@@ -67,7 +70,7 @@ func do_action(action, unit):
 		COMPLETE_ACTION_LIST.MINE:
 			pass
 		COMPLETE_ACTION_LIST.CHOP:
-			pass
+			initiate_woodcutting_action()
 		COMPLETE_ACTION_LIST.INFO:
 			# let the unit handle this action
 			unit.do_action(action)
@@ -80,6 +83,8 @@ func action_window_finished(skill, reward):
 	match(skill):
 		constants.FISHING:
 			player.hud.typeText(FISH_RECEIVED_TEXT + reward.name + constants.EXCLAMATION, false, 'finished_action_success') # we do have a signal
+		constants.WOODCUTTING:
+			player.hud.typeText(WOOD_RECEIVED_TEXT + reward.name + constants.EXCLAMATION, false, 'finished_action_success') # we do have a signal
 		_:
 			# do nothing
 			pass
@@ -109,7 +114,7 @@ func show_action_window(skill, reward):
 	camera.add_child(action_screen_node)
 	
 	# set the action screen skill
-	action_screen_node.set_skill(constants.FISHING)
+	action_screen_node.set_skill(skill)
 	
 	# show the item being received, after 3 seconds
 	var timer = Timer.new()
@@ -150,6 +155,7 @@ func set_item_reward(reward, timer = null):
 
 	action_screen_node.receive_item(reward)
 
+# if the unit is fishing
 func initiate_fish_action():
 	# first, determine if the unit has a fishing rod
 	var rod = null
@@ -196,6 +202,38 @@ func initiate_fish_action():
 			
 	else:
 		player.hud.typeTextWithBuffer(active_unit.CANT_FISH_WITHOUT_ROD_TEXT, false, 'finished_action_failed') # they did not succeed
+
+# if the unit is woodcutting
+func initiate_woodcutting_action():
+	# first, determine if the unit has an axe
+	var axe = null
+	for item in active_unit.current_items:
+		if (item.type == global_items_list.ITEM_TYPES.AXE):
+			axe = item
+	
+	if (axe):
+		# determine which woodcutting spot the unit is targeting
+		var spot = map_actions.get_action_spot_at_coordinates(Vector2(player.curs_pos_x, player.curs_pos_y))
+
+		# get a list of wood that can be found at this spot
+		var available_wood = map_actions.get_items_at_spot(spot)
+		
+		if (available_wood.size() == 0):
+			player.hud.typeTextWithBuffer(active_unit.NO_MORE_WOOD_TEXT, false, 'finished_action_failed') # they did not succeed 
+		elif (active_unit.is_inventory_full()):
+			player.hud.typeTextWithBuffer(active_unit.INVENTORY_FULL_TEXT, false, 'finished_action_failed') # they did not succeed
+		else:
+			# get random wood from the list
+			available_wood.shuffle()
+			var received_wood = available_wood[0]
+			
+			# start woodcutting
+			player.hud.typeTextWithBuffer(active_unit.unit_name + WOODCUTTING_TEXT, true)
+			
+			show_action_window(constants.WOODCUTTING, received_wood)
+			
+	else:
+		player.hud.typeTextWithBuffer(active_unit.CANT_WOODCUT_WITHOUT_AXE_TEXT, false, 'finished_action_failed') # they did not succeed
 
 func _ready():
 	signals.connect("finished_action_success", self, "_on_finished_action", [true])

@@ -5,7 +5,9 @@ extends Node
 
 enum ITEM_TYPES {
 	ROD	,
-	FISH
+	AXE,
+	FISH,
+	WOOD
 }
 
 # tools
@@ -15,13 +17,25 @@ const item_softwood_rod = {
 	"type": ITEM_TYPES.ROD
 }
 
-
+const item_sturdy_axe = {
+	"name": "Sturdy Axe",
+	"description": "A simple stone axe. Allows the unit to gather wood.",
+	"type": ITEM_TYPES.AXE
+}
 
 # fish
 const item_musclefish = {
 	"name": "Musclefish",
 	"description": "Eating this will allow the unit to carry an additional 3 items that day.",
 	"type": ITEM_TYPES.FISH,
+	"xp": 2 # xp upon receiving
+}
+
+# wood
+const item_softwood = {
+	"name": "Softwood",
+	"description": "A light-colored wood that is easy to cut. Can be used to craft various items.",
+	"type": ITEM_TYPES.WOOD,
 	"xp": 2 # xp upon receiving
 }
 

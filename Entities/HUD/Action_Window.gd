@@ -69,6 +69,8 @@ func calculate_next_level_percent(xp, level_before):
 
 func set_skill(skill):
 	var pretty_name = ''
+	print('TESTTTT')
+	print(skill)
 	
 	match(skill):
 		constants.FISHING:
@@ -78,6 +80,13 @@ func set_skill(skill):
 				(pos_y / constants.DIA_TILE_HEIGHT) + 1))
 				
 			fishing_icon_sprite.visible = true
+		constants.WOODCUTTING:
+			pretty_name = constants.WOODCUTTING_PRETTY
+			
+			letters_symbols_node.print_immediately(pretty_name, Vector2((WINDOW_WIDTH + 3) - floor(len(pretty_name) / 2.0),
+				(pos_y / constants.DIA_TILE_HEIGHT) + 1))
+				
+			woodcutting_icon_sprite.visible = true
 
 func receive_item(item):
 	var receive_text = item.name + EXCLAMATION

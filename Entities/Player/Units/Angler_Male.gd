@@ -6,6 +6,9 @@ onready var ps = preload("res://Sprites/characters/angler_male_portrait1.png")
 const CANT_FISH_WITHOUT_ROD_TEXT = 'Oh no.. I don\'t have any fishing equipment. It looks like I can\'t do this right now...'
 const NO_MORE_FISH_TEXT = 'No more fish... There\'s never enough in the world.' 
 
+const CANT_WOODCUT_WITHOUT_AXE_TEXT = 'I probably need an axe for this...'
+const NO_MORE_WOOD_TEXT = 'Time to move on to another area. No more wood here!'
+
 const INVENTORY_FULL_TEXT = 'Hmm... I don\'t think I can carry anything else. I should try that later.'
 
 func unit_init():
