@@ -28,8 +28,8 @@ onready var unit_spent_shader = preload("res://Sprites/Shaders/spent_unit.tres")
 onready var tileset_props_l1 = get_tree().get_nodes_in_group(constants.MAP_TILES_GROUP)[0]
 onready var tileset_props_l2 = get_tree().get_nodes_in_group(constants.MAP_TILES_GROUP)[1]
 
-# have our icons layer, for populating action lists
-onready var icon_props = get_tree().get_nodes_in_group(constants.MAP_ICONS_GROUP)[0]
+# keep track of the actual underlying map actions (which can differ even for the same icon)
+onready var map_actions = get_tree().get_nodes_in_group(constants.MAP_ACTIONS_GROUP)[0]
 
 # make sure we have access to the main camera node
 onready var camera = get_tree().get_nodes_in_group("Camera")[0]
@@ -141,7 +141,7 @@ func determine_action_list():
 		current_action_list = initial_action_list.duplicate()
 		
 		# if there are any actions on our tile, based on the icon
-		var current_tile_action = icon_props.get_action_at_coordinates(Vector2(unit_pos_x, unit_pos_y))
+		var current_tile_action = map_actions.get_action_at_coordinates(Vector2(unit_pos_x, unit_pos_y))
 		var adjacent_tile_actions = []
 		var new_actions = []
 		
@@ -151,21 +151,21 @@ func determine_action_list():
 		# check adjacent tiles
 		
 		# north
-		adjacent_tile_actions.append(icon_props.get_action_at_coordinates(Vector2(unit_pos_x, unit_pos_y - 1)))
+		adjacent_tile_actions.append(map_actions.get_action_at_coordinates(Vector2(unit_pos_x, unit_pos_y - 1)))
 		
 		# south
-		adjacent_tile_actions.append(icon_props.get_action_at_coordinates(Vector2(unit_pos_x, unit_pos_y + 1)))
+		adjacent_tile_actions.append(map_actions.get_action_at_coordinates(Vector2(unit_pos_x, unit_pos_y + 1)))
 		
 		# east
-		adjacent_tile_actions.append(icon_props.get_action_at_coordinates(Vector2(unit_pos_x + 1, unit_pos_y)))
+		adjacent_tile_actions.append(map_actions.get_action_at_coordinates(Vector2(unit_pos_x + 1, unit_pos_y)))
 		
 		# west
-		adjacent_tile_actions.append(icon_props.get_action_at_coordinates(Vector2(unit_pos_x - 1, unit_pos_y)))
+		adjacent_tile_actions.append(map_actions.get_action_at_coordinates(Vector2(unit_pos_x - 1, unit_pos_y)))
 		
 		# make sure adjacent tiles apply (most actions require actually being on the tile)
 		for action in adjacent_tile_actions:
 			if (action):
-				if (icon_props.adjacent_applicable.has(action)):
+				if (map_actions.adjacent_applicable.has(action)):
 					new_actions.append(action)
 				
 		# update the action list	

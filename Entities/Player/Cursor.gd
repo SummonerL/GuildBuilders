@@ -166,20 +166,19 @@ func _input(event):
 			
 	# if the action button is pressed, we can select the tile/unit
 	if event.is_action_pressed("ui_accept"):
-		# regardless of the current state, if there are any units here, we need
-		# to activate them. This allows the user to select a unit to do an action,
-	# even while they are still selecting movement for another unit
-		if (get_selected_tile_units() != null):
-			# as long as another unit is not actively moving
-			if (player.player_state != player.PLAYER_STATE.ANIMATING_MOVEMENT):
-				select_tile()
-		else:	
-			match player.player_state:
-				player.PLAYER_STATE.SELECTING_TILE:
+		# if another unit is selecting movement, let's allow another unit to be selected still, allowing them to 'interrupt' and take their action
+		if (player.player_state == player.PLAYER_STATE.SELECTING_TILE || player.player_state == player.PLAYER_STATE.SELECTING_MOVEMENT):
+			if (get_selected_tile_units() != null):
+				# as long as another unit is not actively moving
+				if (player.player_state != player.PLAYER_STATE.ANIMATING_MOVEMENT):
 					select_tile()
-				player.PLAYER_STATE.SELECTING_MOVEMENT:
-					if (party.get_active_unit() != null):
-						party.get_active_unit().move_unit_if_eligible(player.curs_pos_x, player.curs_pos_y)
+			else:	
+				match player.player_state:
+					player.PLAYER_STATE.SELECTING_TILE:
+						select_tile()
+					player.PLAYER_STATE.SELECTING_MOVEMENT:
+						if (party.get_active_unit() != null):
+							party.get_active_unit().move_unit_if_eligible(player.curs_pos_x, player.curs_pos_y)
 
 # runs every frame
 func _process(_delta):

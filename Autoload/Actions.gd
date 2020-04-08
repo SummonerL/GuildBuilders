@@ -159,23 +159,23 @@ func initiate_fish_action():
 	
 	if (rod):
 		# determine which fishing spot the unit is targeting
-		var spot = map_actions.get_action_at_coordinates(Vector2(player.curs_pos_x, player.curs_pos_y))
+		var spot = map_actions.get_action_spot_at_coordinates(Vector2(player.curs_pos_x, player.curs_pos_y))
 		
 		# check north
 		if (spot == null):
-			spot = map_actions.get_action_at_coordinates(Vector2(player.curs_pos_x, player.curs_pos_y - 1))
+			spot = map_actions.get_action_spot_at_coordinates(Vector2(player.curs_pos_x, player.curs_pos_y - 1))
 			
 		# check east
 		if (spot == null):
-			spot = map_actions.get_action_at_coordinates(Vector2(player.curs_pos_x + 1, player.curs_pos_y))
+			spot = map_actions.get_action_spot_at_coordinates(Vector2(player.curs_pos_x + 1, player.curs_pos_y))
 			
 		# check south
 		if (spot == null):
-			spot = map_actions.get_action_at_coordinates(Vector2(player.curs_pos_x, player.curs_pos_y + 1))
+			spot = map_actions.get_action_spot_at_coordinates(Vector2(player.curs_pos_x, player.curs_pos_y + 1))
 			
 		# check west
 		if (spot == null):
-			spot = map_actions.get_action_at_coordinates(Vector2(player.curs_pos_x - 1, player.curs_pos_y))
+			spot = map_actions.get_action_spot_at_coordinates(Vector2(player.curs_pos_x - 1, player.curs_pos_y))
 			
 		# get a list of fish that can be found at this spot
 		var available_fish = map_actions.get_items_at_spot(spot)
