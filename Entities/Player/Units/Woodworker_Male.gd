@@ -33,7 +33,7 @@ func unit_init():
 	
 	#skill_levels[constants.WOODWORKING] = 5
 	
-	# give the male woodcutter some starting items
+	# give the male woodworker some starting items
 	
 	# add the unit's starting ability
 	
