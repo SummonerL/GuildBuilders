@@ -65,6 +65,7 @@ func gameInit():
 	player.party.add_unit(constants.UNIT_TYPES.ANGLER_FEMALE)
 	player.party.add_unit(constants.UNIT_TYPES.WOODCUTTER_MALE)
 	player.party.add_unit(constants.UNIT_TYPES.WOODCUTTER_FEMALE)
+	player.party.add_unit(constants.UNIT_TYPES.WOODWORKER_MALE)
 	
 	# mark all units as 'yet to act'
 	player.party.reset_yet_to_act()
