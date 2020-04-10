@@ -12,8 +12,8 @@ const NO_MORE_WOOD_TEXT = '...and that\'s enough for that area. Let\'s look else
 const INVENTORY_FULL_TEXT = 'If only I had a bigger bag... I should try this again after I free up some space.'
 
 func unit_init():
-	unit_pos_x = 7
-	unit_pos_y = 7
+	unit_pos_x = 1
+	unit_pos_y = 0
 	
 	unit_portrait_sprite = ps
 	
@@ -28,7 +28,7 @@ func unit_init():
 	unit_bio += "My parents passed away when I was a young child, so I had to grow up fast. My goal in life is simply to be "
 	unit_bio += "reliable and provide for those I love. Thanks for reading!"
 	
-	base_move = 4
+	base_move = 3
 	
 	skill_levels[constants.WOODCUTTING] = 5
 	

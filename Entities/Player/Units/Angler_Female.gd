@@ -15,8 +15,8 @@ func get_unit_move_sound():
 	return unit_move_sound
 	
 func unit_init():
-	unit_pos_x = 2
-	unit_pos_y = 5
+	unit_pos_x = -2
+	unit_pos_y = -1
 	
 	unit_id = 3
 
@@ -28,7 +28,7 @@ func unit_init():
 	
 	unit_sprite_node = get_node("Angler_Female_Sprite")
 	
-	base_move = 6
+	base_move = 3
 	
 	skill_levels[constants.FISHING] = 5
 	

@@ -12,8 +12,8 @@ const NO_MORE_WOOD_TEXT = '...'
 const INVENTORY_FULL_TEXT = '...'
 
 func unit_init():
-	unit_pos_x = 8
-	unit_pos_y = 3
+	unit_pos_x = 0
+	unit_pos_y = 1
 	
 	unit_portrait_sprite = ps
 

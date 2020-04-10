@@ -12,8 +12,8 @@ const NO_MORE_WOOD_TEXT = 'No more wood here! Let\'s find someplace else.'
 const INVENTORY_FULL_TEXT = 'Surprisingly, I don\'t think I can carry anything else. I\'ll try this again later.'
 
 func unit_init():
-	unit_pos_x = 9
-	unit_pos_y = 3
+	unit_pos_x = 1
+	unit_pos_y = -1
 	
 	unit_portrait_sprite = ps
 
