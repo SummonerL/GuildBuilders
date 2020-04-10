@@ -47,7 +47,7 @@ enum COMPLETE_ACTION_LIST {
 	FISH,
 	MINE,
 	CHOP,
-	INFO
+	INFO,
 }
 
 const ACTION_LIST_NAMES = [
