@@ -33,7 +33,7 @@ const EXCLAMATION = '!'
 const NEXT_LEVEL_TEXT = "Nxt."
 const LVL_TEXT = "Lv."
 
-const XP_GAINED_SPEED = .1
+const XP_GAINED_SPEED = .08
 
 const WINDOW_WIDTH = 8
 const WINDOW_HEIGHT = 4

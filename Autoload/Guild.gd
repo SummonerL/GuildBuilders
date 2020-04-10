@@ -22,7 +22,7 @@ onready var hud_depot_screen_scn = preload("res://Entities/HUD/Depot_Screen.tscn
 var camera
 
 # keep track of all the items currently in the depot
-var depot_items = []
+var current_items = []
 
 func populate_depot_screen(active_unit):
 	camera = get_tree().get_nodes_in_group("Camera")[0]
