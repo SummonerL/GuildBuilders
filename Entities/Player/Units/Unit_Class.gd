@@ -299,10 +299,17 @@ func move_unit_if_eligible(target_x, target_y):
 
 # functions global to all unit types
 func show_movement_grid_square(pos_x, pos_y):
-	var square = movement_grid_square.instance()
-	add_child(square)
+	# if there is a unit here, don't show the square
+	var unit_here = false
+	for unit in player.party.get_all_units():
+		if (unit.unit_pos_x == pos_x && unit.unit_pos_y == pos_y):
+			unit_here = true
 	
-	square.set_square_position(pos_x, pos_y)
+	if (!unit_here):
+		var square = movement_grid_square.instance()
+		add_child(square)
+	
+		square.set_square_position(pos_x, pos_y)
 
 # once we've received the path the unit will take, this function will actually move
 # the unit based on a timer

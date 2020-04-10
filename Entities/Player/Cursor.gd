@@ -171,6 +171,12 @@ func _input(event):
 			if (get_selected_tile_units() != null):
 				# as long as another unit is not actively moving
 				if (player.player_state != player.PLAYER_STATE.ANIMATING_MOVEMENT):
+					
+					# clear the movement grid of the active unit
+					var active_unit = party.get_active_unit()
+					if (active_unit):
+						active_unit.clear_movement_grid_squares()
+					
 					select_tile()
 			else:	
 				match player.player_state:
@@ -179,6 +185,12 @@ func _input(event):
 					player.PLAYER_STATE.SELECTING_MOVEMENT:
 						if (party.get_active_unit() != null):
 							party.get_active_unit().move_unit_if_eligible(player.curs_pos_x, player.curs_pos_y)
+	if event.is_action_pressed("ui_cancel"):
+		# allow the unit to cancel out of selecting movement
+		if (player.player_state == player.PLAYER_STATE.SELECTING_MOVEMENT):
+			party.get_active_unit().clear_movement_grid_squares()
+			# change our state back to selecting tile
+			player.player_state = player.PLAYER_STATE.SELECTING_TILE
 
 # runs every frame
 func _process(_delta):
