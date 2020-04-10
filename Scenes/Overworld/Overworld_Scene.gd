@@ -15,6 +15,9 @@ onready var player = get_node("/root/Player_Globals")
 
 # Overworld Scene (Main)
 
+# bring in our global action list
+onready var global_action_list = get_node("/root/Actions")
+
 # preload our game objects
 onready var cursor_scn = preload("res://Entities/Player/Cursor.tscn")
 onready var camera_scn = preload("res://Entities/Camera/Camera.tscn")
@@ -22,6 +25,9 @@ onready var hud_scn = preload("res://Entities/HUD/Dialogue.tscn")
 onready var hud_tile_info_scn = preload("res://Entities/HUD/Tile_Info.tscn")
 onready var hud_time_of_day_info_scn = preload("res://Entities/HUD/Time_Of_Day_Info.tscn")
 onready var clock_scn = preload("res://Entities/HUD/Clock/Clock.tscn")
+
+# various hud scenes
+onready var hud_selection_list_scn = preload("res://Entities/HUD/Selection_List.tscn")
 
 # game music
 const MIN_VOL = -80 # used for fading in / out
@@ -40,6 +46,11 @@ onready var tween_in = get_node("Fade_In_Tween")
 export var transition_duration_out = 3.0
 export var transition_duration_in = 1.5
 export var transition_type = 1 # TRANS_SINE
+
+# list of actions that are available when not selecting a unit
+onready var action_list = [
+	global_action_list.COMPLETE_ACTION_LIST.FOCUS
+]
 
 # game instances
 var cursor
@@ -147,6 +158,35 @@ func determine_background_music():
 		_:
 			# play nothing (this should never happen)
 			pass
+
+# function for opening the action list when not selecting a unit
+func show_turn_action_list():
+	# add a selection list istance to our camera
+	var hud_selection_list_node = hud_selection_list_scn.instance()
+	camera.add_hud_item(hud_selection_list_node)
+	
+	# populate the action list with the current list of actions this unit can take
+	hud_selection_list_node.populate_selection_list(action_list, self)
+
+# when the action list is cancelled, go back to selecting a tile
+func cancel_select_list():
+	player.player_state = player.PLAYER_STATE.SELECTING_TILE
+
+# called from the action script when an action specific to this scene is selected
+func do_action(action):
+	match (action):
+		global_action_list.COMPLETE_ACTION_LIST.FOCUS:
+			# focus the cursor on the next available party member
+			var party_member = player.party.yet_to_act[0]
+			
+			cursor.focus_on(party_member.unit_pos_x, party_member.unit_pos_y)
+			
+			# move this unit to the back of the 'yet to act list'
+			player.party.yet_to_act.pop_front()
+			player.party.yet_to_act.append(party_member)
+			
+			# update the player state
+			player.player_state = player.PLAYER_STATE.SELECTING_TILE
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

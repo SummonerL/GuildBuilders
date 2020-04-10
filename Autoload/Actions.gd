@@ -48,6 +48,7 @@ enum COMPLETE_ACTION_LIST {
 	MINE,
 	CHOP,
 	INFO,
+	FOCUS
 }
 
 const ACTION_LIST_NAMES = [
@@ -55,11 +56,16 @@ const ACTION_LIST_NAMES = [
 	'FISH',
 	'MINE',
 	'CHOP',
-	'INFO'
+	'INFO',
+	'FOCUS'
 ]
 
 func do_action(action, unit):
-	active_unit = unit
+	# make sure this is actually a unit, as in some cases, the overworld scene will be the parent instead of a unit
+	if not unit.get('unit_id') == null:
+		active_unit = unit
+	else:
+		active_unit = null
 	
 	match (action):
 		COMPLETE_ACTION_LIST.MOVE:
@@ -74,7 +80,9 @@ func do_action(action, unit):
 		COMPLETE_ACTION_LIST.INFO:
 			# let the unit handle this action
 			unit.do_action(action)
-
+		COMPLETE_ACTION_LIST.FOCUS:
+			# focus the cursor on the next available unit
+			get_tree().get_current_scene().do_action(action)
 func action_window_finished(skill, reward):
 	# clear existing text
 	player.hud.clearText()

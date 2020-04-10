@@ -54,6 +54,21 @@ func cursor_init():
 	tile_info_node = get_tree().get_nodes_in_group(constants.TILE_INFO_GROUP)[0]
 	time_of_day_info_node = get_tree().get_nodes_in_group(constants.TIME_OF_DAY_INFO_GROUP)[0]
 	
+# useful function for focusing on specific coordinates
+func focus_on(x, y):
+	set_cursor_pos(x, y)
+	
+	# update the camera accordingly (top left, centering the cursor in the middle)
+	camera.set_camera_pos(x - 4, y - 4)
+	
+	# check if we need to move the info tiles (hud)
+	tile_info_node.check_if_move_needed(player.curs_pos_x - player.cam_pos_x)
+	time_of_day_info_node.check_if_move_needed(player.curs_pos_x - player.cam_pos_x, player.curs_pos_y - player.cam_pos_y)
+	
+	# print the info tiles
+	tile_info_node.update_tile_info_text()
+	time_of_day_info_node.update_time_of_day_info_text()
+	
 func get_selected_tile_units():
 	# find if there are any active units on the current tile
 	for unit in party.get_all_units():
@@ -76,6 +91,13 @@ func select_tile():
 		
 		# show the unit's action list
 		unit.show_action_list()
+		
+	# otherwise, as long as we're in the correct state, show the turn select screen
+	if (player.player_state == player.PLAYER_STATE.SELECTING_TILE):
+		# update the player state
+		player.player_state = player.PLAYER_STATE.SELECTING_ACTION
+		cursor_reset()
+		overworld_scene.show_turn_action_list()
 
 func stop_timer():
 	cursor_timer.stop()

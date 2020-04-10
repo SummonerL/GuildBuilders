@@ -69,8 +69,6 @@ func calculate_next_level_percent(xp, level_before):
 
 func set_skill(skill):
 	var pretty_name = ''
-	print('TESTTTT')
-	print(skill)
 	
 	match(skill):
 		constants.FISHING:
