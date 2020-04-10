@@ -10,7 +10,8 @@ const ACTIONS = {
 	0: 'FISH_SPOT_1',
 	1: 'FISH_SPOT_2',
 	2: 'WOODCUTTING_SPOT_1',
-	3: 'WOODCUTTING_SPOT_2'
+	3: 'WOODCUTTING_SPOT_2',
+	4: 'GUILD_SPOT_1'
 }
 
 # keep track of the kind of resources that can be gained on specific action spots
@@ -23,10 +24,11 @@ onready var ITEMS_AT_SPOT = {
 
 # specific actions associated with these tiles
 onready var associated_actions = {
-	'FISH_SPOT_1': global_action_list.COMPLETE_ACTION_LIST.FISH,
-	'FISH_SPOT_2': global_action_list.COMPLETE_ACTION_LIST.FISH,
-	'WOODCUTTING_SPOT_1': global_action_list.COMPLETE_ACTION_LIST.CHOP,
-	'WOODCUTTING_SPOT_2': global_action_list.COMPLETE_ACTION_LIST.CHOP
+	'FISH_SPOT_1': [global_action_list.COMPLETE_ACTION_LIST.FISH],
+	'FISH_SPOT_2': [global_action_list.COMPLETE_ACTION_LIST.FISH],
+	'WOODCUTTING_SPOT_1': [global_action_list.COMPLETE_ACTION_LIST.CHOP],
+	'WOODCUTTING_SPOT_2': [global_action_list.COMPLETE_ACTION_LIST.CHOP],
+	'GUILD_SPOT_1': [global_action_list.COMPLETE_ACTION_LIST.DEPOT]
 }
 
 # list of actions in which still apply when adjacent
@@ -41,15 +43,15 @@ func get_action_spot_at_coordinates(vec2):
 	else:
 		return null
 		
-func get_action_at_spot(spot):
+func get_actions_at_spot(spot):
 	return associated_actions[spot]
 
-func get_action_at_coordinates(vec2):
+func get_actions_at_coordinates(vec2):
 	var tile = get_cellv(vec2)
 	if (tile >= 0):
 		return associated_actions[ACTIONS[get_cellv(vec2)]]
 	else:
-		return null
+		return []
 
 func get_items_at_spot(spot):
 	return ITEMS_AT_SPOT[spot]

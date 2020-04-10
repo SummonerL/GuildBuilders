@@ -49,6 +49,7 @@ const WOOD_RECEIVED_TEXT = "and got some "
 
 enum COMPLETE_ACTION_LIST {
 	MOVE,
+	DEPOT
 	FISH,
 	MINE,
 	CHOP,
@@ -61,6 +62,7 @@ enum COMPLETE_ACTION_LIST {
 
 const ACTION_LIST_NAMES = [
 	'MOVE',
+	'DEPOT',
 	'FISH',
 	'MINE',
 	'CHOP',

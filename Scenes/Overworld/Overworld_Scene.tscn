@@ -49,6 +49,16 @@
 3/navigation_offset = Vector2( 0, 0 )
 3/shapes = [  ]
 3/z_index = 0
+4/name = "Guild_Spot_1"
+4/texture = ExtResource( 8 )
+4/tex_offset = Vector2( 0, 0 )
+4/modulate = Color( 1, 1, 1, 1 )
+4/region = Rect2( 0, 224, 16, 16 )
+4/tile_mode = 0
+4/occluder_offset = Vector2( 0, 0 )
+4/navigation_offset = Vector2( 0, 0 )
+4/shapes = [  ]
+4/z_index = 0
 
 [node name="Overworld_Scene" type="Node2D"]
 script = ExtResource( 2 )
@@ -82,11 +92,10 @@ tile_data = PoolIntArray( -589833, 3, 0, -589832, 3, 0, -589831, 3, 0, -589830, 
 [node name="Action_Tracker" type="TileMap" parent="." groups=[
 "map_actions",
 ]]
-visible = false
 tile_set = SubResource( 1 )
 cell_size = Vector2( 16, 16 )
 format = 1
-tile_data = PoolIntArray( -524288, 0, 0, -393221, 1, 0, -393209, 3, 0, -393207, 0, 0, -262143, 2, 0, -7, 0, 0, 65544, 1, 0, 131076, 2, 0, 262140, 2, 0, 327672, 0, 0, 327677, 2, 0, 262149, 0, 0, 327684, 0, 0, 327691, 0, 0, 458761, 2, 0, 655357, 0, 0, 589832, 2, 0, 655366, 2, 0, 786437, 1, 0 )
+tile_data = PoolIntArray( -524288, 0, 0, -393221, 1, 0, -393209, 3, 0, -393207, 0, 0, -262143, 2, 0, -65538, 4, 0, -65537, 4, 0, -131072, 4, 0, -131071, 4, 0, -7, 0, 0, -2, 4, 0, -65535, 4, 0, 65534, 4, 0, 1, 4, 0, 131070, 4, 0, 131071, 4, 0, 65536, 4, 0, 65537, 4, 0, 65544, 1, 0, 131076, 2, 0, 262140, 2, 0, 327672, 0, 0, 327677, 2, 0, 262149, 0, 0, 327684, 0, 0, 327691, 0, 0, 458761, 2, 0, 655357, 0, 0, 589832, 2, 0, 655366, 2, 0, 786437, 1, 0 )
 script = ExtResource( 7 )
 
 [node name="12PM_Loop" type="AudioStreamPlayer" parent="."]

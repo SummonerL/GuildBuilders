@@ -141,26 +141,34 @@ func determine_action_list():
 		current_action_list = initial_action_list.duplicate()
 		
 		# if there are any actions on our tile, based on the icon
-		var current_tile_action = map_actions.get_action_at_coordinates(Vector2(unit_pos_x, unit_pos_y))
+		var current_tile_actions = map_actions.get_actions_at_coordinates(Vector2(unit_pos_x, unit_pos_y))
 		var adjacent_tile_actions = []
 		var new_actions = []
 		
-		if (current_tile_action):
-			new_actions.append(current_tile_action)
+		if (current_tile_actions.size() > 0):
+			new_actions += current_tile_actions
 	
 		# check adjacent tiles
 		
 		# north
-		adjacent_tile_actions.append(map_actions.get_action_at_coordinates(Vector2(unit_pos_x, unit_pos_y - 1)))
+		var north = map_actions.get_actions_at_coordinates(Vector2(unit_pos_x, unit_pos_y - 1))
+		if (north.size() > 0):
+			adjacent_tile_actions += north
 		
 		# south
-		adjacent_tile_actions.append(map_actions.get_action_at_coordinates(Vector2(unit_pos_x, unit_pos_y + 1)))
+		var south = map_actions.get_actions_at_coordinates(Vector2(unit_pos_x, unit_pos_y + 1))
+		if (south.size() > 0):
+			adjacent_tile_actions += south
 		
 		# east
-		adjacent_tile_actions.append(map_actions.get_action_at_coordinates(Vector2(unit_pos_x + 1, unit_pos_y)))
+		var east = map_actions.get_actions_at_coordinates(Vector2(unit_pos_x + 1, unit_pos_y))
+		if (east.size() > 0):
+			adjacent_tile_actions += east
 		
 		# west
-		adjacent_tile_actions.append(map_actions.get_action_at_coordinates(Vector2(unit_pos_x - 1, unit_pos_y)))
+		var west = map_actions.get_actions_at_coordinates(Vector2(unit_pos_x - 1, unit_pos_y))
+		if (west.size() > 0):
+			adjacent_tile_actions += west
 		
 		# make sure adjacent tiles apply (most actions require actually being on the tile)
 		for action in adjacent_tile_actions:
