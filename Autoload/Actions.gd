@@ -19,6 +19,9 @@ onready var signals = get_node("/root/Signal_Manager")
 # have our map_actions layer, for determining more details about the tile
 onready var map_actions = get_tree().get_nodes_in_group(constants.MAP_ACTIONS_GROUP)[0]
 
+# various hud scenes
+onready var hud_selection_list_scn = preload("res://Entities/HUD/Selection_List.tscn")
+
 # our action screen (we can instance this when a unit does an action)
 onready var action_screen_scn = preload("res://Entities/HUD/Action_Window.tscn")
 var action_screen_node
@@ -36,6 +39,8 @@ var camera
 const WAIT_FOR_REWARD_SCREEN = 2
 
 # text related to the various actions
+const END_TURN_CONFIRMATION_TEXT = 'End turn?'
+
 const FISHING_TEXT = " started fishing..."
 const WOODCUTTING_TEXT = " started chopping..."
 
@@ -49,7 +54,9 @@ enum COMPLETE_ACTION_LIST {
 	CHOP,
 	INFO,
 	FOCUS,
-	NEXT_TURN
+	NEXT_TURN,
+	YES, # for confirmation
+	NO # for confirmation
 }
 
 const ACTION_LIST_NAMES = [
@@ -59,7 +66,9 @@ const ACTION_LIST_NAMES = [
 	'CHOP',
 	'INFO',
 	'FOCUS',
-	'NEXT'
+	'NEXT',
+	'YES',
+	'NO'
 ]
 
 func do_action(action, parent):
@@ -87,8 +96,15 @@ func do_action(action, parent):
 			parent.do_action(action)
 		COMPLETE_ACTION_LIST.NEXT_TURN:
 			# we're finished with this turn (hour), so empty the yet to act array and determine the next state
-			player.party.empty_yet_to_act()
-			player.determine_next_state()
+			# but first, let the user confirm
+			# add a selection list istance to our camera
+			var hud_selection_list_node = hud_selection_list_scn.instance()
+			camera = get_tree().get_nodes_in_group("Camera")[0]
+			camera.add_hud_item(hud_selection_list_node)
+	
+			# populate the action list with the current list of actions this unit can take
+			hud_selection_list_node.populate_selection_list([], self, false, true, END_TURN_CONFIRMATION_TEXT, 
+															'confirm_end_turn_yes', 'confirm_end_turn_no')
 			
 func action_window_finished(skill, reward):
 	# clear existing text
@@ -116,6 +132,13 @@ func _on_finished_action(success = false): # signal callback
 	# and let the unit know he/she has finished acting :)
 	active_unit.end_action(success)
 	
+# signal callback for when the player has confirmed they want to end the turn
+func _on_end_turn(confirm = false):
+	if (confirm):
+		player.party.empty_yet_to_act()
+
+	player.determine_next_state()
+
 # a function used for showing the action window, reward, and experience gained
 func show_action_window(skill, reward):
 	# dampen the background music
@@ -253,3 +276,6 @@ func initiate_woodcutting_action():
 func _ready():
 	signals.connect("finished_action_success", self, "_on_finished_action", [true])
 	signals.connect("finished_action_failed", self, "_on_finished_action", [false])
+	
+	signals.connect("confirm_end_turn_yes", self, "_on_end_turn", [true])
+	signals.connect("confirm_end_turn_no", self, "_on_end_turn", [false])

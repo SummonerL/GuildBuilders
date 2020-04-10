@@ -11,6 +11,9 @@ onready var player = get_node("/root/Player_Globals")
 # bring in our global action list
 onready var global_action_list = get_node("/root/Actions")
 
+# bring in our signals
+onready var signals = get_node("/root/Signal_Manager")
+
 # the letters and symbol scene
 onready var letters_symbols_obj = preload("res://Entities/HUD/Letters_Symbols/Letters_Symbols.tscn")
 var letters_symbols_node
@@ -43,6 +46,12 @@ var right_5
 var cancel_allowed
 
 var side
+
+# keep track of confirmation variables (for if this is a yes / no list)
+var confirmation = false
+var confirmation_yes_signal = ''
+var confirmation_no_signal = ''
+var confirmation_text = ''
 
 var dead = false
 
@@ -93,6 +102,21 @@ func selection_list_init():
 	position_selection_list()
 
 func position_selection_list():
+	
+	# move the confirmation window up to accomodate the text (if confirmation)
+	if (confirmation):
+		right_1.y -= (constants.DIA_TILE_HEIGHT * 5)
+		right_2.y -= (constants.DIA_TILE_HEIGHT * 5)
+		right_3.y -= (constants.DIA_TILE_HEIGHT * 5)
+		right_4.y -= (constants.DIA_TILE_HEIGHT * 5)
+		right_5.y -= (constants.DIA_TILE_HEIGHT * 5)
+		left_1.y -= (constants.DIA_TILE_HEIGHT * 5)
+		left_2.y -= (constants.DIA_TILE_HEIGHT * 5)
+		left_3.y -= (constants.DIA_TILE_HEIGHT * 5)
+		left_4.y -= (constants.DIA_TILE_HEIGHT * 5)
+		left_5.y -= (constants.DIA_TILE_HEIGHT * 5)
+		
+	
 	if ((player.curs_pos_x - player.cam_pos_x) <= ((constants.TILES_PER_ROW / 2) - 1)):
 		selection_list_1_item.position = right_1
 		selection_list_2_item.position = right_2
@@ -112,7 +136,26 @@ func position_selection_list():
 		pass
 	pass
 
-func populate_selection_list(actions, caller, can_cancel = true):
+func populate_selection_list(actions, caller, can_cancel = true, yes_no = false, yes_no_text = '', signal_yes = '', signal_no = ''):
+	# set whether or not this is a confirmation window
+	confirmation = yes_no
+	confirmation_text = yes_no_text
+	confirmation_yes_signal = signal_yes
+	confirmation_no_signal = signal_no
+	
+	if (confirmation):
+		actions = [
+			global_action_list.COMPLETE_ACTION_LIST.YES,
+			global_action_list.COMPLETE_ACTION_LIST.NO
+		]
+		
+		# reposition the list if we are confirming (yes/no)
+		if (confirmation):
+			position_selection_list()
+			
+		# display the confirmation text
+		player.hud.typeTextWithBuffer(confirmation_text, true)
+	
 	# allows the user to cancel out of the menu
 	cancel_allowed = can_cancel
 	
@@ -122,6 +165,9 @@ func populate_selection_list(actions, caller, can_cancel = true):
 		start_pos_x += (constants.TILES_PER_ROW * 2) - (SELECT_LIST_WIDTH * 2)
 	
 	var start_pos_y = 1
+	
+	if (confirmation):
+		start_pos_y = -4
 	
 	match len(actions):
 		1:
@@ -182,20 +228,33 @@ func _input(event):
 				
 		# cancel the selection list
 		if (event.is_action_pressed("ui_cancel")):
-			selection_list_1_item.visible = false
-			selection_list_2_item.visible = false
-			selection_list_3_item.visible = false
-			selection_list_4_item.visible = false
-			selection_list_5_item.visible = false
-			letters_symbols_node.clear_text_non_dialogue()
-			letters_symbols_node.clear_specials()
-			dead = true
-			kill_select_list()
-			parent.cancel_select_list()
+			if (cancel_allowed):
+				selection_list_1_item.visible = false
+				selection_list_2_item.visible = false
+				selection_list_3_item.visible = false
+				selection_list_4_item.visible = false
+				selection_list_5_item.visible = false
+				letters_symbols_node.clear_text_non_dialogue()
+				letters_symbols_node.clear_specials()
+				dead = true
+				kill_select_list()
+				parent.cancel_select_list()
 
 		# confirm selection
 		if (event.is_action_pressed("ui_accept")):
-			global_action_list.do_action(current_selected_item, parent)
+			# if confirmation, behave a little differently
+			if (confirmation):
+				# clear any hud text, if this was a confirmation window
+				player.hud.kill_timers()
+				player.hud.completeText()
+				player.hud.clearText()
+				
+				if (current_selected_item == global_action_list.COMPLETE_ACTION_LIST.YES):
+					signals.emit_signal("confirm_end_turn_yes")
+				else:
+					signals.emit_signal("confirm_end_turn_no")
+			else:
+				global_action_list.do_action(current_selected_item, parent)
 			
 			# play the confirmation sound
 			confirm_selection_sound.play()
