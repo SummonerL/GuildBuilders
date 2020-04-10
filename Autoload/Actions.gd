@@ -13,6 +13,9 @@ onready var player = get_node("/root/Player_Globals")
 # bring in our global constants
 onready var constants = get_node("/root/Game_Constants")
 
+# bring in our guild variables/functions
+onready var guild = get_node("/root/Guild")
+
 # bring in our signals
 onready var signals = get_node("/root/Signal_Manager")
 
@@ -84,6 +87,9 @@ func do_action(action, parent):
 		COMPLETE_ACTION_LIST.MOVE:
 			# let the unit handle this action
 			active_unit.do_action(action)
+		COMPLETE_ACTION_LIST.DEPOT:
+			# initialize the depot screen
+			guild.populate_depot_screen(active_unit)
 		COMPLETE_ACTION_LIST.FISH:
 			initiate_fish_action()
 		COMPLETE_ACTION_LIST.MINE:
@@ -104,7 +110,7 @@ func do_action(action, parent):
 			camera = get_tree().get_nodes_in_group("Camera")[0]
 			camera.add_hud_item(hud_selection_list_node)
 	
-			# populate the action list with the current list of actions this unit can take
+			# populate the selection list with a yes/no confirmation
 			hud_selection_list_node.populate_selection_list([], self, false, true, END_TURN_CONFIRMATION_TEXT, 
 															'confirm_end_turn_yes', 'confirm_end_turn_no')
 			

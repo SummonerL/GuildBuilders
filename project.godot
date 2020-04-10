@@ -29,6 +29,7 @@ Items="*res://Autoload/Items.gd"
 Abilities="*res://Autoload/Abilities.gd"
 Actions="*res://Autoload/Actions.gd"
 Signal_Manager="*res://Autoload/Signal_Manager.gd"
+Guild="*res://Autoload/Guild.gd"
 
 [debug]
 
