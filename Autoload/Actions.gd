@@ -48,7 +48,8 @@ enum COMPLETE_ACTION_LIST {
 	MINE,
 	CHOP,
 	INFO,
-	FOCUS
+	FOCUS,
+	NEXT_TURN
 }
 
 const ACTION_LIST_NAMES = [
@@ -57,20 +58,21 @@ const ACTION_LIST_NAMES = [
 	'MINE',
 	'CHOP',
 	'INFO',
-	'FOCUS'
+	'FOCUS',
+	'NEXT'
 ]
 
-func do_action(action, unit):
-	# make sure this is actually a unit, as in some cases, the overworld scene will be the parent instead of a unit
-	if not unit.get('unit_id') == null:
-		active_unit = unit
+func do_action(action, parent):
+	# see if the parent is a unit, and if so, set the active unit
+	if not parent.get('unit_id') == null:
+		active_unit = parent
 	else:
 		active_unit = null
 	
 	match (action):
 		COMPLETE_ACTION_LIST.MOVE:
 			# let the unit handle this action
-			unit.do_action(action)
+			active_unit.do_action(action)
 		COMPLETE_ACTION_LIST.FISH:
 			initiate_fish_action()
 		COMPLETE_ACTION_LIST.MINE:
@@ -79,10 +81,15 @@ func do_action(action, unit):
 			initiate_woodcutting_action()
 		COMPLETE_ACTION_LIST.INFO:
 			# let the unit handle this action
-			unit.do_action(action)
+			active_unit.do_action(action)
 		COMPLETE_ACTION_LIST.FOCUS:
 			# focus the cursor on the next available unit
-			get_tree().get_current_scene().do_action(action)
+			parent.do_action(action)
+		COMPLETE_ACTION_LIST.NEXT_TURN:
+			# we're finished with this turn (hour), so empty the yet to act array and determine the next state
+			player.party.empty_yet_to_act()
+			player.determine_next_state()
+			
 func action_window_finished(skill, reward):
 	# clear existing text
 	player.hud.clearText()

@@ -48,6 +48,9 @@ func remove_from_yet_to_act(unit_id):
 	if (final_index >= 0 && found):
 		yet_to_act.remove(final_index)
 
+func empty_yet_to_act():
+	yet_to_act = []
+
 func reset_unit_actions():
 	for unit in party_members:
 		unit.reset_action_list()

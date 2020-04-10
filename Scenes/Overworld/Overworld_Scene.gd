@@ -49,7 +49,8 @@ export var transition_type = 1 # TRANS_SINE
 
 # list of actions that are available when not selecting a unit
 onready var action_list = [
-	global_action_list.COMPLETE_ACTION_LIST.FOCUS
+	global_action_list.COMPLETE_ACTION_LIST.FOCUS,
+	global_action_list.COMPLETE_ACTION_LIST.NEXT_TURN
 ]
 
 # game instances
