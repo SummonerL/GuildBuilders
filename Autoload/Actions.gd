@@ -97,6 +97,9 @@ func do_action(action, parent):
 		COMPLETE_ACTION_LIST.TRANSFER_ITEM_AT_DEPOT:
 			# move the item from depot to unit, or visa-versa
 			guild.transition_items_at_depot()
+		COMPLETE_ACTION_LIST.VIEW_ITEM_INFO_AT_DEPOT:
+			# show the item info, at the depot
+			guild.show_item_info_at_depot()
 		COMPLETE_ACTION_LIST.FISH:
 			initiate_fish_action()
 		COMPLETE_ACTION_LIST.MINE:

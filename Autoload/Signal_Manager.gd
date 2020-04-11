@@ -10,3 +10,4 @@ signal confirm_end_turn_yes
 signal confirm_end_turn_no
 
 signal cant_carry_item_dialogue_depot
+signal finished_viewing_item_info_depot

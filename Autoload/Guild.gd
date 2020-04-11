@@ -37,3 +37,7 @@ func populate_depot_screen(active_unit):
 func transition_items_at_depot():
 	if (hud_depot_screen_node):
 		hud_depot_screen_node.transfer_item()
+		
+func show_item_info_at_depot():
+	if (hud_depot_screen_node):
+		hud_depot_screen_node.show_item_info()

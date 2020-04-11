@@ -98,10 +98,23 @@ func _on_cant_carry_item_dialogue_completion():
 	#since we just finished with the selection list, unpause input in this node
 	set_process_input(true)
 	
+func _on_finished_viewing_item_info():
+	#since we just finished with the selection list, unpause input in this node
+	set_process_input(true)
 	
 # helper function for sorting items by name
 func sort_items_by_name(a, b):
 	return a.name < b.name
+
+# function for showing the item info
+func show_item_info():
+	var item = focus.current_items[current_item]
+	
+	signals.connect("finished_viewing_item_info_depot", self, "_on_finished_viewing_item_info", [], signals.CONNECT_ONESHOT)
+	
+	# type the item info
+	player.hud.dialogueState = player.hud.STATES.INACTIVE
+	player.hud.typeTextWithBuffer(item.description, false, 'finished_viewing_item_info_depot') 
 
 # function for moving an item from the depot to unit, or visa/versa
 func transfer_item():	
