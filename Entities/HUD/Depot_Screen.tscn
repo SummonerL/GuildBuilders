@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Entities/HUD/Depot_Screen.gd" type="Script" id=1]
-[ext_resource path="res://Sprites/hud/item_info_backdrop_full.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/hud/depot_info_backdrop_full.png" type="Texture" id=2]
 
 [node name="Depot_Screen" type="CanvasLayer"]
 layer = 2
