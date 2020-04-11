@@ -162,7 +162,7 @@ func determine_background_music():
 
 # function for opening the action list when not selecting a unit
 func show_turn_action_list():
-	# add a selection list istance to our camera
+	# add a selection list instance to our camera
 	var hud_selection_list_node = hud_selection_list_scn.instance()
 	camera.add_hud_item(hud_selection_list_node)
 	

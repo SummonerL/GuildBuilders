@@ -6,12 +6,19 @@ onready var constants = get_node("/root/Game_Constants")
 # bring in the global player variables
 onready var player = get_node("/root/Player_Globals")
 
+# bring in our global action list
+onready var global_action_list = get_node("/root/Actions")
+
 # bring in our guild variables/functions
 onready var guild = get_node("/root/Guild")
 
 # preaload the letters + symbols
 onready var letters_symbols_scn = preload("res://Entities/HUD/Letters_Symbols/Letters_Symbols.tscn")
 var letters_symbols_node
+
+# various hud scenes
+onready var hud_selection_list_scn = preload("res://Entities/HUD/Selection_List.tscn")
+
 
 const PORTRAIT_WIDTH = 3
 const PORTRAIT_HEIGHT = 3
@@ -34,8 +41,23 @@ enum SELECTIONS {
 	DEPOT
 }
 
+enum DEPOT_SCREEN_STATES {
+	SELECTING_ITEM,
+	SELECTING_OPTION
+}
+
+var depot_screen_state = DEPOT_SCREEN_STATES.SELECTING_ITEM
+
+onready var item_actions = [
+	global_action_list.COMPLETE_ACTION_LIST.TRANSFER_ITEM_AT_DEPOT,
+	global_action_list.COMPLETE_ACTION_LIST.VIEW_ITEM_INFO_AT_DEPOT
+]
+
 # keep track of the currently selected inv (the unit's, or the depot) 
 var current_inv = SELECTIONS.UNIT
+
+# keep track of the 'focus' - either the unit or the guild
+var focus
 
 # keep track of the active unit
 var active_unit
@@ -43,6 +65,9 @@ var active_unit
 # text for the Depot screen
 const DEPOT_TEXT = 'Depot'
 const NO_ITEMS_TEXT = "No items..."
+
+const MOVE_TEXT = 'MOVE'
+const INFO_TEXT = 'INFO'
 
 func depot_screen_init():
 	letters_symbols_node = letters_symbols_scn.instance()
@@ -64,6 +89,41 @@ func depot_screen_init():
 	# dampen the background music while we are viewing the unit's information
 	get_tree().get_current_scene().dampen_background_music()
 	
+# function for moving an item from the depot to unit, or visa/versa
+func transfer_item():
+	# first, since we just finished with the selection list, unpause input in this node
+	set_process_input(true)
+	
+	# now move the item
+	var item = focus.current_items[current_item]
+	
+	focus.current_items.remove(current_item)
+	
+	if (current_inv == SELECTIONS.DEPOT):
+		# move to unit
+		active_unit.current_items.append(item)
+	elif (current_inv == SELECTIONS.UNIT):
+		# move to depot
+		guild.current_items.append(item)
+		
+		
+	# reposition the cursor and repopulate the list, now that we've removed that item
+	if (current_item > (focus.current_items.size() - 1)):
+		if (current_item == inv_start_index_tracker && inv_start_index_tracker > 0):
+			inv_start_index_tracker -= 4
+		current_item -= 1
+	#else:
+	#	current_item += 1
+		
+	populate_items(inv_start_index_tracker)
+	
+	# move the current item back one, and repopulate the items
+	#if (current_item > 0):
+	#	if (current_item == inv_start_index_tracker && inv_start_index_tracker > 0):
+	#		inv_start_index_tracker -= 4
+	#	current_item += 1
+	#populate_items(inv_start_index_tracker)
+		
 func switch_inventories(selection):
 	# set the current inv
 	current_inv = selection
@@ -82,6 +142,7 @@ func switch_inventories(selection):
 	
 
 func populate_items(inv_start_index = 0):
+	print(inv_start_index)
 	inv_start_index_tracker = inv_start_index
 	
 	# clear any letters / symbols
@@ -100,7 +161,7 @@ func populate_items(inv_start_index = 0):
 	print_unit_depot_text()
 	
 	# determine if we're looking at the unit's items or the depot's items
-	var focus = active_unit
+	focus = active_unit
 	if (current_inv == SELECTIONS.DEPOT):
 		focus = guild
 	
@@ -113,18 +174,14 @@ func populate_items(inv_start_index = 0):
 	
 	current_item_set = focus.current_items.slice(inv_start_index_tracker, inv_end_index_tracker, 1) # only show 4 items at a time
 	
-	print (current_item_set)
 	# make the selector arrow visible, and start typing the initial item
 	if (focus.current_items.size() > 0):
 		selector_arrow_item.visible = true
 		selector_arrow_item.position = Vector2((start_x - 1) * constants.DIA_TILE_WIDTH, (start_y + ((current_item - inv_start_index_tracker) * 2)) * constants.DIA_TILE_HEIGHT)
 
-		# type the item description
-		player.hud.dialogueState = player.hud.STATES.INACTIVE
-		player.hud.typeTextWithBuffer(current_item_set[current_item - inv_start_index_tracker].description, true)
 	else:
 		player.hud.dialogueState = player.hud.STATES.INACTIVE
-		player.hud.typeText(NO_ITEMS_TEXT, true)
+		player.hud.typeTextWithBuffer(NO_ITEMS_TEXT, true)
 	
 	# print the down / up arrow, depending on where we are in the list of items
 	if (current_item_set.size() >= 4 && (inv_start_index_tracker + 3) < focus.current_items.size() - 1): # account for index
@@ -167,8 +224,7 @@ func move_items(direction):
 			player.hud.clearText()
 			player.hud.completeText()
 			player.hud.kill_timers()
-			player.hud.dialogueState = player.hud.STATES.INACTIVE
-			player.hud.typeText(current_item_set[current_item - inv_start_index_tracker].description, true)
+
 		else:
 			if (letters_symbols_node.arrow_up_sprite.visible): # if we are allowed to move up
 				current_item += direction
@@ -184,8 +240,7 @@ func move_items(direction):
 			player.hud.clearText()
 			player.hud.completeText()
 			player.hud.kill_timers()
-			player.hud.dialogueState = player.hud.STATES.INACTIVE
-			player.hud.typeText(current_item_set[current_item - inv_start_index_tracker].description, true)
+		
 		else:
 			if (letters_symbols_node.arrow_down_sprite.visible): # if we are allowed to move down
 				current_item += direction
@@ -209,6 +264,20 @@ func _input(event):
 		move_items(1)
 	if (event.is_action_pressed("ui_up")):
 		move_items(-1)
+	if (event.is_action_pressed("ui_accept")):		
+		# give the unit the option to 'move' or view 'info'
+		if focus.current_items.size() > 0:
+			var hud_selection_list_node = hud_selection_list_scn.instance()
+			add_child(hud_selection_list_node)
+			hud_selection_list_node.layer = self.layer + 1
+			hud_selection_list_node.populate_selection_list(item_actions, self, true, false, true) # can cancel, position to the right
+			
+			# temporarily stop processing input on this node (pause this node)
+			set_process_input(false)
+
+func cancel_select_list():
+	# start processing input again (unpause this node)
+	set_process_input(true)
 
 func close_depot_screen():
 	# change the player state

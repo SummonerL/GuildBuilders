@@ -60,7 +60,9 @@ enum COMPLETE_ACTION_LIST {
 	FOCUS,
 	NEXT_TURN,
 	YES, # for confirmation
-	NO # for confirmation
+	NO, # for confirmation
+	TRANSFER_ITEM_AT_DEPOT, # for depot screen
+	VIEW_ITEM_INFO_AT_DEPOT # for depot screen
 }
 
 const ACTION_LIST_NAMES = [
@@ -73,7 +75,9 @@ const ACTION_LIST_NAMES = [
 	'FOCUS',
 	'NEXT',
 	'YES',
-	'NO'
+	'NO',
+	'MOVE',
+	'INFO'
 ]
 
 func do_action(action, parent):
@@ -90,6 +94,9 @@ func do_action(action, parent):
 		COMPLETE_ACTION_LIST.DEPOT:
 			# initialize the depot screen
 			guild.populate_depot_screen(active_unit)
+		COMPLETE_ACTION_LIST.TRANSFER_ITEM_AT_DEPOT:
+			# move the item from depot to unit, or visa-versa
+			guild.transition_items_at_depot()
 		COMPLETE_ACTION_LIST.FISH:
 			initiate_fish_action()
 		COMPLETE_ACTION_LIST.MINE:
@@ -111,7 +118,7 @@ func do_action(action, parent):
 			camera.add_hud_item(hud_selection_list_node)
 	
 			# populate the selection list with a yes/no confirmation
-			hud_selection_list_node.populate_selection_list([], self, false, true, END_TURN_CONFIRMATION_TEXT, 
+			hud_selection_list_node.populate_selection_list([], self, true, false, false, false, true, END_TURN_CONFIRMATION_TEXT, 
 															'confirm_end_turn_yes', 'confirm_end_turn_no')
 			
 func action_window_finished(skill, reward):

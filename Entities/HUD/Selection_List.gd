@@ -47,11 +47,14 @@ var cancel_allowed
 
 var side
 
-# keep track of confirmation variables (for if this is a yes / no list)
+# keep track of various select list states
 var confirmation = false
 var confirmation_yes_signal = ''
 var confirmation_no_signal = ''
 var confirmation_text = ''
+var accomodate_dialogue_tracker = false
+var position_left_tracker = false
+var position_right_tracker = false
 
 var dead = false
 
@@ -102,9 +105,8 @@ func selection_list_init():
 	position_selection_list()
 
 func position_selection_list():
-	
-	# move the confirmation window up to accomodate the text (if confirmation)
-	if (confirmation):
+	# move the  window up to accomodate the text (if the correct param was passed)
+	if (accomodate_dialogue_tracker):
 		right_1.y -= (constants.DIA_TILE_HEIGHT * 5)
 		right_2.y -= (constants.DIA_TILE_HEIGHT * 5)
 		right_3.y -= (constants.DIA_TILE_HEIGHT * 5)
@@ -117,41 +119,45 @@ func position_selection_list():
 		left_5.y -= (constants.DIA_TILE_HEIGHT * 5)
 		
 	
-	if ((player.curs_pos_x - player.cam_pos_x) <= ((constants.TILES_PER_ROW / 2) - 1)):
+	if (((player.curs_pos_x - player.cam_pos_x) <= ((constants.TILES_PER_ROW / 2) - 1)) || position_right_tracker ):
 		selection_list_1_item.position = right_1
 		selection_list_2_item.position = right_2
 		selection_list_3_item.position = right_3
 		selection_list_4_item.position = right_4
 		selection_list_5_item.position = right_5
 		side = constants.SIDES.RIGHT
-	
-	if ((player.curs_pos_x - player.cam_pos_x) > ((constants.TILES_PER_ROW / 2) - 1)):
+	elif (((player.curs_pos_x - player.cam_pos_x) > ((constants.TILES_PER_ROW / 2) - 1)) || position_left_tracker):
 		selection_list_1_item.position = left_1
 		selection_list_2_item.position = left_2
 		selection_list_3_item.position = left_3
 		selection_list_4_item.position = left_4
 		selection_list_5_item.position = left_5
 		side = constants.SIDES.LEFT
-		
-		pass
-	pass
 
-func populate_selection_list(actions, caller, can_cancel = true, yes_no = false, yes_no_text = '', signal_yes = '', signal_no = ''):
-	# set whether or not this is a confirmation window
+func populate_selection_list(actions, caller, accomodate_dialogue = false, position_left = false, position_right = false, 
+									can_cancel = true, yes_no = false, yes_no_text = '', signal_yes = '', signal_no = ''):
+	
+	# make sure our letters/symbols live on top of the select list
+	letters_symbols_node.layer = self.layer + 1
+	
+	# set whether or not this is a confirmation window, and various other tracker variables
 	confirmation = yes_no
 	confirmation_text = yes_no_text
 	confirmation_yes_signal = signal_yes
 	confirmation_no_signal = signal_no
+	accomodate_dialogue_tracker = accomodate_dialogue
+	position_left_tracker = position_left
+	position_right_tracker = position_right
+	
+	# reposition the list, if the correct param was passed
+	if (accomodate_dialogue):
+		position_selection_list()
 	
 	if (confirmation):
 		actions = [
 			global_action_list.COMPLETE_ACTION_LIST.YES,
 			global_action_list.COMPLETE_ACTION_LIST.NO
 		]
-		
-		# reposition the list if we are confirming (yes/no)
-		if (confirmation):
-			position_selection_list()
 			
 		# display the confirmation text
 		player.hud.typeTextWithBuffer(confirmation_text, true)
@@ -166,7 +172,7 @@ func populate_selection_list(actions, caller, can_cancel = true, yes_no = false,
 	
 	var start_pos_y = 1
 	
-	if (confirmation):
+	if (accomodate_dialogue):
 		start_pos_y = -4
 	
 	match len(actions):

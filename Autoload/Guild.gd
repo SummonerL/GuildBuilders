@@ -24,9 +24,16 @@ var camera
 # keep track of all the items currently in the depot
 var current_items = []
 
+# keep track of the depot screen (if it exists)
+var hud_depot_screen_node
+
 func populate_depot_screen(active_unit):
 	camera = get_tree().get_nodes_in_group("Camera")[0]
 	
-	var hud_depot_screen_node = hud_depot_screen_scn.instance()
+	hud_depot_screen_node = hud_depot_screen_scn.instance()
 	camera.add_child(hud_depot_screen_node)
 	hud_depot_screen_node.set_unit(active_unit)
+	
+func transition_items_at_depot():
+	if (hud_depot_screen_node):
+		hud_depot_screen_node.transfer_item()
