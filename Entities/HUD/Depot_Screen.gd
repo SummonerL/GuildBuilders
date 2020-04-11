@@ -98,6 +98,11 @@ func _on_cant_carry_item_dialogue_completion():
 	#since we just finished with the selection list, unpause input in this node
 	set_process_input(true)
 	
+	
+# helper function for sorting items by name
+func sort_items_by_name(a, b):
+	return a.name < b.name
+
 # function for moving an item from the depot to unit, or visa/versa
 func transfer_item():	
 	# determine if the unit can carry anything else (if we are moving from depot -> unit)
@@ -120,6 +125,9 @@ func transfer_item():
 	elif (current_inv == SELECTIONS.UNIT):
 		# move to depot
 		guild.current_items.append(item)
+		
+		# sort the guild items (for convenience)
+		guild.current_items.sort_custom(self, 'sort_items_by_name')
 		
 		
 	# reposition the cursor and repopulate the list, now that we've removed that item
