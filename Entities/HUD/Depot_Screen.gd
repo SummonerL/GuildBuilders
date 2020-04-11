@@ -12,6 +12,9 @@ onready var global_action_list = get_node("/root/Actions")
 # bring in our guild variables/functions
 onready var guild = get_node("/root/Guild")
 
+# bring in our signals
+onready var signals = get_node("/root/Signal_Manager")
+
 # preaload the letters + symbols
 onready var letters_symbols_scn = preload("res://Entities/HUD/Letters_Symbols/Letters_Symbols.tscn")
 var letters_symbols_node
@@ -65,6 +68,8 @@ var active_unit
 # text for the Depot screen
 const DEPOT_TEXT = 'Depot'
 const NO_ITEMS_TEXT = "No items..."
+const CANT_CARRY_TEXT = ' can\'t carry anything else...'
+
 
 const MOVE_TEXT = 'MOVE'
 const INFO_TEXT = 'INFO'
@@ -89,10 +94,20 @@ func depot_screen_init():
 	# dampen the background music while we are viewing the unit's information
 	get_tree().get_current_scene().dampen_background_music()
 	
-# function for moving an item from the depot to unit, or visa/versa
-func transfer_item():
-	# first, since we just finished with the selection list, unpause input in this node
+func _on_cant_carry_item_dialogue_completion():
+	#since we just finished with the selection list, unpause input in this node
 	set_process_input(true)
+	
+# function for moving an item from the depot to unit, or visa/versa
+func transfer_item():	
+	# determine if the unit can carry anything else (if we are moving from depot -> unit)
+	if (current_inv == SELECTIONS.DEPOT && (active_unit.current_items.size() >= active_unit.item_limit) ):
+		signals.connect("cant_carry_item_dialogue_depot", self, "_on_cant_carry_item_dialogue_completion", [], signals.CONNECT_ONESHOT)
+		
+		player.hud.dialogueState = player.hud.STATES.INACTIVE
+		player.hud.typeTextWithBuffer(active_unit.unit_name + CANT_CARRY_TEXT, false, 'cant_carry_item_dialogue_depot') 
+		return
+		
 	
 	# now move the item
 	var item = focus.current_items[current_item]
@@ -112,17 +127,11 @@ func transfer_item():
 		if (current_item == inv_start_index_tracker && inv_start_index_tracker > 0):
 			inv_start_index_tracker -= 4
 		current_item -= 1
-	#else:
-	#	current_item += 1
 		
 	populate_items(inv_start_index_tracker)
 	
-	# move the current item back one, and repopulate the items
-	#if (current_item > 0):
-	#	if (current_item == inv_start_index_tracker && inv_start_index_tracker > 0):
-	#		inv_start_index_tracker -= 4
-	#	current_item += 1
-	#populate_items(inv_start_index_tracker)
+	#since we just finished with the selection list, unpause input in this node
+	set_process_input(true)
 		
 func switch_inventories(selection):
 	# set the current inv
@@ -142,7 +151,6 @@ func switch_inventories(selection):
 	
 
 func populate_items(inv_start_index = 0):
-	print(inv_start_index)
 	inv_start_index_tracker = inv_start_index
 	
 	# clear any letters / symbols
