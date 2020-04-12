@@ -1,0 +1,22 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+// Executed for every pixel covered by the sprite on screen
+void fragment() {
+
+    // Fetch the texture's pixel
+    vec4 col = texture(TEXTURE, UV);
+
+    // darken each color
+    col.r /= 1.1;
+	col.g /= 1.1;
+	col.b /= 1.0;
+
+    // Assign the color to the output
+    COLOR = col;
+}"
+
+[resource]
+shader = SubResource( 1 )

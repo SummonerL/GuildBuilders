@@ -33,7 +33,7 @@ var hud
 var time_of_day_info_node
 
 # keep track of the current time of day
-var current_time_of_day = 11
+var current_time_of_day = 8
 
 # function for moving the game clock forward (one turn)
 func move_to_next_hour():

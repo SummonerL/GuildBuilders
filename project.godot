@@ -34,6 +34,7 @@ Guild="*res://Autoload/Guild.gd"
 [debug]
 
 settings/fps/force_fps=30
+settings/stdout/print_fps=true
 gdscript/warnings/unused_signal=false
 
 [display]

@@ -26,6 +26,36 @@ onready var hud_tile_info_scn = preload("res://Entities/HUD/Tile_Info.tscn")
 onready var hud_time_of_day_info_scn = preload("res://Entities/HUD/Time_Of_Day_Info.tscn")
 onready var clock_scn = preload("res://Entities/HUD/Clock/Clock.tscn")
 
+onready var l1_tiles = get_node("World_Map_L1")
+onready var l2_tiles = get_node("World_Map_L2")
+
+onready var time_shaders = [
+	preload("res://Sprites/Shaders/12_AM_Shader.tres"),
+	preload("res://Sprites/Shaders/1_AM_Shader.tres"),
+	preload("res://Sprites/Shaders/2_AM_Shader.tres"),
+	preload("res://Sprites/Shaders/3_AM_Shader.tres"),
+	preload("res://Sprites/Shaders/4_AM_Shader.tres"),
+	preload("res://Sprites/Shaders/5_AM_Shader.tres"),
+	preload("res://Sprites/Shaders/6_AM_Shader.tres"),
+	preload("res://Sprites/Shaders/7_AM_Shader.tres"),
+	preload("res://Sprites/Shaders/8_AM_Shader.tres"),
+	preload("res://Sprites/Shaders/9_AM_Shader.tres"),
+	preload("res://Sprites/Shaders/10_AM_Shader.tres"),
+	preload("res://Sprites/Shaders/11_AM_Shader.tres"),
+	preload("res://Sprites/Shaders/12_PM_Shader.tres"),
+	preload("res://Sprites/Shaders/1_PM_Shader.tres"),
+	preload("res://Sprites/Shaders/2_PM_Shader.tres"),
+	preload("res://Sprites/Shaders/3_PM_Shader.tres"),
+	preload("res://Sprites/Shaders/4_PM_Shader.tres"),
+	preload("res://Sprites/Shaders/5_PM_Shader.tres"),
+	preload("res://Sprites/Shaders/6_PM_Shader.tres"),
+	preload("res://Sprites/Shaders/7_PM_Shader.tres"),
+	preload("res://Sprites/Shaders/8_PM_Shader.tres"),
+	preload("res://Sprites/Shaders/9_PM_Shader.tres"),
+	preload("res://Sprites/Shaders/10_PM_Shader.tres"),
+	preload("res://Sprites/Shaders/11_PM_Shader.tres"),
+]
+
 # various hud scenes
 onready var hud_selection_list_scn = preload("res://Entities/HUD/Selection_List.tscn")
 
@@ -81,6 +111,9 @@ func gameInit():
 	
 	# mark all units as 'yet to act'
 	player.party.reset_yet_to_act()
+	
+	# apply shader for the current time of day
+	apply_time_shader()
 	
 	# lights, camera, action!
 	camera.turnOn()
@@ -159,6 +192,11 @@ func determine_background_music():
 		_:
 			# play nothing (this should never happen)
 			pass
+
+func apply_time_shader():
+	# change the shader based on the current time of day
+	l1_tiles.material = time_shaders[player.current_time_of_day]
+	l2_tiles.material = time_shaders[player.current_time_of_day]
 
 # function for opening the action list when not selecting a unit
 func show_turn_action_list():

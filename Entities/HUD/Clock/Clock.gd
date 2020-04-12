@@ -99,6 +99,9 @@ func kill_clock(timer = null):
 		remove_child(timer)
 		
 	player.party.reset_shaders()
+	
+	# apply the next shader based on the current time of day
+	get_tree().get_current_scene().apply_time_shader()
 		
 	# determine the next player state
 	player.determine_next_state()
