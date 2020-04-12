@@ -102,6 +102,9 @@ func kill_clock(timer = null):
 	
 	# apply the next shader based on the current time of day
 	get_tree().get_current_scene().apply_time_shader()
+	
+	# show the applicable building tiles
+	get_tree().get_current_scene().show_applicable_building_tiles()
 		
 	# determine the next player state
 	player.determine_next_state()

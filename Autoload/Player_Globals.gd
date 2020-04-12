@@ -35,6 +35,10 @@ var time_of_day_info_node
 # keep track of the current time of day
 var current_time_of_day = 8
 
+# location of the guild hall
+var guild_hall_x = -1
+var guild_hall_y = -1
+
 # function for moving the game clock forward (one turn)
 func move_to_next_hour():
 	current_time_of_day += 1

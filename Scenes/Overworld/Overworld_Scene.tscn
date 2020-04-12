@@ -5,7 +5,7 @@
 [ext_resource path="res://Scenes/Overworld/Tileset_Props.gd" type="Script" id=3]
 [ext_resource path="res://Music/12PM_Loop.wav" type="AudioStream" id=4]
 [ext_resource path="res://Music/5PM_Loop.wav" type="AudioStream" id=5]
-[ext_resource path="res://Sprites/Shaders/5_AM_Shader.tres" type="Material" id=6]
+[ext_resource path="res://Sprites/Shaders/12_PM_Shader.tres" type="Material" id=6]
 [ext_resource path="res://Scenes/Overworld/Action_Tracker.gd" type="Script" id=7]
 [ext_resource path="res://Sprites/Actions/action_tracker_sheet.png" type="Texture" id=8]
 
