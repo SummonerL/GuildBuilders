@@ -9,6 +9,9 @@ onready var party = get_node("/root/Player_Party")
 # bring in the global player variables
 onready var player = get_node("/root/Player_Globals")
 
+# bring in our global action list
+onready var global_action_list = get_node("/root/Actions")
+
 # get our main overworld scene
 onready var overworld_scene = get_parent()
 
@@ -207,6 +210,12 @@ func _input(event):
 					player.PLAYER_STATE.SELECTING_MOVEMENT:
 						if (party.get_active_unit() != null):
 							party.get_active_unit().move_unit_if_eligible(player.curs_pos_x, player.curs_pos_y)
+							
+	if event.is_action_pressed("ui_select"):
+		# quick shortcut for the 'focus' option
+		if (player.player_state == player.PLAYER_STATE.SELECTING_TILE):
+			global_action_list.do_action(global_action_list.COMPLETE_ACTION_LIST.FOCUS, overworld_scene)
+			
 	if event.is_action_pressed("ui_cancel"):
 		# allow the unit to cancel out of selecting movement
 		if (player.player_state == player.PLAYER_STATE.SELECTING_MOVEMENT):
