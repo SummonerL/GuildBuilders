@@ -36,9 +36,6 @@ func unit_init():
 	global_items_list.add_item_to_unit(self, global_items_list.item_softwood_rod)
 	global_items_list.add_item_to_unit(self, global_items_list.item_musclefish)
 	
-	global_items_list.add_item_to_unit(self, global_items_list.item_softwood_rod)
-	global_items_list.add_item_to_unit(self, global_items_list.item_softwood_rod)
-	
 	# add the unit's starting ability
 	global_ability_list.add_ability_to_unit(self, global_ability_list.ability_growing_boy)
 	

@@ -127,7 +127,7 @@ func fade_out(audio_stream):
 	tween_out.interpolate_property(audio_stream, "volume_db", audio_stream.volume_db, MIN_VOL, transition_duration_out, transition_type, Tween.EASE_IN, 0)
 	
 	# when the tween ends, the music will be stopped
-	tween_out.connect("tween_completed", self, "stop_audio")
+	tween_out.connect("tween_completed", self, "stop_audio", [], tween_out.CONNECT_ONESHOT)
 	tween_out.start()
 
 # helper function to fade in an audio stream	
