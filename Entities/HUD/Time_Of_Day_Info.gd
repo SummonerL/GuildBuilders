@@ -36,8 +36,8 @@ func time_of_day_info_init():
 	right_x = 0
 	
 	# set the starting position of the TOD info hud
-	change_sides(constants.SIDES.RIGHT, false)
-	change_top_bottom(constants.TOP_BOTTOM.BOTTOM, false)
+	change_sides(constants.SIDES.LEFT, false)
+	change_top_bottom(constants.TOP_BOTTOM.TOP, false)
 	
 	reposition_sprite()
 	

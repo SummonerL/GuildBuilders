@@ -37,7 +37,7 @@ func tile_info_init():
 	right = Vector2((constants.TILES_PER_ROW - TILE_INFO_WIDTH) * constants.TILE_WIDTH, 0)
 	
 	# set the starting position of the tile info hud
-	change_sides(constants.SIDES.RIGHT)
+	change_sides(constants.SIDES.LEFT)
 	
 	# create a letters_symbols instance
 	letters_symbols = letters_symbols_obj.instance()

@@ -9,6 +9,9 @@ onready var game_cfg_vars = get_node("/root/Game_Config")
 # bring in our global player variables
 onready var player = get_node("/root/Player_Globals")
 
+# bring in our signals
+onready var signals = get_node("/root/Signal_Manager")
+
 # A Test of Artistry...
 # ... a game by
 # Arid Bard (Elliot Simpson)
@@ -103,21 +106,15 @@ func gameInit():
 	add_child(cursor)
 	camera.add_child(player.hud)
 	
+	# connect signals
+	signals.connect("finished_viewing_wake_up_text", self, '_on_finished_viewing_wake_up_text', [])
+	
 	# add units to the player's party
 	player.party.add_unit(constants.UNIT_TYPES.ANGLER_MALE)
 	player.party.add_unit(constants.UNIT_TYPES.ANGLER_FEMALE)
 	player.party.add_unit(constants.UNIT_TYPES.WOODCUTTER_MALE)
 	player.party.add_unit(constants.UNIT_TYPES.WOODCUTTER_FEMALE)
 	player.party.add_unit(constants.UNIT_TYPES.WOODWORKER_MALE)
-	
-	# mark all units as 'yet to act'
-	player.party.reset_yet_to_act()
-	
-	# apply shader for the current time of day
-	apply_time_shader()
-	
-	# show the applicable building tiles
-	show_applicable_building_tiles()
 	
 	# lights, camera, action!
 	camera.turnOn()
@@ -129,6 +126,32 @@ func gameInit():
 	# initialize some player variables (that haven't already been initialized')
 	# get the time of day info node ()
 	player.time_of_day_info_node = get_tree().get_nodes_in_group(constants.TIME_OF_DAY_INFO_GROUP)[0]
+	
+	# we begin a new day :) 
+	new_day()
+
+# start a new day!
+func new_day():
+	player.party.party_members.sort_custom(self, "sort_units_by_wake_up")
+	
+	var earliest_unit = player.party.party_members[0]
+	# set the current time to this unit's wake up time
+	player.current_time_of_day = earliest_unit.wake_up_time
+
+	# apply shader for the current time of day
+	apply_time_shader()
+	
+	# show the applicable building tiles
+	show_applicable_building_tiles()
+	
+	# mark all units as 'yet to act'
+	player.party.reset_yet_to_act()
+	
+	# update the time of day info text
+	player.time_of_day_info_node.update_time_of_day_info_text()
+	
+	# and wake up units (no delay)
+	wake_up_units(false)
 
 # called to show the clock animation when the time moves forward
 func show_clock_anim():
@@ -197,6 +220,112 @@ func determine_background_music():
 			# play nothing (this should never happen)
 			pass
 
+func sort_units_by_wake_up(a, b):
+	return a.wake_up_time < b.wake_up_time
+
+func unit_exists_at_coordinates(x, y):
+	var exists = false
+	for unit in player.party.party_members:
+		if (unit.unit_pos_x == x && unit.unit_pos_y == y):
+			exists = true
+	return exists
+
+# function for finding an empty spot
+func find_available_guild_spot():
+	# there are twelve spots adjacent to the guild hall. Any of these are eligible for placing units
+	# remember that the x, y pos is the top left of the guild
+	var spot = null
+	
+	if (!unit_exists_at_coordinates(player.guild_hall_x + 1, player.guild_hall_y + 2)):
+		spot = Vector2(player.guild_hall_x + 1, player.guild_hall_y + 2)
+		
+	elif (!unit_exists_at_coordinates(player.guild_hall_x, player.guild_hall_y + 2)):
+		spot =  Vector2(player.guild_hall_x, player.guild_hall_y + 2)
+		
+	elif (!unit_exists_at_coordinates(player.guild_hall_x - 1, player.guild_hall_y + 1)):
+		spot = Vector2(player.guild_hall_x - 1, player.guild_hall_y + 1)
+		
+	elif (!unit_exists_at_coordinates(player.guild_hall_x - 1, player.guild_hall_y)):
+		spot = Vector2(player.guild_hall_x - 1, player.guild_hall_y)
+
+	elif (!unit_exists_at_coordinates(player.guild_hall_x + 2, player.guild_hall_y + 1)):
+		spot = Vector2(player.guild_hall_x + 2, player.guild_hall_y + 1)
+		
+	elif (!unit_exists_at_coordinates(player.guild_hall_x + 2, player.guild_hall_y)):
+		spot = Vector2(player.guild_hall_x + 2, player.guild_hall_y)
+		
+	elif (!unit_exists_at_coordinates(player.guild_hall_x, player.guild_hall_y - 1)):
+		spot = Vector2(player.guild_hall_x, player.guild_hall_y - 1)
+		
+	elif (!unit_exists_at_coordinates(player.guild_hall_x + 1, player.guild_hall_y - 1)):
+		spot = Vector2(player.guild_hall_x + 1, player.guild_hall_y - 1)
+		
+	elif (!unit_exists_at_coordinates(player.guild_hall_x - 1, player.guild_hall_y + 2)):
+		spot = Vector2(player.guild_hall_x - 1, player.guild_hall_y + 2)
+		
+	elif (!unit_exists_at_coordinates(player.guild_hall_x + 2, player.guild_hall_y + 2)):
+		spot = Vector2(player.guild_hall_x + 2, player.guild_hall_y + 2)
+		
+	elif (!unit_exists_at_coordinates(player.guild_hall_x - 1, player.guild_hall_y - 1)):
+		spot = Vector2(player.guild_hall_x - 1, player.guild_hall_y - 1)
+		
+	elif (!unit_exists_at_coordinates(player.guild_hall_x + 2, player.guild_hall_y - 1)):
+		spot = Vector2(player.guild_hall_x + 2, player.guild_hall_y - 1)
+		
+	return spot
+	
+func _on_finished_viewing_wake_up_text():
+	player.hud.clearText()
+	player.hud.completeText()
+	player.hud.kill_timers()
+	
+	player.player_state = player.PLAYER_STATE.SELECTING_TILE
+	
+	wake_up_units()
+
+func wake_up_units(delay = true):
+	# determine if any unit's are waking up at this hour
+	var unit_to_wake = null
+	for unit in player.party.party_members:
+		if (unit.wake_up_time == player.current_time_of_day && !unit.unit_awake):
+			unit_to_wake = unit
+			break
+			
+	# wake up the unit
+	if (unit_to_wake):
+		unit_to_wake.unit_awake = true
+		# add them as an active unit
+		player.party.reset_yet_to_act()
+		
+		# show the unit's wakeup scene (after a short delay)
+		player.player_state = player.PLAYER_STATE.VIEWING_DIALOGUE
+		if (delay):
+			var timer = Timer.new()
+			timer.wait_time = constants.SHORT_DELAY
+			timer.connect("timeout", self, "show_unit_wakeup", [unit_to_wake, timer])
+			add_child(timer)
+			timer.start()
+		else:
+			show_unit_wakeup(unit_to_wake)
+		
+
+func show_unit_wakeup(unit_to_wake, timer = null):
+	if (timer):
+		timer.stop()
+		remove_child	(timer)
+		
+	# position the unit
+	var pos = find_available_guild_spot()
+	
+	# focus the cursor/camera on the unit
+	cursor.focus_on(pos.x, pos.y)
+	
+	unit_to_wake.set_unit_pos(pos.x, pos.y)
+	
+	# read the unit's wake-up text
+	player.hud.typeTextWithBuffer(unit_to_wake.WAKE_UP_TEXT, false, 'finished_viewing_wake_up_text')
+	
+
 func apply_time_shader():
 	# change the shader based on the current time of day
 	l1_tiles.material = time_shaders[player.current_time_of_day]
@@ -231,13 +360,14 @@ func do_action(action):
 	match (action):
 		global_action_list.COMPLETE_ACTION_LIST.FOCUS:
 			# focus the cursor on the next available party member
-			var party_member = player.party.yet_to_act[0]
-			
-			cursor.focus_on(party_member.unit_pos_x, party_member.unit_pos_y)
-			
-			# move this unit to the back of the 'yet to act list'
-			player.party.yet_to_act.pop_front()
-			player.party.yet_to_act.append(party_member)
+			if (player.party.yet_to_act.size() > 0):
+				var party_member = player.party.yet_to_act[0]
+				
+				cursor.focus_on(party_member.unit_pos_x, party_member.unit_pos_y)
+				
+				# move this unit to the back of the 'yet to act list'
+				player.party.yet_to_act.pop_front()
+				player.party.yet_to_act.append(party_member)
 			
 			# update the player state
 			player.player_state = player.PLAYER_STATE.SELECTING_TILE

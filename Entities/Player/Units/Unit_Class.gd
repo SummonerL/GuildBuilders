@@ -56,14 +56,17 @@ var eligible_tile_tracker = {}
 var has_acted = false
 
 # the unit's position on the map
-var unit_pos_x = 0
-var unit_pos_y = 0
+onready var unit_pos_x = constants.ASLEEP_X
+onready var unit_pos_y = constants.ASLEEP_Y
 
 # the unit's base movement (can be modified)
 var base_move = 0
 
 # the unit's base wake-up time (default 8am)
 var wake_up_time = 8
+
+# by default, all unit's are asleep
+var unit_awake = false
 
 # the unit's bed time (default 9pm)
 var bed_time = 21
@@ -119,7 +122,7 @@ onready var depleted_action_list = [
 onready var current_action_list = initial_action_list.duplicate()
 
 # initialize the unit (all units will need to call this)
-func unit_base_init():
+func unit_base_init():	
 	unit_move_sound_node = AudioStreamPlayer.new()
 	unit_move_sound_node.stream = unit_move_sound
 	unit_move_sound_node.volume_db = constants.GAME_VOLUME
@@ -131,7 +134,6 @@ func set_unit_pos(target_x, target_y):
 	unit_pos_y = target_y
 	self.global_position = Vector2(target_x*constants.TILE_WIDTH, 
 								target_y*constants.TILE_HEIGHT)
-	
 	
 # function for determining the action list, based on the current location
 func determine_action_list():

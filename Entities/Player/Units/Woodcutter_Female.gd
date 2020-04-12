@@ -11,10 +11,9 @@ const NO_MORE_WOOD_TEXT = '...and that\'s enough for that area. Let\'s look else
 
 const INVENTORY_FULL_TEXT = 'If only I had a bigger bag... I should try this again after I free up some space.'
 
+const WAKE_UP_TEXT = 'What a beautiful morning... Time to get started!'
+
 func unit_init():
-	unit_pos_x = 1
-	unit_pos_y = 0
-	
 	unit_portrait_sprite = ps
 	
 	unit_sprite_node = get_node("Woodcutter_Female_Sprite")

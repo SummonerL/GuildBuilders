@@ -13,18 +13,19 @@ enum PLAYER_STATE {
 	SELECTING_ACTION,
 	SELECTING_MOVEMENT,
 	ANIMATING_MOVEMENT,
-	BETWEEN_TURNS
+	BETWEEN_TURNS,
+	VIEWING_DIALOGUE
 }
 
 var player_state = PLAYER_STATE.SELECTING_TILE
 
 # camera position on world map
 var cam_pos_x = -5
-var cam_pos_y = -5
+var cam_pos_y = -4
 
 # cursor position on the map
 var curs_pos_x = 0
-var curs_pos_y = 0
+var curs_pos_y = 1
 
 # keep track of the dialogue box
 var hud
@@ -33,7 +34,7 @@ var hud
 var time_of_day_info_node
 
 # keep track of the current time of day
-var current_time_of_day = 8
+var current_time_of_day = 10
 
 # location of the guild hall
 var guild_hall_x = -1
@@ -60,6 +61,8 @@ func determine_next_state():
 			
 			# set the state back to 'selecting tile'
 			enable_state(PLAYER_STATE.SELECTING_TILE)
+			
+			get_tree().get_current_scene().wake_up_units()
 		_:		
 			# if all the unit's have acted
 			if (party.yet_to_act.size() == 0):

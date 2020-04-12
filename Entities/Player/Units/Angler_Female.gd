@@ -11,13 +11,12 @@ const NO_MORE_WOOD_TEXT = 'I\'ve exhausted this area. Time to find another spot!
 
 const INVENTORY_FULL_TEXT = 'My hands are full... Looks like I\'m going to have to come back later.'
 
+const WAKE_UP_TEXT = 'Time to get the day started!'
+
 func get_unit_move_sound():
 	return unit_move_sound
 	
-func unit_init():
-	unit_pos_x = -2
-	unit_pos_y = -1
-	
+func unit_init():	
 	unit_id = 3
 
 	unit_name = "Coral"

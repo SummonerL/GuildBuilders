@@ -32,7 +32,10 @@ func set_active_unit(unit):
 	active_unit = unit
 	
 func reset_yet_to_act():
-	yet_to_act = party_members.duplicate()
+	yet_to_act = []
+	for unit in party_members:
+		if (unit.unit_awake):
+			yet_to_act.append(unit)
 
 func remove_from_yet_to_act(unit_id):
 	var index = 0

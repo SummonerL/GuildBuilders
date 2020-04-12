@@ -22,9 +22,14 @@ const EXCLAMATION = '!'
 
 const CANT_MOVE = 999999
 
+const SHORT_DELAY = .5
+
 const MOVE_ANIM_SPEED = .015 # how fast the player moves to the target tile
 
 const GAME_VOLUME = -2
+
+const ASLEEP_X = -1500
+const ASLEEP_Y = -1500
 
 enum DIRECTIONS {
 	UP,

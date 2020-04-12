@@ -11,10 +11,9 @@ const NO_MORE_WOOD_TEXT = '...'
 
 const INVENTORY_FULL_TEXT = '...'
 
-func unit_init():
-	unit_pos_x = 0
-	unit_pos_y = 1
-	
+const WAKE_UP_TEXT = 'I wish I could just sleep in...'
+
+func unit_init():	
 	unit_portrait_sprite = ps
 
 	unit_sprite_node = get_node("Woodworker_Male_Sprite")

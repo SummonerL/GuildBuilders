@@ -11,10 +11,9 @@ const NO_MORE_WOOD_TEXT = 'Time to move on to another area. No more wood here!'
 
 const INVENTORY_FULL_TEXT = 'Hmm... I don\'t think I can carry anything else. I should try that later.'
 
+const WAKE_UP_TEXT = 'Time to get up! There\'s fish to catch!'
+
 func unit_init():
-	unit_pos_x = -2
-	unit_pos_y = 0
-	
 	unit_portrait_sprite = ps
 	
 	unit_sprite_node = get_node("Angler_Male_Sprite")
