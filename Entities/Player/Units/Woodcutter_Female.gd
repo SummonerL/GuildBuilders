@@ -12,6 +12,7 @@ const NO_MORE_WOOD_TEXT = '...and that\'s enough for that area. Let\'s look else
 const INVENTORY_FULL_TEXT = 'If only I had a bigger bag... I should try this again after I free up some space.'
 
 const WAKE_UP_TEXT = 'What a beautiful morning... Time to get started!'
+const BED_TIME_TEXT = 'I should get to bed so I can be just as productive tomorrow!'
 
 func unit_init():
 	unit_portrait_sprite = ps

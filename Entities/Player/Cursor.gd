@@ -75,7 +75,7 @@ func focus_on(x, y):
 func get_selected_tile_units():
 	# find if there are any active units on the current tile
 	for unit in party.get_all_units():
-		if (unit.unit_pos_x == player.curs_pos_x && unit.unit_pos_y == player.curs_pos_y):
+		if (unit.unit_pos_x == player.curs_pos_x && unit.unit_pos_y == player.curs_pos_y && unit.unit_awake):
 			return unit
 
 func select_tile():

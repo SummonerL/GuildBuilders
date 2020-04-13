@@ -12,6 +12,7 @@ const NO_MORE_WOOD_TEXT = '...'
 const INVENTORY_FULL_TEXT = '...'
 
 const WAKE_UP_TEXT = 'I wish I could just sleep in...'
+const BED_TIME_TEXT = 'Finally... Time for bed.'
 
 func unit_init():	
 	unit_portrait_sprite = ps

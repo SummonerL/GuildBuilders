@@ -108,6 +108,7 @@ func gameInit():
 	
 	# connect signals
 	signals.connect("finished_viewing_wake_up_text", self, '_on_finished_viewing_wake_up_text', [])
+	signals.connect("finished_viewing_bedtime_text", self, '_on_finished_viewing_bedtime_text', [])
 	
 	# add units to the player's party
 	player.party.add_unit(constants.UNIT_TYPES.ANGLER_MALE)
@@ -152,6 +153,9 @@ func new_day():
 	
 	# and wake up units (no delay)
 	wake_up_units(false)
+	
+	# ... I guess send unit's to bed if their bed time is this early (probably not)
+	send_units_to_bed(false)
 
 # called to show the clock animation when the time moves forward
 func show_clock_anim():
@@ -282,6 +286,52 @@ func _on_finished_viewing_wake_up_text():
 	player.player_state = player.PLAYER_STATE.SELECTING_TILE
 	
 	wake_up_units()
+	
+func _on_finished_viewing_bedtime_text():
+	player.hud.clearText()
+	player.hud.completeText()
+	player.hud.kill_timers()
+	
+	player.player_state = player.PLAYER_STATE.SELECTING_TILE
+	
+	send_units_to_bed()
+
+func send_units_to_bed(delay = true):
+	# determine if any unit's are going to bed at this hour
+	var unit_to_bed = null
+	for unit in player.party.party_members:
+		if (unit.bed_time == player.current_time_of_day && unit.unit_awake):
+			unit_to_bed = unit
+			break
+	
+	# send the unit to bed
+	if (unit_to_bed):
+		unit_to_bed.unit_awake = false
+		
+		# remove them as an active unit
+		player.party.reset_yet_to_act()
+		
+		# show the unit's bedtime scene (after a short delay)
+		player.player_state = player.PLAYER_STATE.VIEWING_DIALOGUE
+		if (delay):
+			var timer = Timer.new()
+			timer.wait_time = constants.SHORT_DELAY
+			timer.connect("timeout", self, "show_unit_bedtime", [unit_to_bed, timer])
+			add_child(timer)
+			timer.start()
+		else:
+			show_unit_bedtime(unit_to_bed)
+
+func show_unit_bedtime(unit_to_bed, timer = null):
+	if (timer):
+		timer.stop()
+		remove_child	(timer)
+	
+	# focus the cursor/camera on the unit
+	cursor.focus_on(unit_to_bed.unit_pos_x, unit_to_bed.unit_pos_y)
+	
+	# read the unit's bedttime text
+	player.hud.typeTextWithBuffer(unit_to_bed.BED_TIME_TEXT, false, 'finished_viewing_bedtime_text')
 
 func wake_up_units(delay = true):
 	# determine if any unit's are waking up at this hour

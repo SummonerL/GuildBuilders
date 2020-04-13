@@ -12,6 +12,7 @@ const NO_MORE_WOOD_TEXT = 'No more wood here! Let\'s find someplace else.'
 const INVENTORY_FULL_TEXT = 'Surprisingly, I don\'t think I can carry anything else. I\'ll try this again later.'
 
 const WAKE_UP_TEXT = 'Here we go! Lots to do today.'
+const BED_TIME_TEXT = 'I\'m exhausted... Time to hit the hay!'
 
 func unit_init():
 	unit_portrait_sprite = ps

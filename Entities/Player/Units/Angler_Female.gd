@@ -12,6 +12,7 @@ const NO_MORE_WOOD_TEXT = 'I\'ve exhausted this area. Time to find another spot!
 const INVENTORY_FULL_TEXT = 'My hands are full... Looks like I\'m going to have to come back later.'
 
 const WAKE_UP_TEXT = 'Time to get the day started!'
+const BED_TIME_TEXT = 'That\'s enough for today. I need sleep...'
 
 func get_unit_move_sound():
 	return unit_move_sound
