@@ -58,7 +58,7 @@ func cursor_init():
 	time_of_day_info_node = get_tree().get_nodes_in_group(constants.TIME_OF_DAY_INFO_GROUP)[0]
 	
 # useful function for focusing on specific coordinates
-func focus_on(x, y):
+func focus_on(x, y, reprint_info = true):
 	set_cursor_pos(x, y)
 	
 	# update the camera accordingly (top left, centering the cursor in the middle)
@@ -69,8 +69,9 @@ func focus_on(x, y):
 	time_of_day_info_node.check_if_move_needed(player.curs_pos_x - player.cam_pos_x, player.curs_pos_y - player.cam_pos_y)
 	
 	# print the info tiles
-	tile_info_node.update_tile_info_text()
-	time_of_day_info_node.update_time_of_day_info_text()
+	if (reprint_info):
+		tile_info_node.update_tile_info_text()
+		time_of_day_info_node.update_time_of_day_info_text()
 	
 func get_selected_tile_units():
 	# find if there are any active units on the current tile

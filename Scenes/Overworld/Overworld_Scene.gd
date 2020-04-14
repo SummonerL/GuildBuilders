@@ -28,6 +28,7 @@ onready var hud_scn = preload("res://Entities/HUD/Dialogue.tscn")
 onready var hud_tile_info_scn = preload("res://Entities/HUD/Tile_Info.tscn")
 onready var hud_time_of_day_info_scn = preload("res://Entities/HUD/Time_Of_Day_Info.tscn")
 onready var clock_scn = preload("res://Entities/HUD/Clock/Clock.tscn")
+onready var scene_transitioner_scn = preload("res://Scenes/Transition_Scene/Transition_Scene.tscn")
 
 onready var l1_tiles = get_node("World_Map_L1")
 onready var l2_tiles = get_node("World_Map_L2")
@@ -130,12 +131,41 @@ func gameInit():
 	# initialize some player variables (that haven't already been initialized')
 	# get the time of day info node ()
 	player.time_of_day_info_node = get_tree().get_nodes_in_group(constants.TIME_OF_DAY_INFO_GROUP)[0]
-	
+
 	# we begin a new day :) 
-	new_day()
+	new_day(true)
+	
+# end the day
+func end_day():
+	# update the player state
+	player.player_state = player.PLAYER_STATE.BETWEEN_DAYS
+	
+	# scene transition fade out
+	var fade_out = scene_transitioner_scn.instance()
+	add_child(fade_out)
+	
+	fade_out.white_in.visible = false
+	fade_out.white_out.visible = true
+	
+	fade_out.fade_out_scene(0)
+	
+	# kill any text on the screen
+	player.time_of_day_info_node.clear_time_of_day_info_text()
+	hud_tile_info.clear_tile_info_text()
+	player.time_of_day_info_node.hide()
+	hud_tile_info.hide()
+	
+	yield(fade_out, "scene_faded_out")
+	
+	# reposition the cursor
+	cursor.focus_on(player.guild_hall_x + 1, player.guild_hall_y + 2, false) # don't reprint tile / time info
+	
+	# start a new day
+	new_day(true, fade_out)
 
 # start a new day!
-func new_day():
+func new_day(fade = false, fade_node = null):
+
 	player.party.party_members.sort_custom(self, "sort_units_by_wake_up")
 	
 	var earliest_unit = player.party.party_members[0]
@@ -151,11 +181,33 @@ func new_day():
 	# mark all units as 'yet to act'
 	player.party.reset_yet_to_act()
 	
-	# update the time of day info text
-	player.time_of_day_info_node.update_time_of_day_info_text()
+	if (fade):
+		# scene transition fade in
+		
+		var fade_in
+		# reuse the fade node if we already have one
+		if (fade_node):
+			fade_in = fade_node
+			#fade_in.white_in.visible = true
+		else:
+			fade_in = scene_transitioner_scn.instance()
+			add_child(fade_in)
+			
+		fade_in.white_in.visible = true
+		fade_in.white_out.visible = false
+		
+		fade_in.white_in.visible = true
+		fade_in.white_out.visible = false
+		fade_in.fade_in_scene(1)
+		
+		yield(fade_in, "scene_faded_in")
+		
+		remove_child(fade_in)
+	
+	# show the overworld huds
 	
 	# and wake up units (no delay)
-	wake_up_units(false)
+	wake_up_units(true)
 	
 	# ... I guess send unit's to bed if their bed time is this early (probably not)
 	send_units_to_bed(false)
@@ -308,9 +360,9 @@ func _on_finished_viewing_bedtime_text():
 	set_process_input(false)
 
 func send_units_to_bed(delay = true):
-	# if there are no units left to act, all units have gone to sleep. Time for a new day!
+	# if there are no units left to act, all units have gone to sleep. Time to end the day!
 	if (player.party.yet_to_act.size() == 0):
-		new_day()
+		end_day()
 		
 	# determine if any unit's are going to bed at this hour
 	var unit_to_bed = null
@@ -380,6 +432,12 @@ func show_unit_wakeup(unit_to_wake, timer = null):
 		timer.stop()
 		remove_child	(timer)
 		
+	# make sure our huds are displayed
+	player.time_of_day_info_node.update_time_of_day_info_text()
+	player.time_of_day_info_node.show()
+	hud_tile_info.update_tile_info_text()
+	hud_tile_info.show()
+		
 	# position the unit
 	var pos = find_available_guild_spot()
 	
@@ -390,6 +448,9 @@ func show_unit_wakeup(unit_to_wake, timer = null):
 	
 	# make the unit's sprite visible
 	unit_to_wake.unit_sprite_node.visible = true
+	
+	# short delay
+	yield(get_tree().create_timer(.6), "timeout")
 	
 	# read the unit's wake-up text
 	player.hud.typeTextWithBuffer(unit_to_wake.WAKE_UP_TEXT, false, 'finished_viewing_wake_up_text')

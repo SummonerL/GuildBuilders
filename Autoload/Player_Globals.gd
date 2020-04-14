@@ -14,14 +14,15 @@ enum PLAYER_STATE {
 	SELECTING_MOVEMENT,
 	ANIMATING_MOVEMENT,
 	BETWEEN_TURNS,
-	VIEWING_DIALOGUE
+	VIEWING_DIALOGUE,
+	BETWEEN_DAYS
 }
 
-var player_state = PLAYER_STATE.SELECTING_TILE
+var player_state = PLAYER_STATE.BETWEEN_DAYS
 
 # camera position on world map
-var cam_pos_x = -5
-var cam_pos_y = -4
+var cam_pos_x = -4
+var cam_pos_y = -3
 
 # cursor position on the map
 var curs_pos_x = 0

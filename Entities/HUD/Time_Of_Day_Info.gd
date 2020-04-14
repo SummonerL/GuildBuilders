@@ -28,6 +28,12 @@ var letters_symbols
 var print_start_x
 var print_start_y
 
+func hide():
+	time_of_day_info_sprite.visible = false
+
+func show():
+	time_of_day_info_sprite.visible = true
+
 func time_of_day_info_init():
 	top_y = 0
 	bottom_y = (constants.TILES_PER_COL - TIME_OF_DAY_INFO_HEIGHT) * constants.TILE_HEIGHT
@@ -45,8 +51,6 @@ func time_of_day_info_init():
 	letters_symbols = letters_symbols_obj.instance()
 	
 	add_child(letters_symbols)
-		
-	update_time_of_day_info_text()
 
 func check_if_move_needed(curs_x, curs_y):
 	if (curs_x <= ((constants.TILES_PER_ROW / 2) - 1) && side == constants.SIDES.LEFT):

@@ -32,6 +32,12 @@ var letters_symbols
 var print_start_x
 var print_start_y
 
+func hide():
+	tile_info_sprite.visible = false
+	
+func show():
+	tile_info_sprite.visible = true
+
 func tile_info_init():
 	left = Vector2(0, 0)
 	right = Vector2((constants.TILES_PER_ROW - TILE_INFO_WIDTH) * constants.TILE_WIDTH, 0)
@@ -43,8 +49,6 @@ func tile_info_init():
 	letters_symbols = letters_symbols_obj.instance()
 	
 	add_child(letters_symbols)
-		
-	update_tile_info_text()
 
 func check_if_move_needed(curs_x):
 	if (curs_x <= ((constants.TILES_PER_ROW / 2) - 1) && side == constants.SIDES.LEFT):
