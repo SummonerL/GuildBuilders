@@ -125,3 +125,6 @@ const WOODCUTTING = 'woodcutting'
 const FISHING_PRETTY = 'Fishing'
 const MINING_PRETTY = 'Mining'
 const WOODCUTTING_PRETTY = 'Woodcutting'
+
+# misc text
+const WHERE_SHOULD_I_RETURN_TEXT = 'Where should I return?'

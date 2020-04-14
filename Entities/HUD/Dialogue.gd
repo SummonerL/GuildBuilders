@@ -68,6 +68,11 @@ func completeText(used_for_resetting = true):
 	if (dialogue_sig && !used_for_resetting):
 		signals.emit_signal(dialogue_sig)
 
+func full_text_destruction():
+	clearText()
+	completeText()
+	kill_timers()
+
 # used to provide a small time buffer before typing the text. This is useful for the selection menu,
 # when an _input gets triggered for the select list as well as the dialogue window
 func typeTextWithBuffer(text, keep = false, sig = null):

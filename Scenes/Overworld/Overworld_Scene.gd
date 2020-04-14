@@ -87,6 +87,9 @@ onready var action_list = [
 	global_action_list.COMPLETE_ACTION_LIST.NEXT_TURN
 ]
 
+# a variable used just to track the unit we are currently focused on
+var focused_unit
+
 # game instances
 var cursor
 var camera
@@ -292,11 +295,23 @@ func _on_finished_viewing_bedtime_text():
 	player.hud.completeText()
 	player.hud.kill_timers()
 	
-	player.player_state = player.PLAYER_STATE.SELECTING_TILE
+	# create a select list for determining where the unit should return for sleep
+	var hud_selection_list_node = hud_selection_list_scn.instance()
+	add_child(hud_selection_list_node)
 	
-	send_units_to_bed()
+	player.hud.typeText(constants.WHERE_SHOULD_I_RETURN_TEXT, true)
+
+	player.player_state = player.PLAYER_STATE.SELECTING_ACTION
+	hud_selection_list_node.populate_selection_list(focused_unit.shelter_locations, focused_unit, true, false, false, false) # can not cancel, position to the right
+	
+	# temporarily stop processing input on this node (pause this node)
+	set_process_input(false)
 
 func send_units_to_bed(delay = true):
+	# if there are no units left to act, all units have gone to sleep. Time for a new day!
+	if (player.party.yet_to_act.size() == 0):
+		new_day()
+		
 	# determine if any unit's are going to bed at this hour
 	var unit_to_bed = null
 	for unit in player.party.party_members:
@@ -306,6 +321,7 @@ func send_units_to_bed(delay = true):
 	
 	# send the unit to bed
 	if (unit_to_bed):
+		focused_unit = unit_to_bed
 		unit_to_bed.unit_awake = false
 		
 		# remove them as an active unit
@@ -371,6 +387,9 @@ func show_unit_wakeup(unit_to_wake, timer = null):
 	cursor.focus_on(pos.x, pos.y)
 	
 	unit_to_wake.set_unit_pos(pos.x, pos.y)
+	
+	# make the unit's sprite visible
+	unit_to_wake.unit_sprite_node.visible = true
 	
 	# read the unit's wake-up text
 	player.hud.typeTextWithBuffer(unit_to_wake.WAKE_UP_TEXT, false, 'finished_viewing_wake_up_text')

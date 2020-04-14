@@ -62,7 +62,9 @@ enum COMPLETE_ACTION_LIST {
 	YES, # for confirmation
 	NO, # for confirmation
 	TRANSFER_ITEM_AT_DEPOT, # for depot screen
-	VIEW_ITEM_INFO_AT_DEPOT # for depot screen
+	VIEW_ITEM_INFO_AT_DEPOT, # for depot screen
+	RETURN_TO_GUILD, # for bedtime
+	RETURN_TO_CAMP # for bedtime
 }
 
 const ACTION_LIST_NAMES = [
@@ -77,7 +79,9 @@ const ACTION_LIST_NAMES = [
 	'YES',
 	'NO',
 	'MOVE',
-	'INFO'
+	'INFO',
+	'GUILD',
+	'CAMP'
 ]
 
 func do_action(action, parent):
@@ -109,6 +113,18 @@ func do_action(action, parent):
 		COMPLETE_ACTION_LIST.INFO:
 			# let the unit handle this action
 			active_unit.do_action(action)
+			
+		# actions for returning home at night
+		COMPLETE_ACTION_LIST.RETURN_TO_GUILD:
+			# return the unit to the guild, and continue to send more units to bed (if necessary)
+			player.hud.full_text_destruction()
+			active_unit.return_to(COMPLETE_ACTION_LIST.RETURN_TO_GUILD)
+			get_tree().get_current_scene().send_units_to_bed(true)
+		COMPLETE_ACTION_LIST.RETURN_TO_CAMP:
+			# return the unit to his/her camp, and continue to send more units to bed (if necessary)
+			player.hud.full_text_destruction()
+			active_unit.return_to(COMPLETE_ACTION_LIST.RETURN_TO_CAMP)
+			get_tree().get_current_scene().send_units_to_bed(true)
 		COMPLETE_ACTION_LIST.FOCUS:
 			# focus the cursor on the next available unit
 			parent.do_action(action)

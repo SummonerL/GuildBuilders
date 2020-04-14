@@ -69,7 +69,7 @@ var wake_up_time = 8
 var unit_awake = false
 
 # the unit's bed time (default 9pm)
-var bed_time = 21
+var bed_time = 10 #21
 
 # keep track of the unit's items
 var item_limit = 5 # default
@@ -78,6 +78,11 @@ var current_items = [
 ]
 
 var unit_abilities = [
+]
+
+# active locations a unit can shelter in at night
+onready var shelter_locations = [
+	global_action_list.COMPLETE_ACTION_LIST.RETURN_TO_GUILD
 ]
 
 # a unique ID to identify this unit
@@ -320,6 +325,20 @@ func show_movement_grid_square(pos_x, pos_y):
 		add_child(square)
 	
 		square.set_square_position(pos_x, pos_y)
+
+# function for returning a unit to a specific location (usually at night / bedtime)
+func return_to(location):
+	# if asleep, make the unit invisible
+	if (!unit_awake):
+		unit_sprite_node.visible = false
+	
+	match(location):
+		global_action_list.COMPLETE_ACTION_LIST.RETURN_TO_GUILD:
+			# update coordinates
+			set_unit_pos(player.guild_hall_x, player.guild_hall_y)
+		global_action_list.COMPLETE_ACTION_LIST.RETURN_TO_CAMP:
+			# stay put, and switch to 'camp' icon
+			pass
 
 # once we've received the path the unit will take, this function will actually move
 # the unit based on a timer
