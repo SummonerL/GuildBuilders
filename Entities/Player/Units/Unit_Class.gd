@@ -56,8 +56,8 @@ var eligible_tile_tracker = {}
 var has_acted = false
 
 # the unit's position on the map
-onready var unit_pos_x = constants.ASLEEP_X
-onready var unit_pos_y = constants.ASLEEP_Y
+onready var unit_pos_x = player.guild_hall_x
+onready var unit_pos_y = player.guild_hall_x
 
 # the unit's base movement (can be modified)
 var base_move = 0
@@ -69,7 +69,7 @@ var wake_up_time = 8
 var unit_awake = false
 
 # the unit's bed time (default 9pm)
-var bed_time = 21
+var bed_time = 10
 
 # keep track of the unit's items
 var item_limit = 5 # default
@@ -338,7 +338,8 @@ func return_to(location):
 			set_unit_pos(player.guild_hall_x, player.guild_hall_y)
 		global_action_list.COMPLETE_ACTION_LIST.RETURN_TO_CAMP:
 			# stay put, and switch to 'camp' icon
-			pass
+			unit_sprite_node.visible = true
+			unit_sprite_node.animation = "camping"
 
 # once we've received the path the unit will take, this function will actually move
 # the unit based on a timer

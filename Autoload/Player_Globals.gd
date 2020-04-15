@@ -64,7 +64,6 @@ func determine_next_state():
 			enable_state(PLAYER_STATE.SELECTING_TILE)
 			
 			get_tree().get_current_scene().wake_up_units()
-			get_tree().get_current_scene().send_units_to_bed()
 		_:		
 			# if all the unit's have acted
 			if (party.yet_to_act.size() == 0):

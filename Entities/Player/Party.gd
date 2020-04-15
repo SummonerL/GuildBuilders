@@ -54,6 +54,14 @@ func remove_from_yet_to_act(unit_id):
 func empty_yet_to_act():
 	yet_to_act = []
 
+# function for determining whether all units are asleep
+func are_all_asleep():
+	var all_asleep = true
+	for unit in party_members:
+		if (unit.unit_awake):
+			all_asleep = false
+	return all_asleep
+
 func reset_unit_actions():
 	for unit in party_members:
 		unit.reset_action_list()

@@ -78,6 +78,12 @@ func get_selected_tile_units():
 	for unit in party.get_all_units():
 		if (unit.unit_pos_x == player.curs_pos_x && unit.unit_pos_y == player.curs_pos_y && unit.unit_awake):
 			return unit
+			
+func get_selected_tile_units_asleep():
+	# find if there are any units asleep on the current tile
+	for unit in party.get_all_units():
+		if (unit.unit_pos_x == player.curs_pos_x && unit.unit_pos_y == player.curs_pos_y && !unit.unit_awake):
+			return unit
 
 func select_tile():
 	# get any units on this tile
@@ -209,7 +215,8 @@ func _input(event):
 					player.PLAYER_STATE.SELECTING_TILE:
 						select_tile()
 					player.PLAYER_STATE.SELECTING_MOVEMENT:
-						if (party.get_active_unit() != null):
+						# don't move on top of camping units
+						if (party.get_active_unit() != null && get_selected_tile_units_asleep() == null):
 							party.get_active_unit().move_unit_if_eligible(player.curs_pos_x, player.curs_pos_y)
 							
 	if event.is_action_pressed("ui_select"):

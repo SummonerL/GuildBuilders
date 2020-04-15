@@ -119,12 +119,12 @@ func do_action(action, parent):
 			# return the unit to the guild, and continue to send more units to bed (if necessary)
 			player.hud.full_text_destruction()
 			active_unit.return_to(COMPLETE_ACTION_LIST.RETURN_TO_GUILD)
-			get_tree().get_current_scene().send_units_to_bed(true)
+			get_tree().get_current_scene().send_units_to_bed(true, true)
 		COMPLETE_ACTION_LIST.RETURN_TO_CAMP:
 			# return the unit to his/her camp, and continue to send more units to bed (if necessary)
 			player.hud.full_text_destruction()
 			active_unit.return_to(COMPLETE_ACTION_LIST.RETURN_TO_CAMP)
-			get_tree().get_current_scene().send_units_to_bed(true)
+			get_tree().get_current_scene().send_units_to_bed(true, true)
 		COMPLETE_ACTION_LIST.FOCUS:
 			# focus the cursor on the next available unit
 			parent.do_action(action)

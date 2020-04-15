@@ -208,9 +208,6 @@ func new_day(fade = false, fade_node = null):
 	
 	# and wake up units (no delay)
 	wake_up_units(true)
-	
-	# ... I guess send unit's to bed if their bed time is this early (probably not)
-	send_units_to_bed(false)
 
 # called to show the clock animation when the time moves forward
 func show_clock_anim():
@@ -356,10 +353,10 @@ func _on_finished_viewing_bedtime_text():
 	player.player_state = player.PLAYER_STATE.SELECTING_ACTION
 	hud_selection_list_node.populate_selection_list(focused_unit.shelter_locations, focused_unit, true, false, false, false) # can not cancel, position to the right
 	
-	# temporarily stop processing input on this node (pause this node)
-	set_process_input(false)
+	# temporarily stop processing input on the cursor (pause the node)
+	cursor.set_process_input(false)
 
-func send_units_to_bed(delay = true):
+func send_units_to_bed(delay = true, went_to_sleep = false):
 	# if there are no units left to act, all units have gone to sleep. Time to end the day!
 	if (player.party.yet_to_act.size() == 0):
 		end_day()
@@ -389,6 +386,17 @@ func send_units_to_bed(delay = true):
 			timer.start()
 		else:
 			show_unit_bedtime(unit_to_bed)
+	else:
+		# unpause the cursor, if it was paused
+		cursor.set_process_input(true)
+		if (player.party.yet_to_act.size() > 0 && went_to_sleep):
+			print('focusing')
+			# if we still have units left to act, (and others have already gone to bed) focus on them
+			player.player_state = player.PLAYER_STATE.SELECTING_TILE
+			var foc_unit = player.party.yet_to_act[0]
+			cursor.focus_on(foc_unit.unit_pos_x, foc_unit.unit_pos_y)
+		
+		
 
 func show_unit_bedtime(unit_to_bed, timer = null):
 	if (timer):
@@ -425,6 +433,9 @@ func wake_up_units(delay = true):
 			timer.start()
 		else:
 			show_unit_wakeup(unit_to_wake)
+	else:
+		# no units left to wake up, start sending units to bed, if necessary
+		send_units_to_bed(false)
 		
 
 func show_unit_wakeup(unit_to_wake, timer = null):
@@ -439,12 +450,19 @@ func show_unit_wakeup(unit_to_wake, timer = null):
 	hud_tile_info.show()
 		
 	# position the unit
-	var pos = find_available_guild_spot()
+	var pos
+	if (unit_to_wake.unit_pos_x == player.guild_hall_x && unit_to_wake.unit_pos_y == player.guild_hall_y):
+		pos = find_available_guild_spot()
+	else:
+		pos = Vector2(unit_to_wake.unit_pos_x, unit_to_wake.unit_pos_y)
 	
 	# focus the cursor/camera on the unit
 	cursor.focus_on(pos.x, pos.y)
 	
 	unit_to_wake.set_unit_pos(pos.x, pos.y)
+	
+	# make sure the default animation is playing
+	unit_to_wake.unit_sprite_node.animation = "default"
 	
 	# make the unit's sprite visible
 	unit_to_wake.unit_sprite_node.visible = true
