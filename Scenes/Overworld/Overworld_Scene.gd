@@ -390,7 +390,6 @@ func send_units_to_bed(delay = true, went_to_sleep = false):
 		# unpause the cursor, if it was paused
 		cursor.set_process_input(true)
 		if (player.party.yet_to_act.size() > 0 && went_to_sleep):
-			print('focusing')
 			# if we still have units left to act, (and others have already gone to bed) focus on them
 			player.player_state = player.PLAYER_STATE.SELECTING_TILE
 			var foc_unit = player.party.yet_to_act[0]

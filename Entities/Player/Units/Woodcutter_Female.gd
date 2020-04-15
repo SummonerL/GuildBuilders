@@ -11,7 +11,7 @@ const NO_MORE_WOOD_TEXT = '...and that\'s enough for that area. Let\'s look else
 
 const INVENTORY_FULL_TEXT = 'If only I had a bigger bag... I should try this again after I free up some space.'
 
-const WAKE_UP_TEXT = 'What a beautiful morning... Time to get started!'
+const WAKE_UP_TEXT = 'Ugh... I can\'t sleep. Might as well get started.'
 const BED_TIME_TEXT = 'I should get to bed so I can be just as productive tomorrow!'
 
 func unit_init():
@@ -36,8 +36,7 @@ func unit_init():
 	global_items_list.add_item_to_unit(self, global_items_list.item_sturdy_axe)
 	
 	# add the unit's starting ability
-	bed_time = 11
-	#global_ability_list.add_ability_to_unit(self, global_ability_list.ability_early_riser)
+	global_ability_list.add_ability_to_unit(self, global_ability_list.ability_insomniac)
 	
 	self.global_position = Vector2(unit_pos_x*constants.TILE_WIDTH, 
 									unit_pos_y*constants.TILE_HEIGHT)

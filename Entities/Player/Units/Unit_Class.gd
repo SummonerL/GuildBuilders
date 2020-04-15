@@ -69,7 +69,7 @@ var wake_up_time = 8
 var unit_awake = false
 
 # the unit's bed time (default 9pm)
-var bed_time = 10
+var bed_time = 21
 
 # keep track of the unit's items
 var item_limit = 5 # default
@@ -217,7 +217,47 @@ func enable_movement_state():
 	player.player_state = player.PLAYER_STATE.SELECTING_MOVEMENT
 	calculate_eligible_tiles()
 	
+# function for allowing the unit to position themself around the guild hall
+func postion_around_guild():
+	# remove any existing movement squares
+	clear_movement_grid_squares()
 
+	# change the state
+	player.player_state = player.PLAYER_STATE.POSITIONING_UNIT
+
+	# clear our eligible_tile_tracker (as we are adding a new set of tiles)
+	eligible_tile_tracker = {}
+
+	var coordinates = [
+		Vector2(player.guild_hall_x + 1, player.guild_hall_y + 2),
+		Vector2(player.guild_hall_x, player.guild_hall_y + 2),
+		Vector2(player.guild_hall_x - 1, player.guild_hall_y + 1),
+		Vector2(player.guild_hall_x - 1, player.guild_hall_y),
+		Vector2(player.guild_hall_x + 2, player.guild_hall_y + 1),
+		Vector2(player.guild_hall_x + 2, player.guild_hall_y),
+		Vector2(player.guild_hall_x, player.guild_hall_y - 1),
+		Vector2(player.guild_hall_x + 1, player.guild_hall_y - 1),
+		Vector2(player.guild_hall_x - 1, player.guild_hall_y + 2),
+		Vector2(player.guild_hall_x + 2, player.guild_hall_y + 2),
+		Vector2(player.guild_hall_x - 1, player.guild_hall_y - 1),
+		Vector2(player.guild_hall_x + 2, player.guild_hall_y - 1),
+	]
+
+
+	for foc in coordinates:
+		if (!get_tree().get_current_scene().unit_exists_at_coordinates(foc.x, foc.y)):
+			eligible_tile_tracker[String(foc.x) + "_" + String(foc.y)] = {
+				"pos_x": foc.x,
+				"pos_y": foc.y,
+				"distance": 0,
+				"tile_cost": 0
+			}
+			movement_set.push_back(Vector2(foc.x, foc.y))
+			
+			show_movement_grid_square(foc.x, foc.y)
+			
+	# now show those tiles
+	
 # this function is called once a selection is made in the selection list
 func do_action(action):
 	match (action):
@@ -295,6 +335,24 @@ func enable_animate_movement_state(timer = null):
 func clear_movement_grid_squares():
 	for square in get_tree().get_nodes_in_group(constants.GRID_SQUARE_GROUP):
 		square.get_parent().remove_child(square)
+
+func position_unit_if_eligible(target_x, target_y):
+	var can_move = false
+	
+	# make sure the unit can actually move to this tile
+	for eligible in movement_set:
+		if (eligible.x == target_x && eligible.y == target_y && 
+		!player.party.is_unit_asleep_at(target_x, target_y)):
+			can_move = true
+	
+	if (!can_move):
+		return
+		
+	clear_movement_grid_squares()
+	
+	set_unit_pos(target_x, target_y)
+	
+	player.player_state = player.PLAYER_STATE.SELECTING_TILE
 	
 func move_unit_if_eligible(target_x, target_y):
 	var can_move = false

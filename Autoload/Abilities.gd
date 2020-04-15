@@ -6,13 +6,13 @@ extends Node
 # bring in our global action list
 onready var global_action_list = get_node("/root/Actions")
 
-const ABILITY_EARLY_RISER_NAME = 'Early Riser'
+const ABILITY_INSOMNIAC_NAME = 'Insomniac'
 const ABILITY_ROUGHING_IT_NAME = 'Roughing It'
 const ABILITY_GROWING_BOY_NAME = 'Growing Boy'
 
-const ability_early_riser = {
-	"name": ABILITY_EARLY_RISER_NAME,
-	"description": "This unit wakes up 3 hours earlier than usual."
+const ability_insomniac = {
+	"name": ABILITY_INSOMNIAC_NAME,
+	"description": "This unit wakes up at 3AM."
 }
 
 const ability_roughing_it = {
@@ -40,8 +40,8 @@ func remove_ability_from_ubnit(unit, ability, index):
 # when a specific ability is added to a unit
 func on_add_to_unit(unit, ability):
 	match(ability.name):
-		ABILITY_EARLY_RISER_NAME:
-			unit.wake_up_time -= 3
+		ABILITY_INSOMNIAC_NAME:
+			unit.wake_up_time = 3
 		ABILITY_ROUGHING_IT_NAME:
 			# add the 'camp' option to their list of locations to return to
 			unit.shelter_locations.append(global_action_list.COMPLETE_ACTION_LIST.RETURN_TO_CAMP)

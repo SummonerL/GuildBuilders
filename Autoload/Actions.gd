@@ -52,7 +52,8 @@ const WOOD_RECEIVED_TEXT = "and got some "
 
 enum COMPLETE_ACTION_LIST {
 	MOVE,
-	DEPOT
+	DEPOT,
+	POSIT,
 	FISH,
 	MINE,
 	CHOP,
@@ -70,6 +71,7 @@ enum COMPLETE_ACTION_LIST {
 const ACTION_LIST_NAMES = [
 	'MOVE',
 	'DEPOT',
+	'POSIT',
 	'FISH',
 	'MINE',
 	'CHOP',
@@ -98,6 +100,9 @@ func do_action(action, parent):
 		COMPLETE_ACTION_LIST.DEPOT:
 			# initialize the depot screen
 			guild.populate_depot_screen(active_unit)
+		COMPLETE_ACTION_LIST.POSIT:
+			# allow the unit to position themself anywhere around the guild hall
+			active_unit.postion_around_guild()
 		COMPLETE_ACTION_LIST.TRANSFER_ITEM_AT_DEPOT:
 			# move the item from depot to unit, or visa-versa
 			guild.transition_items_at_depot()

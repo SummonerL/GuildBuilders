@@ -54,13 +54,13 @@ func remove_from_yet_to_act(unit_id):
 func empty_yet_to_act():
 	yet_to_act = []
 
-# function for determining whether all units are asleep
-func are_all_asleep():
-	var all_asleep = true
+# function for determining if a unit is asleep at these coordinates
+func is_unit_asleep_at(x, y):
+	var is_asleep_here = false
 	for unit in party_members:
-		if (unit.unit_awake):
-			all_asleep = false
-	return all_asleep
+		if (!unit.unit_awake && unit.unit_pos_x == x && unit.unit_pos_y == y):
+			is_asleep_here = true
+	return is_asleep_here
 
 func reset_unit_actions():
 	for unit in party_members:
