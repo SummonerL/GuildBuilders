@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Scenes/Overworld/Assets/TileSets/Map_TS.tres" type="TileSet" id=1]
 [ext_resource path="res://Scenes/Overworld/Overworld_Scene.gd" type="Script" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://Sprites/Shaders/12_PM_Shader.tres" type="Material" id=6]
 [ext_resource path="res://Scenes/Overworld/Action_Tracker.gd" type="Script" id=7]
 [ext_resource path="res://Sprites/Actions/action_tracker_sheet.png" type="Texture" id=8]
+[ext_resource path="res://Music/3PM_Loop.wav" type="AudioStream" id=9]
 
 [sub_resource type="TileSet" id=1]
 0/name = "Fishing_Spot_1"
@@ -111,6 +112,10 @@ volume_db = -8.0
 
 [node name="5PM_Loop" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )
+volume_db = -8.0
+
+[node name="3PM_Loop" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 9 )
 volume_db = -8.0
 
 [node name="Fade_Out_Tween" type="Tween" parent="."]

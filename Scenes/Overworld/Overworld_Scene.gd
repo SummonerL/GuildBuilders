@@ -72,7 +72,7 @@ var active_bg_music
 var bg_music_vol
 
 onready var twelve_pm_loop = get_node("12PM_Loop")
-
+onready var three_pm_loop = get_node("3PM_Loop")
 onready var five_pm_loop = get_node("5PM_Loop")
 
 # tween for fading in / out audio
@@ -219,6 +219,8 @@ func determine_music_state():
 		12:
 			# time to change songs
 			fade_out_background_music()
+		14:
+			fade_out_background_music()
 		17:
 			fade_out_background_music()
 		_:
@@ -269,6 +271,9 @@ func determine_background_music():
 		12:
 			active_bg_music = twelve_pm_loop
 			fade_in(active_bg_music, 4) # add a volume buffer (this song is quieter :( )
+		14:
+			active_bg_music = three_pm_loop
+			fade_in(active_bg_music, 4)
 		17:
 			active_bg_music = five_pm_loop
 			fade_in(active_bg_music)
