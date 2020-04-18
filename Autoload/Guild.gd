@@ -16,7 +16,8 @@ onready var global_action_list = get_node("/root/Actions")
 
 # various hud scenes
 onready var hud_selection_list_scn = preload("res://Entities/HUD/Selection_List.tscn")
-onready var hud_depot_screen_scn = preload("res://Entities/HUD/Depot_Screen.tscn")
+onready var hud_depot_screen_scn = preload("res://Entities/HUD/Guild Actions/Depot_Screen.tscn")
+onready var hud_dining_screen_scn = preload("res://Entities/HUD/Guild Actions/Dining_Screen.tscn")
 
 # keep track of the camera
 var camera
@@ -27,12 +28,22 @@ var current_items = []
 # keep track of the depot screen (if it exists)
 var hud_depot_screen_node
 
+# keep track of the dining screen (if it exists)
+var hud_dining_screen_node
+
 func populate_depot_screen(active_unit):
 	camera = get_tree().get_nodes_in_group("Camera")[0]
 	
 	hud_depot_screen_node = hud_depot_screen_scn.instance()
 	camera.add_child(hud_depot_screen_node)
 	hud_depot_screen_node.set_unit(active_unit)
+	
+func populate_dining_screen(active_unit):
+	camera = get_tree().get_nodes_in_group("Camera")[0]
+	
+	# add the dine screen to the camera
+	hud_dining_screen_node = hud_dining_screen_scn.instance()
+	camera.add_child(hud_dining_screen_node)
 	
 func transition_items_at_depot():
 	if (hud_depot_screen_node):

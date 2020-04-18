@@ -28,7 +28,9 @@ onready var associated_actions = {
 	'FISH_SPOT_2': [global_action_list.COMPLETE_ACTION_LIST.FISH],
 	'WOODCUTTING_SPOT_1': [global_action_list.COMPLETE_ACTION_LIST.CHOP],
 	'WOODCUTTING_SPOT_2': [global_action_list.COMPLETE_ACTION_LIST.CHOP],
-	'GUILD_SPOT_1': [global_action_list.COMPLETE_ACTION_LIST.DEPOT, global_action_list.COMPLETE_ACTION_LIST.POSIT]
+	'GUILD_SPOT_1': [global_action_list.COMPLETE_ACTION_LIST.DEPOT, 
+					global_action_list.COMPLETE_ACTION_LIST.POSIT,
+					global_action_list.COMPLETE_ACTION_LIST.DINE]
 }
 
 # list of actions in which still apply when adjacent

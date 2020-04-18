@@ -791,6 +791,26 @@ animations = [ {
 76/navigation_offset = Vector2( 0, 0 )
 76/shapes = [  ]
 76/z_index = 0
+77/name = "LS_Code_40"
+77/texture = ExtResource( 1 )
+77/tex_offset = Vector2( 0, 0 )
+77/modulate = Color( 1, 1, 1, 1 )
+77/region = Rect2( 80, 16, 8, 8 )
+77/tile_mode = 0
+77/occluder_offset = Vector2( 0, 0 )
+77/navigation_offset = Vector2( 0, 0 )
+77/shapes = [  ]
+77/z_index = 0
+78/name = "LS_Code_41"
+78/texture = ExtResource( 1 )
+78/tex_offset = Vector2( 0, 0 )
+78/modulate = Color( 1, 1, 1, 1 )
+78/region = Rect2( 88, 16, 8, 8 )
+78/tile_mode = 0
+78/occluder_offset = Vector2( 0, 0 )
+78/navigation_offset = Vector2( 0, 0 )
+78/shapes = [  ]
+78/z_index = 0
 
 [sub_resource type="SpriteFrames" id=3]
 animations = [ {

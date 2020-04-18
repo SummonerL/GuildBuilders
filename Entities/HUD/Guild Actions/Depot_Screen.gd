@@ -22,10 +22,6 @@ var letters_symbols_node
 # various hud scenes
 onready var hud_selection_list_scn = preload("res://Entities/HUD/Selection_List.tscn")
 
-
-const PORTRAIT_WIDTH = 3
-const PORTRAIT_HEIGHT = 3
-
 # our depot background sprite
 onready var depot_background_sprite = get_node("Item_Info_Background_Sprite")
 
@@ -69,10 +65,6 @@ var active_unit
 const DEPOT_TEXT = 'Depot'
 const NO_ITEMS_TEXT = "No items..."
 const CANT_CARRY_TEXT = ' can\'t carry anything else...'
-
-
-const MOVE_TEXT = 'MOVE'
-const INFO_TEXT = 'INFO'
 
 func depot_screen_init():
 	letters_symbols_node = letters_symbols_scn.instance()

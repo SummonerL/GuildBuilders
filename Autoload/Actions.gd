@@ -53,6 +53,7 @@ const WOOD_RECEIVED_TEXT = "and got some "
 enum COMPLETE_ACTION_LIST {
 	MOVE,
 	DEPOT,
+	DINE,
 	POSIT,
 	FISH,
 	MINE,
@@ -64,6 +65,8 @@ enum COMPLETE_ACTION_LIST {
 	NO, # for confirmation
 	TRANSFER_ITEM_AT_DEPOT, # for depot screen
 	VIEW_ITEM_INFO_AT_DEPOT, # for depot screen
+	EAT_FOOD_AT_DINING_HALL, # for dining screen
+	VIEW_ITEM_INFO_AT_DINING_HALL, # for dining screen
 	RETURN_TO_GUILD, # for bedtime
 	RETURN_TO_CAMP # for bedtime
 }
@@ -71,6 +74,7 @@ enum COMPLETE_ACTION_LIST {
 const ACTION_LIST_NAMES = [
 	'MOVE',
 	'DEPOT',
+	'DINE',
 	'POSIT',
 	'FISH',
 	'MINE',
@@ -81,6 +85,8 @@ const ACTION_LIST_NAMES = [
 	'YES',
 	'NO',
 	'MOVE',
+	'INFO',
+	'EAT',
 	'INFO',
 	'GUILD',
 	'CAMP'
@@ -100,6 +106,9 @@ func do_action(action, parent):
 		COMPLETE_ACTION_LIST.DEPOT:
 			# initialize the depot screen
 			guild.populate_depot_screen(active_unit)
+		COMPLETE_ACTION_LIST.DINE:
+			# initialize the dine screen
+			guild.populate_dining_screen(active_unit)
 		COMPLETE_ACTION_LIST.POSIT:
 			# allow the unit to position themself anywhere around the guild hall
 			active_unit.postion_around_guild()
@@ -109,6 +118,12 @@ func do_action(action, parent):
 		COMPLETE_ACTION_LIST.VIEW_ITEM_INFO_AT_DEPOT:
 			# show the item info, at the depot
 			guild.show_item_info_at_depot()
+		COMPLETE_ACTION_LIST.EAT_FOOD_AT_DINING_HALL:
+			# eat the selected item at the dining hall
+			pass
+		COMPLETE_ACTION_LIST.VIEW_ITEM_INFO_AT_DINING_HALL:
+			# view the effect of the food at the dining hall
+			pass
 		COMPLETE_ACTION_LIST.FISH:
 			initiate_fish_action()
 		COMPLETE_ACTION_LIST.MINE:
