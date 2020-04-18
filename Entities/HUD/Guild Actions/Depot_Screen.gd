@@ -91,7 +91,7 @@ func _on_cant_carry_item_dialogue_completion():
 	set_process_input(true)
 	
 func _on_finished_viewing_item_info():
-	#since we just finished with the selection list, unpause input in this node
+	# since we just finished with the selection list, unpause input in this node
 	set_process_input(true)
 	
 # helper function for sorting items by name

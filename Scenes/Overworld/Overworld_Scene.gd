@@ -178,6 +178,9 @@ func new_day(fade = false, fade_node = null):
 	# show the applicable building tiles
 	show_applicable_building_tiles()
 	
+	# remove any daily abilities from the previous day
+	player.party.remove_food_abilities()
+	
 	# mark all units as 'yet to act'
 	player.party.reset_yet_to_act()
 	

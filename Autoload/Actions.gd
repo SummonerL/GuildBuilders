@@ -120,10 +120,10 @@ func do_action(action, parent):
 			guild.show_item_info_at_depot()
 		COMPLETE_ACTION_LIST.EAT_FOOD_AT_DINING_HALL:
 			# eat the selected item at the dining hall
-			pass
+			guild.eat_food_at_dining_hall()
 		COMPLETE_ACTION_LIST.VIEW_ITEM_INFO_AT_DINING_HALL:
 			# view the effect of the food at the dining hall
-			pass
+			guild.show_item_info_at_dining_hall()
 		COMPLETE_ACTION_LIST.FISH:
 			initiate_fish_action()
 		COMPLETE_ACTION_LIST.MINE:

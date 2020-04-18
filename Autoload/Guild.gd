@@ -45,6 +45,8 @@ func populate_dining_screen(active_unit):
 	hud_dining_screen_node = hud_dining_screen_scn.instance()
 	camera.add_child(hud_dining_screen_node)
 	
+	hud_dining_screen_node.set_unit(active_unit)
+	
 func transition_items_at_depot():
 	if (hud_depot_screen_node):
 		hud_depot_screen_node.transfer_item()
@@ -52,3 +54,10 @@ func transition_items_at_depot():
 func show_item_info_at_depot():
 	if (hud_depot_screen_node):
 		hud_depot_screen_node.show_item_info()
+		
+func eat_food_at_dining_hall():
+	if (hud_dining_screen_node):
+		hud_dining_screen_node.eat_food()
+func show_item_info_at_dining_hall():
+	if (hud_dining_screen_node):
+		hud_dining_screen_node.show_item_info()

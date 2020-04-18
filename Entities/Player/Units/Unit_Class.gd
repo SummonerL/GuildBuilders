@@ -74,6 +74,9 @@ var bed_time = 21
 # keep track of the unit's items
 var item_limit = 5 # default
 
+# keep track of the player's meal limit
+var meal_limit = 1
+
 var current_items = [
 ]
 

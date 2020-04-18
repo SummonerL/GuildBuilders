@@ -14,3 +14,6 @@ signal finished_viewing_bedtime_text
 
 signal cant_carry_item_dialogue_depot
 signal finished_viewing_item_info_depot
+signal finished_viewing_item_info_dining
+signal already_have_effect_dialogue_dining
+signal food_ate_dialogue_dining

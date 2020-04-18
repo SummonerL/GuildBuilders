@@ -6,6 +6,9 @@ onready var constants = get_node("/root/Game_Constants")
 # keep track of the global player variables
 onready var player = get_node("/root/Player_Globals")
 
+# bring in our abilities
+onready var global_ability_list = get_node("/root/Abilities")
+
 # all of the unit types
 onready var angler_male_scn = preload("res://Entities/Player/Units/Angler_Male.tscn")
 onready var angler_female_scn = preload("res://Entities/Player/Units/Angler_Female.tscn")
@@ -67,6 +70,19 @@ func reset_unit_actions():
 		unit.reset_action_list()
 		# also make sure we update their 'acted' state for the new turn
 		unit.set_has_acted_state(false)
+
+# remove all food (daily) abilities from each unit
+func remove_food_abilities():
+	for unit in party_members:
+		var index = 0
+		var unit_abilities = unit.unit_abilities.duplicate()
+		for ability in unit_abilities:
+
+			if (ability.type == global_ability_list.ABILITY_TYPES.FOOD):
+				global_ability_list.remove_ability_from_unit(unit, ability, index)
+				index -= 1
+				
+			index += 1
 
 func reset_shaders():
 	for unit in party_members:

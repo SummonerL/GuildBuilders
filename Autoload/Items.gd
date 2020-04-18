@@ -3,6 +3,9 @@ extends Node
 # this file will keep track of the items that a unit can obtain throughout the course of the game
 # each item should consist of a name, description, type, and any other properties specific to the item type
 
+# bring in our abilities
+onready var global_ability_list = get_node("/root/Abilities")
+
 enum ITEM_TYPES {
 	ROD	,
 	AXE,
@@ -11,28 +14,29 @@ enum ITEM_TYPES {
 }
 
 # tools
-const item_softwood_rod = {
+onready var item_softwood_rod = {
 	"name": "Softwood Rod",
 	"description": "A simple wooden fishing rod. Allows the unit to catch fish.",
 	"type": ITEM_TYPES.ROD
 }
 
-const item_sturdy_axe = {
+onready var item_sturdy_axe = {
 	"name": "Sturdy Axe",
 	"description": "A simple stone axe. Allows the unit to gather wood.",
 	"type": ITEM_TYPES.AXE
 }
 
 # fish
-const item_musclefish = {
+onready var item_musclefish = {
 	"name": "Musclefish",
 	"description": "Eating this will allow the unit to carry an additional 3 items that day.",
 	"type": ITEM_TYPES.FISH,
-	"xp": 2 # xp upon receiving
+	"xp": 2, # xp upon receiving
+	"connected_ability": global_ability_list.ability_food_musclefish
 }
 
 # wood
-const item_softwood = {
+onready var item_softwood = {
 	"name": "Softwood",
 	"description": "A light-colored wood that is easy to cut. Can be used to craft various items.",
 	"type": ITEM_TYPES.WOOD,
