@@ -26,6 +26,11 @@ onready var item_sturdy_axe = {
 	"type": ITEM_TYPES.AXE
 }
 
+onready var item_handsaw = {
+	"name": "Handsaw",
+	"description": "A basic handsaw. Allows the unit to work with wood."
+}
+
 # fish
 onready var item_musclefish = {
 	"name": "Musclefish",

@@ -26,14 +26,15 @@ func unit_init():
 	
 	age = 35
 	
-	unit_bio = "..."
-	unit_bio += "..."
+	unit_bio = "Hey... I\'m Sawyer. Frankly, there's not a lot to say about me, but I try to do the best I can with my craft."
+	unit_bio += " We\'ll get along as long as you don\'t interrupt me while I\'m working."
 	
 	base_move = 3
 	
-	#skill_levels[constants.WOODWORKING] = 5
+	skill_levels[constants.WOODWORKING] = 5
 	
 	# give the male woodworker some starting items
+	global_items_list.add_item_to_unit(self, global_items_list.item_handsaw)
 	
 	# add the unit's starting ability
 	

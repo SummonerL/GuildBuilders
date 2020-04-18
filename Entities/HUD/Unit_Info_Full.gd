@@ -26,6 +26,7 @@ onready var item_info_background_sprite = get_node("Item_Info_Background_Sprite"
 onready var mining_skill_icon_sprite = get_node("Mining_Skill_Icon")
 onready var fishing_skill_icon_sprite = get_node("Fishing_Skill_Icon")
 onready var woodcutting_skill_icon_sprite = get_node("Woodcutting_Skill_Icon")
+onready var woodworking_skill_icon_sprite = get_node("Woodworking_Skill_Icon")
 
 var active_unit
 var portrait_sprite
@@ -53,6 +54,18 @@ var current_abil = 0
 var abil_start_index_tracker = 0
 var abil_end_index_tracker = 0
 
+# keep track of the currently selected skill in the skill screen
+onready var all_skills = [
+	constants.FISHING,
+	constants.WOODCUTTING,
+	constants.MINING,
+	constants.WOODWORKING
+]
+var current_skill_set = []
+var current_skill = 0
+var skill_start_index_tracker = 0
+var skill_end_index_tracker = 0
+
 var current_screen = screen_list.BASIC_INFO
 
 const NAME_TEXT = "Name:"
@@ -69,6 +82,7 @@ const LVL_TEXT = "Lv."
 const WOODCUTTING_TEXT = "Woodcutting"
 const FISHING_TEXT = "Fishing"
 const MINING_TEXT = "Mining"
+const WOODWORKING_TEXT = "Woodworking"
 
 const NO_ITEMS_TEXT = "No items..."
 const NO_ABIL_TEXT = "No abilities..."
@@ -164,13 +178,20 @@ func populate_basic_info_screen():
 func calculate_next_level_percent(skill):
 	return floor(active_unit.skill_xp[skill] / float(constants.experience_required[active_unit.skill_levels[skill]]) * 100.0)
 	
-func populate_skill_info_screen():
+func populate_skill_info_screen(skill_start_index = 0):
+	skill_start_index_tracker = skill_start_index
+	
 	# make the skill info background sprite visible
 	skill_info_background_sprite.visible = true
 	
-	mining_skill_icon_sprite.visible = true
-	fishing_skill_icon_sprite.visible = true
-	woodcutting_skill_icon_sprite.visible = true
+	skill_end_index_tracker = skill_start_index_tracker + 2 # show 3 skills at a time
+	if (skill_end_index_tracker > all_skills.size() - 1): # account for index
+		skill_end_index_tracker = all_skills.size() - 1	
+
+	mining_skill_icon_sprite.visible = false
+	fishing_skill_icon_sprite.visible = false
+	woodcutting_skill_icon_sprite.visible = false
+	woodworking_skill_icon_sprite.visible = false
 	
 	# show the right arrow (for moving to the next screen)
 	letters_symbols_node.print_special_immediately(constants.SPECIAL_SYMBOLS.RIGHT_ARROW, 
@@ -183,37 +204,66 @@ func populate_skill_info_screen():
 	# skills text
 	letters_symbols_node.print_immediately(SKILL_TEXT, Vector2((constants.DIA_TILES_PER_ROW - len(SKILL_TEXT)) / 2, 1))
 	
+	current_skill_set = all_skills.slice(skill_start_index_tracker, skill_end_index_tracker, 1) # only show 3 skills at a time
 	
 	var start_x = 1
 	var start_y = 2
 	
+	# make the selector arrow visible
+	if (all_skills.size() > 0):
+		selector_arrow.visible = true
+		selector_arrow.position = Vector2((start_x) * constants.DIA_TILE_WIDTH, ((start_y + 3) + ((current_skill - skill_start_index_tracker) * 4)) * constants.DIA_TILE_HEIGHT)
+
+
+	# print the down / up arrow, depending on where we are in the list of skills
+	if (current_skill_set.size() >= 3 && (skill_start_index_tracker + 2) < all_skills.size() - 1): # account for index
+		letters_symbols_node.print_special_immediately(constants.SPECIAL_SYMBOLS.DOWN_ARROW, 
+			Vector2(((constants.DIA_TILES_PER_ROW - 1) / 2) * constants.DIA_TILE_WIDTH, 16 * constants.DIA_TILE_HEIGHT))
+			
+	if (skill_start_index_tracker > 0):
+		letters_symbols_node.print_special_immediately(constants.SPECIAL_SYMBOLS.UP_ARROW, 
+			Vector2(((constants.DIA_TILES_PER_ROW - 1) / 2) * constants.DIA_TILE_WIDTH, 2 * constants.DIA_TILE_HEIGHT))
+		
 	var calc_next = 0
 	
-	# fishing
-	fishing_skill_icon_sprite.position = Vector2(start_x * constants.TILE_WIDTH, start_y * constants.TILE_HEIGHT)
-	letters_symbols_node.print_immediately(FISHING_TEXT, Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2)))
-	var fishing_lv_text = LVL_TEXT + String(active_unit.skill_levels[constants.FISHING])
-	calc_next = calculate_next_level_percent(constants.FISHING)
-	fishing_lv_text += "  " + NEXT_LEVEL_TEXT + String(calc_next) + "%"
-	letters_symbols_node.print_immediately(fishing_lv_text, Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2) + 2))
-	start_y += 2
-
-	# woodcutting
-	woodcutting_skill_icon_sprite.position = Vector2(start_x * constants.TILE_WIDTH, start_y * constants.TILE_HEIGHT)
-	letters_symbols_node.print_immediately(WOODCUTTING_TEXT, Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2)))
-	var woodcutting_lv_text = LVL_TEXT + String(active_unit.skill_levels[constants.WOODCUTTING])
-	calc_next = calculate_next_level_percent(constants.WOODCUTTING)
-	woodcutting_lv_text += "  " + NEXT_LEVEL_TEXT + String(calc_next) + "%"
-	letters_symbols_node.print_immediately(woodcutting_lv_text, Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2) + 2))
-	start_y += 2
+	for skill in current_skill_set:
+		match(skill):
+			constants.FISHING:
+				fishing_skill_icon_sprite.visible = true
+				fishing_skill_icon_sprite.position = Vector2(start_x * constants.TILE_WIDTH, start_y * constants.TILE_HEIGHT)
+				letters_symbols_node.print_immediately(FISHING_TEXT, Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2)))
+				var fishing_lv_text = LVL_TEXT + String(active_unit.skill_levels[constants.FISHING])
+				calc_next = calculate_next_level_percent(constants.FISHING)
+				fishing_lv_text += "  " + NEXT_LEVEL_TEXT + String(calc_next) + "%"
+				letters_symbols_node.print_immediately(fishing_lv_text, Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2) + 2))
+			constants.WOODCUTTING:
+				woodcutting_skill_icon_sprite.visible = true
+				woodcutting_skill_icon_sprite.position = Vector2(start_x * constants.TILE_WIDTH, start_y * constants.TILE_HEIGHT)
+				letters_symbols_node.print_immediately(WOODCUTTING_TEXT, Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2)))
+				var woodcutting_lv_text = LVL_TEXT + String(active_unit.skill_levels[constants.WOODCUTTING])
+				calc_next = calculate_next_level_percent(constants.WOODCUTTING)
+				woodcutting_lv_text += "  " + NEXT_LEVEL_TEXT + String(calc_next) + "%"
+				letters_symbols_node.print_immediately(woodcutting_lv_text, Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2) + 2))
+			constants.MINING:
+				mining_skill_icon_sprite.visible = true
+				mining_skill_icon_sprite.position = Vector2(start_x * constants.TILE_WIDTH, start_y * constants.TILE_HEIGHT)
+				letters_symbols_node.print_immediately(MINING_TEXT, Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2)))
+				var mining_lv_text = LVL_TEXT + String(active_unit.skill_levels[constants.MINING])
+				calc_next = calculate_next_level_percent(constants.MINING)
+				mining_lv_text += "  " + NEXT_LEVEL_TEXT + String(calc_next) + "%"
+				letters_symbols_node.print_immediately(mining_lv_text, Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2) + 2))
+			constants.WOODWORKING:
+				woodworking_skill_icon_sprite.visible = true
+				woodworking_skill_icon_sprite.position = Vector2(start_x * constants.TILE_WIDTH, start_y * constants.TILE_HEIGHT)
+				letters_symbols_node.print_immediately(WOODWORKING_TEXT, Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2)))
+				var woodworking_lv_text = LVL_TEXT + String(active_unit.skill_levels[constants.WOODWORKING])
+				calc_next = calculate_next_level_percent(constants.WOODWORKING)
+				woodworking_lv_text += "  " + NEXT_LEVEL_TEXT + String(calc_next) + "%"
+				letters_symbols_node.print_immediately(woodworking_lv_text, Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2) + 2))
+				
+		start_y += 2
+		
 	
-	# mining
-	mining_skill_icon_sprite.position = Vector2(start_x * constants.TILE_WIDTH, start_y * constants.TILE_HEIGHT)
-	letters_symbols_node.print_immediately(MINING_TEXT, Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2)))
-	var mining_lv_text = LVL_TEXT + String(active_unit.skill_levels[constants.MINING])
-	calc_next = calculate_next_level_percent(constants.MINING)
-	mining_lv_text += "  " + NEXT_LEVEL_TEXT + String(calc_next) + "%"
-	letters_symbols_node.print_immediately(mining_lv_text, Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2) + 2))
 	
 func populate_item_screen(inv_start_index = 0):
 	inv_start_index_tracker = inv_start_index
@@ -399,6 +449,36 @@ func move_abilities(direction):
 				current_abil += direction
 				change_screen(abil_end_index_tracker + direction)
 
+func move_skills(direction):
+	var start_x = 2
+	var start_y = 5
+	
+	if (direction < 0):
+		# move up
+		if (current_skill > skill_start_index_tracker):
+			current_skill += direction
+			selector_arrow.visible = true
+			selector_arrow.position = Vector2((start_x - 1) * constants.DIA_TILE_WIDTH, 
+				(start_y + ((current_skill - skill_start_index_tracker) * 4)) * constants.DIA_TILE_HEIGHT)
+			player.hud.full_text_destruction()
+		else:
+			if (letters_symbols_node.arrow_up_sprite.visible): # if we are allowed to move up
+				current_skill += direction
+				skill_start_index_tracker -= 3
+				skill_end_index_tracker = skill_start_index_tracker + 3
+				change_screen(skill_start_index_tracker)
+	else:
+		if (current_skill < skill_end_index_tracker):
+			current_skill += direction
+			selector_arrow.visible = true
+			selector_arrow.position = Vector2((start_x - 1) * constants.DIA_TILE_WIDTH, 
+				(start_y + ((current_skill - skill_start_index_tracker) * 4)) * constants.DIA_TILE_HEIGHT)
+			player.hud.full_text_destruction()
+		else:
+			if (letters_symbols_node.arrow_down_sprite.visible): # if we are allowed to move down
+				current_skill += direction
+				change_screen(skill_end_index_tracker + direction)
+
 func make_all_sprites_invisible():
 	# make the selector arrow invisible
 	selector_arrow.visible = false
@@ -425,7 +505,7 @@ func change_screen(screen_start_index = 0):
 		screen_list.BASIC_INFO:
 			populate_basic_info_screen()
 		screen_list.SKILL_INFO:
-			populate_skill_info_screen()
+			populate_skill_info_screen(screen_start_index)
 		screen_list.ITEMS:
 			populate_item_screen(screen_start_index)
 		screen_list.ABILITY_INFO:
@@ -449,6 +529,8 @@ func _input(event):
 				current_item = 0
 			screen_list.ABILITY_INFO:
 				current_abil = 0
+			screen_list.SKILL_INFO:
+				current_skill = 0
 		# change screens!
 		if (current_screen >= (len(screen_list) - 1) ): # account for index		
 			current_screen = 0
@@ -464,6 +546,8 @@ func _input(event):
 				current_item = 0
 			screen_list.ABILITY_INFO:
 				current_abil = 0
+			screen_list.SKILL_INFO:
+				current_skill = 0
 		# change screens!
 		if (current_screen <= 0 ): # account for index		
 			current_screen = len(screen_list) - 1 # account for index
@@ -478,6 +562,8 @@ func _input(event):
 				move_items(1)
 			screen_list.ABILITY_INFO:
 				move_abilities(1)
+			screen_list.SKILL_INFO:
+				move_skills(1)
 		
 	if (event.is_action_pressed("ui_up")):
 		match (current_screen):
@@ -485,6 +571,8 @@ func _input(event):
 				move_items(-1)
 			screen_list.ABILITY_INFO:
 				move_abilities(-1)
+			screen_list.SKILL_INFO:
+				move_skills(-1)
 
 func close_unit_screen():
 	# change the player state
