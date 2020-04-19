@@ -19,6 +19,10 @@ config/name="A Test of Artistry"
 run/main_scene="res://Scenes/Overworld/Overworld_Scene.tscn"
 config/icon="res://icon.png"
 
+[audio]
+
+mix_rate=48000
+
 [autoload]
 
 Game_Constants="*res://Autoload/Game_Constants.gd"
