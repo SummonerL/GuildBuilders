@@ -9,6 +9,7 @@ onready var global_ability_list = get_node("/root/Abilities")
 enum ITEM_TYPES {
 	ROD	,
 	AXE,
+	SAW,
 	FISH,
 	WOOD
 }
@@ -28,7 +29,8 @@ onready var item_sturdy_axe = {
 
 onready var item_handsaw = {
 	"name": "Handsaw",
-	"description": "A basic handsaw. Allows the unit to work with wood."
+	"description": "A basic handsaw. Allows the unit to work with wood.",
+	"type": ITEM_TYPES.SAW
 }
 
 # fish
