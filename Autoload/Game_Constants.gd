@@ -128,5 +128,9 @@ const MINING_PRETTY = 'Mining'
 const WOODCUTTING_PRETTY = 'Woodcutting'
 const WOODWORKING_PRETTY = 'Woodworking'
 
+# text commonly used across different screens
+const LVL_TEXT = "Lv."
+const NEXT_LEVEL_TEXT = "Nxt."
+
 # misc text
 const WHERE_SHOULD_I_RETURN_TEXT = 'Where should I return?'

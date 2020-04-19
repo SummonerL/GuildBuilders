@@ -40,8 +40,8 @@ var selector_arrow
 # keep track of the currently selected food item in the dining screen
 var current_item_set = []
 var current_item = 0
-var depot_start_index_tracker = 0
-var depot_end_index_tracker = 0
+var dining_start_index_tracker = 0
+var dining_end_index_tracker = 0
 
 enum DINING_SCREEN_STATES {
 	SELECTING_ITEM,
@@ -114,7 +114,7 @@ func get_food_items_from_depot():
 			guild_items_index += 1
 
 func populate_food_items(depot_start_index = 0):
-	depot_start_index_tracker = depot_start_index
+	dining_start_index_tracker = depot_start_index
 	
 	# first get all of the food items
 	get_food_items_from_depot()
@@ -135,27 +135,27 @@ func populate_food_items(depot_start_index = 0):
 	var start_x = 2
 	var start_y = 3
 	
-	depot_end_index_tracker = depot_start_index_tracker + 3
+	dining_end_index_tracker = dining_start_index_tracker + 3
 	
-	if (depot_end_index_tracker > current_food_items.size() - 1): # account for index
-		depot_end_index_tracker = current_food_items.size() - 1
+	if (dining_end_index_tracker > current_food_items.size() - 1): # account for index
+		dining_end_index_tracker = current_food_items.size() - 1
 		
-	current_item_set = current_food_items.slice(depot_start_index_tracker, depot_end_index_tracker, 1) # only show 4 items at a time
+	current_item_set = current_food_items.slice(dining_start_index_tracker, dining_end_index_tracker, 1) # only show 4 items at a time
 	
 	# make the selector arrow visible
 	if (current_food_items.size() > 0):
 		selector_arrow.visible = true
-		selector_arrow.position = Vector2((start_x - 1) * constants.DIA_TILE_WIDTH, (start_y + ((current_item - depot_start_index_tracker) * 2)) * constants.DIA_TILE_HEIGHT)
+		selector_arrow.position = Vector2((start_x - 1) * constants.DIA_TILE_WIDTH, (start_y + ((current_item - dining_start_index_tracker) * 2)) * constants.DIA_TILE_HEIGHT)
 	else:
 		player.hud.dialogueState = player.hud.STATES.INACTIVE
 		player.hud.typeTextWithBuffer(NO_FOOD_TEXT, true)
 		
 	# print the down / up arrow, depending on where we are in the list of food items
-	if (current_item_set.size() >= 4 && (depot_start_index_tracker + 3) < current_food_items.size() - 1): # account for index
+	if (current_item_set.size() >= 4 && (dining_start_index_tracker + 3) < current_food_items.size() - 1): # account for index
 		letters_symbols_node.print_special_immediately(constants.SPECIAL_SYMBOLS.DOWN_ARROW, 
 			Vector2(((constants.DIA_TILES_PER_ROW - 1) / 2) * constants.DIA_TILE_WIDTH, 10 * constants.DIA_TILE_HEIGHT))
 			
-	if (depot_start_index_tracker > 0):
+	if (dining_start_index_tracker > 0):
 		letters_symbols_node.print_special_immediately(constants.SPECIAL_SYMBOLS.UP_ARROW, 
 			Vector2(((constants.DIA_TILES_PER_ROW - 1) / 2) * constants.DIA_TILE_WIDTH, 2 * constants.DIA_TILE_HEIGHT))
 
@@ -229,11 +229,11 @@ func eat_food():
 	
 	# reposition the cursor and repopulate the list, now that we've removed that item
 	if (current_item > (current_food_items.size() - 1)):
-		if (current_item == depot_start_index_tracker && depot_start_index_tracker > 0):
-			depot_start_index_tracker -= 4
+		if (current_item == dining_start_index_tracker && dining_start_index_tracker > 0):
+			dining_start_index_tracker -= 4
 		current_item -= 1
 		
-	populate_food_items(depot_start_index_tracker)
+	populate_food_items(dining_start_index_tracker)
 
 	# since we just finished with the selection list, unpause input in this node
 	set_process_input(true)
@@ -255,29 +255,29 @@ func move_items(direction):
 	
 	if (direction < 0):
 		# move up
-		if (current_item > depot_start_index_tracker):
+		if (current_item > dining_start_index_tracker):
 			current_item += direction
 			selector_arrow.visible = true
 			selector_arrow.position = Vector2((start_x - 1) * constants.DIA_TILE_WIDTH, 
-				(start_y + ((current_item - depot_start_index_tracker) * 2)) * constants.DIA_TILE_HEIGHT)
+				(start_y + ((current_item - dining_start_index_tracker) * 2)) * constants.DIA_TILE_HEIGHT)
 			player.hud.full_text_destruction()
 		else:
 			if (letters_symbols_node.arrow_up_sprite.visible): # if we are allowed to move up
 				current_item += direction
-				depot_start_index_tracker -= 4
-				depot_end_index_tracker = depot_start_index_tracker + 3
-				populate_food_items(depot_start_index_tracker)
+				dining_start_index_tracker -= 4
+				dining_end_index_tracker = dining_start_index_tracker + 3
+				populate_food_items(dining_start_index_tracker)
 	else:
-		if (current_item < depot_end_index_tracker):
+		if (current_item < dining_end_index_tracker):
 			current_item += direction
 			selector_arrow.visible = true
 			selector_arrow.position = Vector2((start_x - 1) * constants.DIA_TILE_WIDTH, 
-				(start_y + ((current_item - depot_start_index_tracker) * 2)) * constants.DIA_TILE_HEIGHT)
+				(start_y + ((current_item - dining_start_index_tracker) * 2)) * constants.DIA_TILE_HEIGHT)
 			player.hud.full_text_destruction()
 		else:
 			if (letters_symbols_node.arrow_down_sprite.visible): # if we are allowed to move down
 				current_item += direction
-				populate_food_items(depot_end_index_tracker + direction)
+				populate_food_items(dining_end_index_tracker + direction)
 
 func _ready():
 	# initialize the dining screen

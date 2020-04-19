@@ -30,18 +30,21 @@ const SELECT_LIST_2_HEIGHT = 3
 const SELECT_LIST_3_HEIGHT = 4
 const SELECT_LIST_4_HEIGHT = 5
 const SELECT_LIST_5_HEIGHT = 6
+const SELECT_LIST_6_HEIGHT = 7
 
 var left_1
 var left_2
 var left_3
 var left_4
 var left_5
+var left_6
 
 var right_1
 var right_2
 var right_3
 var right_4
 var right_5
+var right_6
 
 var cancel_allowed
 
@@ -76,6 +79,7 @@ onready var selection_list_2_item = get_node("List_2_Item_Sprite")
 onready var selection_list_3_item = get_node("List_3_Item_Sprite")
 onready var selection_list_4_item = get_node("List_4_Item_Sprite")
 onready var selection_list_5_item = get_node("List_5_Item_Sprite")
+onready var selection_list_6_item = get_node("List_6_Item_Sprite")
 
 func selection_list_init():
 	left_1 = Vector2(0, (constants.TILES_PER_COL - SELECT_LIST_1_HEIGHT) * constants.TILE_WIDTH)
@@ -98,6 +102,10 @@ func selection_list_init():
 	right_5 = Vector2((constants.TILES_PER_ROW - SELECT_LIST_WIDTH) * constants.TILE_WIDTH, 
 					(constants.TILES_PER_COL - SELECT_LIST_5_HEIGHT) * constants.TILE_WIDTH)
 	
+	left_6 = Vector2(0, (constants.TILES_PER_COL - SELECT_LIST_6_HEIGHT) * constants.TILE_WIDTH)
+	right_6 = Vector2((constants.TILES_PER_ROW - SELECT_LIST_WIDTH) * constants.TILE_WIDTH, 
+					(constants.TILES_PER_COL - SELECT_LIST_6_HEIGHT) * constants.TILE_WIDTH)
+	
 	# create a letters_symbols instance
 	letters_symbols_node = letters_symbols_obj.instance()
 	add_child(letters_symbols_node)
@@ -112,11 +120,13 @@ func position_selection_list():
 		right_3.y -= (constants.DIA_TILE_HEIGHT * 5)
 		right_4.y -= (constants.DIA_TILE_HEIGHT * 5)
 		right_5.y -= (constants.DIA_TILE_HEIGHT * 5)
+		right_6.y -= (constants.DIA_TILE_HEIGHT * 5)
 		left_1.y -= (constants.DIA_TILE_HEIGHT * 5)
 		left_2.y -= (constants.DIA_TILE_HEIGHT * 5)
 		left_3.y -= (constants.DIA_TILE_HEIGHT * 5)
 		left_4.y -= (constants.DIA_TILE_HEIGHT * 5)
 		left_5.y -= (constants.DIA_TILE_HEIGHT * 5)
+		left_6.y -= (constants.DIA_TILE_HEIGHT * 5)
 		
 	
 	if (((player.curs_pos_x - player.cam_pos_x) <= ((constants.TILES_PER_ROW / 2) - 1)) || position_right_tracker ):
@@ -125,6 +135,7 @@ func position_selection_list():
 		selection_list_3_item.position = right_3
 		selection_list_4_item.position = right_4
 		selection_list_5_item.position = right_5
+		selection_list_6_item.position = right_6
 		side = constants.SIDES.RIGHT
 	elif (((player.curs_pos_x - player.cam_pos_x) > ((constants.TILES_PER_ROW / 2) - 1)) || position_left_tracker):
 		selection_list_1_item.position = left_1
@@ -132,6 +143,7 @@ func position_selection_list():
 		selection_list_3_item.position = left_3
 		selection_list_4_item.position = left_4
 		selection_list_5_item.position = left_5
+		selection_list_6_item.position = left_6
 		side = constants.SIDES.LEFT
 
 func populate_selection_list(actions, caller, accomodate_dialogue = false, position_left = false, position_right = false, 
@@ -191,6 +203,9 @@ func populate_selection_list(actions, caller, accomodate_dialogue = false, posit
 		5:
 			selection_list_5_item.visible = true
 			start_pos_y += (constants.TILES_PER_COL * 2) - (SELECT_LIST_5_HEIGHT * 2)
+		6:
+			selection_list_6_item.visible = true
+			start_pos_y += (constants.TILES_PER_COL * 2) - (SELECT_LIST_6_HEIGHT * 2)
 
 	# print the 'selection' icon beside the first option
 	current_selected_pos = Vector2(start_pos_x * constants.DIA_TILE_WIDTH, start_pos_y * constants.DIA_TILE_HEIGHT)
@@ -240,6 +255,7 @@ func _input(event):
 				selection_list_3_item.visible = false
 				selection_list_4_item.visible = false
 				selection_list_5_item.visible = false
+				selection_list_6_item.visible = false
 				letters_symbols_node.clear_text_non_dialogue()
 				letters_symbols_node.clear_specials()
 				dead = true
@@ -271,6 +287,7 @@ func _input(event):
 			selection_list_3_item.visible = false
 			selection_list_4_item.visible = false
 			selection_list_5_item.visible = false
+			selection_list_6_item.visible = false
 			letters_symbols_node.clear_text_non_dialogue()
 			letters_symbols_node.clear_specials()
 			confirm_selection_sound.connect("finished", self, "kill_select_list")

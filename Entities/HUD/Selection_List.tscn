@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Sprites/hud/hud_select_list_2_item.png" type="Texture" id=1]
 [ext_resource path="res://Entities/HUD/Selection_List.gd" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Sprites/hud/hud_select_list_4_item.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/hud/hud_select_list_1_item.png" type="Texture" id=6]
 [ext_resource path="res://Entities/HUD/Assets/Menu_Confirmation_Sound.wav" type="AudioStream" id=7]
+[ext_resource path="res://Sprites/hud/hud_select_list_6_item.png" type="Texture" id=8]
 
 [node name="Selection_List" type="CanvasLayer"]
 script = ExtResource( 2 )
@@ -34,6 +35,11 @@ centered = false
 [node name="List_5_Item_Sprite" type="Sprite" parent="."]
 visible = false
 texture = ExtResource( 3 )
+centered = false
+
+[node name="List_6_Item_Sprite" type="Sprite" parent="."]
+visible = false
+texture = ExtResource( 8 )
 centered = false
 
 [node name="Confirm_Selection_Sound" type="AudioStreamPlayer" parent="."]

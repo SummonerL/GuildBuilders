@@ -29,6 +29,10 @@ onready var hud_selection_list_scn = preload("res://Entities/HUD/Selection_List.
 onready var action_screen_scn = preload("res://Entities/HUD/Action_Window.tscn")
 var action_screen_node
 
+# our crafting screen (we can instance this when the unit crafts)
+onready var crafting_screen_scn = preload("res://Entities/HUD/Unit Actions/Crafting_Screen.tscn")
+var crafting_screen_node
+
 # 3 seconds to receive the skill reward
 const SKILL_WAIT_TIME = 3
 
@@ -54,6 +58,7 @@ enum COMPLETE_ACTION_LIST {
 	MOVE,
 	DEPOT,
 	DINE,
+	CRAFT,
 	POSIT,
 	FISH,
 	MINE,
@@ -75,6 +80,7 @@ const ACTION_LIST_NAMES = [
 	'MOVE',
 	'DEPOT',
 	'DINE',
+	'CRAFT',
 	'POSIT',
 	'FISH',
 	'MINE',
@@ -109,6 +115,9 @@ func do_action(action, parent):
 		COMPLETE_ACTION_LIST.DINE:
 			# initialize the dine screen
 			guild.populate_dining_screen(active_unit)
+		COMPLETE_ACTION_LIST.CRAFT:
+			# initialize the crafting screen
+			initiate_crafting_action()
 		COMPLETE_ACTION_LIST.POSIT:
 			# allow the unit to position themself anywhere around the guild hall
 			active_unit.postion_around_guild()
@@ -246,6 +255,17 @@ func set_item_reward(reward, timer = null):
 		remove_child(timer)
 
 	action_screen_node.receive_item(reward)
+
+# if the unit is crafting
+func initiate_crafting_action():
+	# initialize the crafting window
+	camera = get_tree().get_nodes_in_group("Camera")[0]
+	
+	# add the dine screen to the camera
+	crafting_screen_node = crafting_screen_scn.instance()
+	camera.add_child(crafting_screen_node)
+	
+	crafting_screen_node.set_active_unit(active_unit)
 
 # if the unit is fishing
 func initiate_fish_action():
