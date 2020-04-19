@@ -111,7 +111,8 @@ func get_food_items_from_depot():
 				"item": item,
 				"index": guild_items_index
 			})
-			guild_items_index += 1
+		
+		guild_items_index += 1
 
 func populate_food_items(depot_start_index = 0):
 	dining_start_index_tracker = depot_start_index
