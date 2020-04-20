@@ -139,8 +139,7 @@ func do_action(action, parent):
 			guild.show_item_info_at_dining_hall()
 		COMPLETE_ACTION_LIST.CRAFT_RECIPE_IN_CRAFTING_SCREEN:
 			# view recipe info in the crafting screen
-			#crafting_screen_node.show_recipe_crafting_screen()
-			pass
+			crafting_screen_node.change_screens(crafting_screen_node.SCREENS.CONFIRMATION)
 		COMPLETE_ACTION_LIST.VIEW_ITEM_INFO_IN_CRAFTING_SCREEN:
 			# view info about the recipe in the crafting screen
 			crafting_screen_node.view_item_info()

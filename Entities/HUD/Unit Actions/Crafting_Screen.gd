@@ -256,12 +256,18 @@ func determine_recipes():
 	
 	var recipes = skill_info.SKILL_UNLOCKS[active_skill]
 	
-	for level_recipes in recipes.values():
-		for recipe in level_recipes:
-			if (recipe.type == skill_info.UNLOCK_TYPES.RECIPE):
-				all_recipes.append(recipe)
+	for recipe in recipes:
+		if (recipe.type == skill_info.UNLOCK_TYPES.RECIPE):
+			all_recipes.append(recipe)
 			
+func populate_recipe_confirmation_screen():
+	# reuse the recipe background sprite visible
+	recipe_selection_background_sprite.visible = true
 	
+	# get all of the item information
+	var recipe = all_recipes[current_recipe]
+	
+	print(recipe)
 
 func populate_recipe_selection_screen(recipe_start_index = 0):	
 	# make the recipe background sprite visible
@@ -324,12 +330,17 @@ func change_screens(screen, screen_start_index = 0):
 	# make all background sprites invisible
 	make_background_sprites_invisible()
 	
+	# make sure the node is unpaused
+	set_process_input(true)
+	
 	# behave differently based on the screen we are switching to
 	match(active_screen):
 		SCREENS.RECIPE_SELECTION:
 			populate_recipe_selection_screen(screen_start_index)
 		SCREENS.SKILL_SELECTION:
 			populate_skill_selection_screen(screen_start_index)
+		SCREENS.CONFIRMATION:
+			populate_recipe_confirmation_screen()
 			
 func cancel_select_list():
 	# start processing input again (unpause this node)
@@ -352,6 +363,10 @@ func _input(event):
 				player.hud.full_text_destruction()
 				current_recipe = 0 # reset recipe variables
 				change_screens(SCREENS.SKILL_SELECTION)
+			SCREENS.CONFIRMATION:
+				# make sure we close the dialogue box, if it's present
+				player.hud.full_text_destruction()
+				change_screens(SCREENS.RECIPE_SELECTION, recipe_start_index_tracker)
 				
 	if (event.is_action_pressed("ui_down")):
 		match(active_screen):

@@ -18,65 +18,29 @@ enum UNLOCK_TYPES {
 # global list of skill unlocks
 onready var SKILL_UNLOCKS = {
 	# woodworking
-	constants.WOODWORKING: {
-		1: [
-			{
-				'type': UNLOCK_TYPES.RECIPE,
-				'item': global_item_list.item_wooden_handle,
-				'no_tool_required': true,
-				'resources_required': [
-					{
-						'item': global_item_list.item_softwood,
-						'quantity': 1
-					}
-				]
-			},
-			{
-				'type': UNLOCK_TYPES.RECIPE,
-				'item': global_item_list.item_wooden_handle,
-				'no_tool_required': true,
-				'resources_required': [
-					{
-						'item': global_item_list.item_softwood,
-						'quantity': 1
-					}
-				]
-			},
-			{
-				'type': UNLOCK_TYPES.RECIPE,
-				'item': global_item_list.item_wooden_handle,
-				'no_tool_required': true,
-				'resources_required': [
-					{
-						'item': global_item_list.item_softwood,
-						'quantity': 1
-					}
-				]
-			},
-			{
-				'type': UNLOCK_TYPES.RECIPE,
-				'item': global_item_list.item_wooden_handle,
-				'no_tool_required': true,
-				'resources_required': [
-					{
-						'item': global_item_list.item_softwood,
-						'quantity': 1
-					}
-				]
-			}
-		],
-		5: [
-			{
-				'type': UNLOCK_TYPES.RECIPE,
-				'item': global_item_list.item_walking_stick,
-				'resources_required': [
-					{
-						'item': global_item_list.item_hardwood,
-						'quantity': 2
-					}
-				]
-			}
-		]
-	}
-	
+	constants.WOODWORKING: [
+		{
+			'type': UNLOCK_TYPES.RECIPE,
+			'level_required': 1,
+			'item': global_item_list.item_wooden_handle,
+			'no_tool_required': true,
+			'resources_required': [
+				{
+					'item': global_item_list.item_softwood,
+					'quantity': 1
+				}
+			]
+		},
+		{
+			'type': UNLOCK_TYPES.RECIPE,
+			'level_required': 5,
+			'item': global_item_list.item_walking_stick,
+			'resources_required': [
+				{
+					'item': global_item_list.item_hardwood,
+					'quantity': 2
+				}
+			]
+		}
+	]
 }
