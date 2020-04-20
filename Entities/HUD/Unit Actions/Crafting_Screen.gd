@@ -177,7 +177,7 @@ func move_skills(direction):
 				current_skill += direction
 				skill_start_index_tracker -= 3
 				skill_end_index_tracker = skill_start_index_tracker + 2
-				populate_skill_selection_screen(skill_start_index_tracker)
+				change_screens(SCREENS.SKILL_SELECTION, skill_start_index_tracker)
 	else:
 		if (current_skill < skill_end_index_tracker):
 			current_skill += direction
@@ -188,7 +188,7 @@ func move_skills(direction):
 		else:
 			if (letters_symbols_node.arrow_down_sprite.visible): # if we are allowed to move down
 				current_skill += direction
-				populate_skill_selection_screen(skill_end_index_tracker + direction)
+				change_screens(SCREENS.SKILL_SELECTION, skill_end_index_tracker + direction)
 
 func move_recipes(direction):
 	var start_x = 2
@@ -207,7 +207,7 @@ func move_recipes(direction):
 				current_recipe += direction
 				recipe_start_index_tracker -= 4
 				recipe_end_index_tracker = recipe_start_index_tracker + 3
-				populate_recipe_selection_screen(recipe_start_index_tracker)
+				change_screens(SCREENS.RECIPE_SELECTION, recipe_start_index_tracker)
 	else:
 		if (current_recipe < recipe_end_index_tracker):
 			current_recipe += direction
@@ -218,7 +218,7 @@ func move_recipes(direction):
 		else:
 			if (letters_symbols_node.arrow_down_sprite.visible): # if we are allowed to move down
 				current_recipe += direction
-				populate_recipe_selection_screen(recipe_end_index_tracker + direction)
+				change_screens(SCREENS.RECIPE_SELECTION, recipe_end_index_tracker + direction)
 
 # function for showing info about the item this recipe produces
 func view_item_info():
@@ -314,7 +314,7 @@ func populate_recipe_selection_screen(recipe_start_index = 0):
 		letters_symbols_node.print_immediately(recipe.item.name, Vector2(start_x, start_y))
 		start_y += 2
 	
-func change_screens(screen):
+func change_screens(screen, screen_start_index = 0):
 	active_screen = screen
 
 	# clear any letters / symbols
@@ -327,10 +327,13 @@ func change_screens(screen):
 	# behave differently based on the screen we are switching to
 	match(active_screen):
 		SCREENS.RECIPE_SELECTION:
-			populate_recipe_selection_screen()
+			populate_recipe_selection_screen(screen_start_index)
 		SCREENS.SKILL_SELECTION:
-			populate_skill_selection_screen()
+			populate_skill_selection_screen(screen_start_index)
 			
+func cancel_select_list():
+	# start processing input again (unpause this node)
+	set_process_input(true)
 
 func _ready():
 	crafting_screen_init()
@@ -338,6 +341,7 @@ func _ready():
 # input options for the crafting screen
 func _input(event):
 	if (event.is_action_pressed("ui_cancel")):
+		# reset certain tracking variables
 		match(active_screen):
 			SCREENS.SKILL_SELECTION:
 				close_crafting_screen()
@@ -346,6 +350,7 @@ func _input(event):
 			SCREENS.RECIPE_SELECTION:
 				# make sure we close the dialogue box, if it's present
 				player.hud.full_text_destruction()
+				current_recipe = 0 # reset recipe variables
 				change_screens(SCREENS.SKILL_SELECTION)
 				
 	if (event.is_action_pressed("ui_down")):

@@ -30,6 +30,39 @@ onready var SKILL_UNLOCKS = {
 						'quantity': 1
 					}
 				]
+			},
+			{
+				'type': UNLOCK_TYPES.RECIPE,
+				'item': global_item_list.item_wooden_handle,
+				'no_tool_required': true,
+				'resources_required': [
+					{
+						'item': global_item_list.item_softwood,
+						'quantity': 1
+					}
+				]
+			},
+			{
+				'type': UNLOCK_TYPES.RECIPE,
+				'item': global_item_list.item_wooden_handle,
+				'no_tool_required': true,
+				'resources_required': [
+					{
+						'item': global_item_list.item_softwood,
+						'quantity': 1
+					}
+				]
+			},
+			{
+				'type': UNLOCK_TYPES.RECIPE,
+				'item': global_item_list.item_wooden_handle,
+				'no_tool_required': true,
+				'resources_required': [
+					{
+						'item': global_item_list.item_softwood,
+						'quantity': 1
+					}
+				]
 			}
 		],
 		5: [
