@@ -35,6 +35,7 @@ Actions="*res://Autoload/Actions.gd"
 Signal_Manager="*res://Autoload/Signal_Manager.gd"
 Guild="*res://Autoload/Guild.gd"
 Helpers="*res://Autoload/Helpers.gd"
+Skill_Info="*res://Autoload/Skill_Info.gd"
 
 [debug]
 

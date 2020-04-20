@@ -465,7 +465,7 @@ func move_skills(direction):
 			if (letters_symbols_node.arrow_up_sprite.visible): # if we are allowed to move up
 				current_skill += direction
 				skill_start_index_tracker -= 3
-				skill_end_index_tracker = skill_start_index_tracker + 3
+				skill_end_index_tracker = skill_start_index_tracker + 2
 				change_screen(skill_start_index_tracker)
 	else:
 		if (current_skill < skill_end_index_tracker):

@@ -72,6 +72,8 @@ enum COMPLETE_ACTION_LIST {
 	VIEW_ITEM_INFO_AT_DEPOT, # for depot screen
 	EAT_FOOD_AT_DINING_HALL, # for dining screen
 	VIEW_ITEM_INFO_AT_DINING_HALL, # for dining screen
+	CRAFT_RECIPE_IN_CRAFTING_SCREEN, # for crafting screen
+	VIEW_ITEM_INFO_IN_CRAFTING_SCREEN, # for crafting screen
 	RETURN_TO_GUILD, # for bedtime
 	RETURN_TO_CAMP # for bedtime
 }
@@ -93,6 +95,8 @@ const ACTION_LIST_NAMES = [
 	'MOVE',
 	'INFO',
 	'EAT',
+	'INFO',
+	'CRAFT',
 	'INFO',
 	'GUILD',
 	'CAMP'
@@ -133,6 +137,13 @@ func do_action(action, parent):
 		COMPLETE_ACTION_LIST.VIEW_ITEM_INFO_AT_DINING_HALL:
 			# view the effect of the food at the dining hall
 			guild.show_item_info_at_dining_hall()
+		COMPLETE_ACTION_LIST.CRAFT_RECIPE_IN_CRAFTING_SCREEN:
+			# view recipe info in the crafting screen
+			#crafting_screen_node.show_recipe_crafting_screen()
+			pass
+		COMPLETE_ACTION_LIST.VIEW_ITEM_INFO_IN_CRAFTING_SCREEN:
+			# view info about the recipe in the crafting screen
+			crafting_screen_node.view_item_info()
 		COMPLETE_ACTION_LIST.FISH:
 			initiate_fish_action()
 		COMPLETE_ACTION_LIST.MINE:

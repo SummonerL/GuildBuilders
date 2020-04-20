@@ -11,7 +11,9 @@ enum ITEM_TYPES {
 	AXE,
 	SAW,
 	FISH,
-	WOOD
+	WOOD,
+	CRAFTING_PART,
+	UTILITY
 }
 
 # tools
@@ -30,7 +32,16 @@ onready var item_sturdy_axe = {
 onready var item_handsaw = {
 	"name": "Handsaw",
 	"description": "A basic handsaw. Allows the unit to work with wood.",
-	"type": ITEM_TYPES.SAW
+	"type": ITEM_TYPES.SAW,
+	"xp": 3 # xp upon crafting
+}
+
+# useful objects
+onready var item_walking_stick = {
+	"name": "Walking Stick",
+	"description": "A sturdy walking stick made of hardwood. Increases a unit\'s movement by 1 when held.",
+	"type": ITEM_TYPES.UTILITY,
+	"xp": 5, # xp upon receiving
 }
 
 # fish
@@ -50,8 +61,26 @@ onready var item_softwood = {
 	"xp": 2 # xp upon receiving
 }
 
+onready var item_hardwood = {
+	"name": "Hardwood",
+	"description": "A dark, heavy wood that takes some effort to cut through. Can be used to craft various items.",
+	"type": ITEM_TYPES.WOOD,
+	"xp": 3 # xp upon receiving
+}
+
+# misc crafting materials
+onready var item_wooden_handle = {
+	"name": "Wooden Handle",
+	"description": "A handle made of softwood. Can be used to craft various items.",
+	"type": ITEM_TYPES.CRAFTING_PART,
+	"xp": 2
+}
+
 # a helper function for adding items to a unit
 func add_item_to_unit(unit, item):
+	
+	# determine if the unit's stats should be modified based on the item
+	
 	unit.current_items.append(item)
 	
 # a helper function for removing items from a unit

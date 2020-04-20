@@ -17,3 +17,6 @@ signal finished_viewing_item_info_depot
 signal finished_viewing_item_info_dining
 signal already_have_effect_dialogue_dining
 signal food_ate_dialogue_dining
+
+# generic signal for finished viewing text (use with yield)
+signal finished_viewing_text_generic
