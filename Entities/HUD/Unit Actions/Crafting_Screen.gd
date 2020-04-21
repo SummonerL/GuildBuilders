@@ -72,6 +72,10 @@ const RECIPES_TEXT = ' Recipes'
 const NO_RECIPES_TEXT = 'No recipes...'
 const LVL_REQUIRED_TEXT = 'Lv.'
 const TOOL_TEXT = 'Tool'
+const DOES_NOT_HAVE_LEVEL_TEXT = ' does not have the required skill level to craft that...'
+const DOES_NOT_HAVE_ITEMS_TEXT = ' does not have the required items to craft that...'
+const CAN_CRAFT_TEXT = ' can craft this!'
+const CRAFT_THIS_ITEM_TEXT = 'Craft this item?'
 
 enum SCREENS {
 	SKILL_SELECTION,
@@ -104,6 +108,23 @@ func crafting_screen_init():
 	
 	# dampen the background music while we are viewing the unit's information
 	get_tree().get_current_scene().dampen_background_music()
+
+func _on_confirm_craft(crafting):
+	# unpause the node
+	set_process_input(true)
+	
+	# disconnect the unused signal
+	if (crafting):
+		signals.disconnect("confirm_generic_no", self, "_on_confirm_craft")
+	else:
+		signals.disconnect("confirm_generic_yes", self, "_on_confirm_craft")
+	
+	if (crafting):
+		# initiate the crafting window!
+		pass
+	else:	
+		# go back to the previous screen
+		cancel_screen()
 
 func set_active_unit(unit):
 	active_unit = unit
@@ -275,12 +296,37 @@ func populate_recipe_confirmation_screen():
 	# print the name of the recipe
 	letters_symbols_node.print_immediately(recipe.item.name, Vector2((constants.DIA_TILES_PER_ROW - len(recipe.item.name)) / 2, 1))
 	
+	# keep track of all of the items that the unit must expend to craft this item
+	var item_indexes = []
+	
+	# and the total quantity of items required to craft this item
+	var total_items_required = 0
+	
+	# a flag to keep track of whether or not the user has the required materials to craft this item
+	var unit_has_items = true
+	
 	var start_y = 3
 	# print the required ingredients
 	for ingredient in recipe.resources_required:
 		var name = ingredient.item.name + " x" + String(ingredient.quantity)
-		letters_symbols_node.print_immediately(name + '' + constants.CHECK_SYMBOL, Vector2(1, start_y))
-		start_y +=1
+		# increase the total items required
+		total_items_required += ingredient.quantity
+		
+		var symbol = ''
+		# determine if the unit has this item
+		
+		var has_item_array = global_items_list.unit_has_item(active_unit, ingredient.item, ingredient.quantity)
+		if (has_item_array.size() > 0):
+			item_indexes += has_item_array
+			symbol = constants.CHECK_SYMBOL
+		else:
+			# the user does not have this item
+			symbol = constants.X_SYMBOL
+			unit_has_items = false
+			
+		
+		letters_symbols_node.print_immediately(name + ' ' + symbol, Vector2(1, start_y))
+		start_y += 1
 		
 	# determine the tool type
 	var tool_type
@@ -297,8 +343,9 @@ func populate_recipe_confirmation_screen():
 			symbol = constants.CHECK_SYMBOL
 		else:
 			symbol = constants.X_SYMBOL
+			unit_has_items = false # the unit can't craft
 		
-		letters_symbols_node.print_immediately(TOOL_TEXT + '' + symbol, Vector2(1, 10))
+		letters_symbols_node.print_immediately(TOOL_TEXT + ' ' + symbol, Vector2(1, 10))
 	
 	# show the level required text
 	letters_symbols_node.print_immediately(LVL_REQUIRED_TEXT + String(recipe.level_required), 
@@ -309,6 +356,38 @@ func populate_recipe_confirmation_screen():
 		constants.WOODWORKING:
 			woodworking_skill_icon_sprite.visible = true
 			woodworking_skill_icon_sprite.position = Vector2(constants.DIA_TILE_WIDTH * 11, 9 * constants.DIA_TILE_HEIGHT)
+
+	# if the unit doesn't have the required skill level, type a message
+	if (recipe.level_required > active_unit.skill_levels[active_skill]):
+		player.hud.dialogueState = player.hud.STATES.INACTIVE
+		player.hud.typeTextWithBuffer(active_unit.unit_name + DOES_NOT_HAVE_LEVEL_TEXT, true)
+	elif (!unit_has_items):
+		# the unit does not have the required items
+		player.hud.dialogueState = player.hud.STATES.INACTIVE
+		player.hud.typeTextWithBuffer(active_unit.unit_name + DOES_NOT_HAVE_ITEMS_TEXT, true)
+	else:
+		# otherwise, the unit can craft the item!
+		player.hud.dialogueState = player.hud.STATES.INACTIVE
+		player.hud.typeTextWithBuffer(active_unit.unit_name + CAN_CRAFT_TEXT, false, 'finished_viewing_text_generic')
+		
+		# pause the node (no cancelling while we are yielding to a signal)
+		
+		set_process_input(false)
+		
+		yield(signals, "finished_viewing_text_generic")
+		
+		var hud_selection_list_node = hud_selection_list_scn.instance()
+		add_child(hud_selection_list_node)
+		hud_selection_list_node.layer = layer + 1
+		
+		# connect signals for confirming whether or not to craft an item
+		signals.connect("confirm_generic_yes", self, "_on_confirm_craft", [true], CONNECT_ONESHOT)
+		signals.connect("confirm_generic_no", self, "_on_confirm_craft", [false], CONNECT_ONESHOT)
+		
+		# populate the selection list with a yes/no confirmation
+		hud_selection_list_node.populate_selection_list([], self, true, false, true, false, true, CRAFT_THIS_ITEM_TEXT, 
+														'confirm_generic_yes', 'confirm_generic_no')
+		
 
 func populate_recipe_selection_screen(recipe_start_index = 0):	
 	# make the recipe background sprite visible
@@ -390,25 +469,27 @@ func cancel_select_list():
 func _ready():
 	crafting_screen_init()
 	
+func cancel_screen():
+	# reset certain tracking variables
+	match(active_screen):
+		SCREENS.SKILL_SELECTION:
+			close_crafting_screen()
+			# make sure we close the dialogue box as well, if it's present
+			player.hud.full_text_destruction()
+		SCREENS.RECIPE_SELECTION:
+			# make sure we close the dialogue box, if it's present
+			player.hud.full_text_destruction()
+			current_recipe = 0 # reset recipe variables
+			change_screens(SCREENS.SKILL_SELECTION)
+		SCREENS.CONFIRMATION:
+			# make sure we close the dialogue box, if it's present
+			player.hud.full_text_destruction()
+			change_screens(SCREENS.RECIPE_SELECTION, recipe_start_index_tracker)
+	
 # input options for the crafting screen
 func _input(event):
 	if (event.is_action_pressed("ui_cancel")):
-		# reset certain tracking variables
-		match(active_screen):
-			SCREENS.SKILL_SELECTION:
-				close_crafting_screen()
-				# make sure we close the dialogue box as well, if it's present
-				player.hud.full_text_destruction()
-			SCREENS.RECIPE_SELECTION:
-				# make sure we close the dialogue box, if it's present
-				player.hud.full_text_destruction()
-				current_recipe = 0 # reset recipe variables
-				change_screens(SCREENS.SKILL_SELECTION)
-			SCREENS.CONFIRMATION:
-				# make sure we close the dialogue box, if it's present
-				player.hud.full_text_destruction()
-				change_screens(SCREENS.RECIPE_SELECTION, recipe_start_index_tracker)
-				
+		cancel_screen()	
 	if (event.is_action_pressed("ui_down")):
 		match(active_screen):
 			SCREENS.SKILL_SELECTION:

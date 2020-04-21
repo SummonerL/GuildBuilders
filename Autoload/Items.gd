@@ -99,3 +99,19 @@ func unit_has_tool(unit, tool_type):
 		index += 1
 		
 	return found_item_index
+	
+# a helper function for determining if a unit has a specific item
+func unit_has_item(unit, item, quantity):
+	# returns an array of indexes for this/these items
+	var item_indexes = []
+	var current_index = 0
+	
+	for unit_item in unit.current_items:
+		if unit_item == item:
+			item_indexes.append(current_index)
+			if item_indexes.size() >= quantity:
+				return item_indexes
+		current_index += 1
+		
+	# if they don't have enough of that item, return an empty array
+	return []

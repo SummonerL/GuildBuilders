@@ -172,7 +172,8 @@ func populate_selection_list(actions, caller, accomodate_dialogue = false, posit
 		]
 			
 		# display the confirmation text
-		player.hud.typeTextWithBuffer(confirmation_text, true)
+		if (len(confirmation_text) > 0):
+			player.hud.typeTextWithBuffer(confirmation_text, true)
 	
 	# allows the user to cancel out of the menu
 	cancel_allowed = can_cancel
@@ -272,9 +273,9 @@ func _input(event):
 				player.hud.clearText()
 				
 				if (current_selected_item == global_action_list.COMPLETE_ACTION_LIST.YES):
-					signals.emit_signal("confirm_end_turn_yes")
+					signals.emit_signal(confirmation_yes_signal)
 				else:
-					signals.emit_signal("confirm_end_turn_no")
+					signals.emit_signal(confirmation_no_signal)
 			else:
 				global_action_list.do_action(current_selected_item, parent)
 			

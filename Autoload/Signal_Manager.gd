@@ -9,6 +9,9 @@ signal finished_action_failed
 signal confirm_end_turn_yes
 signal confirm_end_turn_no
 
+signal confirm_generic_yes
+signal confirm_generic_no
+
 signal finished_viewing_wake_up_text
 signal finished_viewing_bedtime_text
 
