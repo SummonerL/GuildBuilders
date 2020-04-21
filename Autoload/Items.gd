@@ -39,7 +39,7 @@ onready var item_handsaw = {
 # useful objects
 onready var item_walking_stick = {
 	"name": "Walking Stick",
-	"description": "A sturdy walking stick made of hardwood. Increases a unit\'s movement by 1 when held.",
+	"description": "A sturdy walking stick made of hardwood. Increases a unit\'s movement by 1 when held. This effect can only be gained once.",
 	"type": ITEM_TYPES.UTILITY,
 	"xp": 5, # xp upon receiving
 }
@@ -86,3 +86,16 @@ func add_item_to_unit(unit, item):
 # a helper function for removing items from a unit
 func remove_item_from_unit(unit, _item, index):
 	unit.current_items.remove(index)
+
+# a helper function for determining if a unit has a given tool type
+func unit_has_tool(unit, tool_type):
+	
+	var found_item_index = -1
+	var index = 0
+	# returns the (index of) the best version of that tool that the unit has
+	for item in unit.current_items:
+		if (item.type == tool_type):
+			found_item_index = index
+		index += 1
+		
+	return found_item_index

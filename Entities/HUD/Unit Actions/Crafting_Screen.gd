@@ -11,6 +11,9 @@ onready var player = get_node("/root/Player_Globals")
 # bring in our global action list
 onready var global_action_list = get_node("/root/Actions")
 
+# bring in our items
+onready var global_items_list = get_node("/root/Items")
+
 # bring in our skill information
 onready var skill_info = get_node("/root/Skill_Info")
 
@@ -67,6 +70,8 @@ const WOODWORKING_TEXT = "Woodworking"
 
 const RECIPES_TEXT = ' Recipes'
 const NO_RECIPES_TEXT = 'No recipes...'
+const LVL_REQUIRED_TEXT = 'Lv.'
+const TOOL_TEXT = 'Tool'
 
 enum SCREENS {
 	SKILL_SELECTION,
@@ -267,7 +272,43 @@ func populate_recipe_confirmation_screen():
 	# get all of the item information
 	var recipe = all_recipes[current_recipe]
 	
-	print(recipe)
+	# print the name of the recipe
+	letters_symbols_node.print_immediately(recipe.item.name, Vector2((constants.DIA_TILES_PER_ROW - len(recipe.item.name)) / 2, 1))
+	
+	var start_y = 3
+	# print the required ingredients
+	for ingredient in recipe.resources_required:
+		var name = ingredient.item.name + " x" + String(ingredient.quantity)
+		letters_symbols_node.print_immediately(name + '' + constants.CHECK_SYMBOL, Vector2(1, start_y))
+		start_y +=1
+		
+	# determine the tool type
+	var tool_type
+	match(active_skill):
+		constants.WOODWORKING:
+			tool_type = global_items_list.ITEM_TYPES.SAW
+	
+	var has_tool = (global_items_list.unit_has_tool(active_unit, tool_type) >= 0)
+	
+	# show the tool text
+	if (!recipe.has('no_tool_required')):
+		var symbol = ''
+		if (has_tool):
+			symbol = constants.CHECK_SYMBOL
+		else:
+			symbol = constants.X_SYMBOL
+		
+		letters_symbols_node.print_immediately(TOOL_TEXT + '' + symbol, Vector2(1, 10))
+	
+	# show the level required text
+	letters_symbols_node.print_immediately(LVL_REQUIRED_TEXT + String(recipe.level_required), 
+					Vector2(14, 10))
+	
+	# show the corresponding skill icon
+	match (active_skill):
+		constants.WOODWORKING:
+			woodworking_skill_icon_sprite.visible = true
+			woodworking_skill_icon_sprite.position = Vector2(constants.DIA_TILE_WIDTH * 11, 9 * constants.DIA_TILE_HEIGHT)
 
 func populate_recipe_selection_screen(recipe_start_index = 0):	
 	# make the recipe background sprite visible

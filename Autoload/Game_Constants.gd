@@ -18,6 +18,9 @@ const TIME_OF_DAY_INFO_GROUP = 'time_of_day_info'
 const MAP_ICONS_GROUP = 'map_icons'
 const MAP_ACTIONS_GROUP = 'map_actions'
 
+const CHECK_SYMBOL = '¤' #164
+const X_SYMBOL = 'µ' #181
+
 const EXCLAMATION = '!'
 
 const CANT_MOVE = 999999
