@@ -14,9 +14,14 @@ enum ABILITY_TYPES {
 const ABILITY_INSOMNIAC_NAME = 'Insomniac'
 const ABILITY_ROUGHING_IT_NAME = 'Roughing It'
 const ABILITY_GROWING_BOY_NAME = 'Growing Boy'
+const ABILITY_ARTISTIC_NAME = 'Artistic'
+const ABILITY_CONCENTRATION_NAME = 'Concentration'
 
 # food (daily) abilities
 const ABILITY_FOOD_MUSCLEFISH_NAME = 'Food Effect'
+
+# other daily abilities
+const ABILITY_INSPIRED_NAME = 'Inspired'
 
 # unit abilities
 const ability_insomniac = {
@@ -37,12 +42,32 @@ const ability_growing_boy = {
 	"type": ABILITY_TYPES.UNIT
 }
 
+const ability_artistic = {
+	"name": ABILITY_ARTISTIC_NAME,
+	"description": "When crafting at the guild, this unit inspires all other units also at the guild (their movement increases by 1 for the remainder of the day).",
+	"type": ABILITY_TYPES.UNIT
+}
+
+const ability_concentration = {
+	"name": ABILITY_CONCENTRATION_NAME,
+	"description": "When crafting at the guild, this unit receives double XP. However, this unit must be the only unit at the guild to receive this bonus.",
+	"type": ABILITY_TYPES.UNIT
+}
+
 # food (daily) abilities
 const ability_food_musclefish = {
 	"name": ABILITY_FOOD_MUSCLEFISH_NAME,
 	"description": "This unit can carry an additional 3 items for the remainder of the day.",
 	"type": ABILITY_TYPES.FOOD
 }
+
+# other daily abilities
+const ability_inspired = {
+	"name": ABILITY_INSPIRED_NAME,
+	"description": "This unit\'s movement is increased by 1 for the remainder of the day.",
+	"type": ABILITY_TYPES.FOOD # so it will be removed at the end of the day
+}
+
 
 # a helper function for adding abilities to a unit
 func add_ability_to_unit(unit, ability):
@@ -70,6 +95,10 @@ func on_add_to_unit(unit, ability):
 		ABILITY_GROWING_BOY_NAME:
 			# increase the unit's meal limit by 1
 			unit.meal_limit += 1
+			
+		ABILITY_INSPIRED_NAME:
+			# increases the unit's movement by 1
+			unit.base_move += 1
 
 # when a specific ability is removed from a unit
 func on_remove_from_unit(unit, ability):
@@ -79,3 +108,9 @@ func on_remove_from_unit(unit, ability):
 			unit.item_limit -= 3
 			if (unit.item_limit < 0):
 				unit.item_limit = 0
+				
+		ABILITY_INSPIRED_NAME:
+			# remove 1 from the unit's base_move
+			unit.base_move -= 1
+			if (unit.base_move < 0):
+				unit.base_move = 0

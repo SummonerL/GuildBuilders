@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Sprites/characters/woodworker_female2.png" type="Texture" id=1]
+[ext_resource path="res://Sprites/characters/woodworker_female1.png" type="Texture" id=2]
+[ext_resource path="res://Entities/Player/Units/Woodworker_Female.gd" type="Script" id=3]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 1 ), ExtResource( 2 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[node name="Woodworker_Female" type="Node2D"]
+z_index = 1
+script = ExtResource( 3 )
+
+[node name="Woodworker_Female_Sprite" type="AnimatedSprite" parent="."]
+visible = false
+frames = SubResource( 1 )
+frame = 1
+speed_scale = 0.5
+playing = true
+centered = false

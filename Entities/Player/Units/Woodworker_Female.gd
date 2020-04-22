@@ -1,6 +1,6 @@
 extends "res://Entities/Player/Units/Unit_Class.gd"
 
-onready var ps = preload("res://Sprites/characters/woodworker_male_portrait1.png")
+onready var ps = preload("res://Sprites/characters/woodworker_female_portrait.png")
 
 # keep track of all the unique dialogue for this charater
 const CANT_FISH_WITHOUT_ROD_TEXT = '...'
@@ -11,23 +11,23 @@ const NO_MORE_WOOD_TEXT = '...'
 
 const INVENTORY_FULL_TEXT = '...'
 
-const WAKE_UP_TEXT = 'I wish I could just sleep in...'
-const BED_TIME_TEXT = 'Finally... Time for bed.'
+const WAKE_UP_TEXT = '...'
+const BED_TIME_TEXT = '...'
 
 func unit_init():	
 	unit_portrait_sprite = ps
 
-	unit_sprite_node = get_node("Woodworker_Male_Sprite")
+	unit_sprite_node = get_node("Woodworker_Female_Sprite")
 	
 	unit_id = 5
 
-	unit_name = "Sawyer"
+	unit_name = "..."
 	unit_class = "Woodworker"
 	
-	age = 35
+	age = 27
 	
-	unit_bio = "Hey... I\'m Sawyer. Frankly, there's not a lot to say about me, but I try to do the best I can with my craft."
-	unit_bio += " We\'ll get along as long as you don\'t interrupt me while I\'m working."
+	unit_bio = "..."
+	unit_bio += "..."
 	
 	base_move = 3
 	
@@ -37,7 +37,7 @@ func unit_init():
 	global_items_list.add_item_to_unit(self, global_items_list.item_handsaw)
 	
 	# add the unit's starting ability
-	global_ability_list.add_ability_to_unit(self, global_ability_list.ability_concentration)
+	global_ability_list.add_ability_to_unit(self, global_ability_list.ability_artistic)
 	
 	self.global_position = Vector2(unit_pos_x*constants.TILE_WIDTH, 
 									unit_pos_y*constants.TILE_HEIGHT)
