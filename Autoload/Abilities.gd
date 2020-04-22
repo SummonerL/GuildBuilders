@@ -44,7 +44,7 @@ const ability_growing_boy = {
 
 const ability_artistic = {
 	"name": ABILITY_ARTISTIC_NAME,
-	"description": "When crafting at the guild, this unit inspires all other units also at the guild (their movement increases by 1 for the remainder of the day).",
+	"description": "When crafting at the guild, all other units at the guild become Inspired (their movement increases by 1 for the remainder of the day).",
 	"type": ABILITY_TYPES.UNIT
 }
 
