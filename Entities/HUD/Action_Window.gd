@@ -17,6 +17,7 @@ onready var window_sprite = get_node("Action_Window_Sprite")
 onready var mining_icon_sprite = get_node("Mining_Skill_Icon")
 onready var woodcutting_icon_sprite = get_node("Woodcutting_Skill_Icon")
 onready var fishing_icon_sprite = get_node("Fishing_Skill_Icon")
+onready var woodworking_icon_sprite = get_node("Woodworking_Skill_Icon")
 
 # the xp gain sound
 onready var xp_gain_sound = get_node("XP_Gain_Sound")
@@ -62,6 +63,9 @@ func window_init():
 	
 	fishing_icon_sprite.position.x = pos_x + constants.DIA_TILE_WIDTH
 	fishing_icon_sprite.position.y = pos_y + constants.DIA_TILE_HEIGHT
+	
+	woodworking_icon_sprite.position.x = pos_x + constants.DIA_TILE_WIDTH
+	woodworking_icon_sprite.position.y = pos_y + constants.DIA_TILE_HEIGHT
 
 # useful functioning for quickly calculating the next level experience percentage
 func calculate_next_level_percent(xp, level_before):
@@ -85,6 +89,13 @@ func set_skill(skill):
 				(pos_y / constants.DIA_TILE_HEIGHT) + 1))
 				
 			woodcutting_icon_sprite.visible = true
+		constants.WOODWORKING:
+			pretty_name = constants.WOODWORKING_PRETTY
+			
+			letters_symbols_node.print_immediately(pretty_name, Vector2(((WINDOW_WIDTH + 2) - floor(len(pretty_name) / 2.0) + 1),
+				(pos_y / constants.DIA_TILE_HEIGHT) + 1))
+				
+			woodworking_icon_sprite.visible = true
 
 func receive_item(item):
 	var receive_text = item.name + EXCLAMATION

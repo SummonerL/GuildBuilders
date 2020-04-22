@@ -311,13 +311,14 @@ func end_action(success = false, timer = null):
 # add an item to the unit's inventory
 func receive_item(item):
 	if (current_items.size() < item_limit):
-		current_items.append(item)
+		global_items_list.add_item_to_unit(self, item)
 		
 	# otherwise... sorry? You probably shouldn't have gotten here ;) 
 	
 # quick function for checking if the unit's inventory is full
-func is_inventory_full():
-	return (current_items.size() >= item_limit)
+func is_inventory_full(item_removal_buffer = 0):
+	# item removal buffer is used for instances where the unit may be losing items to receive items (i.e. crafting)
+	return (current_items.size() - item_removal_buffer >= item_limit)
 	
 # function for gaining xp in a specific skill
 func gain_xp(xp, skill):

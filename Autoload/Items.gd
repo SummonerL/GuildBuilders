@@ -73,7 +73,7 @@ onready var item_wooden_handle = {
 	"name": "Wooden Handle",
 	"description": "A handle made of softwood. Can be used to craft various items.",
 	"type": ITEM_TYPES.CRAFTING_PART,
-	"xp": 2
+	"xp": 1
 }
 
 # a helper function for adding items to a unit
@@ -84,7 +84,7 @@ func add_item_to_unit(unit, item):
 	unit.current_items.append(item)
 	
 # a helper function for removing items from a unit
-func remove_item_from_unit(unit, _item, index):
+func remove_item_from_unit(unit, index):
 	unit.current_items.remove(index)
 
 # a helper function for determining if a unit has a given tool type

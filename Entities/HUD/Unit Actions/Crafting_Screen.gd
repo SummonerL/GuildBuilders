@@ -76,6 +76,7 @@ const DOES_NOT_HAVE_LEVEL_TEXT = ' does not have the required skill level to cra
 const DOES_NOT_HAVE_ITEMS_TEXT = ' does not have the required items to craft that...'
 const CAN_CRAFT_TEXT = ' can craft this!'
 const CRAFT_THIS_ITEM_TEXT = 'Craft this item?'
+const CANT_CARRY_ANYTHING_ELSE_TEXT = ' can\'t carry anything else...'
 
 enum SCREENS {
 	SKILL_SELECTION,
@@ -109,7 +110,7 @@ func crafting_screen_init():
 	# dampen the background music while we are viewing the unit's information
 	get_tree().get_current_scene().dampen_background_music()
 
-func _on_confirm_craft(crafting):
+func _on_confirm_craft(crafting, recipe = null, item_indexes = []):
 	# unpause the node
 	set_process_input(true)
 	
@@ -120,8 +121,13 @@ func _on_confirm_craft(crafting):
 		signals.disconnect("confirm_generic_yes", self, "_on_confirm_craft")
 	
 	if (crafting):
-		# initiate the crafting window!
-		pass
+		# first, remove the items from the player
+		for index in item_indexes:
+			global_items_list.remove_item_from_unit(active_unit, index)
+			
+			# wrap things up up in our global action
+			global_action_list.finished_crafting_selection(active_skill, recipe.item, active_unit)
+		
 	else:	
 		# go back to the previous screen
 		cancel_screen()
@@ -365,6 +371,10 @@ func populate_recipe_confirmation_screen():
 		# the unit does not have the required items
 		player.hud.dialogueState = player.hud.STATES.INACTIVE
 		player.hud.typeTextWithBuffer(active_unit.unit_name + DOES_NOT_HAVE_ITEMS_TEXT, true)
+	elif (active_unit.is_inventory_full(total_items_required)):
+		# tell the player that the unit's inventory is full
+		player.hud.dialogueState = player.hud.STATES.INACTIVE
+		player.hud.typeTextWithBuffer(active_unit.unit_name + CANT_CARRY_ANYTHING_ELSE_TEXT, true)
 	else:
 		# otherwise, the unit can craft the item!
 		player.hud.dialogueState = player.hud.STATES.INACTIVE
@@ -381,7 +391,7 @@ func populate_recipe_confirmation_screen():
 		hud_selection_list_node.layer = layer + 1
 		
 		# connect signals for confirming whether or not to craft an item
-		signals.connect("confirm_generic_yes", self, "_on_confirm_craft", [true], CONNECT_ONESHOT)
+		signals.connect("confirm_generic_yes", self, "_on_confirm_craft", [true, recipe, item_indexes], CONNECT_ONESHOT)
 		signals.connect("confirm_generic_no", self, "_on_confirm_craft", [false], CONNECT_ONESHOT)
 		
 		# populate the selection list with a yes/no confirmation

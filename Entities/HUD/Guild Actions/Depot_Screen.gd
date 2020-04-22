@@ -126,7 +126,7 @@ func transfer_item():
 	
 	if (current_inv == SELECTIONS.DEPOT):
 		# move to unit
-		active_unit.current_items.append(item)
+		active_unit.receive_item(item)
 	elif (current_inv == SELECTIONS.UNIT):
 		# move to depot
 		guild.current_items.append(item)

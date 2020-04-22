@@ -50,9 +50,11 @@ const END_TURN_CONFIRMATION_TEXT = 'End turn?'
 
 const FISHING_TEXT = " started fishing..."
 const WOODCUTTING_TEXT = " started chopping..."
+const CRAFTING_TEXT = " started crafting..."
 
 const FISH_RECEIVED_TEXT = "and caught a "
 const WOOD_RECEIVED_TEXT = "and got some "
+const CRAFT_RECEIVED_TEXT = "and made a "
 
 enum COMPLETE_ACTION_LIST {
 	MOVE,
@@ -189,6 +191,8 @@ func action_window_finished(skill, reward):
 			player.hud.typeText(FISH_RECEIVED_TEXT + reward.name + constants.EXCLAMATION, false, 'finished_action_success') # we do have a signal
 		constants.WOODCUTTING:
 			player.hud.typeText(WOOD_RECEIVED_TEXT + reward.name + constants.EXCLAMATION, false, 'finished_action_success') # we do have a signal
+		constants.WOODWORKING:
+			player.hud.typeText(CRAFT_RECEIVED_TEXT + reward.name + constants.EXCLAMATION, false, 'finished_action_success') # we do have a signal
 		_:
 			# do nothing
 			pass
@@ -276,6 +280,20 @@ func initiate_crafting_action():
 	camera.add_child(crafting_screen_node)
 	
 	crafting_screen_node.set_active_unit(active_unit)
+
+# conclude crafting action
+func finished_crafting_selection(skill, reward, unit):
+	active_unit = unit
+	
+	# we've already removed the ingredients from the unit, so let the player know they are crafting, and show the action window!
+	
+	# kill the crafting screen
+	camera.remove_child(crafting_screen_node)
+	
+	# start crafting
+	player.hud.typeTextWithBuffer(active_unit.unit_name + CRAFTING_TEXT, true)
+	
+	show_action_window(skill, reward)
 
 # if the unit is fishing
 func initiate_fish_action():
