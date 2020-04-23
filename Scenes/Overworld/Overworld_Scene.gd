@@ -36,6 +36,8 @@ onready var scene_transitioner_scn = preload("res://Scenes/Transition_Scene/Tran
 onready var l1_tiles = get_node("World_Map_L1")
 onready var l2_tiles = get_node("World_Map_L2")
 onready var world_map_icons = get_node("World_Map_Icons")
+# keep track of the initial state of the map icons (so we can reset each day)
+onready var initial_world_map_icons = world_map_icons.duplicate()
 
 onready var time_shaders = [
 	preload("res://Sprites/Shaders/12_AM_Shader.tres"),
@@ -72,7 +74,7 @@ const MIN_VOL = -80 # used for fading in / out
 const MED_VOL = -25
 const DAMPENED_VOL = -15
 var active_bg_music
-var bg_music_vol
+var max_vol
 
 onready var twelve_pm_loop = get_node("12PM_Loop")
 onready var three_pm_loop = get_node("3PM_Loop")
@@ -131,6 +133,7 @@ func gameInit():
 	# start looping our background music
 	five_pm_loop.play()
 	active_bg_music = five_pm_loop
+	max_vol = active_bg_music.volume_db
 	
 	# initialize some player variables (that haven't already been initialized')
 	# get the time of day info node ()
@@ -182,6 +185,11 @@ func new_day(fade = false, fade_node = null):
 	# show the applicable building tiles
 	show_applicable_building_tiles()
 	
+	# reset the world map icons (everthing regrew overnight!)
+	remove_child(world_map_icons)
+	add_child(initial_world_map_icons.duplicate())
+	world_map_icons = get_node("World_Map_Icons")
+	
 	# reset tiles that are 'used' 
 	map_actions.reset_used_tiles()
 	
@@ -198,7 +206,6 @@ func new_day(fade = false, fade_node = null):
 		# reuse the fade node if we already have one
 		if (fade_node):
 			fade_in = fade_node
-			#fade_in.white_in.visible = true
 		else:
 			fade_in = scene_transitioner_scn.instance()
 			add_child(fade_in)
@@ -243,7 +250,7 @@ func dampen_background_music():
 	
 # raise background music
 func heighten_background_music():
-	active_bg_music.volume_db -= DAMPENED_VOL
+	active_bg_music.volume_db = max_vol
 	
 # fade out the active background music
 func fade_out_background_music():
@@ -280,12 +287,15 @@ func determine_background_music():
 	match(player.current_time_of_day):
 		12:
 			active_bg_music = twelve_pm_loop
+			max_vol = active_bg_music.volume_db
 			fade_in(active_bg_music, 4) # add a volume buffer (this song is quieter :( )
 		14:
 			active_bg_music = three_pm_loop
+			max_vol = active_bg_music.volume_db
 			fade_in(active_bg_music, 4)
 		17:
 			active_bg_music = five_pm_loop
+			max_vol = active_bg_music.volume_db
 			fade_in(active_bg_music)
 		_:
 			# play nothing (this should never happen)

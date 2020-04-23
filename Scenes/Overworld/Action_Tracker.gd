@@ -6,6 +6,11 @@ onready var global_action_list = get_node("/root/Actions")
 # bring in our items
 onready var global_items_list = get_node("/root/Items")
 
+# bring in our global constants
+onready var constants = get_node("/root/Game_Constants")
+
+var map_icons
+
 const ACTIONS = {
 	0: 'FISH_SPOT_1',
 	1: 'FISH_SPOT_2',
@@ -76,10 +81,18 @@ func get_items_at_coordinates(x, y):
 		
 		return used_tile_items[String(x) + '_' + String(y)]
 
-func set_items_at_coordinates(x, y, item_array):
+func set_items_at_coordinates(x, y, item_array, clear_icon_if_empty = true):		
 	# when a tile has been used, update the items that remain there
 	if (used_tile_items.get(String(x) + "_" + String(x)) != null):
 		used_tile_items[String(x) + '_' + String(y)] = item_array.duplicate()
+		
+	# if the item array is empty, clear the map icon
+	if (item_array.size() <= 0 && clear_icon_if_empty):
+		map_icons = get_tree().get_nodes_in_group(constants.MAP_ICONS_GROUP)[0]
+		
+		var tileset = map_icons.get_tileset()
+		
+		map_icons.set_cellv(Vector2(x, y), tileset.find_tile_by_name("empty_spot"))
 
 func reset_used_tiles():
 	# at the beginning of a day, all tiles should reset
