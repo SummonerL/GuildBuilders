@@ -9,6 +9,9 @@ onready var game_cfg_vars = get_node("/root/Game_Config")
 # bring in our global player variables
 onready var player = get_node("/root/Player_Globals")
 
+# have our map_actions layer, for determining more details about the tile
+onready var map_actions = get_tree().get_nodes_in_group(constants.MAP_ACTIONS_GROUP)[0]
+
 # bring in our signals
 onready var signals = get_node("/root/Signal_Manager")
 
@@ -178,6 +181,9 @@ func new_day(fade = false, fade_node = null):
 	
 	# show the applicable building tiles
 	show_applicable_building_tiles()
+	
+	# reset tiles that are 'used' 
+	map_actions.reset_used_tiles()
 	
 	# remove any daily abilities from the previous day
 	player.party.remove_food_abilities()

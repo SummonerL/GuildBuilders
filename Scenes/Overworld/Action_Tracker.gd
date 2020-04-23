@@ -34,6 +34,12 @@ onready var associated_actions = {
 					global_action_list.COMPLETE_ACTION_LIST.CRAFT]
 }
 
+# keep track of individual tiles that have been interacted with in a particular day. This will allow us to 'deplete' certain
+# tiles. This will be an object, where the key represents the location on the map, and the value is the remaining items @ that location
+onready var used_tile_items = {
+	
+}
+
 # list of actions in which still apply when adjacent
 onready var adjacent_applicable = [
 	global_action_list.COMPLETE_ACTION_LIST.FISH
@@ -56,7 +62,30 @@ func get_actions_at_coordinates(vec2):
 	else:
 		return []
 
-func get_items_at_spot(spot):
+func get_items_at_coordinates(x, y):
+	var spot = get_action_spot_at_coordinates(Vector2(x, y))
+	
+	# first, see if the oject exists in used_tile_items
+	if (used_tile_items.get(String(x) + "_" + String(y)) != null):
+		
+		# return the array of items
+		return used_tile_items.get(String(x) + "_" + String(y))
+	else:
+		# set the tile as used, and create the initial list of items
+		used_tile_items[String(x) + '_' + String(y)] = ITEMS_AT_SPOT[spot].duplicate()
+		
+		return used_tile_items[String(x) + '_' + String(y)]
+
+func set_items_at_coordinates(x, y, item_array):
+	# when a tile has been used, update the items that remain there
+	if (used_tile_items.get(String(x) + "_" + String(x)) != null):
+		used_tile_items[String(x) + '_' + String(y)] = item_array.duplicate()
+
+func reset_used_tiles():
+	# at the beginning of a day, all tiles should reset
+	used_tile_items = {}
+
+func get_items_at_spot(spot):	
 	return ITEMS_AT_SPOT[spot]
 	
 	

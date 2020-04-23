@@ -306,25 +306,35 @@ func initiate_fish_action():
 	if (rod):
 		# determine which fishing spot the unit is targeting
 		var spot = map_actions.get_action_spot_at_coordinates(Vector2(player.curs_pos_x, player.curs_pos_y))
+		var coord_x = player.curs_pos_x
+		var coord_y = player.curs_pos_y
 		
 		# check north
 		if (spot == null):
 			spot = map_actions.get_action_spot_at_coordinates(Vector2(player.curs_pos_x, player.curs_pos_y - 1))
+			coord_x = player.curs_pos_x
+			coord_y = player.curs_pos_y - 1
 			
 		# check east
 		if (spot == null):
 			spot = map_actions.get_action_spot_at_coordinates(Vector2(player.curs_pos_x + 1, player.curs_pos_y))
+			coord_x = player.curs_pos_x + 1
+			coord_y = player.curs_pos_y
 			
 		# check south
 		if (spot == null):
 			spot = map_actions.get_action_spot_at_coordinates(Vector2(player.curs_pos_x, player.curs_pos_y + 1))
-			
+			coord_x = player.curs_pos_x
+			coord_y = player.curs_pos_y + 1
+
 		# check west
 		if (spot == null):
 			spot = map_actions.get_action_spot_at_coordinates(Vector2(player.curs_pos_x - 1, player.curs_pos_y))
+			coord_x = player.curs_pos_x - 1
+			coord_y = player.curs_pos_y
 			
 		# get a list of fish that can be found at this spot
-		var available_fish = map_actions.get_items_at_spot(spot)
+		var available_fish = map_actions.get_items_at_coordinates(coord_x, coord_y)
 		
 		if (available_fish.size() == 0):
 			player.hud.typeTextWithBuffer(active_unit.NO_MORE_FISH_TEXT, false, 'finished_action_failed') # they did not succeed 
@@ -334,6 +344,12 @@ func initiate_fish_action():
 			# get a random fish from the list
 			available_fish.shuffle()
 			var received_fish = available_fish[0]
+			
+			# remove that fish from the array
+			available_fish.remove(0)
+			
+			# and update the used_tile items (for if the unit continues to fish here)
+			map_actions.set_items_at_coordinates(coord_x, coord_y, available_fish)
 			
 			# start fishing
 			player.hud.typeTextWithBuffer(active_unit.unit_name + FISHING_TEXT, true)
@@ -356,7 +372,7 @@ func initiate_woodcutting_action():
 		var spot = map_actions.get_action_spot_at_coordinates(Vector2(player.curs_pos_x, player.curs_pos_y))
 
 		# get a list of wood that can be found at this spot
-		var available_wood = map_actions.get_items_at_spot(spot)
+		var available_wood = map_actions.get_items_at_coordinates(player.curs_pos_x, player.curs_pos_y)
 		
 		if (available_wood.size() == 0):
 			player.hud.typeTextWithBuffer(active_unit.NO_MORE_WOOD_TEXT, false, 'finished_action_failed') # they did not succeed 
@@ -366,6 +382,12 @@ func initiate_woodcutting_action():
 			# get random wood from the list
 			available_wood.shuffle()
 			var received_wood = available_wood[0]
+			
+			# remove the wood from the list of available wood
+			available_wood.remove(0)
+			
+			# and update the used_tile items (for if the unit continues to woodcut here)
+			map_actions.set_items_at_coordinates(player.curs_pos_x, player.curs_pos_y, available_wood)
 			
 			# start woodcutting
 			player.hud.typeTextWithBuffer(active_unit.unit_name + WOODCUTTING_TEXT, true)

@@ -19,7 +19,7 @@ func unit_init():
 
 	unit_sprite_node = get_node("Woodworker_Female_Sprite")
 	
-	unit_id = 5
+	unit_id = 6
 
 	unit_name = "..."
 	unit_class = "Woodworker"
