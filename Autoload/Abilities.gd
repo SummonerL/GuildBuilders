@@ -8,7 +8,8 @@ onready var global_action_list = get_node("/root/Actions")
 
 enum ABILITY_TYPES {
 	UNIT,
-	FOOD
+	FOOD,
+	DAILY
 }
 
 const ABILITY_INSOMNIAC_NAME = 'Insomniac'
@@ -23,6 +24,7 @@ const ABILITY_FOOD_MUSCLEFISH_NAME = 'Food Effect'
 
 # other daily abilities
 const ABILITY_INSPIRED_NAME = 'Inspired'
+const ABILITY_HUNGRY_NAME = 'Hungry'
 
 # unit abilities
 const ability_insomniac = {
@@ -72,13 +74,22 @@ const ability_food_musclefish = {
 const ability_inspired = {
 	"name": ABILITY_INSPIRED_NAME,
 	"description": "This unit\'s movement is increased by 1 for the remainder of the day.",
-	"type": ABILITY_TYPES.FOOD # so it will be removed at the end of the day
+	"type": ABILITY_TYPES.DAILY
+}
+
+const ability_hungry = {
+	"name": ABILITY_HUNGRY_NAME,
+	"description": "This unit cannot use it\'s starting ability.",
+	"type": ABILITY_TYPES.DAILY
 }
 
 
 # a helper function for adding abilities to a unit
-func add_ability_to_unit(unit, ability):
-	unit.unit_abilities.append(ability)
+func add_ability_to_unit(unit, ability, front = false):
+	if (front):
+		unit.unit_abilities.insert(0, ability)
+	else:
+		unit.unit_abilities.append(ability)
 	
 	on_add_to_unit(unit, ability)
 	
@@ -92,32 +103,69 @@ func remove_ability_from_unit(unit, ability, index):
 func on_add_to_unit(unit, ability):
 	match(ability.name):
 		ABILITY_INSOMNIAC_NAME:
-			unit.wake_up_time = 3
+			unit.wake_up_time -= 5
 		ABILITY_ROUGHING_IT_NAME:
 			# add the 'camp' option to their list of locations to return to
 			unit.shelter_locations.append(global_action_list.COMPLETE_ACTION_LIST.RETURN_TO_CAMP)
-		ABILITY_FOOD_MUSCLEFISH_NAME:
-			# add 3 to the unit's max inventory space
-			unit.item_limit += 3
 		ABILITY_GROWING_BOY_NAME:
 			# increase the unit's meal limit by 1
 			unit.meal_limit += 1
 			
+			
+		ABILITY_FOOD_MUSCLEFISH_NAME:
+			# add 3 to the unit's max inventory space
+			unit.item_limit += 3		
+			
+				
 		ABILITY_INSPIRED_NAME:
 			# increases the unit's movement by 1
 			unit.base_move += 1
+		ABILITY_HUNGRY_NAME:
+			# remove the unit's starting ability
+			var index = 0
+			var starting_ability_index = -1
+			var starting_ability = null
+			for abil in unit.unit_abilities:
+				if (abil.type == ABILITY_TYPES.UNIT):
+					starting_ability_index = index
+					starting_ability = abil
+				index += 1
+				
+			if (starting_ability_index >= 0):
+				remove_ability_from_unit(unit, starting_ability, starting_ability_index)
 
 # when a specific ability is removed from a unit
 func on_remove_from_unit(unit, ability):
 	match(ability.name):
+		ABILITY_INSOMNIAC_NAME:
+					unit.wake_up_time += 5
+		ABILITY_ROUGHING_IT_NAME:
+			# remove the 'camp' option from their list of locations to return to
+			var location_index = 0
+			for location in unit.shelter_locations:
+				if (location == global_action_list.COMPLETE_ACTION_LIST.RETURN_TO_CAMP):
+					unit.shelter_locations.remove(location_index)
+					return
+				location_index += 1
+		ABILITY_GROWING_BOY_NAME:
+			# increase the unit's meal limit by 1
+			unit.meal_limit -= 1
+			if (unit.meal_limit <= 0):
+				unit.meal_limit = 0
+			
+
 		ABILITY_FOOD_MUSCLEFISH_NAME:
 			# remove 3 from the unit's max inventory space
 			unit.item_limit -= 3
 			if (unit.item_limit < 0):
 				unit.item_limit = 0
 				
+				
 		ABILITY_INSPIRED_NAME:
 			# remove 1 from the unit's base_move
 			unit.base_move -= 1
 			if (unit.base_move < 0):
 				unit.base_move = 0
+		ABILITY_HUNGRY_NAME:
+			# add the unit's starting ability back
+			add_ability_to_unit(unit, unit.starting_ability, true)

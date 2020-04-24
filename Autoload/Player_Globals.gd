@@ -38,6 +38,9 @@ var time_of_day_info_node
 # keep track of the current time of day
 var current_time_of_day = 10
 
+# keep track of which day the unit is on
+var current_day = 1
+
 # location of the guild hall
 var guild_hall_x = -1
 var guild_hall_y = -1

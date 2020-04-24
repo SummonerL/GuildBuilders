@@ -12,7 +12,7 @@ const NO_MORE_WOOD_TEXT = 'I think I\'ve exhausted this area...'
 const INVENTORY_FULL_TEXT = 'If I try to carry anything else I\'ll probably collapse!'
 
 const WAKE_UP_TEXT = 'Another beautiful morning! Maybe I should go for a jog to get my creative juices flowing.'
-const BED_TIME_TEXT = 'So...sleepy...Time for bed...'
+const BED_TIME_TEXT = 'So... sleepy... Time for bed...'
 
 func unit_init():	
 	unit_portrait_sprite = ps
@@ -37,6 +37,7 @@ func unit_init():
 	global_items_list.add_item_to_unit(self, global_items_list.item_handsaw)
 	
 	# add the unit's starting ability
+	starting_ability = global_ability_list.ability_artistic
 	global_ability_list.add_ability_to_unit(self, global_ability_list.ability_artistic)
 	
 	self.global_position = Vector2(unit_pos_x*constants.TILE_WIDTH, 

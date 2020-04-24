@@ -100,6 +100,9 @@ var unit_class = ""
 # the unit's age
 var age = 0
 
+# keep track of the unit's starting ability
+var starting_ability
+
 # a short bio about the unit
 var unit_bio = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
 

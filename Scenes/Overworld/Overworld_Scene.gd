@@ -24,6 +24,9 @@ onready var signals = get_node("/root/Signal_Manager")
 # bring in our global action list
 onready var global_action_list = get_node("/root/Actions")
 
+# bring in our abilities
+onready var global_ability_list = get_node("/root/Abilities")
+
 # preload our game objects
 onready var cursor_scn = preload("res://Entities/Player/Cursor.tscn")
 onready var camera_scn = preload("res://Entities/Camera/Camera.tscn")
@@ -166,12 +169,26 @@ func end_day():
 	
 	# reposition the cursor
 	cursor.focus_on(player.guild_hall_x + 1, player.guild_hall_y + 2, false) # don't reprint tile / time info
+
+	# increment the day counter
+	player.current_day += 1
 	
 	# start a new day
 	new_day(true, fade_out)
 
 # start a new day!
 func new_day(fade = false, fade_node = null):
+
+	# remove daily abilities from the previous day
+	player.party.remove_abilities_of_type(global_ability_list.ABILITY_TYPES.DAILY)
+	
+	# determine which units did/didn't eat, and make them hungry, if necessary
+	for unit in player.party.party_members:
+		if (!player.party.did_unit_eat(unit)):
+			global_ability_list.add_ability_to_unit(unit, global_ability_list.ability_hungry)
+	
+	# remove any food abilities from the previous day
+	player.party.remove_abilities_of_type(global_ability_list.ABILITY_TYPES.FOOD)
 
 	player.party.party_members.sort_custom(self, "sort_units_by_wake_up")
 	
@@ -192,9 +209,6 @@ func new_day(fade = false, fade_node = null):
 	
 	# reset tiles that are 'used' 
 	map_actions.reset_used_tiles()
-	
-	# remove any daily abilities from the previous day
-	player.party.remove_food_abilities()
 	
 	# mark all units as 'yet to act'
 	player.party.reset_yet_to_act()

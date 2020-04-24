@@ -37,6 +37,7 @@ func unit_init():
 	global_items_list.add_item_to_unit(self, global_items_list.item_handsaw)
 	
 	# add the unit's starting ability
+	starting_ability = global_ability_list.ability_concentration
 	global_ability_list.add_ability_to_unit(self, global_ability_list.ability_concentration)
 	
 	self.global_position = Vector2(unit_pos_x*constants.TILE_WIDTH, 

@@ -72,14 +72,24 @@ func reset_unit_actions():
 		# also make sure we update their 'acted' state for the new turn
 		unit.set_has_acted_state(false)
 
-# remove all food (daily) abilities from each unit
-func remove_food_abilities():
+func did_unit_eat(unit):
+	var ate = false
+	for ability in unit.unit_abilities:
+		if (ability.type == global_ability_list.ABILITY_TYPES.FOOD): # this unit has a food effect, therefore they ate
+			ate = true
+	
+	return ate
+		
+
+# remove all food abilities from each unit
+func remove_abilities_of_type(type):
+	
 	for unit in party_members:
 		var index = 0
 		var unit_abilities = unit.unit_abilities.duplicate()
 		for ability in unit_abilities:
 
-			if (ability.type == global_ability_list.ABILITY_TYPES.FOOD):
+			if (ability.type == type):
 				global_ability_list.remove_ability_from_unit(unit, ability, index)
 				index -= 1
 				
