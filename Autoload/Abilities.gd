@@ -20,6 +20,7 @@ const ABILITY_CONCENTRATION_NAME = 'Concentration'
 const ABILITY_RIVER_QUEEN_NAME = 'River Queen'
 
 # food (daily) abilities
+const ABILITY_FED_NAME = 'Fed'
 const ABILITY_FOOD_MUSCLEFISH_NAME = 'Food Effect'
 
 # other daily abilities
@@ -64,6 +65,13 @@ const ability_river_queen = {
 }
 
 # food (daily) abilities
+const ability_fed = {
+	"name": ABILITY_FED_NAME,
+	"description": "This unit is not hungry. ",
+	"type": ABILITY_TYPES.FOOD
+}
+
+
 const ability_food_musclefish = {
 	"name": ABILITY_FOOD_MUSCLEFISH_NAME,
 	"description": "This unit can carry an additional 3 items for the remainder of the day.",

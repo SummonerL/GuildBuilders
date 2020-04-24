@@ -192,8 +192,10 @@ func eat_food():
 	# display a message if the unit has reached their meal limit
 	var meal_count = 0
 	for ability in active_unit.unit_abilities:
-		if (ability.type == global_ability_list.ABILITY_TYPES.FOOD):
-			meal_count += 1
+		if (ability.type == global_ability_list.ABILITY_TYPES.FOOD): 
+			# also make sure that the ability isn't 'FED', as that shouldn't take up a meal slot
+			if ability.name != global_ability_list.ABILITY_FED_NAME:
+				meal_count += 1
 			
 	if (meal_count >= active_unit.meal_limit):
 		# reuse a signal (it does the same thing)
@@ -216,6 +218,13 @@ func eat_food():
 	# otherwise, add the effect to the unit
 	global_ability_list.add_ability_to_unit(active_unit, effect)
 	
+	# remove the 'hungry' effect from the unit, if it's there
+	var abil_index = 0 
+	for abil in active_unit.unit_abilities:
+		if abil.name == global_ability_list.ABILITY_HUNGRY_NAME:
+			global_ability_list.remove_ability_from_unit(active_unit, abil, abil_index)
+		abil_index += 1
+			
 	# read the follow-up text
 	player.hud.dialogueState = player.hud.STATES.INACTIVE
 	player.hud.typeTextWithBuffer(active_unit.unit_name + ATE_THE_TEXT + food.item.name + '.' + NEW_FOOD_EFFECT_ADDED_TEXT, false, 'food_ate_dialogue_dining')
