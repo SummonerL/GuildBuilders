@@ -3,13 +3,13 @@ extends "res://Entities/Player/Units/Unit_Class.gd"
 onready var ps = preload("res://Sprites/characters/woodworker_male_portrait1.png")
 
 # keep track of all the unique dialogue for this charater
-const CANT_FISH_WITHOUT_ROD_TEXT = '...'
-const NO_MORE_FISH_TEXT = '...' 
+const CANT_FISH_WITHOUT_ROD_TEXT = 'Am I supposed to do that with my hands?'
+const NO_MORE_FISH_TEXT = 'I don\'t see any more fish here.' 
 
-const CANT_WOODCUT_WITHOUT_AXE_TEXT = '...'
-const NO_MORE_WOOD_TEXT = '...'
+const CANT_WOODCUT_WITHOUT_AXE_TEXT = 'How am I supposed to do that without an axe?'
+const NO_MORE_WOOD_TEXT = 'Hmm... No more wood here.'
 
-const INVENTORY_FULL_TEXT = '...'
+const INVENTORY_FULL_TEXT = 'I probably shouldn\'t try to carry anything else...'
 
 const WAKE_UP_TEXT = 'I wish I could just sleep in...'
 const BED_TIME_TEXT = 'Finally... Time for bed.'

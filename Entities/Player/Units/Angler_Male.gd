@@ -26,7 +26,8 @@ func unit_init():
 	
 	age = 13
 	
-	unit_bio = "..."
+	unit_bio = "Isn\'t fish delicious? There\'s something about fish that I can\'t get enough of... I want to try eating every fish in the world! "
+	unit_bio += "I\'m Rodrik by the way."
 	
 	base_move = 3
 	

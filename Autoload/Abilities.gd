@@ -16,6 +16,7 @@ const ABILITY_ROUGHING_IT_NAME = 'Roughing It'
 const ABILITY_GROWING_BOY_NAME = 'Growing Boy'
 const ABILITY_ARTISTIC_NAME = 'Artistic'
 const ABILITY_CONCENTRATION_NAME = 'Concentration'
+const ABILITY_RIVER_QUEEN_NAME = 'River Queen'
 
 # food (daily) abilities
 const ABILITY_FOOD_MUSCLEFISH_NAME = 'Food Effect'
@@ -51,6 +52,12 @@ const ability_artistic = {
 const ability_concentration = {
 	"name": ABILITY_CONCENTRATION_NAME,
 	"description": "When crafting at the guild, this unit receives double XP. However, this unit must be the only unit at the guild to receive this bonus.",
+	"type": ABILITY_TYPES.UNIT
+}
+
+const ability_river_queen = {
+	"name": ABILITY_RIVER_QUEEN_NAME,
+	"description": "This unit can jump over rivers.",
 	"type": ABILITY_TYPES.UNIT
 }
 

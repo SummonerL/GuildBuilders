@@ -11,7 +11,7 @@ const NO_MORE_WOOD_TEXT = 'I\'ve exhausted this area. Time to find another spot!
 
 const INVENTORY_FULL_TEXT = 'My hands are full... Looks like I\'m going to have to come back later.'
 
-const WAKE_UP_TEXT = 'Time to get the day started!'
+const WAKE_UP_TEXT = 'Mornin\' already? Let\'s get started!'
 const BED_TIME_TEXT = 'That\'s enough for today. I need sleep...'
 
 func get_unit_move_sound():
@@ -20,9 +20,13 @@ func get_unit_move_sound():
 func unit_init():	
 	unit_id = 3
 
-	unit_name = "Coral"
-	age = 17
+	unit_name = "Ripley"
 	unit_class = "Angler"
+	
+	age = 17
+	
+	unit_bio = "How\'s it going? I\'m Ripley. I grew up on the Evast River, so I know a thing or two about fish. The key to catchin' "
+	unit_bio += "fish is to catch them off guard. In one day\'s time, I can catch enough fish to feed a village!"
 	
 	unit_portrait_sprite = ps
 	
@@ -34,6 +38,9 @@ func unit_init():
 	
 	# give the female angler some starting items
 	global_items_list.add_item_to_unit(self, global_items_list.item_softwood_rod)
+	
+	# add the unit's starting ability
+	global_ability_list.add_ability_to_unit(self, global_ability_list.ability_river_queen)
 	
 	self.global_position = Vector2(unit_pos_x*constants.TILE_WIDTH, 
 									unit_pos_y*constants.TILE_HEIGHT)
