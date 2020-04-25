@@ -315,23 +315,38 @@ func initiate_fish_action():
 			coord_x = player.curs_pos_x
 			coord_y = player.curs_pos_y - 1
 			
+			# make sure this is actually a fishing spot
+			if (spot != null && !map_actions.get_actions_at_spot(spot).has(COMPLETE_ACTION_LIST.FISH)):
+				spot = null
+			
 		# check east
 		if (spot == null):
 			spot = map_actions.get_action_spot_at_coordinates(Vector2(player.curs_pos_x + 1, player.curs_pos_y))
 			coord_x = player.curs_pos_x + 1
 			coord_y = player.curs_pos_y
 			
+			# make sure this is actually a fishing spot
+			if (spot != null && !map_actions.get_actions_at_spot(spot).has(COMPLETE_ACTION_LIST.FISH)):
+				spot = null
+			
 		# check south
 		if (spot == null):
 			spot = map_actions.get_action_spot_at_coordinates(Vector2(player.curs_pos_x, player.curs_pos_y + 1))
 			coord_x = player.curs_pos_x
 			coord_y = player.curs_pos_y + 1
+			
+			# make sure this is actually a fishing spot
+			if (spot != null && !map_actions.get_actions_at_spot(spot).has(COMPLETE_ACTION_LIST.FISH)):
+				spot = null
+				
 
 		# check west
 		if (spot == null):
 			spot = map_actions.get_action_spot_at_coordinates(Vector2(player.curs_pos_x - 1, player.curs_pos_y))
 			coord_x = player.curs_pos_x - 1
 			coord_y = player.curs_pos_y
+			
+		print (spot)
 			
 		# get a list of fish that can be found at this spot
 		var available_fish = map_actions.get_items_at_coordinates(coord_x, coord_y)

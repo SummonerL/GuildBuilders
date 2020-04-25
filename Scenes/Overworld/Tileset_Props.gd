@@ -11,7 +11,8 @@ const TILES = {2: 'WATER', 3: 'GRASSLAND',
 				12: 'BOULDER', 13: 'OCEAN', 17: 'MOUNTAIN',
 				19: 'GUILD',
 				22: 'CEDAR_TREE',
-				23: 'ASH_TREE'}
+				23: 'ASH_TREE',
+				24: 'FIR_TREE'}
 
 const TILE_INFO_HUD_NAME = { 
 	'WATER':  'Water',
@@ -23,6 +24,7 @@ const TILE_INFO_HUD_NAME = {
 	'GRASSLAND_TREE': 'Trees',
 	'CEDAR_TREE': 'Cedar',
 	'ASH_TREE': 'Ash',
+	'FIR_TREE': 'Fir',
 	'SAND_TREE': 'Tree',
 	'HILL': 'Hill',
 	'DUNE': 'Dune', 
@@ -43,6 +45,7 @@ enum MOVEMENT_COST {
 	GRASSLAND_TREE = NORMAL_MOVE + 1,
 	CEDAR_TREE = NORMAL_MOVE + 1,
 	ASH_TREE = NORMAL_MOVE + 1,
+	FIR_TREE = NORMAL_MOVE + 1,
 	SAND_TREE = NORMAL_MOVE + 1,
 	HILL = NORMAL_MOVE + 1,
 	DUNE = NORMAL_MOVE + 1,

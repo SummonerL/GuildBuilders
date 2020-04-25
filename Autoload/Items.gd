@@ -38,6 +38,13 @@ onready var item_handsaw = {
 }
 
 # useful objects
+onready var item_wooden_stilts = {
+	"name": "Wooden Stilts",
+	"description": "Sturdy wooden legs that allow a unit to cross rivers. This item can only be used once.",
+	"type": ITEM_TYPES.UTILITY,
+	"xp": 3, # xp upon receiving
+}
+
 onready var item_walking_stick = {
 	"name": "Walking Stick",
 	"description": "A sturdy walking stick made of hardwood. Increases a unit\'s movement by 1 when held. This effect can only be gained once.",
@@ -75,6 +82,13 @@ onready var item_cedar_logs = {
 onready var item_ash_logs = {
 	"name": "Ash Logs",
 	"description": "A hardwood that is surprisingly flexible. Can be used to craft various items.",
+	"type": ITEM_TYPES.WOOD,
+	"xp": 2 # xp upon receiving
+}
+
+onready var item_fir_logs = {
+	"name": "Fir Logs",
+	"description": "A softwood that feels quite sturdy. Can be used to craft various items.",
 	"type": ITEM_TYPES.WOOD,
 	"xp": 2 # xp upon receiving
 }

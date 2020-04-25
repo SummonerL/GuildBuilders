@@ -247,3 +247,13 @@
 23/navigation_offset = Vector2( 0, 0 )
 23/shapes = [  ]
 23/z_index = 0
+24/name = "fir_tree"
+24/texture = ExtResource( 1 )
+24/tex_offset = Vector2( 0, 0 )
+24/modulate = Color( 1, 1, 1, 1 )
+24/region = Rect2( 16, 160, 16, 16 )
+24/tile_mode = 0
+24/occluder_offset = Vector2( 0, 0 )
+24/navigation_offset = Vector2( 0, 0 )
+24/shapes = [  ]
+24/z_index = 0

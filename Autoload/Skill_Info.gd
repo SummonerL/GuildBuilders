@@ -55,6 +55,18 @@ onready var SKILL_UNLOCKS = {
 			]
 		},
 		{
+			'unlock_text': ' can now craft Wooden Stilts!',
+			'type': UNLOCK_TYPES.RECIPE,
+			'level_required': 3,
+			'item': global_item_list.item_wooden_stilts,
+			'resources_required': [
+				{
+					'item': global_item_list.item_fir_logs,
+					'quantity': 2
+				}
+			]
+		},
+		{
 			'unlock_text': ' can now craft Walking Sticks!',
 			'type': UNLOCK_TYPES.RECIPE,
 			'level_required': 5,
