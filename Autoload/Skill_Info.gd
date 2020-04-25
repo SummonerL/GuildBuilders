@@ -17,6 +17,17 @@ enum UNLOCK_TYPES {
 
 # global list of skill unlocks
 onready var SKILL_UNLOCKS = {
+	
+	# woodcutting
+	constants.WOODWORKING: [
+		{
+			'unlock_text': ' can now chop Ash Trees!',
+			'type': UNLOCK_TYPES.RESOURCE,
+			'level_required': 2,
+		}
+	],
+	
+	
 	# woodworking
 	constants.WOODWORKING: [
 		{
@@ -32,6 +43,7 @@ onready var SKILL_UNLOCKS = {
 			]
 		},
 		{
+			'unlock_text': ' can now craft Flexible Rods!',
 			'type': UNLOCK_TYPES.RECIPE,
 			'level_required': 2,
 			'item': global_item_list.item_flexible_rod,
@@ -43,6 +55,7 @@ onready var SKILL_UNLOCKS = {
 			]
 		},
 		{
+			'unlock_text': ' can now craft Walking Sticks!',
 			'type': UNLOCK_TYPES.RECIPE,
 			'level_required': 5,
 			'item': global_item_list.item_walking_stick,

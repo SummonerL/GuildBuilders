@@ -368,10 +368,18 @@ func initiate_woodcutting_action():
 			axe = item
 	
 	if (axe):
+		# determine which woodcutting spot the unit is targeting
+		var spot = map_actions.get_action_spot_at_coordinates(Vector2(player.curs_pos_x, player.curs_pos_y))
+		
+		# get the level requirement for this spot
+		var level_requirement = map_actions.get_level_requirement_at_spot(spot)
+		
 		# get a list of wood that can be found at this spot
 		var available_wood = map_actions.get_items_at_coordinates(player.curs_pos_x, player.curs_pos_y)
 		
-		if (available_wood.size() == 0):
+		if (level_requirement > active_unit.skill_levels[constants.WOODCUTTING]):
+			player.hud.typeTextWithBuffer(active_unit.NOT_SKILLED_ENOUGH_TEXT, false, 'finished_action_failed') # they did not succeed 
+		elif (available_wood.size() == 0):
 			player.hud.typeTextWithBuffer(active_unit.NO_MORE_WOOD_TEXT, false, 'finished_action_failed') # they did not succeed 
 		elif (active_unit.is_inventory_full()):
 			player.hud.typeTextWithBuffer(active_unit.INVENTORY_FULL_TEXT, false, 'finished_action_failed') # they did not succeed

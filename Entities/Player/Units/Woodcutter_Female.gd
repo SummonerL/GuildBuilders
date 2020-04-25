@@ -11,6 +11,8 @@ const NO_MORE_WOOD_TEXT = '...and that\'s enough for that area. Let\'s look else
 
 const INVENTORY_FULL_TEXT = 'If only I had a bigger bag... I should try this again after I free up some space.'
 
+const NOT_SKILLED_ENOUGH_TEXT = 'If only I were a little more skilled at this...'
+
 const WAKE_UP_TEXT = 'Ugh... I can\'t sleep. Might as well get started.'
 const BED_TIME_TEXT = 'I should get to bed so I can be just as productive tomorrow!'
 

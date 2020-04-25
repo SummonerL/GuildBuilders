@@ -39,6 +39,13 @@ onready var associated_actions = {
 					global_action_list.COMPLETE_ACTION_LIST.CRAFT]
 }
 
+# level requirements for specific spots
+onready var level_requirements = {
+	'WOODCUTTING_SPOT_1': 1,
+	'WOODCUTTING_SPOT_2': 2,
+	'FISH_SPOT_1': 1,
+}
+
 # keep track of individual tiles that have been interacted with in a particular day. This will allow us to 'deplete' certain
 # tiles. This will be an object, where the key represents the location on the map, and the value is the remaining items @ that location
 onready var used_tile_items = {
@@ -59,6 +66,9 @@ func get_action_spot_at_coordinates(vec2):
 		
 func get_actions_at_spot(spot):
 	return associated_actions[spot]
+
+func get_level_requirement_at_spot(spot):
+	return level_requirements[spot]
 
 func get_actions_at_coordinates(vec2):
 	var tile = get_cellv(vec2)

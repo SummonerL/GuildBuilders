@@ -11,6 +11,8 @@ const NO_MORE_WOOD_TEXT = 'Hmm... No more wood here.'
 
 const INVENTORY_FULL_TEXT = 'I probably shouldn\'t try to carry anything else...'
 
+const NOT_SKILLED_ENOUGH_TEXT = 'I need to get better at this first...'
+
 const WAKE_UP_TEXT = 'I wish I could just sleep in...'
 const BED_TIME_TEXT = 'Finally... Time for bed.'
 

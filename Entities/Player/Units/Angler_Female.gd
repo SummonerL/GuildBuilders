@@ -11,6 +11,8 @@ const NO_MORE_WOOD_TEXT = 'I\'ve exhausted this area. Time to find another spot!
 
 const INVENTORY_FULL_TEXT = 'My hands are full... Looks like I\'m going to have to come back later.'
 
+const NOT_SKILLED_ENOUGH_TEXT = 'That looks a bit too tough for me...'
+
 const WAKE_UP_TEXT = 'Mornin\' already? Let\'s get started!'
 const BED_TIME_TEXT = 'That\'s enough for today. I need sleep...'
 
