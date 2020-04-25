@@ -121,12 +121,20 @@ func _on_confirm_craft(crafting, recipe = null, item_indexes = []):
 		signals.disconnect("confirm_generic_yes", self, "_on_confirm_craft")
 	
 	if (crafting):
+		print('WE ARE CRAFTING')
 		# first, remove the items from the player
+		print('REMOVING ITEMS')
+		print(item_indexes)
+		item_indexes.invert() # invert, as we will be removing items as we iterate and want to prevent errors
 		for index in item_indexes:
+			print('REMOVING --')
+			print(index)
 			global_items_list.remove_item_from_unit(active_unit, index)
+
 			
-			# wrap things up up in our global action
-			global_action_list.finished_crafting_selection(active_skill, recipe.item, active_unit)
+		print('SHOW ACTION WINDOW')
+		# wrap things up up in our global action
+		global_action_list.finished_crafting_selection(active_skill, recipe.item, active_unit)
 		
 	else:	
 		# go back to the previous screen

@@ -34,7 +34,7 @@ func unit_init():
 	skill_levels[constants.FISHING] = 5
 	
 	# give the male angler some starting items
-	global_items_list.add_item_to_unit(self, global_items_list.item_softwood_rod)
+	global_items_list.add_item_to_unit(self, global_items_list.item_flexible_rod)
 	global_items_list.add_item_to_unit(self, global_items_list.item_jumbofish)
 	global_items_list.add_item_to_unit(self, global_items_list.item_musclefish)
 	

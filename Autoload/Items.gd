@@ -17,10 +17,11 @@ enum ITEM_TYPES {
 }
 
 # tools
-onready var item_softwood_rod = {
-	"name": "Softwood Rod",
-	"description": "A simple wooden fishing rod. Allows the unit to catch fish.",
-	"type": ITEM_TYPES.ROD
+onready var item_flexible_rod = {
+	"name": "Flexible Rod",
+	"description": "A simple fishing rod made from ash wood. Allows the unit to catch fish.",
+	"type": ITEM_TYPES.ROD,
+	"xp": 3 # xp upon crafting
 }
 
 onready var item_sturdy_axe = {
@@ -69,6 +70,13 @@ onready var item_cedar_logs = {
 	"description": "A light-colored wood that is quite aromatic. Can be used to craft various items.",
 	"type": ITEM_TYPES.WOOD,
 	"xp": 1 # xp upon receiving
+}
+
+onready var item_ash_logs = {
+	"name": "Ash Logs",
+	"description": "A hardwood that is surprisingly flexible. Can be used to craft various items.",
+	"type": ITEM_TYPES.WOOD,
+	"xp": 2 # xp upon receiving
 }
 
 # may remove

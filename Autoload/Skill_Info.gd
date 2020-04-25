@@ -33,6 +33,17 @@ onready var SKILL_UNLOCKS = {
 		},
 		{
 			'type': UNLOCK_TYPES.RECIPE,
+			'level_required': 2,
+			'item': global_item_list.item_flexible_rod,
+			'resources_required': [
+				{
+					'item': global_item_list.item_ash_logs,
+					'quantity': 2
+				}
+			]
+		},
+		{
+			'type': UNLOCK_TYPES.RECIPE,
 			'level_required': 5,
 			'item': global_item_list.item_walking_stick,
 			'resources_required': [
