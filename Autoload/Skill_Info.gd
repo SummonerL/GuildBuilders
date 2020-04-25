@@ -26,7 +26,7 @@ onready var SKILL_UNLOCKS = {
 			'no_tool_required': true,
 			'resources_required': [
 				{
-					'item': global_item_list.item_softwood,
+					'item': global_item_list.item_cedar_logs,
 					'quantity': 1
 				}
 			]

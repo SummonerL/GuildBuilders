@@ -368,9 +368,6 @@ func initiate_woodcutting_action():
 			axe = item
 	
 	if (axe):
-		# determine which woodcutting spot the unit is targeting
-		var spot = map_actions.get_action_spot_at_coordinates(Vector2(player.curs_pos_x, player.curs_pos_y))
-
 		# get a list of wood that can be found at this spot
 		var available_wood = map_actions.get_items_at_coordinates(player.curs_pos_x, player.curs_pos_y)
 		

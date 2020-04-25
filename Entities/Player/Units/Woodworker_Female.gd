@@ -35,7 +35,7 @@ func unit_init():
 	
 	# give the female woodworker some starting items
 	global_items_list.add_item_to_unit(self, global_items_list.item_handsaw)
-	global_items_list.add_item_to_unit(self, global_items_list.item_massifish)
+	global_items_list.add_item_to_unit(self, global_items_list.item_jumbofish)
 	
 	# add the unit's starting ability
 	starting_ability = global_ability_list.ability_artistic

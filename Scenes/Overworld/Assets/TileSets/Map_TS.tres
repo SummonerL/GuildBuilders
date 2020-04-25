@@ -227,3 +227,13 @@
 21/navigation_offset = Vector2( 0, 0 )
 21/shapes = [  ]
 21/z_index = 0
+22/name = "cedar_tree"
+22/texture = ExtResource( 1 )
+22/tex_offset = Vector2( 0, 0 )
+22/modulate = Color( 1, 1, 1, 1 )
+22/region = Rect2( 16, 96, 16, 16 )
+22/tile_mode = 0
+22/occluder_offset = Vector2( 0, 0 )
+22/navigation_offset = Vector2( 0, 0 )
+22/shapes = [  ]
+22/z_index = 0

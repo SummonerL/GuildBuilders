@@ -45,8 +45,8 @@ onready var item_walking_stick = {
 }
 
 # fish
-onready var item_massifish = {
-	"name": "Massifish",
+onready var item_jumbofish = {
+	"name": "Jumbofish",
 	"description": "After eating this, the unit will not have to eat for 2 days.",
 	"type": ITEM_TYPES.FISH,
 	"xp": 2, # xp upon receiving
@@ -64,6 +64,14 @@ onready var item_musclefish = {
 }
 
 # wood
+onready var item_cedar_logs = {
+	"name": "Cedar Logs",
+	"description": "A light-colored wood that is quite aromatic. Can be used to craft various items.",
+	"type": ITEM_TYPES.WOOD,
+	"xp": 1 # xp upon receiving
+}
+
+# may remove
 onready var item_softwood = {
 	"name": "Softwood",
 	"description": "A light-colored wood that is easy to cut. Can be used to craft various items.",
