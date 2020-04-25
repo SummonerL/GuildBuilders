@@ -81,6 +81,14 @@ func did_unit_eat(unit):
 	return ate
 		
 
+func is_unit_hungry(unit):
+	var hungry = false
+	
+	for ability in unit.unit_abilities:
+		if (ability.name == global_ability_list.ABILITY_HUNGRY_NAME): # this unit has has the hungry effect
+			hungry = true
+			
+	return hungry
 # remove all food abilities from each unit
 func remove_abilities_of_type(type):
 	

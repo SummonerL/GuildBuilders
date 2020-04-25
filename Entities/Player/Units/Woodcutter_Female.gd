@@ -15,6 +15,7 @@ const NOT_SKILLED_ENOUGH_TEXT = 'If only I were a little more skilled at this...
 
 const WAKE_UP_TEXT = 'Ugh... I can\'t sleep. Might as well get started.'
 const BED_TIME_TEXT = 'I should get to bed so I can be just as productive tomorrow!'
+const HUNGRY_TEXT = 'I wish I had eaten yesterday...'
 
 func unit_init():
 	unit_portrait_sprite = ps
@@ -40,7 +41,7 @@ func unit_init():
 	
 	# add the unit's starting ability
 	starting_ability = global_ability_list.ability_insomniac
-	#global_ability_list.add_ability_to_unit(self, global_ability_list.ability_insomniac)
+	global_ability_list.add_ability_to_unit(self, global_ability_list.ability_insomniac)
 	
 	self.global_position = Vector2(unit_pos_x*constants.TILE_WIDTH, 
 									unit_pos_y*constants.TILE_HEIGHT)

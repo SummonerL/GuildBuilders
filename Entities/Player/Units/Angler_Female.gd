@@ -15,6 +15,7 @@ const NOT_SKILLED_ENOUGH_TEXT = 'That looks a bit too tough for me...'
 
 const WAKE_UP_TEXT = 'Mornin\' already? Let\'s get started!'
 const BED_TIME_TEXT = 'That\'s enough for today. I need sleep...'
+const HUNGRY_TEXT = 'I should\'ve eaten something yesterday...'
 
 func get_unit_move_sound():
 	return unit_move_sound

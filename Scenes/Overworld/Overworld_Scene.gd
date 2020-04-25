@@ -509,8 +509,11 @@ func show_unit_wakeup(unit_to_wake, timer = null):
 	# short delay
 	yield(get_tree().create_timer(.6), "timeout")
 	
-	# read the unit's wake-up text
-	player.hud.typeTextWithBuffer(unit_to_wake.WAKE_UP_TEXT, false, 'finished_viewing_wake_up_text')
+	# read the unit's wake-up text, or the hungry text, if they forgot to eat!
+	if (player.party.is_unit_hungry(unit_to_wake)):
+		player.hud.typeTextWithBuffer(unit_to_wake.HUNGRY_TEXT, false, 'finished_viewing_wake_up_text')
+	else:
+		player.hud.typeTextWithBuffer(unit_to_wake.WAKE_UP_TEXT, false, 'finished_viewing_wake_up_text')
 	
 
 func apply_time_shader():

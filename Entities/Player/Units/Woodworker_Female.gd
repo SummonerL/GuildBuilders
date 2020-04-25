@@ -15,6 +15,7 @@ const NOT_SKILLED_ENOUGH_TEXT = 'One day I\'ll be skilled enough to tackle this!
 
 const WAKE_UP_TEXT = 'Another beautiful morning! Maybe I should go for a jog to get my creative juices flowing.'
 const BED_TIME_TEXT = 'So... sleepy... Time for bed...'
+const HUNGRY_TEXT = 'Wow, I got too wrapped up in my work and forgot to eat...'
 
 func unit_init():	
 	unit_portrait_sprite = ps

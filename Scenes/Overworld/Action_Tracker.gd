@@ -22,7 +22,7 @@ const ACTIONS = {
 
 # keep track of the kind of resources that can be gained on specific action spots
 onready var ITEMS_AT_SPOT = {
-	'FISH_SPOT_1': [global_items_list.item_musclefish],
+	'FISH_SPOT_1': [global_items_list.item_jumbofish],
 	'FISH_SPOT_2': [],
 	'WOODCUTTING_SPOT_1': [global_items_list.item_cedar_logs],
 	'WOODCUTTING_SPOT_2': [global_items_list.item_ash_logs],
