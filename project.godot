@@ -40,6 +40,7 @@ Skill_Info="*res://Autoload/Skill_Info.gd"
 [debug]
 
 settings/fps/force_fps=30
+settings/stdout/print_fps=true
 gdscript/warnings/unused_signal=false
 
 [display]
