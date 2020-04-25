@@ -20,12 +20,13 @@ const ABILITY_CONCENTRATION_NAME = 'Concentration'
 const ABILITY_RIVER_QUEEN_NAME = 'River Queen'
 
 # food (daily) abilities
-const ABILITY_FED_NAME = 'Fed'
+const ABILITY_WELL_FED_NAME = 'Status: Well-Fed'
+const ABILITY_FED_NAME = 'Status: Fed'
 const ABILITY_FOOD_MUSCLEFISH_NAME = 'Food Effect'
 
 # other daily abilities
-const ABILITY_INSPIRED_NAME = 'Inspired'
-const ABILITY_HUNGRY_NAME = 'Hungry'
+const ABILITY_INSPIRED_NAME = 'Status: Inspired'
+const ABILITY_HUNGRY_NAME = 'Status: Hungry'
 
 # unit abilities
 const ability_insomniac = {
@@ -65,12 +66,16 @@ const ability_river_queen = {
 }
 
 # food (daily) abilities
-const ability_fed = {
-	"name": ABILITY_FED_NAME,
-	"description": "This unit is not hungry. ",
+const ability_well_fed = {
+	"name": ABILITY_WELL_FED_NAME,
+	"description": "This unit does not have to eat for the next 2 days.",
 	"type": ABILITY_TYPES.FOOD
 }
-
+const ability_fed = {
+	"name": ABILITY_FED_NAME,
+	"description": "This unit does not have to eat until tomorrow. ",
+	"type": ABILITY_TYPES.FOOD
+}
 
 const ability_food_musclefish = {
 	"name": ABILITY_FOOD_MUSCLEFISH_NAME,
@@ -78,7 +83,8 @@ const ability_food_musclefish = {
 	"type": ABILITY_TYPES.FOOD
 }
 
-# other daily abilities
+
+# daily abilities
 const ability_inspired = {
 	"name": ABILITY_INSPIRED_NAME,
 	"description": "This unit\'s movement is increased by 1 for the remainder of the day.",
@@ -103,13 +109,20 @@ func add_ability_to_unit(unit, ability, front = false):
 	
 # a helper function for removing abilities from a unit
 func remove_ability_from_unit(unit, ability, index):
+	# as some abilities may be gained during the removal of others, return an array containing any new abilities
+	# instead of adding them immediately, allow the caller to handle that.
+	var gained_abilities = []
+	
 	unit.unit_abilities.remove(index)
 	
-	on_remove_from_unit(unit, ability)
+	gained_abilities += on_remove_from_unit(unit, ability)
+	
+	return gained_abilities
 
 # when a specific ability is added to a unit
 func on_add_to_unit(unit, ability):
 	match(ability.name):
+		# unit abilities
 		ABILITY_INSOMNIAC_NAME:
 			unit.wake_up_time -= 5
 		ABILITY_ROUGHING_IT_NAME:
@@ -119,12 +132,24 @@ func on_add_to_unit(unit, ability):
 			# increase the unit's meal limit by 1
 			unit.meal_limit += 1
 			
-			
+		# food abilities / effects
+		ABILITY_WELL_FED_NAME:
+			# add remove 'fed' ability from the player, if it exists (to prevent confusion)
+			var index = 0
+			var fed_ability_index = -1
+			for abil in unit.unit_abilities:
+				if (abil.name == ABILITY_FED_NAME):
+					fed_ability_index = index
+				index += 1
+				
+			if (fed_ability_index >= 0):
+				remove_ability_from_unit(unit, ability_fed, fed_ability_index)
 		ABILITY_FOOD_MUSCLEFISH_NAME:
 			# add 3 to the unit's max inventory space
 			unit.item_limit += 3		
 			
 				
+		# daily abilities / effects / statuses
 		ABILITY_INSPIRED_NAME:
 			# increases the unit's movement by 1
 			unit.base_move += 1
@@ -144,7 +169,12 @@ func on_add_to_unit(unit, ability):
 
 # when a specific ability is removed from a unit
 func on_remove_from_unit(unit, ability):
+	# as some abilities may be gained during the removal of others, return an array containing any new abilities
+	# instead of adding them immediately, allow the caller to handle that.
+	var gained_abilities = []
+	
 	match(ability.name):
+		# unit abilities
 		ABILITY_INSOMNIAC_NAME:
 					unit.wake_up_time += 5
 		ABILITY_ROUGHING_IT_NAME:
@@ -153,7 +183,7 @@ func on_remove_from_unit(unit, ability):
 			for location in unit.shelter_locations:
 				if (location == global_action_list.COMPLETE_ACTION_LIST.RETURN_TO_CAMP):
 					unit.shelter_locations.remove(location_index)
-					return
+					return gained_abilities
 				location_index += 1
 		ABILITY_GROWING_BOY_NAME:
 			# increase the unit's meal limit by 1
@@ -162,6 +192,10 @@ func on_remove_from_unit(unit, ability):
 				unit.meal_limit = 0
 			
 
+		# food abilities / effects
+		ABILITY_WELL_FED_NAME:
+			# add the 'fed' ability to the player
+			gained_abilities.append(ability_fed)
 		ABILITY_FOOD_MUSCLEFISH_NAME:
 			# remove 3 from the unit's max inventory space
 			unit.item_limit -= 3
@@ -169,6 +203,7 @@ func on_remove_from_unit(unit, ability):
 				unit.item_limit = 0
 				
 				
+		# daily abilities / effects / statuses
 		ABILITY_INSPIRED_NAME:
 			# remove 1 from the unit's base_move
 			unit.base_move -= 1
@@ -177,3 +212,5 @@ func on_remove_from_unit(unit, ability):
 		ABILITY_HUNGRY_NAME:
 			# add the unit's starting ability back
 			add_ability_to_unit(unit, unit.starting_ability, true)
+			
+	return gained_abilities

@@ -34,6 +34,7 @@ func unit_init():
 	
 	# give the female woodcutter some starting items
 	global_items_list.add_item_to_unit(self, global_items_list.item_sturdy_axe)
+	global_items_list.add_item_to_unit(self, global_items_list.item_massifish)
 	
 	# add the unit's starting ability
 	starting_ability = global_ability_list.ability_insomniac

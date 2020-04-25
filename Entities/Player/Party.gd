@@ -85,15 +85,18 @@ func did_unit_eat(unit):
 func remove_abilities_of_type(type):
 	
 	for unit in party_members:
+		var gained_abilities = []
 		var index = 0
 		var unit_abilities = unit.unit_abilities.duplicate()
 		for ability in unit_abilities:
 
 			if (ability.type == type):
-				global_ability_list.remove_ability_from_unit(unit, ability, index)
+				gained_abilities += global_ability_list.remove_ability_from_unit(unit, ability, index)
 				index -= 1
 				
 			index += 1
+		
+		unit.unit_abilities += gained_abilities # any new abilities the unit may have gained as a result of doing this
 
 func reset_shaders():
 	for unit in party_members:

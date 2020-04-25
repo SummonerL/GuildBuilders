@@ -61,10 +61,12 @@ var active_unit
 # text for the dining screen
 const DINE_TEXT = 'Dining Hall'
 const NO_FOOD_TEXT = "No food at the depot..."
-const ALREADY_HAS_EFFECT_TEXT = ' already has that effect...'
+const CAN_NOT_BE_GAINED_MORE_THAN_ONCE_TEXT = "This effect can not be gained more than once. "
+const ALREADY_HAS_EFFECT_TEXT = ' already has that effect.'
 const CANT_EAT_ANY_MORE_MEALS_TEXT = ' can\'t eat any more meals today...'
 const ATE_THE_TEXT = ' ate the '
 const NEW_FOOD_EFFECT_ADDED_TEXT = ' New food effect added.'
+const IS_NO_LONGER_HUNGRY_TEXT = ' is no longer hungry.'
 
 # keep track of the food items at the depot
 var current_food_items = []
@@ -205,29 +207,43 @@ func eat_food():
 		player.hud.typeTextWithBuffer(active_unit.unit_name + CANT_EAT_ANY_MORE_MEALS_TEXT, false, 'already_have_effect_dialogue_dining') 
 		return
 	
-	# ------ experiment with allowing unit's to have the same food effect twice (the male fisherman) -------
-	# display a message if the user already has this food effect
-	#for ability in active_unit.unit_abilities:
-	#	if (ability.name == effect.name):
-	#		signals.connect("already_have_effect_dialogue_dining", self, "_on_already_have_effect_dialogue_completion", [], signals.CONNECT_ONESHOT)
-	#		
-	#		player.hud.dialogueState = player.hud.STATES.INACTIVE
-	#		player.hud.typeTextWithBuffer(active_unit.unit_name + ALREADY_HAS_EFFECT_TEXT, false, 'already_have_effect_dialogue_dining') 
-	#		return
+	# display a message if the user already has this food effect (and the effect is not stackable)
+	for ability in active_unit.unit_abilities:
+		if (ability.name == effect.name && !food.item.can_stack_effect):
+			signals.connect("already_have_effect_dialogue_dining", self, "_on_already_have_effect_dialogue_completion", [], signals.CONNECT_ONESHOT)
+			
+			player.hud.dialogueState = player.hud.STATES.INACTIVE
+			player.hud.typeTextWithBuffer(CAN_NOT_BE_GAINED_MORE_THAN_ONCE_TEXT + active_unit.unit_name + ALREADY_HAS_EFFECT_TEXT, 
+											false, 'already_have_effect_dialogue_dining') 
+			return
 	
-	# otherwise, add the effect to the unit
-	global_ability_list.add_ability_to_unit(active_unit, effect)
+	# determine if the unit has already eaten today
+	var has_eaten = player.party.did_unit_eat(active_unit)
 	
-	# remove the 'hungry' effect from the unit, if it's there
+	# if they have not eaten, add the 'fed' status
+	if (!has_eaten):
+		global_ability_list.add_ability_to_unit(active_unit, global_ability_list.ability_fed)
+	
+	# determine if the unit is hungry, and remove it if so
+	var was_hungry = false
 	var abil_index = 0 
 	for abil in active_unit.unit_abilities:
 		if abil.name == global_ability_list.ABILITY_HUNGRY_NAME:
 			global_ability_list.remove_ability_from_unit(active_unit, abil, abil_index)
+			was_hungry = true
 		abil_index += 1
-			
-	# read the follow-up text
-	player.hud.dialogueState = player.hud.STATES.INACTIVE
-	player.hud.typeTextWithBuffer(active_unit.unit_name + ATE_THE_TEXT + food.item.name + '.' + NEW_FOOD_EFFECT_ADDED_TEXT, false, 'food_ate_dialogue_dining')
+	
+	
+	# Add the new food effect to the unit, if the unit wasn't hungry. Otherwise, they just become fed
+	if (!was_hungry):
+		global_ability_list.add_ability_to_unit(active_unit, effect)
+		# read the follow-up text
+		player.hud.dialogueState = player.hud.STATES.INACTIVE
+		player.hud.typeTextWithBuffer(active_unit.unit_name + ATE_THE_TEXT + food.item.name + '.' + NEW_FOOD_EFFECT_ADDED_TEXT, false, 'food_ate_dialogue_dining')
+	else:
+		# read the follow-up text
+		player.hud.dialogueState = player.hud.STATES.INACTIVE
+		player.hud.typeTextWithBuffer(active_unit.unit_name + IS_NO_LONGER_HUNGRY_TEXT, false, 'food_ate_dialogue_dining')
 
 	yield(signals, 'food_ate_dialogue_dining')
 	

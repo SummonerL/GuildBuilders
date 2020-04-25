@@ -45,12 +45,22 @@ onready var item_walking_stick = {
 }
 
 # fish
+onready var item_massifish = {
+	"name": "Massifish",
+	"description": "After eating this, the unit will not have to eat for 2 days.",
+	"type": ITEM_TYPES.FISH,
+	"xp": 2, # xp upon receiving
+	"connected_ability": global_ability_list.ability_well_fed,
+	"can_stack_effect": false # this effect can not be added more than once
+}
+
 onready var item_musclefish = {
 	"name": "Musclefish",
 	"description": "Eating this will allow the unit to carry an additional 3 items that day.",
 	"type": ITEM_TYPES.FISH,
 	"xp": 2, # xp upon receiving
-	"connected_ability": global_ability_list.ability_food_musclefish
+	"connected_ability": global_ability_list.ability_food_musclefish,
+	"can_stack_effect": true # this effect can be added more than once
 }
 
 # wood
