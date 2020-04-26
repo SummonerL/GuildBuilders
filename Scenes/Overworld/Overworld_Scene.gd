@@ -566,15 +566,3 @@ func do_action(action):
 func _ready():
 	gameInit()
 
-# temporarily use to text dialogue system
-func _input(event):
-	if (event.is_action_pressed("ui_focus_next")):
-		match player.hud.dialogueState:
-			player.hud.STATES.INACTIVE:
-				player.hud.typeText("Well... I think we officially got the " +
-							"dialogue system working to perfection. " +
-							"Hopefully this will be the first step " + 
-							"in creating the game of my dreams. " + 
-							"As a matter of fact, I think I'll write " + 
-							"a novel in here... JK!")
-

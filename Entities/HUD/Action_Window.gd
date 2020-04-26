@@ -45,6 +45,9 @@ const WINDOW_HEIGHT_IN_DIA = 8
 var pos_x
 var pos_y
 
+# keep track of whether or not the unit levelled up in this particular skill
+var levelled_up = false
+
 func window_init():	
 	# middle	
 	pos_x = ((constants.DIA_TILES_PER_ROW * constants.DIA_TILE_WIDTH) / 2 ) - (WINDOW_WIDTH * constants.DIA_TILE_WIDTH)
@@ -138,6 +141,9 @@ func show_xp_reward(unit, reward, skill, level_before, level_after, xp_after, xp
 		
 		# if the player leveled up. retrigger this function to show more xp at the next level
 		if (level_up):
+			# track that the unit levelled up (will later be sent back to parent callback)
+			levelled_up = true
+			
 			var show_more_timer = Timer.new()
 			show_more_timer.wait_time = current_wait_time + 3 # account for level up fanfare
 			show_more_timer.connect("timeout", self, "show_xp_reward", [unit, reward, skill, level_before + 1, level_after, xp_after, 0, parent, show_more_timer])
@@ -185,7 +191,7 @@ func action_window_finished(parent, skill, reward, timer = null):
 		timer.stop()
 		remove_child(timer)
 	
-	parent.action_window_finished(skill, reward)
+	parent.action_window_finished(skill, reward, levelled_up)
 
 func _ready():
 	window_init()

@@ -13,6 +13,9 @@ onready var player = get_node("/root/Player_Globals")
 # bring in our global constants
 onready var constants = get_node("/root/Game_Constants")
 
+# bring in our skill information
+onready var skill_info = get_node("/root/Skill_Info")
+
 # bring in our guild variables/functions
 onready var guild = get_node("/root/Guild")
 
@@ -181,21 +184,39 @@ func do_action(action, parent):
 			hud_selection_list_node.populate_selection_list([], self, true, false, false, false, true, END_TURN_CONFIRMATION_TEXT, 
 															'confirm_end_turn_yes', 'confirm_end_turn_no')
 			
-func action_window_finished(skill, reward):
+func action_window_finished(skill, reward, levelled_up):
 	# clear existing text
 	player.hud.clearText()
 	
 	# show different wording based on the action
 	match(skill):
 		constants.FISHING:
-			player.hud.typeText(FISH_RECEIVED_TEXT + reward.name + constants.EXCLAMATION, false, 'finished_action_success') # we do have a signal
+			player.hud.typeText(FISH_RECEIVED_TEXT + reward.name + constants.EXCLAMATION, false, 'finished_viewing_text_generic') # we do have a signal
 		constants.WOODCUTTING:
-			player.hud.typeText(WOOD_RECEIVED_TEXT + reward.name + constants.EXCLAMATION, false, 'finished_action_success') # we do have a signal
+			player.hud.typeText(WOOD_RECEIVED_TEXT + reward.name + constants.EXCLAMATION, false, 'finished_viewing_text_generic') # we do have a signal
 		constants.WOODWORKING:
-			player.hud.typeText(CRAFT_RECEIVED_TEXT + reward.name + constants.EXCLAMATION, false, 'finished_action_success') # we do have a signal
+			player.hud.typeText(CRAFT_RECEIVED_TEXT + reward.name + constants.EXCLAMATION, false, 'finished_viewing_text_generic') # we do have a signal
 		_:
 			# do nothing
 			pass
+			
+	yield(signals, "finished_viewing_text_generic")
+	
+	if (levelled_up):
+		# show what the unit can now do
+		var skill_unlocks = skill_info.SKILL_UNLOCKS[skill]
+		
+		for unlock in skill_unlocks:
+			if (unlock.level_required == active_unit.skill_levels[skill]):
+				player.hud.typeText(active_unit.unit_name + unlock.unlock_text, false, 'finished_viewing_text_generic')
+				
+				yield(signals, "finished_viewing_text_generic")
+		
+		# we finished the action!
+		signals.emit_signal("finished_action_success")
+	else:
+		# we finished the action!
+		signals.emit_signal("finished_action_success")
 		
 		
 func _on_finished_action(success = false): # signal callback
@@ -345,8 +366,6 @@ func initiate_fish_action():
 			spot = map_actions.get_action_spot_at_coordinates(Vector2(player.curs_pos_x - 1, player.curs_pos_y))
 			coord_x = player.curs_pos_x - 1
 			coord_y = player.curs_pos_y
-			
-		print (spot)
 			
 		# get a list of fish that can be found at this spot
 		var available_fish = map_actions.get_items_at_coordinates(coord_x, coord_y)
