@@ -22,7 +22,8 @@ onready var SKILL_UNLOCKS = {
 	constants.FISHING: [
 		{
 			'unlock_text': ' can now catch Jumbofish!',
-			'skill_info_text': 'Can catch Jumbofish',
+			'can_text': 'Catch',
+			'skill_info_text': 'Jumbofish',
 			'type': UNLOCK_TYPES.RESOURCE,
 			'level_required': 1,
 		}
@@ -33,19 +34,22 @@ onready var SKILL_UNLOCKS = {
 	constants.WOODCUTTING: [
 		{
 			'unlock_text': ' can now chop Cedar Trees!',
-			'skill_info_text': 'Can chop Cedar Trees',
+			'can_text': 'Chop',
+			'skill_info_text': 'Cedar Trees',
 			'type': UNLOCK_TYPES.RESOURCE,
 			'level_required': 1,
 		},
 		{
 			'unlock_text': ' can now chop Ash Trees!',
-			'skill_info_text': 'Can chop Ash Trees',
+			'can_text': 'Chop',
+			'skill_info_text': 'Ash Trees',
 			'type': UNLOCK_TYPES.RESOURCE,
 			'level_required': 2,
 		},
 		{
 			'unlock_text': ' can now chop Fir Trees!',
-			'skill_info_text': 'Can chop Fir Trees',
+			'can_text': 'Chop',
+			'skill_info_text': 'Fir Trees',
 			'type': UNLOCK_TYPES.RESOURCE,
 			'level_required': 3,
 		}
@@ -55,7 +59,8 @@ onready var SKILL_UNLOCKS = {
 	# woodworking
 	constants.WOODWORKING: [
 		{
-			'skill_info_text': 'Can craft Wooden Handles',
+			'can_text': 'Craft',
+			'skill_info_text': 'Wooden Handle',
 			'type': UNLOCK_TYPES.RECIPE,
 			'level_required': 1,
 			'item': global_item_list.item_wooden_handle,
@@ -69,7 +74,8 @@ onready var SKILL_UNLOCKS = {
 		},
 		{
 			'unlock_text': ' can now craft Flexible Rods!',
-			'skill_info_text': 'Can craft Flexible Rods',
+			'can_text': 'Craft',
+			'skill_info_text': 'Flexible Rod',
 			'type': UNLOCK_TYPES.RECIPE,
 			'level_required': 2,
 			'item': global_item_list.item_flexible_rod,
@@ -82,7 +88,8 @@ onready var SKILL_UNLOCKS = {
 		},
 		{
 			'unlock_text': ' can now craft Wooden Stilts!',
-			'skill_info_text': 'Can craft Wooden Stilts',
+			'can_text': 'Craft',
+			'skill_info_text': 'Wooden Stilts',
 			'type': UNLOCK_TYPES.RECIPE,
 			'level_required': 3,
 			'item': global_item_list.item_wooden_stilts,
@@ -95,7 +102,8 @@ onready var SKILL_UNLOCKS = {
 		},
 		{
 			'unlock_text': ' can now craft Walking Sticks!',
-			'skill_info_text': 'Can craft Walking Sticks',
+			'can_text': 'Craft',
+			'skill_info_text': 'Walking Stick',
 			'type': UNLOCK_TYPES.RECIPE,
 			'level_required': 5,
 			'item': global_item_list.item_walking_stick,

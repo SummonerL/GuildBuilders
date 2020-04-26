@@ -13,6 +13,10 @@ var letters_symbols_node
 const PORTRAIT_WIDTH = 3
 const PORTRAIT_HEIGHT = 3
 
+# preload the full skill detail screen
+onready var full_skill_detail_screen = preload("res://Entities/HUD/Skill_Details_Full.tscn")
+var full_skill_detail_screen_node
+
 # the unit info background sprite
 onready var unit_info_background_sprite = get_node("Unit_Info_Background_Sprite")
 
@@ -61,6 +65,14 @@ onready var all_skills = [
 	constants.MINING,
 	constants.WOODWORKING
 ]
+
+onready var all_skill_icons = [
+	fishing_skill_icon_sprite,
+	woodcutting_skill_icon_sprite,
+	mining_skill_icon_sprite,
+	woodworking_skill_icon_sprite
+]
+
 var current_skill_set = []
 var current_skill = 0
 var skill_start_index_tracker = 0
@@ -511,11 +523,35 @@ func change_screen(screen_start_index = 0):
 		screen_list.ABILITY_INFO:
 			populate_ability_screen(screen_start_index)
 
+# a callback that the skill detail uses to tell us to kill it
+func kill_skill_detail_screen():
+	remove_child(full_skill_detail_screen_node)
+	
+	# unpause this node
+	set_process_input(true)
+	
+
 func _ready():
 	unit_info_full_init()
 
 # input options for the unfo screen
 func _input(event):
+	if (event.is_action_pressed("ui_accept")):
+		# this is currently only applicable on the skill info screen
+		match(current_screen):
+			screen_list.SKILL_INFO:
+				# pause this node
+				set_process_input(false)
+				
+				# open the skill detail screen
+				full_skill_detail_screen_node = full_skill_detail_screen.instance()
+				add_child(full_skill_detail_screen_node)
+				
+				full_skill_detail_screen_node.set_active_skill(all_skills[current_skill])
+				full_skill_detail_screen_node.set_current_level(active_unit.skill_levels[all_skills[current_skill]])
+				full_skill_detail_screen_node.set_current_skill_icon(all_skill_icons[current_skill].duplicate())
+				full_skill_detail_screen_node.populate_screen()
+				
 	if (event.is_action_pressed("ui_cancel")):
 		close_unit_screen()
 		# make sure we close the dialogue box as well, if it's present
