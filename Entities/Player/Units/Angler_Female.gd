@@ -9,6 +9,9 @@ const NO_MORE_FISH_TEXT = 'Even with my eyes, I\'m not seeing any more fish here
 const CANT_WOODCUT_WITHOUT_AXE_TEXT = 'I\'m not sure if I can do that without an axe...'
 const NO_MORE_WOOD_TEXT = 'I\'ve exhausted this area. Time to find another spot!'
 
+const CANT_MINE_WITHOUT_PICKAXE_TEXT = 'This looks too tough to do with my hands...'
+const NO_MORE_ORE_TEXT = 'I don\'t see anything else here...'
+
 const INVENTORY_FULL_TEXT = 'My hands are full... Looks like I\'m going to have to come back later.'
 
 const NOT_SKILLED_ENOUGH_TEXT = 'That looks a bit too tough for me...'

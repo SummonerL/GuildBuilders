@@ -53,10 +53,12 @@ const END_TURN_CONFIRMATION_TEXT = 'End turn?'
 
 const FISHING_TEXT = " started fishing..."
 const WOODCUTTING_TEXT = " started chopping..."
+const MINING_TEXT = " started mining..."
 const CRAFTING_TEXT = " started crafting..."
 
 const FISH_RECEIVED_TEXT = "and caught a "
 const WOOD_RECEIVED_TEXT = "and got some "
+const ORE_RECEIVED_TEXT = " and got some "
 const CRAFT_RECEIVED_TEXT = "and made a "
 
 enum COMPLETE_ACTION_LIST {
@@ -151,7 +153,7 @@ func do_action(action, parent):
 		COMPLETE_ACTION_LIST.FISH:
 			initiate_fish_action()
 		COMPLETE_ACTION_LIST.MINE:
-			pass
+			initiate_mine_action()
 		COMPLETE_ACTION_LIST.CHOP:
 			initiate_woodcutting_action()
 		COMPLETE_ACTION_LIST.INFO:
@@ -194,6 +196,8 @@ func action_window_finished(skill, reward, levelled_up):
 			player.hud.typeText(FISH_RECEIVED_TEXT + reward.name + constants.EXCLAMATION, false, 'finished_viewing_text_generic') # we do have a signal
 		constants.WOODCUTTING:
 			player.hud.typeText(WOOD_RECEIVED_TEXT + reward.name + constants.EXCLAMATION, false, 'finished_viewing_text_generic') # we do have a signal
+		constants.MINING:
+			player.hud.typeText(ORE_RECEIVED_TEXT + reward.name + constants.EXCLAMATION, false, 'finished_viewing_text_generic') # we do have a signal
 		constants.WOODWORKING:
 			player.hud.typeText(CRAFT_RECEIVED_TEXT + reward.name + constants.EXCLAMATION, false, 'finished_viewing_text_generic') # we do have a signal
 		_:
@@ -435,6 +439,49 @@ func initiate_woodcutting_action():
 			
 	else:
 		player.hud.typeTextWithBuffer(active_unit.CANT_WOODCUT_WITHOUT_AXE_TEXT, false, 'finished_action_failed') # they did not succeed
+
+# if the unit is mining
+func initiate_mine_action():	
+	# first, determine if the unit has a pickaxe
+	var pickaxe = null
+	for item in active_unit.current_items:
+		if (item.type == global_items_list.ITEM_TYPES.PICKAXE):
+			pickaxe = item
+	
+	if (pickaxe):
+		# determine the mining spot the unit is targeting
+		var spot = map_actions.get_action_spot_at_coordinates(Vector2(player.curs_pos_x, player.curs_pos_y))
+		
+		
+		# get the level requirement for this spot
+		var level_requirement = map_actions.get_level_requirement_at_spot(spot)
+		
+		# get a list of ore that can be found at this spot
+		var available_ore = map_actions.get_items_at_coordinates(player.curs_pos_x, player.curs_pos_y)
+		
+		if (level_requirement > active_unit.skill_levels[constants.MINING]):
+			player.hud.typeTextWithBuffer(active_unit.NOT_SKILLED_ENOUGH_TEXT, false, 'finished_action_failed') # they did not succeed 
+		elif (available_ore.size() == 0):
+			player.hud.typeTextWithBuffer(active_unit.NO_MORE_ORE_TEXT, false, 'finished_action_failed') # they did not succeed 
+		elif (active_unit.is_inventory_full()):
+			player.hud.typeTextWithBuffer(active_unit.INVENTORY_FULL_TEXT, false, 'finished_action_failed') # they did not succeed
+		else:
+			# they can mine!
+			available_ore.shuffle()
+			var received_ore = available_ore[0]
+			
+			# remove the ore from the list of available ore
+			available_ore.remove(0)
+			
+			# and update the used_tile items (for if the unit continues to mine here)
+			map_actions.set_items_at_coordinates(player.curs_pos_x, player.curs_pos_y, available_ore)
+			
+			# start mining
+			player.hud.typeTextWithBuffer(active_unit.unit_name + MINING_TEXT, true)
+			
+			show_action_window(constants.MINING, received_ore)
+	else:
+		player.hud.typeTextWithBuffer(active_unit.CANT_MINE_WITHOUT_PICKAXE_TEXT, false, 'finished_action_failed') # they did not succeed
 
 func _ready():
 	signals.connect("finished_action_success", self, "_on_finished_action", [true])

@@ -64,6 +64,9 @@ func window_init():
 	woodcutting_icon_sprite.position.x = pos_x + constants.DIA_TILE_WIDTH
 	woodcutting_icon_sprite.position.y = pos_y + constants.DIA_TILE_HEIGHT
 	
+	mining_icon_sprite.position.x = pos_x + constants.DIA_TILE_WIDTH
+	mining_icon_sprite.position.y = pos_y + constants.DIA_TILE_HEIGHT
+	
 	fishing_icon_sprite.position.x = pos_x + constants.DIA_TILE_WIDTH
 	fishing_icon_sprite.position.y = pos_y + constants.DIA_TILE_HEIGHT
 	
@@ -99,6 +102,13 @@ func set_skill(skill):
 				(pos_y / constants.DIA_TILE_HEIGHT) + 1))
 				
 			woodworking_icon_sprite.visible = true
+		constants.MINING:
+			pretty_name = constants.MINING_PRETTY
+			
+			letters_symbols_node.print_immediately(pretty_name, Vector2(((WINDOW_WIDTH + 2) - floor(len(pretty_name) / 2.0) + 1),
+				(pos_y / constants.DIA_TILE_HEIGHT) + 1))
+				
+			mining_icon_sprite.visible = true
 
 func receive_item(item):
 	var receive_text = item.name + EXCLAMATION

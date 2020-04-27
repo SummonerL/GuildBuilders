@@ -9,6 +9,9 @@ const NO_MORE_FISH_TEXT = 'I don\'t see any more fish here.'
 const CANT_WOODCUT_WITHOUT_AXE_TEXT = 'How am I supposed to do that without an axe?'
 const NO_MORE_WOOD_TEXT = 'Hmm... No more wood here.'
 
+const CANT_MINE_WITHOUT_PICKAXE_TEXT = 'I didn\'t even bring a pickaxe... I should just stay in my lane.'
+const NO_MORE_ORE_TEXT = 'There\'s nothing else here...'
+
 const INVENTORY_FULL_TEXT = 'I probably shouldn\'t try to carry anything else...'
 
 const NOT_SKILLED_ENOUGH_TEXT = 'I need to get better at this first...'

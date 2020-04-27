@@ -56,6 +56,10 @@ onready var SKILL_UNLOCKS = {
 	],
 	
 	
+	# mining
+	constants.MINING: [
+	],
+	
 	# woodworking
 	constants.WOODWORKING: [
 		{

@@ -9,9 +9,11 @@ onready var global_ability_list = get_node("/root/Abilities")
 enum ITEM_TYPES {
 	ROD	,
 	AXE,
+	PICKAXE,
 	SAW,
 	FISH,
 	WOOD,
+	ORE,
 	CRAFTING_PART,
 	UTILITY
 }
@@ -28,6 +30,12 @@ onready var item_sturdy_axe = {
 	"name": "Sturdy Axe",
 	"description": "A simple stone axe. Allows the unit to gather wood.",
 	"type": ITEM_TYPES.AXE
+}
+
+onready var item_sturdy_pickaxe = {
+	"name": "Sturdy Pickaxe",
+	"description": "A simple stone pickaxe. Allows the unit to mine for ore.",
+	"type": ITEM_TYPES.PICKAXE
 }
 
 onready var item_handsaw = {
@@ -106,6 +114,14 @@ onready var item_hardwood = {
 	"description": "A dark, heavy wood that takes some effort to cut through. Can be used to craft various items.",
 	"type": ITEM_TYPES.WOOD,
 	"xp": 3 # xp upon receiving
+}
+
+# ore
+onready var item_stone = {
+	"name": "Stone",
+	"description": "A small block of stone. Can be used to craft various items.",
+	"type": ITEM_TYPES.ORE,
+	"xp": 1 # xp upon receiving
 }
 
 # misc crafting materials

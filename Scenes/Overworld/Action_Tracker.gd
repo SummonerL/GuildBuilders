@@ -17,6 +17,7 @@ const ACTIONS = {
 	2: 'WOODCUTTING_SPOT_1',
 	3: 'WOODCUTTING_SPOT_2',
 	5: 'WOODCUTTING_SPOT_3',
+	6: 'MINING_SPOT_1',
 	4: 'GUILD_SPOT_1'
 }
 
@@ -26,7 +27,8 @@ onready var ITEMS_AT_SPOT = {
 	'FISH_SPOT_2': [],
 	'WOODCUTTING_SPOT_1': [global_items_list.item_cedar_logs],
 	'WOODCUTTING_SPOT_2': [global_items_list.item_ash_logs],
-	'WOODCUTTING_SPOT_3': [global_items_list.item_fir_logs]
+	'WOODCUTTING_SPOT_3': [global_items_list.item_fir_logs],
+	'MINING_SPOT_1': [global_items_list.item_stone]
 }
 
 # specific actions associated with these tiles
@@ -36,6 +38,7 @@ onready var associated_actions = {
 	'WOODCUTTING_SPOT_1': [global_action_list.COMPLETE_ACTION_LIST.CHOP],
 	'WOODCUTTING_SPOT_2': [global_action_list.COMPLETE_ACTION_LIST.CHOP],
 	'WOODCUTTING_SPOT_3': [global_action_list.COMPLETE_ACTION_LIST.CHOP],
+	'MINING_SPOT_1': [global_action_list.COMPLETE_ACTION_LIST.MINE],
 	'GUILD_SPOT_1': [global_action_list.COMPLETE_ACTION_LIST.DEPOT, 
 					global_action_list.COMPLETE_ACTION_LIST.POSIT,
 					global_action_list.COMPLETE_ACTION_LIST.DINE,
@@ -48,6 +51,7 @@ onready var level_requirements = {
 	'WOODCUTTING_SPOT_2': 2,
 	'WOODCUTTING_SPOT_3': 3,
 	'FISH_SPOT_1': 1,
+	'MINING_SPOT_1': 1,
 }
 
 # keep track of individual tiles that have been interacted with in a particular day. This will allow us to 'deplete' certain

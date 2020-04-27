@@ -9,6 +9,9 @@ const NO_MORE_FISH_TEXT = 'There\'s no more fish here.... I should come back lat
 const CANT_WOODCUT_WITHOUT_AXE_TEXT = 'How could I forget my trusty axe...? Better come back later.'
 const NO_MORE_WOOD_TEXT = '...and that\'s enough for that area. Let\'s look elsewhere.'
 
+const CANT_MINE_WITHOUT_PICKAXE_TEXT = 'This looks tough to do without any kind of mining equipment...'
+const NO_MORE_ORE_TEXT = 'Hmm... it doesn\'t look like there\'s anything else here...'
+
 const INVENTORY_FULL_TEXT = 'If only I had a bigger bag... I should try this again after I free up some space.'
 
 const NOT_SKILLED_ENOUGH_TEXT = 'If only I were a little more skilled at this...'
@@ -38,6 +41,9 @@ func unit_init():
 	# give the female woodcutter some starting items
 	global_items_list.add_item_to_unit(self, global_items_list.item_sturdy_axe)
 	global_items_list.add_item_to_unit(self, global_items_list.item_jumbofish)
+	
+	# TEMP
+	global_items_list.add_item_to_unit(self, global_items_list.item_sturdy_pickaxe)
 	
 	# add the unit's starting ability
 	starting_ability = global_ability_list.ability_insomniac
