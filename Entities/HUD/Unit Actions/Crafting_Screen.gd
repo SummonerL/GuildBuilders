@@ -38,6 +38,7 @@ onready var recipe_selection_background_sprite = get_node("Recipe_Selection_Scre
 
 # our skill icon sprites
 onready var woodworking_skill_icon_sprite = get_node("Woodworking_Skill_Icon")
+onready var smithing_skill_icon_sprite = get_node("Smithing_Skill_Icon")
 
 # keep an extra arrow to act as a selector
 var selector_arrow
@@ -50,7 +51,8 @@ var active_skill
 
 # keep track of the currently selected skill in the the user can choose for crafting
 onready var all_skills = [
-	constants.WOODWORKING
+	constants.WOODWORKING,
+	constants.SMITHING
 ]
 var current_skill_set = []
 var current_skill = 0
@@ -67,6 +69,7 @@ var recipe_end_index_tracker
 # text for the crafting screen
 const CRAFT_TEXT = 'Craft'
 const WOODWORKING_TEXT = "Woodworking"
+const SMITHING_TEXT = "Smithing"
 
 const RECIPES_TEXT = ' Recipes'
 const NO_RECIPES_TEXT = 'No recipes...'
@@ -154,6 +157,7 @@ func populate_skill_selection_screen(skill_start_index = 0):
 		skill_end_index_tracker = all_skills.size() - 1	
 
 	woodworking_skill_icon_sprite.visible = false
+	smithing_skill_icon_sprite.visible = false
 	
 	# skills text
 	letters_symbols_node.print_immediately(CRAFT_TEXT, Vector2((constants.DIA_TILES_PER_ROW - len(CRAFT_TEXT)) / 2, 1))
@@ -190,6 +194,14 @@ func populate_skill_selection_screen(skill_start_index = 0):
 				calc_next = calculate_next_level_percent(constants.WOODWORKING)
 				woodworking_lv_text += "  " + constants.NEXT_LEVEL_TEXT + String(calc_next) + "%"
 				letters_symbols_node.print_immediately(woodworking_lv_text, Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2) + 2))
+			constants.SMITHING:
+				smithing_skill_icon_sprite.visible = true
+				smithing_skill_icon_sprite.position = Vector2(start_x * constants.TILE_WIDTH, start_y * constants.TILE_HEIGHT)
+				letters_symbols_node.print_immediately(SMITHING_TEXT, Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2)))
+				var smithing_lv_text = constants.LVL_TEXT + String(active_unit.skill_levels[constants.SMITHING])
+				calc_next = calculate_next_level_percent(constants.SMITHING)
+				smithing_lv_text += "  " + constants.NEXT_LEVEL_TEXT + String(calc_next) + "%"
+				letters_symbols_node.print_immediately(smithing_lv_text, Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2) + 2))
 				
 		start_y += 2
 
@@ -281,6 +293,7 @@ func make_background_sprites_invisible():
 	recipe_selection_background_sprite.visible = false
 	
 	woodworking_skill_icon_sprite.visible = false
+	smithing_skill_icon_sprite.visible = false
 	
 	selector_arrow.visible = false
 
@@ -340,6 +353,8 @@ func populate_recipe_confirmation_screen():
 	match(active_skill):
 		constants.WOODWORKING:
 			tool_type = global_items_list.ITEM_TYPES.SAW
+		constants.SMITHING:
+			tool_type = global_items_list.ITEM_TYPES.HAMMER
 	
 	var has_tool = (global_items_list.unit_has_tool(active_unit, tool_type) >= 0)
 	
@@ -363,6 +378,9 @@ func populate_recipe_confirmation_screen():
 		constants.WOODWORKING:
 			woodworking_skill_icon_sprite.visible = true
 			woodworking_skill_icon_sprite.position = Vector2(constants.DIA_TILE_WIDTH * 11, 9 * constants.DIA_TILE_HEIGHT)
+		constants.SMITHING:
+			smithing_skill_icon_sprite.visible = true
+			smithing_skill_icon_sprite.position = Vector2(constants.DIA_TILE_WIDTH * 11, 9 * constants.DIA_TILE_HEIGHT)
 
 	# if the unit doesn't have the required skill level, type a message
 	if (recipe.level_required > active_unit.skill_levels[active_skill]):
@@ -421,6 +439,9 @@ func populate_recipe_selection_screen(recipe_start_index = 0):
 		constants.WOODWORKING:
 			woodworking_skill_icon_sprite.visible = true
 			woodworking_skill_icon_sprite.position = Vector2((constants.DIA_TILES_PER_COL - 2) * constants.DIA_TILE_WIDTH, 1 * constants.DIA_TILE_HEIGHT)
+		constants.SMITHING:
+			smithing_skill_icon_sprite.visible = true
+			smithing_skill_icon_sprite.position = Vector2((constants.DIA_TILES_PER_COL - 2) * constants.DIA_TILE_WIDTH, 1 * constants.DIA_TILE_HEIGHT)
 	
 	# recipe text
 	letters_symbols_node.print_immediately(RECIPES_TEXT, Vector2((constants.DIA_TILES_PER_ROW - len(RECIPES_TEXT)) / 2 - 1, 1))
@@ -436,7 +457,7 @@ func populate_recipe_selection_screen(recipe_start_index = 0):
 		selector_arrow.position = Vector2((start_x - 1) * constants.DIA_TILE_WIDTH, (start_y + ((current_recipe - recipe_start_index_tracker) * 2)) * constants.DIA_TILE_HEIGHT)
 	else:
 		player.hud.dialogueState = player.hud.STATES.INACTIVE
-		player.hud.typeText(NO_RECIPES_TEXT, true)
+		player.hud.typeTextWithBuffer(NO_RECIPES_TEXT, true)
 
 	# print the down / up arrow, depending on where we are in the list of recipes
 	if (current_recipe_set.size() >= 4 && (recipe_start_index_tracker + 3) < all_recipes.size() - 1): # account for index

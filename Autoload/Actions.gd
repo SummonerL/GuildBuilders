@@ -214,6 +214,8 @@ func action_window_finished(skill, reward, levelled_up):
 			player.hud.typeText(ORE_RECEIVED_TEXT + reward.name + constants.EXCLAMATION, false, 'finished_viewing_text_generic') # we do have a signal
 		constants.WOODWORKING:
 			player.hud.typeText(CRAFT_RECEIVED_TEXT + reward.name + constants.EXCLAMATION, false, 'finished_viewing_text_generic') # we do have a signal
+		constants.SMITHING:
+			player.hud.typeText(CRAFT_RECEIVED_TEXT + reward.name + constants.EXCLAMATION, false, 'finished_viewing_text_generic') # we do have a signal
 		_:
 			# do nothing
 			pass

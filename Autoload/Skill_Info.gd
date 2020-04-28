@@ -72,6 +72,11 @@ onready var SKILL_UNLOCKS = {
 		},
 	],
 	
+	
+	
+	
+	
+
 	# woodworking
 	constants.WOODWORKING: [
 		{
@@ -130,5 +135,85 @@ onready var SKILL_UNLOCKS = {
 				}
 			]
 		}
+	],
+	
+
+	# smithing
+	constants.SMITHING: [
+		{
+			'can_text': 'Craft',
+			'skill_info_text': 'Sturdy Axe',
+			'single_line': true,
+			'type': UNLOCK_TYPES.RECIPE,
+			'level_required': 1,
+			'item': global_item_list.item_sturdy_axe,
+			'no_tool_required': true,
+			'resources_required': [
+				{
+					'item': global_item_list.item_wooden_handle,
+					'quantity': 1
+				},
+				{
+					'item': global_item_list.item_stone,
+					'quantity': 2
+				},
+			]
+		},
+		{
+			'can_text': 'Craft',
+			'skill_info_text': 'Sturdy Pickaxe',
+			'type': UNLOCK_TYPES.RECIPE,
+			'level_required': 1,
+			'item': global_item_list.item_sturdy_pickaxe,
+			'no_tool_required': true,
+			'resources_required': [
+				{
+					'item': global_item_list.item_wooden_handle,
+					'quantity': 1
+				},
+				{
+					'item': global_item_list.item_stone,
+					'quantity': 2
+				},
+			]
+		},
+		{
+			'can_text': 'Craft',
+			'skill_info_text': 'Hammer',
+			'single_line': true,
+			'type': UNLOCK_TYPES.RECIPE,
+			'level_required': 2,
+			'item': global_item_list.item_hammer,
+			'no_tool_required': true,
+			'resources_required': [
+				{
+					'item': global_item_list.item_wooden_handle,
+					'quantity': 1
+				},
+				{
+					'item': global_item_list.item_stone,
+					'quantity': 2
+				},
+			]
+		},
+		{
+			'can_text': 'Craft',
+			'skill_info_text': 'Handsaw',
+			'single_line': true,
+			'type': UNLOCK_TYPES.RECIPE,
+			'level_required': 2,
+			'item': global_item_list.item_handsaw,
+			'no_tool_required': true,
+			'resources_required': [
+				{
+					'item': global_item_list.item_wooden_handle,
+					'quantity': 1
+				},
+				{
+					'item': global_item_list.item_stone,
+					'quantity': 2
+				},
+			]
+		},
 	]
 }

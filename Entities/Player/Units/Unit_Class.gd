@@ -111,14 +111,16 @@ var skill_levels = {
 	"fishing": 1,
 	"mining": 1,
 	"woodcutting": 1,
-	"woodworking": 1
+	"woodworking": 1,
+	"smithing": 1,
 }
 
 var skill_xp = {
 	"fishing": 0,
 	"mining": 0,
 	"woodcutting": 0,
-	"woodworking": 0
+	"woodworking": 0,
+	"smithing": 0,
 }
 
 # list of actions that are available to the unit

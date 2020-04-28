@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Entities/HUD/Unit Actions/Crafting_Screen.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/hud/unit_info_backdrop_full.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/Skills/woodworking_skill_icon.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/hud/item_info_backdrop_full.png" type="Texture" id=4]
+[ext_resource path="res://Sprites/Skills/smithing_skill_icon.png" type="Texture" id=5]
 
 [node name="Crafting_Screen" type="CanvasLayer"]
 layer = 2
@@ -21,4 +22,9 @@ centered = false
 [node name="Woodworking_Skill_Icon" type="Sprite" parent="."]
 visible = false
 texture = ExtResource( 3 )
+centered = false
+
+[node name="Smithing_Skill_Icon" type="Sprite" parent="."]
+visible = false
+texture = ExtResource( 5 )
 centered = false

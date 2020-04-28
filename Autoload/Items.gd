@@ -11,6 +11,7 @@ enum ITEM_TYPES {
 	AXE,
 	PICKAXE,
 	SAW,
+	HAMMER,
 	FISH,
 	WOOD,
 	ORE,
@@ -29,20 +30,29 @@ onready var item_flexible_rod = {
 onready var item_sturdy_axe = {
 	"name": "Sturdy Axe",
 	"description": "A simple stone axe. Allows the unit to gather wood.",
-	"type": ITEM_TYPES.AXE
+	"type": ITEM_TYPES.AXE,
+	"xp": 2
 }
 
 onready var item_sturdy_pickaxe = {
 	"name": "Sturdy Pickaxe",
 	"description": "A simple stone pickaxe. Allows the unit to mine for ore.",
-	"type": ITEM_TYPES.PICKAXE
+	"type": ITEM_TYPES.PICKAXE,
+	"xp": 2
 }
 
 onready var item_handsaw = {
 	"name": "Handsaw",
 	"description": "A basic handsaw. Allows the unit to work with wood.",
 	"type": ITEM_TYPES.SAW,
-	"xp": 3 # xp upon crafting
+	"xp": 2 # xp upon crafting
+}
+
+onready var item_hammer = {
+	"name": "Hammer",
+	"description": "A basic hammer. Allows the unit to smith various items.",
+	"type": ITEM_TYPES.HAMMER,
+	"xp": 2 # xp upon crafting
 }
 
 # useful objects
