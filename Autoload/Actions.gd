@@ -22,6 +22,9 @@ onready var guild = get_node("/root/Guild")
 # bring in our signals
 onready var signals = get_node("/root/Signal_Manager")
 
+# quick transitioner scene
+onready var scene_transitioner_scn = preload("res://Scenes/Transition_Scene/Quick_Transition_Black_Scene.tscn")
+
 # have our map_actions layer, for determining more details about the tile
 onready var map_actions = get_tree().get_nodes_in_group(constants.MAP_ACTIONS_GROUP)[0]
 
@@ -308,6 +311,20 @@ func set_item_reward(reward, timer = null):
 
 # if the unit is tunneling
 func initiate_tunnel_action():
+	# first, fade out quickly
+# scene transition fade out
+	var fade = scene_transitioner_scn.instance()
+	add_child(fade)
+	
+	fade.black_in.visible = false
+	fade.black_out.visible = true
+	
+	fade.fade_out_scene(0)
+	
+	yield(fade, "scene_faded_out")
+	
+	# with the screen faded out, move the unit to the connecting cave
+	
 	# move the unit to the connected cave
 	var tunnel_connection = map_actions.get_action_spot_at_coordinates(Vector2(active_unit.unit_pos_x, active_unit.unit_pos_y))
 	var matching_connection = map_actions.get_cave_connection(tunnel_connection)
@@ -316,6 +333,15 @@ func initiate_tunnel_action():
 	var target_pos = cells[0]
 	active_unit.set_unit_pos(target_pos.x, target_pos.y)
 	get_tree().get_current_scene().cursor.focus_on(target_pos.x, target_pos.y)
+	
+	# fade back in the scene
+	fade.black_in.visible = true
+	fade.black_out.visible = false
+	fade.fade_in_scene(0)
+	
+	yield(fade, "scene_faded_in")
+	
+	remove_child(fade)
 	
 	# and let the unit know he/she has finished acting :)
 	active_unit.end_action(true) # success!

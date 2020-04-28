@@ -35,7 +35,7 @@ func unit_init():
 	unit_bio = "..."
 	unit_bio += "..."
 	
-	base_move = 3
+	base_move = 7
 	
 	skill_levels[constants.MINING] = 5
 	
