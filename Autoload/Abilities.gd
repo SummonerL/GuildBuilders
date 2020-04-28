@@ -18,6 +18,7 @@ const ABILITY_GROWING_BOY_NAME = 'Growing Boy'
 const ABILITY_ARTISTIC_NAME = 'Artistic'
 const ABILITY_CONCENTRATION_NAME = 'Concentration'
 const ABILITY_RIVER_QUEEN_NAME = 'River Queen'
+const ABILITY_TUNNELER_NAME = 'Tunneler'
 
 # food (daily) abilities
 const ABILITY_WELL_FED_NAME = 'Status: Well-Fed'
@@ -62,6 +63,12 @@ const ability_concentration = {
 const ability_river_queen = {
 	"name": ABILITY_RIVER_QUEEN_NAME,
 	"description": "This unit can jump over rivers.",
+	"type": ABILITY_TYPES.UNIT
+}
+
+const ability_tunneler = {
+	"name": ABILITY_TUNNELER_NAME,
+	"description": "This unit can travel between caves in the same region.",
 	"type": ABILITY_TYPES.UNIT
 }
 

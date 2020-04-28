@@ -58,7 +58,7 @@ const CRAFTING_TEXT = " started crafting..."
 
 const FISH_RECEIVED_TEXT = "and caught a "
 const WOOD_RECEIVED_TEXT = "and got some "
-const ORE_RECEIVED_TEXT = " and got some "
+const ORE_RECEIVED_TEXT = "and got some "
 const CRAFT_RECEIVED_TEXT = "and made a "
 
 enum COMPLETE_ACTION_LIST {

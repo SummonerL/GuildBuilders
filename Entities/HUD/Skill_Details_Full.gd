@@ -90,12 +90,17 @@ func populate_screen():
 	
 	for unlock in skill_unlocks:
 		if (unlock.level_required == current_level):
-			letters_symbols_node.print_immediately(unlock.can_text, 
-				Vector2((constants.DIA_TILES_PER_ROW - len(unlock.can_text)) / 2, start_y))
-			start_y += 1
-			letters_symbols_node.print_immediately(unlock.skill_info_text, 
-				Vector2((constants.DIA_TILES_PER_ROW - len(unlock.skill_info_text)) / 2, start_y))
-			start_y += 2
+			if (unlock.has('single_line') && unlock.single_line):
+				letters_symbols_node.print_immediately(unlock.can_text + ' ' + unlock.skill_info_text, 
+					Vector2((constants.DIA_TILES_PER_ROW - len(unlock.can_text + ' ' + unlock.skill_info_text)) / 2, start_y))
+				start_y += 2
+			else:
+				letters_symbols_node.print_immediately(unlock.can_text, 
+					Vector2((constants.DIA_TILES_PER_ROW - len(unlock.can_text)) / 2, start_y))
+				start_y += 1
+				letters_symbols_node.print_immediately(unlock.skill_info_text, 
+					Vector2((constants.DIA_TILES_PER_ROW - len(unlock.skill_info_text)) / 2, start_y))
+				start_y += 2
 		
 func _ready():
 	initialize_skill_detail_screen()

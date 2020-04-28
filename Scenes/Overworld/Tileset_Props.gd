@@ -12,7 +12,8 @@ const TILES = {2: 'WATER', 3: 'GRASSLAND',
 				19: 'GUILD',
 				22: 'CEDAR_TREE',
 				23: 'ASH_TREE',
-				24: 'FIR_TREE'}
+				24: 'FIR_TREE',
+				25: 'CAVE'}
 
 const TILE_INFO_HUD_NAME = { 
 	'WATER':  'Water',
@@ -29,6 +30,7 @@ const TILE_INFO_HUD_NAME = {
 	'HILL': 'Hill',
 	'DUNE': 'Dune', 
 	'BOULDER': 'Stone',
+	'CAVE': 'Cave',
 	'OCEAN': 'Ocean',
 	'MOUNTAIN': 'Mount',
 	'GUILD': 'Guild'
@@ -50,6 +52,7 @@ enum MOVEMENT_COST {
 	HILL = NORMAL_MOVE + 1,
 	DUNE = NORMAL_MOVE + 1,
 	BOULDER = NORMAL_MOVE + 1, # boulders are l2 tiles, so they get added to whatever they sit on top of
+	CAVE = 1, # l2 tiles, so add the l1 tile first
 	OCEAN = CANT_MOVE,
 	MOUNTAIN = NORMAL_MOVE + 2 # very difficult to move onto a mountain
 	GUILD = CANT_MOVE

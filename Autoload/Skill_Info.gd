@@ -24,6 +24,7 @@ onready var SKILL_UNLOCKS = {
 			'unlock_text': ' can now catch Jumbofish!',
 			'can_text': 'Catch',
 			'skill_info_text': 'Jumbofish',
+			'single_line': true,
 			'type': UNLOCK_TYPES.RESOURCE,
 			'level_required': 1,
 		}
@@ -36,6 +37,7 @@ onready var SKILL_UNLOCKS = {
 			'unlock_text': ' can now chop Cedar Trees!',
 			'can_text': 'Chop',
 			'skill_info_text': 'Cedar Trees',
+			'single_line': true,
 			'type': UNLOCK_TYPES.RESOURCE,
 			'level_required': 1,
 		},
@@ -43,6 +45,7 @@ onready var SKILL_UNLOCKS = {
 			'unlock_text': ' can now chop Ash Trees!',
 			'can_text': 'Chop',
 			'skill_info_text': 'Ash Trees',
+			'single_line': true,
 			'type': UNLOCK_TYPES.RESOURCE,
 			'level_required': 2,
 		},
@@ -50,6 +53,7 @@ onready var SKILL_UNLOCKS = {
 			'unlock_text': ' can now chop Fir Trees!',
 			'can_text': 'Chop',
 			'skill_info_text': 'Fir Trees',
+			'single_line': true,
 			'type': UNLOCK_TYPES.RESOURCE,
 			'level_required': 3,
 		}
@@ -58,6 +62,14 @@ onready var SKILL_UNLOCKS = {
 	
 	# mining
 	constants.MINING: [
+		{
+			'unlock_text': ' can now mine for Stone!',
+			'can_text': 'Mine',
+			'skill_info_text': 'Stone',
+			'single_line': true,
+			'type': UNLOCK_TYPES.RESOURCE,
+			'level_required': 1,
+		},
 	],
 	
 	# woodworking

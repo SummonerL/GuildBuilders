@@ -129,6 +129,7 @@ func gameInit():
 	player.party.add_unit(constants.UNIT_TYPES.WOODCUTTER_FEMALE)
 	player.party.add_unit(constants.UNIT_TYPES.WOODWORKER_MALE)
 	player.party.add_unit(constants.UNIT_TYPES.WOODWORKER_FEMALE)
+	player.party.add_unit(constants.UNIT_TYPES.MINER_MALE)
 	
 	# lights, camera, action!
 	camera.turnOn()

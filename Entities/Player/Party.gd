@@ -16,6 +16,7 @@ onready var woodcutter_male_scn = preload("res://Entities/Player/Units/Woodcutte
 onready var woodcutter_female_scn = preload("res://Entities/Player/Units/Woodcutter_Female.tscn")
 onready var woodworker_male_scn = preload("res://Entities/Player/Units/Woodworker_Male.tscn")
 onready var woodworker_female_scn = preload("res://Entities/Player/Units/Woodworker_Female.tscn")
+onready var miner_male_scn = preload("res://Entities/Player/Units/Miner_Male.tscn")
 
 # keep track of all the nodes in our party
 var party_members = []
@@ -137,3 +138,7 @@ func add_unit(unit):
 			var woodworker_female_node = woodworker_female_scn.instance()
 			add_child(woodworker_female_node)
 			party_members.append(woodworker_female_node)
+		constants.UNIT_TYPES.MINER_MALE:
+			var miner_male_node = miner_male_scn.instance()
+			add_child(miner_male_node)
+			party_members.append(miner_male_node)
