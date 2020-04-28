@@ -70,6 +70,7 @@ enum COMPLETE_ACTION_LIST {
 	FISH,
 	MINE,
 	CHOP,
+	TUNNEL # for caves (Male Miner Only)
 	INFO,
 	FOCUS,
 	NEXT_TURN,
@@ -82,7 +83,7 @@ enum COMPLETE_ACTION_LIST {
 	CRAFT_RECIPE_IN_CRAFTING_SCREEN, # for crafting screen
 	VIEW_ITEM_INFO_IN_CRAFTING_SCREEN, # for crafting screen
 	RETURN_TO_GUILD, # for bedtime
-	RETURN_TO_CAMP # for bedtime
+	RETURN_TO_CAMP, # for bedtime
 }
 
 const ACTION_LIST_NAMES = [
@@ -94,6 +95,7 @@ const ACTION_LIST_NAMES = [
 	'FISH',
 	'MINE',
 	'CHOP',
+	'TUNNL',
 	'INFO',
 	'FOCUS',
 	'NEXT',
@@ -108,6 +110,11 @@ const ACTION_LIST_NAMES = [
 	'GUILD',
 	'CAMP'
 ]
+
+# list of exclusive actions
+onready var exclusive_actions = {
+	COMPLETE_ACTION_LIST.TUNNEL: 'true'
+}
 
 func do_action(action, parent):
 	# see if the parent is a unit, and if so, set the active unit
@@ -171,6 +178,10 @@ func do_action(action, parent):
 			player.hud.full_text_destruction()
 			active_unit.return_to(COMPLETE_ACTION_LIST.RETURN_TO_CAMP)
 			get_tree().get_current_scene().send_units_to_bed(true, true)
+		COMPLETE_ACTION_LIST.TUNNEL:
+			# this action can only be taken by the male miner. Allows the unit to travel between 
+			# cave's (in the same region)
+			pass
 		COMPLETE_ACTION_LIST.FOCUS:
 			# focus the cursor on the next available unit
 			parent.do_action(action)

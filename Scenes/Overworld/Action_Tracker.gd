@@ -18,7 +18,9 @@ const ACTIONS = {
 	3: 'WOODCUTTING_SPOT_2',
 	5: 'WOODCUTTING_SPOT_3',
 	6: 'MINING_SPOT_1',
-	4: 'GUILD_SPOT_1'
+	4: 'GUILD_SPOT_1',
+	
+	7: 'CAVE_CONNECTOR_1',
 }
 
 # keep track of the kind of resources that can be gained on specific action spots
@@ -42,7 +44,9 @@ onready var associated_actions = {
 	'GUILD_SPOT_1': [global_action_list.COMPLETE_ACTION_LIST.DEPOT, 
 					global_action_list.COMPLETE_ACTION_LIST.POSIT,
 					global_action_list.COMPLETE_ACTION_LIST.DINE,
-					global_action_list.COMPLETE_ACTION_LIST.CRAFT]
+					global_action_list.COMPLETE_ACTION_LIST.CRAFT],
+					
+	'CAVE_CONNECTOR_1': [global_action_list.COMPLETE_ACTION_LIST.TUNNEL]
 }
 
 # level requirements for specific spots

@@ -138,6 +138,9 @@ func on_add_to_unit(unit, ability):
 		ABILITY_GROWING_BOY_NAME:
 			# increase the unit's meal limit by 1
 			unit.meal_limit += 1
+		ABILITY_TUNNELER_NAME:
+			# add the tunneling action to the unit
+			unit.extra_actions.append(global_action_list.COMPLETE_ACTION_LIST.TUNNEL)
 			
 		# food abilities / effects
 		ABILITY_WELL_FED_NAME:
@@ -197,7 +200,14 @@ func on_remove_from_unit(unit, ability):
 			unit.meal_limit -= 1
 			if (unit.meal_limit <= 0):
 				unit.meal_limit = 0
-			
+		ABILITY_TUNNELER_NAME:
+			# remove the tunneling action from the unit
+			var action_index = 0
+			for action in unit.extra_actions:
+				if (action == global_action_list.COMPLETE_ACTION_LIST.TUNNEL):
+					unit.extra_actions.remove(action_index)
+					return gained_abilities
+				action_index += 1		
 
 		# food abilities / effects
 		ABILITY_WELL_FED_NAME:

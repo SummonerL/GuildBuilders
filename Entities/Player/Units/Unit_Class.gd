@@ -132,6 +132,11 @@ onready var depleted_action_list = [
 	global_action_list.COMPLETE_ACTION_LIST.INFO,
 ]
 
+# extra actions that specific units can do (this list is checked when populating 'exclusive' actions)
+onready var extra_actions = [
+	
+]
+
 onready var current_action_list = initial_action_list.duplicate()
 
 # initialize the unit (all units will need to call this)
@@ -193,6 +198,16 @@ func determine_action_list():
 				
 		# update the action list	
 		current_action_list += new_actions
+		
+		# remove any 'exclusive' actions that this unit does not have access to
+		var index = 0
+		for action in current_action_list:
+			if (global_action_list.exclusive_actions.has(action)):
+				# this action is exlusive, see if the unit can do it
+				if (!extra_actions.has(action)):
+					current_action_list.remove(index)
+					index -= 1
+			index += 1
 		
 		# sort them
 		current_action_list.sort()
