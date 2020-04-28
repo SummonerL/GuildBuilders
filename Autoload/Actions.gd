@@ -181,7 +181,7 @@ func do_action(action, parent):
 		COMPLETE_ACTION_LIST.TUNNEL:
 			# this action can only be taken by the male miner. Allows the unit to travel between 
 			# cave's (in the same region)
-			pass
+			initiate_tunnel_action()
 		COMPLETE_ACTION_LIST.FOCUS:
 			# focus the cursor on the next available unit
 			parent.do_action(action)
@@ -305,6 +305,20 @@ func set_item_reward(reward, timer = null):
 		remove_child(timer)
 
 	action_screen_node.receive_item(reward)
+
+# if the unit is tunneling
+func initiate_tunnel_action():
+	# move the unit to the connected cave
+	var tunnel_connection = map_actions.get_action_spot_at_coordinates(Vector2(active_unit.unit_pos_x, active_unit.unit_pos_y))
+	var matching_connection = map_actions.get_cave_connection(tunnel_connection)
+	var target_tile_id = map_actions.tile_set.find_tile_by_name(matching_connection)
+	var cells = map_actions.get_used_cells_by_id(target_tile_id)
+	var target_pos = cells[0]
+	active_unit.set_unit_pos(target_pos.x, target_pos.y)
+	get_tree().get_current_scene().cursor.focus_on(target_pos.x, target_pos.y)
+	
+	# and let the unit know he/she has finished acting :)
+	active_unit.end_action(true) # success!
 
 # if the unit is crafting
 func initiate_crafting_action():

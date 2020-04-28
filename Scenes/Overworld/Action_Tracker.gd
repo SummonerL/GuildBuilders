@@ -21,6 +21,7 @@ const ACTIONS = {
 	4: 'GUILD_SPOT_1',
 	
 	7: 'CAVE_CONNECTOR_1',
+	8: 'CAVE_CONNECTOR_2'
 }
 
 # keep track of the kind of resources that can be gained on specific action spots
@@ -46,7 +47,8 @@ onready var associated_actions = {
 					global_action_list.COMPLETE_ACTION_LIST.DINE,
 					global_action_list.COMPLETE_ACTION_LIST.CRAFT],
 					
-	'CAVE_CONNECTOR_1': [global_action_list.COMPLETE_ACTION_LIST.TUNNEL]
+	'CAVE_CONNECTOR_1': [global_action_list.COMPLETE_ACTION_LIST.TUNNEL],
+	'CAVE_CONNECTOR_2': [global_action_list.COMPLETE_ACTION_LIST.TUNNEL]
 }
 
 # level requirements for specific spots
@@ -56,6 +58,12 @@ onready var level_requirements = {
 	'WOODCUTTING_SPOT_3': 3,
 	'FISH_SPOT_1': 1,
 	'MINING_SPOT_1': 1,
+}
+
+# matching connections (used for tunneling)
+onready var matching_connections = {
+	'CAVE_CONNECTOR_1': 'CAVE_CONNECTOR_2',
+	'CAVE_CONNECTOR_2': 'CAVE_CONNECTOR_1'
 }
 
 # keep track of individual tiles that have been interacted with in a particular day. This will allow us to 'deplete' certain
@@ -115,6 +123,9 @@ func set_items_at_coordinates(x, y, item_array, clear_icon_if_empty = true):
 		var tileset = map_icons.get_tileset()
 		
 		map_icons.set_cellv(Vector2(x, y), tileset.find_tile_by_name("empty_spot"))
+
+func get_cave_connection(connection):
+	return matching_connections[connection]
 
 func reset_used_tiles():
 	# at the beginning of a day, all tiles should reset
