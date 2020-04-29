@@ -147,11 +147,39 @@ func add_item_to_unit(unit, item):
 	
 	# determine if the unit's stats should be modified based on the item
 	
+	# first, if this item's affect can not be stacked and we already have this item, make sure not to add the effect
+	if (item.has('can_stack') && !item.can_stack) && ((unit_has_item(unit, item, 1)).size() > 0):
+		# do not add the effect to the unit
+		pass
+	else: 
+		# we can add the effect
+		if (item.has('stat_effected')):
+			unit[item.stat_effected] += item.stat_effected_value
+		
+		# add custom effects below
+	
 	unit.current_items.append(item)
+	
 	
 # a helper function for removing items from a unit
 func remove_item_from_unit(unit, index):
+	var item = unit.current_items[index]
+	
+	# go ahead and remove the item from the unit
 	unit.current_items.remove(index)
+	
+	# determine if the unit's stats should be modified when removing the item
+	
+	# first, if this item's affect can not be stacked and we still have this item, make sure not to remove the effect
+	if (item.has('can_stack') && !item.can_stack) && ((unit_has_item(unit, item, 1)).size() > 0):
+		# do not remove the effect from the unit (because we still have that item)
+		pass
+	else: 
+		# we can remove the effect
+		if (item.has('stat_effected')):
+			unit[item.stat_effected] -= item.stat_effected_value
+			
+		# add custom effect removals below
 
 # a helper function for determining if a unit has a given tool type
 func unit_has_tool(unit, tool_type):

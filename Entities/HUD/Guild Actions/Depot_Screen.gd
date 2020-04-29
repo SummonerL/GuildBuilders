@@ -12,6 +12,9 @@ onready var global_action_list = get_node("/root/Actions")
 # bring in our guild variables/functions
 onready var guild = get_node("/root/Guild")
 
+# bring in our items
+onready var global_item_list = get_node("/root/Items")
+
 # bring in our signals
 onready var signals = get_node("/root/Signal_Manager")
 
@@ -122,12 +125,16 @@ func transfer_item():
 	# now move the item
 	var item = focus.current_items[current_item]
 	
-	focus.current_items.remove(current_item)
-	
 	if (current_inv == SELECTIONS.DEPOT):
+		# remove from guild
+		guild.current_items.remove(current_item)
+		
 		# move to unit
 		active_unit.receive_item(item)
 	elif (current_inv == SELECTIONS.UNIT):
+		# remove from unit
+		global_item_list.remove_item_from_unit(focus, current_item)
+		
 		# move to depot
 		guild.current_items.append(item)
 		
