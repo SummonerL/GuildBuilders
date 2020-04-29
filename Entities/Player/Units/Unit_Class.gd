@@ -60,7 +60,7 @@ var has_acted = false
 
 # the unit's position on the map
 onready var unit_pos_x = player.guild_hall_x
-onready var unit_pos_y = player.guild_hall_x
+onready var unit_pos_y = player.guild_hall_y
 
 # the unit's base movement (can be modified)
 var base_move = 0

@@ -23,12 +23,12 @@ enum PLAYER_STATE {
 var player_state = PLAYER_STATE.BETWEEN_DAYS
 
 # camera position on world map
-var cam_pos_x = -4
-var cam_pos_y = -3
+var cam_pos_x = 10
+var cam_pos_y = 12
 
 # cursor position on the map
-var curs_pos_x = 0
-var curs_pos_y = 1
+var curs_pos_x = 14
+var curs_pos_y = 16
 
 # keep track of the dialogue box
 var hud
@@ -43,8 +43,8 @@ var current_time_of_day = 10
 var current_day = 1
 
 # location of the guild hall
-var guild_hall_x = -1
-var guild_hall_y = -1
+var guild_hall_x = 13
+var guild_hall_y = 14
 
 # function for moving the game clock forward (one turn)
 func move_to_next_hour():
