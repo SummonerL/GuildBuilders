@@ -3,8 +3,22 @@ extends Node
 # this file will keep track of the items that a unit can obtain throughout the course of the game
 # each item should consist of a name, description, type, and any other properties specific to the item type
 
+# bring in our global constants
+onready var constants = get_node("/root/Game_Constants")
+
 # bring in our abilities
 onready var global_ability_list = get_node("/root/Abilities")
+
+# bring in our global action list
+onready var global_action_list = get_node("/root/Actions")
+
+# bring in our signals
+onready var signals = get_node("/root/Signal_Manager")
+
+# bring in the global player variables
+onready var player = get_node("/root/Player_Globals")
+
+onready var map_actions = get_tree().get_nodes_in_group(constants.MAP_ACTIONS_GROUP)[0]
 
 enum ITEM_TYPES {
 	ROD	,
@@ -18,6 +32,8 @@ enum ITEM_TYPES {
 	CRAFTING_PART,
 	UTILITY
 }
+
+const BROKE_TEXT = ' broke...'
 
 # tools
 onready var item_flexible_rod = {
@@ -60,8 +76,12 @@ onready var item_hammer = {
 # useful objects
 onready var item_wooden_stilts = {
 	"name": "Wooden Stilts",
-	"description": "Sturdy wooden legs that allow a unit to cross rivers. This item can only be used once.",
+	"description": "Sturdy wooden legs that allow a unit to cross rivers and other small bodies of water. This item can only be used once.",
 	"type": ITEM_TYPES.UTILITY,
+	"can_stack_effect": false,
+	"stat_effected": "extra_actions",
+	"stat_effected_value": [global_action_list.COMPLETE_ACTION_LIST.CROSS],
+	"duplicate_ability": global_ability_list.ABILITY_RIVER_QUEEN_NAME, # if an ability invalidates this
 	"xp": 3, # xp upon receiving
 }
 
@@ -168,8 +188,12 @@ func add_item_to_unit(unit, item):
 	
 	# determine if the unit's stats should be modified based on the item
 	
-	# first, if this item's affect can not be stacked and we already have this item, make sure not to add the effect
-	if (item.has('can_stack_effect') && !item.can_stack_effect) && ((unit_has_item(unit, item, 1)).size() > 0):
+	# if there is a duplicate ability with this effect, which the unit already has
+	if (item.has('duplicate_ability') && global_ability_list.unit_has_ability(unit, item.duplicate_ability)):
+		# no need to add the effect
+		pass
+	# if this item's affect can not be stacked and we already have this item, make sure not to add the effect
+	elif (item.has('can_stack_effect') && !item.can_stack_effect) && ((unit_has_item(unit, item, 1)).size() > 0):
 		# do not add the effect to the unit
 		pass
 	else: 
@@ -178,7 +202,7 @@ func add_item_to_unit(unit, item):
 			unit[item.stat_effected] += item.stat_effected_value
 		
 		# add custom effects below
-	
+
 	unit.current_items.append(item)
 	
 	
@@ -190,15 +214,28 @@ func remove_item_from_unit(unit, index):
 	unit.current_items.remove(index)
 	
 	# determine if the unit's stats should be modified when removing the item
-	
-	# first, if this item's affect can not be stacked and we still have this item, make sure not to remove the effect
-	if (item.has('can_stack_effect') && !item.can_stack_effect) && ((unit_has_item(unit, item, 1)).size() > 0):
+
+	# if there is a duplicate ability with this effect, which the unit already has
+	if (item.has('duplicate_ability') && global_ability_list.unit_has_ability(unit, item.duplicate_ability)):
+		# no need to remove the effect
+		pass
+	# if this item's affect can not be stacked and we still have this item, make sure not to remove the effect
+	elif (item.has('can_stack_effect') && !item.can_stack_effect) && ((unit_has_item(unit, item, 1)).size() > 0):
 		# do not remove the effect from the unit (because we still have that item)
 		pass
 	else: 
 		# we can remove the effect
 		if (item.has('stat_effected')):
-			unit[item.stat_effected] -= item.stat_effected_value
+			if (typeof(unit[item.stat_effected]) == TYPE_ARRAY):
+				var i = 0
+				for el in unit[item.stat_effected]:
+					if (item.stat_effected_value.has(el)):
+						# remove it from array
+						unit[item.stat_effected].remove(i)
+						i -= 1
+					i += 1
+			else:
+				unit[item.stat_effected] -= item.stat_effected_value
 			
 		# add custom effect removals below
 
@@ -230,3 +267,19 @@ func unit_has_item(unit, item, quantity):
 		
 	# if they don't have enough of that item, return an empty array
 	return []
+	
+# oh no! an item broke!
+func item_broke(item, unit):
+	var index = unit_has_item(unit, item, 1)
+	
+	if (index.size() > 0):
+		index = index[0]
+		player.hud.dialogueState = player.hud.STATES.INACTIVE 
+		player.hud.typeTextWithBuffer(item.name + BROKE_TEXT, false, 'finished_viewing_text_generic')
+		
+		yield(signals, "finished_viewing_text_generic")
+		
+		remove_item_from_unit(unit, index)
+
+	
+	

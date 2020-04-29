@@ -12,6 +12,12 @@ onready var player = get_node("/root/Player_Globals")
 # bring in our global action list
 onready var global_action_list = get_node("/root/Actions")
 
+# bring in our abilities
+onready var global_ability_list = get_node("/root/Abilities")
+
+# bring in our items
+onready var global_items_list = get_node("/root/Items")
+
 # get our main overworld scene
 onready var overworld_scene = get_parent()
 
@@ -163,7 +169,8 @@ func _input(event):
 		
 	if (player.player_state == player.PLAYER_STATE.SELECTING_MOVEMENT ||
 	player.player_state == player.PLAYER_STATE.SELECTING_TILE ||
-	player.player_state == player.PLAYER_STATE.POSITIONING_UNIT):
+	player.player_state == player.PLAYER_STATE.POSITIONING_UNIT ||
+	player.player_state == player.PLAYER_STATE.CROSSING_WATER):
 		# immediately move, then continue moving
 		if event.is_action_pressed("ui_up"):
 			# if we're changing directions, act as if we're resetting
@@ -202,7 +209,8 @@ func _input(event):
 		# if another unit is selecting movement, let's allow another unit to be selected still, allowing them to 'interrupt' and take their action
 		if (player.player_state == player.PLAYER_STATE.SELECTING_TILE || 
 		player.player_state == player.PLAYER_STATE.SELECTING_MOVEMENT ||
-		player.player_state == player.PLAYER_STATE.POSITIONING_UNIT):
+		player.player_state == player.PLAYER_STATE.POSITIONING_UNIT ||
+		player.player_state == player.PLAYER_STATE.CROSSING_WATER):
 			if (get_selected_tile_units() != null):
 				# as long as another unit is not actively moving
 				if (player.player_state != player.PLAYER_STATE.ANIMATING_MOVEMENT):
@@ -224,6 +232,11 @@ func _input(event):
 					player.PLAYER_STATE.POSITIONING_UNIT:
 						# teleport the unit to this position
 						party.get_active_unit().position_unit_if_eligible(player.curs_pos_x, player.curs_pos_y)
+					player.PLAYER_STATE.CROSSING_WATER:
+						# teleport the unit to this position (and spend an action)
+						if (!global_ability_list.unit_has_ability(party.get_active_unit(), global_ability_list.ABILITY_RIVER_QUEEN_NAME)):
+							party.get_active_unit().item_in_use = global_items_list.item_wooden_stilts
+						party.get_active_unit().position_unit_if_eligible(player.curs_pos_x, player.curs_pos_y, true)
 						
 							
 	if event.is_action_pressed("ui_select"):
@@ -234,7 +247,8 @@ func _input(event):
 	if event.is_action_pressed("ui_cancel"):
 		# allow the unit to cancel out of selecting movement
 		if (player.player_state == player.PLAYER_STATE.SELECTING_MOVEMENT || 
-		player.player_state == player.PLAYER_STATE.POSITIONING_UNIT):		
+		player.player_state == player.PLAYER_STATE.POSITIONING_UNIT ||
+		player.player_state == player.PLAYER_STATE.CROSSING_WATER):		
 			party.get_active_unit().clear_movement_grid_squares()
 			# change our state back to selecting tile
 			player.player_state = player.PLAYER_STATE.SELECTING_TILE

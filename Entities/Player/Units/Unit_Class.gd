@@ -15,6 +15,9 @@ onready var global_ability_list = get_node("/root/Abilities")
 # bring in our global action list
 onready var global_action_list = get_node("/root/Actions")
 
+# bring in our signals
+onready var signals = get_node("/root/Signal_Manager")
+
 onready var movement_grid_square = preload("res://Entities/Player/Movement_Grid_Square.tscn")
 
 # various hud scenes
@@ -141,6 +144,9 @@ onready var extra_actions = [
 
 onready var current_action_list = initial_action_list.duplicate()
 
+# a tracker variable
+var item_in_use = null
+
 # initialize the unit (all units will need to call this)
 func unit_base_init():	
 	unit_move_sound_node = AudioStreamPlayer.new()
@@ -245,6 +251,55 @@ func enable_movement_state():
 	player.player_state = player.PLAYER_STATE.SELECTING_MOVEMENT
 	calculate_eligible_tiles()
 	
+# function for allowing the unit to cross various things (rivers for example)
+func cross_water():
+	# remove any existing movement squares
+	clear_movement_grid_squares()
+
+	# change the state
+	player.player_state = player.PLAYER_STATE.CROSSING_WATER
+	
+	# clear the movement set
+	movement_set.clear()
+	
+	# clear our eligible_tile_tracker (as we are adding a new set of tiles)
+	eligible_tile_tracker = {}
+	
+	# determine which tiles are being crossed
+	var overworld_scn = get_tree().get_current_scene()
+	var tiles = overworld_scn.get_cardinal_tiles(self)
+	
+	var water_id = overworld_scn.l1_tiles.tile_set.find_tile_by_name('water')
+	
+	for tile in tiles:
+		if (overworld_scn.l1_tiles.get_cellv(tile.tile) == water_id):
+			# next to water. Determine if the tile adjacent to that is moveable
+			var adj = tile.tile
+			adj[tile.cord] += tile.direction
+			var mvmt_cost = overworld_scn.l1_tiles.get_movement_cost(overworld_scn.l1_tiles.get_tile_at_coordinates(adj))
+			if (overworld_scn.l2_tiles.get_tile_at_coordinates(adj) != null):
+				mvmt_cost += overworld_scn.l2_tiles.get_movement_cost(overworld_scn.l2_tiles.get_tile_at_coordinates(adj))
+	
+			if (mvmt_cost < constants.CANT_MOVE && !player.party.is_unit_here(adj.x, adj.y)):
+				eligible_tile_tracker[String(adj.x) + "_" + String(adj.y)] = {
+					"pos_x": adj.x,
+					"pos_y": adj.y,
+					"distance": 0,
+					"tile_cost": 0
+				}
+				movement_set.push_back(Vector2(adj.x, adj.y))
+	
+				show_movement_grid_square(adj.x, adj.y)
+	
+	print ('here??')
+	if (movement_set.size() == 0):
+		# the path is blocked...
+		player.player_state = player.PLAYER_STATE.ANIMATING_MOVEMENT # use to temporarily halt any input
+		player.hud.typeTextWithBuffer(global_action_list.PATH_BLOCKED, false, 'finished_viewing_text_generic')
+		yield(signals, "finished_viewing_text_generic")
+		player.player_state = player.PLAYER_STATE.SELECTING_TILE
+		return
+	
 # function for allowing the unit to position themself around the guild hall
 func postion_around_guild():
 	# remove any existing movement squares
@@ -252,6 +307,9 @@ func postion_around_guild():
 
 	# change the state
 	player.player_state = player.PLAYER_STATE.POSITIONING_UNIT
+
+	# clear the movement set
+	movement_set.clear()
 
 	# clear our eligible_tile_tracker (as we are adding a new set of tiles)
 	eligible_tile_tracker = {}
@@ -314,6 +372,8 @@ func end_action(success = false, timer = null):
 		timer.stop()
 		remove_child(timer)
 	
+	item_in_use = null
+	
 	if (success): # if the action was successfully completed
 		# stop the unit move sound, in case they are moving
 		unit_move_sound_node.stop()
@@ -365,7 +425,7 @@ func clear_movement_grid_squares():
 	for square in get_tree().get_nodes_in_group(constants.GRID_SQUARE_GROUP):
 		square.get_parent().remove_child(square)
 
-func position_unit_if_eligible(target_x, target_y):
+func position_unit_if_eligible(target_x, target_y, expend_action = false):
 	var can_move = false
 	
 	# make sure the unit can actually move to this tile
@@ -381,7 +441,19 @@ func position_unit_if_eligible(target_x, target_y):
 	
 	set_unit_pos(target_x, target_y)
 	
-	player.player_state = player.PLAYER_STATE.SELECTING_TILE
+	if (expend_action):
+		player.player_state = player.PLAYER_STATE.ANIMATING_MOVEMENT
+		# break an item (if necessary)
+		if (item_in_use != null):
+			global_items_list.item_broke(item_in_use, self)
+			yield(signals, "finished_viewing_text_generic")
+			yield(get_tree().create_timer(.1), "timeout")
+			item_in_use = null
+		
+		end_action(true) # action successful
+	else:
+		item_in_use = null
+		player.player_state = player.PLAYER_STATE.SELECTING_TILE
 	
 func move_unit_if_eligible(target_x, target_y):
 	var can_move = false

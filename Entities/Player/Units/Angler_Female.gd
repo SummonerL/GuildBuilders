@@ -50,6 +50,9 @@ func unit_init():
 	starting_ability = global_ability_list.ability_river_queen
 	global_ability_list.add_ability_to_unit(self, global_ability_list.ability_river_queen)
 	
+	# temp 
+	global_items_list.add_item_to_unit(self, global_items_list.item_wooden_stilts)
+	
 	self.global_position = Vector2(unit_pos_x*constants.TILE_WIDTH, 
 									unit_pos_y*constants.TILE_HEIGHT)
 

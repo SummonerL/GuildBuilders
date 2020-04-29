@@ -65,7 +65,7 @@ const ability_concentration = {
 
 const ability_river_queen = {
 	"name": ABILITY_RIVER_QUEEN_NAME,
-	"description": "This unit can jump over rivers.",
+	"description": "This unit can jump over rivers and other small bodies of water.",
 	"type": ABILITY_TYPES.UNIT
 }
 
@@ -247,3 +247,14 @@ func on_remove_from_unit(unit, ability):
 			add_ability_to_unit(unit, unit.starting_ability, true)
 			
 	return gained_abilities
+	
+# useful function for determining whether or not a unit has an ability
+func unit_has_ability(unit, ability):
+	var has_ability = false
+	
+	for abil in unit.unit_abilities:
+		if (ability == abil.name):
+			has_ability = true
+			
+	return has_ability
+	

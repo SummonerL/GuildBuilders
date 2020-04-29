@@ -67,6 +67,15 @@ func is_unit_asleep_at(x, y):
 			is_asleep_here = true
 	return is_asleep_here
 
+# useful function for determining if a unit is at these coordinates
+func is_unit_here(x, y):
+	var is_here = false
+	for unit in party_members:
+		if (unit.unit_pos_x == x && unit.unit_pos_y == y):
+			is_here = true
+	return is_here
+		
+
 func reset_unit_actions():
 	for unit in party_members:
 		unit.reset_action_list()

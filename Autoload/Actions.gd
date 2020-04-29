@@ -64,6 +64,8 @@ const WOOD_RECEIVED_TEXT = "and got some "
 const ORE_RECEIVED_TEXT = "and got some "
 const CRAFT_RECEIVED_TEXT = "and made a "
 
+const PATH_BLOCKED = 'The path is blocked...'
+
 enum COMPLETE_ACTION_LIST {
 	MOVE,
 	DEPOT,
@@ -190,7 +192,7 @@ func do_action(action, parent):
 			initiate_tunnel_action()
 		COMPLETE_ACTION_LIST.CROSS:
 			# this action can only be taken by the female angler, or a unit holding wooden stilts
-			pass
+			active_unit.cross_water()
 		COMPLETE_ACTION_LIST.FOCUS:
 			# focus the cursor on the next available unit
 			parent.do_action(action)
@@ -319,8 +321,22 @@ func set_item_reward(reward, timer = null):
 
 # if the unit is tunneling
 func initiate_tunnel_action():
+	
+	var tunnel_connection = map_actions.get_action_spot_at_coordinates(Vector2(active_unit.unit_pos_x, active_unit.unit_pos_y))
+	var matching_connection = map_actions.get_cave_connection(tunnel_connection)
+	var target_tile_id = map_actions.tile_set.find_tile_by_name(matching_connection)
+	var cells = map_actions.get_used_cells_by_id(target_tile_id)
+	var target_pos = cells[0]
+
+	# make sure the target position isn't occupied
+	if player.party.is_unit_here(target_pos.x, target_pos.y):
+		player.hud.typeTextWithBuffer(PATH_BLOCKED, false, 'finished_viewing_text_generic')
+		yield(signals, "finished_viewing_text_generic")
+		player.player_state = player.PLAYER_STATE.SELECTING_TILE
+		return
+
 	# first, fade out quickly
-# scene transition fade out
+	# scene transition fade out
 	var fade = scene_transitioner_scn.instance()
 	add_child(fade)
 	
@@ -332,13 +348,6 @@ func initiate_tunnel_action():
 	yield(fade, "scene_faded_out")
 	
 	# with the screen faded out, move the unit to the connecting cave
-	
-	# move the unit to the connected cave
-	var tunnel_connection = map_actions.get_action_spot_at_coordinates(Vector2(active_unit.unit_pos_x, active_unit.unit_pos_y))
-	var matching_connection = map_actions.get_cave_connection(tunnel_connection)
-	var target_tile_id = map_actions.tile_set.find_tile_by_name(matching_connection)
-	var cells = map_actions.get_used_cells_by_id(target_tile_id)
-	var target_pos = cells[0]
 	active_unit.set_unit_pos(target_pos.x, target_pos.y)
 	get_tree().get_current_scene().cursor.focus_on(target_pos.x, target_pos.y)
 	
