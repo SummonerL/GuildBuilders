@@ -108,6 +108,20 @@ onready var SKILL_UNLOCKS = {
 			]
 		},
 		{
+			'unlock_text': ' can now craft Wooden Baskets!',
+			'can_text': 'Craft',
+			'skill_info_text': 'Wooden Basket',
+			'type': UNLOCK_TYPES.RECIPE,
+			'level_required': 2,
+			'item': global_item_list.item_wooden_basket,
+			'resources_required': [
+				{
+					'item': global_item_list.item_ash_logs,
+					'quantity': 2
+				}
+			]
+		},
+		{
 			'unlock_text': ' can now craft Wooden Stilts!',
 			'can_text': 'Craft',
 			'skill_info_text': 'Wooden Stilts',

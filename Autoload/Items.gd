@@ -55,6 +55,8 @@ onready var item_hammer = {
 	"xp": 2 # xp upon crafting
 }
 
+
+
 # useful objects
 onready var item_wooden_stilts = {
 	"name": "Wooden Stilts",
@@ -69,6 +71,18 @@ onready var item_walking_stick = {
 	"type": ITEM_TYPES.UTILITY,
 	"xp": 5, # xp upon receiving
 }
+
+onready var item_wooden_basket = {
+	"name": "Wooden Basket",
+	"description": "A basket made from thin strips of ash wood. Increases the unit\'s inventory space by 4. This effect can only be gained once.",
+	"type": ITEM_TYPES.UTILITY,
+	"can_stack_effect": false, # this effect can not be added more than once
+	"stat_effected": "item_limit",
+	"stat_effected_value": 4,
+	"xp": 3, # xp upon receiving
+}
+
+
 
 # fish
 onready var item_jumbofish = {
@@ -88,6 +102,8 @@ onready var item_musclefish = {
 	"connected_ability": global_ability_list.ability_food_musclefish,
 	"can_stack_effect": true # this effect can be added more than once
 }
+
+
 
 # wood
 onready var item_cedar_logs = {
@@ -126,6 +142,8 @@ onready var item_hardwood = {
 	"xp": 3 # xp upon receiving
 }
 
+
+
 # ore
 onready var item_stone = {
 	"name": "Stone",
@@ -148,7 +166,7 @@ func add_item_to_unit(unit, item):
 	# determine if the unit's stats should be modified based on the item
 	
 	# first, if this item's affect can not be stacked and we already have this item, make sure not to add the effect
-	if (item.has('can_stack') && !item.can_stack) && ((unit_has_item(unit, item, 1)).size() > 0):
+	if (item.has('can_stack_effect') && !item.can_stack_effect) && ((unit_has_item(unit, item, 1)).size() > 0):
 		# do not add the effect to the unit
 		pass
 	else: 
@@ -171,7 +189,7 @@ func remove_item_from_unit(unit, index):
 	# determine if the unit's stats should be modified when removing the item
 	
 	# first, if this item's affect can not be stacked and we still have this item, make sure not to remove the effect
-	if (item.has('can_stack') && !item.can_stack) && ((unit_has_item(unit, item, 1)).size() > 0):
+	if (item.has('can_stack_effect') && !item.can_stack_effect) && ((unit_has_item(unit, item, 1)).size() > 0):
 		# do not remove the effect from the unit (because we still have that item)
 		pass
 	else: 
