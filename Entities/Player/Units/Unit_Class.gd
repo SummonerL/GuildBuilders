@@ -170,6 +170,9 @@ func determine_action_list():
 		if (current_tile_actions.size() > 0):
 			new_actions += current_tile_actions
 	
+		# check special actions (for unique locations on the map)
+		current_action_list += get_tree().get_current_scene().populate_unique_actions(self)
+	
 		# check adjacent tiles
 		
 		# north

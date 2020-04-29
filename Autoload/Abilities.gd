@@ -6,6 +6,9 @@ extends Node
 # bring in our global action list
 onready var global_action_list = get_node("/root/Actions")
 
+# bring in our items
+onready var global_items_list = get_node("/root/Items")
+
 enum ABILITY_TYPES {
 	UNIT,
 	FOOD,
@@ -141,6 +144,10 @@ func on_add_to_unit(unit, ability):
 		ABILITY_TUNNELER_NAME:
 			# add the tunneling action to the unit
 			unit.extra_actions.append(global_action_list.COMPLETE_ACTION_LIST.TUNNEL)
+		ABILITY_RIVER_QUEEN_NAME:
+			# add the 'cross' action to the unit (if it doesn't already exist)
+			if (!unit.extra_actions.has(global_action_list.COMPLETE_ACTION_LIST.CROSS)):
+				unit.extra_actions.append(global_action_list.COMPLETE_ACTION_LIST.CROSS)
 			
 		# food abilities / effects
 		ABILITY_WELL_FED_NAME:
@@ -207,7 +214,16 @@ func on_remove_from_unit(unit, ability):
 				if (action == global_action_list.COMPLETE_ACTION_LIST.TUNNEL):
 					unit.extra_actions.remove(action_index)
 					return gained_abilities
-				action_index += 1		
+				action_index += 1
+		ABILITY_RIVER_QUEEN_NAME:
+			# remove the 'cross' action from the unit (if the unit doesn't have wooden stilts)
+			if (global_items_list.unit_has_item(unit, global_items_list.item_wooden_stilts, 1).size() > 0):
+				var action_index = 0
+				for action in unit.extra_actions:
+					if (action == global_action_list.COMPLETE_ACTION_LIST.CROSS):
+						unit.extra_actions.remove(action_index)
+						return gained_abilities
+					action_index += 1
 
 		# food abilities / effects
 		ABILITY_WELL_FED_NAME:

@@ -317,6 +317,37 @@ func determine_background_music():
 			# play nothing (this should never happen)
 			pass
 
+# useful functioning for determining the 4 cardinal tiles adjacent to a unit
+func get_cardinal_tiles(unit):
+	var tiles = []
+	
+	# north
+	tiles.append	({
+		"tile": Vector2(unit.unit_pos_x, unit.unit_pos_y - 1),
+		"cord": 'y',
+		"direction": -1
+	})
+	# east
+	tiles.append	({
+		"tile": Vector2(unit.unit_pos_x + 1, unit.unit_pos_y),
+		"cord": 'x',
+		"direction": 1
+	})
+	# south
+	tiles.append	({
+		"tile": Vector2(unit.unit_pos_x, unit.unit_pos_y + 1),
+		"cord": 'y',
+		"direction": 1
+	})
+	# west
+	tiles.append	({
+		"tile": Vector2(unit.unit_pos_x - 1, unit.unit_pos_y),
+		"cord": 'x',
+		"direction": -1
+	})
+	
+	return tiles
+
 func sort_units_by_wake_up(a, b):
 	return a.wake_up_time < b.wake_up_time
 
@@ -542,6 +573,31 @@ func show_turn_action_list():
 	# populate the action list with the current list of actions this unit can take
 	hud_selection_list_node.populate_selection_list(action_list, self)
 
+# helper function for determining if a unit is on / adjacent to unique tiles with specific actions
+func populate_unique_actions(unit):
+	var unique_actions = []
+	
+	# determine if the unit is adjacent to a river
+	var river_adjacent = false
+	var water_id = l1_tiles.tile_set.find_tile_by_name('water')
+	
+	for tile in get_cardinal_tiles(unit):
+		if (l1_tiles.get_cellv(tile.tile) == water_id):
+			# next to water. Determine if the tile adjacent to that is moveable
+			var adj = tile.tile
+			adj[tile.cord] += tile.direction
+			var mvmt_cost = l1_tiles.get_movement_cost(l1_tiles.get_tile_at_coordinates(adj))
+			if (l2_tiles.get_tile_at_coordinates(adj) != null):
+				mvmt_cost += l2_tiles.get_movement_cost(l2_tiles.get_tile_at_coordinates(adj))
+			
+			if (mvmt_cost < constants.CANT_MOVE):
+				river_adjacent = true
+	
+	if (river_adjacent):
+		unique_actions += map_actions.river_actions 
+		
+	return unique_actions
+	
 # when the action list is cancelled, go back to selecting a tile
 func cancel_select_list():
 	player.player_state = player.PLAYER_STATE.SELECTING_TILE

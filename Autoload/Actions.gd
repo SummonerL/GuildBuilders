@@ -74,6 +74,7 @@ enum COMPLETE_ACTION_LIST {
 	MINE,
 	CHOP,
 	TUNNEL # for caves (Male Miner Only)
+	CROSS, # for rivers (Female Angler Only / Or wooden stilts)
 	INFO,
 	FOCUS,
 	NEXT_TURN,
@@ -99,6 +100,7 @@ const ACTION_LIST_NAMES = [
 	'MINE',
 	'CHOP',
 	'TUNNL',
+	'CROSS',
 	'INFO',
 	'FOCUS',
 	'NEXT',
@@ -116,7 +118,8 @@ const ACTION_LIST_NAMES = [
 
 # list of exclusive actions
 onready var exclusive_actions = {
-	COMPLETE_ACTION_LIST.TUNNEL: 'true'
+	COMPLETE_ACTION_LIST.TUNNEL: 'true',
+	COMPLETE_ACTION_LIST.CROSS: 'true'
 }
 
 func do_action(action, parent):
@@ -185,6 +188,9 @@ func do_action(action, parent):
 			# this action can only be taken by the male miner. Allows the unit to travel between 
 			# cave's (in the same region)
 			initiate_tunnel_action()
+		COMPLETE_ACTION_LIST.CROSS:
+			# this action can only be taken by the female angler, or a unit holding wooden stilts
+			pass
 		COMPLETE_ACTION_LIST.FOCUS:
 			# focus the cursor on the next available unit
 			parent.do_action(action)

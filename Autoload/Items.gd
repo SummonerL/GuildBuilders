@@ -69,6 +69,9 @@ onready var item_walking_stick = {
 	"name": "Walking Stick",
 	"description": "A sturdy walking stick made of hardwood. Increases a unit\'s movement by 1 when held. This effect can only be gained once.",
 	"type": ITEM_TYPES.UTILITY,
+	"can_stack_effect": false, # this effect can not be added more than once
+	"stat_effected": "base_move",
+	"stat_effected_value": 1,
 	"xp": 5, # xp upon receiving
 }
 
