@@ -64,7 +64,7 @@ const WOOD_RECEIVED_TEXT = "and got some "
 const ORE_RECEIVED_TEXT = "and got some "
 const CRAFT_RECEIVED_TEXT = "and made a "
 
-const PATH_BLOCKED = 'The path is blocked...'
+const PATH_BLOCKED = 'My path is blocked...'
 
 enum COMPLETE_ACTION_LIST {
 	MOVE,
