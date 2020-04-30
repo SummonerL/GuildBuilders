@@ -120,13 +120,17 @@ func stop_timer():
 	
 func cursor_move():
 	if (cursor_direction == constants.DIRECTIONS.UP):
-		set_cursor_pos(player.curs_pos_x, player.curs_pos_y-1)
+		if (player.curs_pos_y > constants.NORTH_BOUNDARY):
+			set_cursor_pos(player.curs_pos_x, player.curs_pos_y-1)
 	elif (cursor_direction == constants.DIRECTIONS.RIGHT):
-		set_cursor_pos(player.curs_pos_x+1, player.curs_pos_y)
+		if (player.curs_pos_x < constants.EAST_BOUNDARY):
+			set_cursor_pos(player.curs_pos_x+1, player.curs_pos_y)
 	elif (cursor_direction == constants.DIRECTIONS.DOWN):
-		set_cursor_pos(player.curs_pos_x, player.curs_pos_y+1)
+		if (player.curs_pos_y < constants.SOUTH_BOUNDARY):
+			set_cursor_pos(player.curs_pos_x, player.curs_pos_y+1)
 	elif (cursor_direction == constants.DIRECTIONS.LEFT):
-		set_cursor_pos(player.curs_pos_x-1, player.curs_pos_y)
+		if (player.curs_pos_x > constants.WEST_BOUNDARY):
+			set_cursor_pos(player.curs_pos_x-1, player.curs_pos_y)
 		
 	# play the cursor moving sound
 	move_sound.play()

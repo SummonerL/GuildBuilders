@@ -96,6 +96,70 @@ const TIMES_OF_DAY = [
 	"11PM"
 ]
 
+# keep track of all the regions / zones in the game (they are all 30x30, so add that to x/y when considering boundaries)
+var regions = [
+	{
+		'name': 'Guild Region',
+		'x': 0,
+		'y': 0,
+		'hidden': false # whether or not this region is visible to the player
+	},
+	{
+		'name': 'Region North 1', # will change
+		'x': 0,
+		'y': -30,
+		'hidden': true
+	},
+	{
+		'name': 'Region East 1', # will change
+		'x': 30,
+		'y': 0,
+		'hidden': true
+	},
+	{
+		'name': 'Region South 1', # will change
+		'x': 0,
+		'y': 30,
+		'hidden': true
+	},
+	{
+		'name': 'Region West 1', # will change
+		'x': -30,
+		'y': 0,
+		'hidden': true
+	},
+	{
+		'name': 'Region Northeast 1', # will change
+		'x': 30,
+		'y': -30,
+		'hidden': true
+	},
+	{
+		'name': 'Region Southeast 1', # will change
+		'x': 30,
+		'y': 30,
+		'hidden': true
+	},
+	{
+		'name': 'Region Southwest 1', # will change
+		'x': -30,
+		'y': 30,
+		'hidden': true
+	},
+	{
+		'name': 'Region Northwest 1', # will change
+		'x': -30,
+		'y': -30,
+		'hidden': true
+	},
+]
+
+# map boundaries
+const NORTH_BOUNDARY = -30
+const EAST_BOUNDARY = 59
+const SOUTH_BOUNDARY = 59
+const WEST_BOUNDARY = -30
+
 # experience required for each level
 var experience_required = [
 	0,

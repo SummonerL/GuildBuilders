@@ -39,6 +39,8 @@ onready var scene_transitioner_scn = preload("res://Scenes/Transition_Scene/Tran
 onready var l1_tiles = get_node("World_Map_L1")
 onready var l2_tiles = get_node("World_Map_L2")
 onready var world_map_icons = get_node("World_Map_Icons")
+onready var hidden_tiles = get_node("Hidden_Tiles")
+
 # keep track of the initial state of the map icons (so we can reset each day)
 onready var initial_world_map_icons = world_map_icons.duplicate()
 
@@ -143,8 +145,28 @@ func gameInit():
 	# get the time of day info node ()
 	player.time_of_day_info_node = get_tree().get_nodes_in_group(constants.TIME_OF_DAY_INFO_GROUP)[0]
 
+	# hide all of the hidden tiles
+	hide_show_tiles()
+
 	# we begin a new day :) 
 	new_day(true)
+	
+# hide / show tiles based on their status
+func hide_show_tiles():
+	for region in constants.regions:
+		if (region.hidden):
+			# hide the region
+			hide_region(region)
+	
+func hide_region(region):
+	var x = region.x
+	var y = region.y
+	
+	for n1 in range(30):
+		for n2 in range(30):
+			hidden_tiles.set_cellv(Vector2(x + n1, y + n2), 
+				hidden_tiles.tile_set.find_tile_by_name('hidden_tile'))
+	
 	
 # end the day
 func end_day():
