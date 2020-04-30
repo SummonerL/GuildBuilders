@@ -41,6 +41,7 @@ onready var l2_tiles = get_node("World_Map_L2")
 onready var world_map_icons = get_node("World_Map_Icons")
 onready var hidden_tile_icons = get_node("Hidden_Tiles")
 onready var hidden_tiles = get_node("Hidden_Tile_Tracker")
+onready var building_tiles = get_node("Buildings")
 
 # keep track of the initial state of the map icons (so we can reset each day)
 onready var initial_world_map_icons = world_map_icons.duplicate()
@@ -585,17 +586,18 @@ func apply_time_shader():
 	# change the shader based on the current time of day
 	l1_tiles.material = time_shaders[player.current_time_of_day]
 	l2_tiles.material = time_shaders[player.current_time_of_day]
+	building_tiles.material = time_shaders[player.current_time_of_day]
 
 # show the day or night buildings, based on the time of day
 func show_applicable_building_tiles():
 	if player.current_time_of_day > 8 && player.current_time_of_day < 19:
 		# show day sprites
-		var tileset = world_map_icons.get_tileset()
-		world_map_icons.set_cellv(Vector2(player.guild_hall_x, player.guild_hall_y), tileset.find_tile_by_name("guild_hall"))
+		var tileset = building_tiles.get_tileset()
+		building_tiles.set_cellv(Vector2(player.guild_hall_x, player.guild_hall_y), tileset.find_tile_by_name("guild_hall"))
 	else:
 		# show night sprites
-		var tileset = world_map_icons.get_tileset()
-		world_map_icons.set_cellv(Vector2(player.guild_hall_x, player.guild_hall_y), tileset.find_tile_by_name("guild_hall_night"))
+		var tileset = building_tiles.get_tileset()
+		building_tiles.set_cellv(Vector2(player.guild_hall_x, player.guild_hall_y), tileset.find_tile_by_name("guild_hall_night"))
 
 # function for opening the action list when not selecting a unit
 func show_turn_action_list():

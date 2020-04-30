@@ -25,7 +25,7 @@ func unit_init():
 
 	unit_sprite_node = get_node("Miner_Male_Sprite")
 	
-	unit_id = 3
+	unit_id = 7
 
 	unit_name = "Rocko"
 	unit_class = "Miner"

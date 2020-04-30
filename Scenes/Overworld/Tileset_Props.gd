@@ -15,7 +15,8 @@ const TILES = {
 				22: 'CEDAR_TREE',
 				23: 'ASH_TREE',
 				24: 'FIR_TREE',
-				25: 'CAVE'}
+				25: 'CAVE',
+				26: 'TOWER'}
 
 const TILE_INFO_HUD_NAME = { 
 	'WATER':  'Water',
@@ -35,7 +36,8 @@ const TILE_INFO_HUD_NAME = {
 	'CAVE': 'Cave',
 	'OCEAN': 'Ocean',
 	'MOUNTAIN': 'Mount',
-	'GUILD': 'Guild'
+	'GUILD': 'Guild',
+	'TOWER': 'Tower'
 }
 
 
@@ -58,6 +60,7 @@ enum MOVEMENT_COST {
 	OCEAN = CANT_MOVE,
 	MOUNTAIN = NORMAL_MOVE + 2 # very difficult to move onto a mountain
 	GUILD = CANT_MOVE
+	TOWER = CANT_MOVE
 }
 
 func get_tile_at_coordinates(vec2):

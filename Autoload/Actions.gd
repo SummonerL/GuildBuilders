@@ -399,8 +399,13 @@ func initiate_fish_action():
 	if (rod):
 		# determine which fishing spot the unit is targeting
 		var spot = map_actions.get_action_spot_at_coordinates(Vector2(player.curs_pos_x, player.curs_pos_y))
+		# make sure this is actually a fishing spot
+		if (spot != null && !map_actions.get_actions_at_spot(spot).has(COMPLETE_ACTION_LIST.FISH)):
+			spot = null
+
 		var coord_x = player.curs_pos_x
 		var coord_y = player.curs_pos_y
+
 		
 		# check north
 		if (spot == null):
