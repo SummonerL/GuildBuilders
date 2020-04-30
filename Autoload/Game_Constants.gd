@@ -17,6 +17,7 @@ const TILE_INFO_GROUP = 'tile_info'
 const TIME_OF_DAY_INFO_GROUP = 'time_of_day_info'
 const MAP_ICONS_GROUP = 'map_icons'
 const MAP_ACTIONS_GROUP = 'map_actions'
+const HIDDEN_TILES_GROUP = 'hidden_tiles'
 
 const CHECK_SYMBOL = '¤' #164
 const X_SYMBOL = 'µ' #181

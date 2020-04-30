@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Scenes/Overworld/Assets/TileSets/Map_TS.tres" type="TileSet" id=1]
 [ext_resource path="res://Scenes/Overworld/Overworld_Scene.gd" type="Script" id=2]
@@ -103,12 +103,24 @@
 8/shapes = [  ]
 8/z_index = 0
 
+[sub_resource type="TileSet" id=3]
+0/name = "hidden_tile"
+0/texture = ExtResource( 10 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 16, 208, 16, 16 )
+0/tile_mode = 0
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shapes = [  ]
+0/z_index = 0
+
 [sub_resource type="TileSet" id=2]
 0/name = "hidden_tile"
 0/texture = ExtResource( 10 )
 0/tex_offset = Vector2( 0, 0 )
 0/modulate = Color( 1, 1, 1, 1 )
-0/region = Rect2( 0, 192, 16, 16 )
+0/region = Rect2( 0, 192, 48, 48 )
 0/tile_mode = 0
 0/occluder_offset = Vector2( 0, 0 )
 0/navigation_offset = Vector2( 0, 0 )
@@ -159,10 +171,22 @@ format = 1
 tile_data = PoolIntArray( 327707, 0, 0, 393242, 8, 0, 458766, 0, 0, 458776, 5, 0, 458779, 0, 0, 589832, 1, 0, 589837, 3, 0, 589843, 6, 0, 589844, 6, 0, 589847, 0, 0, 655381, 6, 0, 720910, 2, 0, 720911, 2, 0, 720913, 6, 0, 720914, 6, 0, 851980, 4, 0, 851981, 4, 0, 851982, 4, 0, 851983, 4, 0, 917511, 0, 0, 917516, 4, 0, 917519, 4, 0, 917523, 0, 0, 983052, 4, 0, 983055, 4, 0, 1048585, 0, 0, 1048588, 4, 0, 1048589, 4, 0, 1048590, 4, 0, 1048591, 4, 0, 1048598, 1, 0, 1114121, 2, 0, 1114122, 2, 0, 1114130, 2, 0, 1179658, 2, 0, 1179662, 6, 0, 1245190, 0, 0, 1245195, 2, 0, 1245201, 0, 0, 1245203, 0, 0, 1310745, 0, 0, 1376265, 3, 0, 1376267, 6, 0, 1441806, 6, 0, 1441809, 7, 0, 1441813, 6, 0, 1441815, 2, 0, 1507351, 2, 0, 1572875, 0, 0, 1572885, 3, 0, 1572886, 2, 0, 1572887, 2, 0, 1638419, 6, 0, 1638420, 2, 0, 1638421, 2, 0, 1638422, 2, 0, 1703958, 0, 0, 1769491, 1, 0 )
 script = ExtResource( 7 )
 
-[node name="Hidden_Tiles" type="TileMap" parent="."]
+[node name="Hidden_Tile_Tracker" type="TileMap" parent="." groups=[
+"hidden_tiles",
+]]
+visible = false
+tile_set = SubResource( 3 )
+cell_size = Vector2( 16, 16 )
+format = 1
+script = ExtResource( 3 )
+
+[node name="Hidden_Tiles" type="TileMap" parent="." groups=[
+"hidden_tiles",
+]]
 tile_set = SubResource( 2 )
 cell_size = Vector2( 16, 16 )
 format = 1
+script = ExtResource( 3 )
 
 [node name="12PM_Loop" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )

@@ -3,7 +3,9 @@ extends TileMap
 const CANT_MOVE = 999999
 const NORMAL_MOVE = 1
 
-const TILES = {2: 'WATER', 3: 'GRASSLAND', 
+const TILES = {
+				0: 'HIDDEN',
+				2: 'WATER', 3: 'GRASSLAND', 
 				4: 'GRASSLAND_DEC1', 5: 'GRASSLAND_DEC2',
 				6: 'GRASSLAND_DEC3', 7: 'SAND',
 				8: 'GRASSLAND_TREE', 9: 'SAND_TREE',

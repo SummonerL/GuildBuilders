@@ -17,6 +17,7 @@ onready var letters_symbols_obj = preload("res://Entities/HUD/Letters_Symbols/Le
 # have 2 layers of potential tiles
 onready var tileset_props_l1 = get_tree().get_nodes_in_group(constants.MAP_TILES_GROUP)[0]
 onready var tileset_props_l2 = get_tree().get_nodes_in_group(constants.MAP_TILES_GROUP)[1]
+onready var hidden_tiles = get_tree().get_nodes_in_group(constants.HIDDEN_TILES_GROUP)[0]
 
 # text constants, local to the Tile Info HUD
 const HIDDEN_TILE_NAME = "???"
@@ -101,6 +102,13 @@ func update_tile_info_text():
 	if (len(tile_l2_name) > 0):
 		print_name = tile_l2_name
 		
+	# make sure the tile isn't hidden
+	var hidden_tile = (hidden_tiles.get_tile_at_coordinates(Vector2(player.curs_pos_x, player.curs_pos_y)) != null)
+		
+	if (hidden_tile):
+		print_name = HIDDEN_TILE_NAME
+		total_move_str = MV_TEXT + CANT_MOVE_TEXT
+
 	letters_symbols.print_immediately(print_name, Vector2(print_start_x, print_start_y))
 	letters_symbols.print_immediately(total_move_str, Vector2(print_start_x, print_start_y+1))
 	

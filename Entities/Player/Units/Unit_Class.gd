@@ -30,6 +30,7 @@ onready var unit_spent_shader = preload("res://Sprites/Shaders/spent_unit.tres")
 # have 2 layers of potential tiles
 onready var tileset_props_l1 = get_tree().get_nodes_in_group(constants.MAP_TILES_GROUP)[0]
 onready var tileset_props_l2 = get_tree().get_nodes_in_group(constants.MAP_TILES_GROUP)[1]
+onready var hidden_tiles = get_tree().get_nodes_in_group(constants.HIDDEN_TILES_GROUP)[0]
 
 # keep track of the actual underlying map actions (which can differ even for the same icon)
 onready var map_actions = get_tree().get_nodes_in_group(constants.MAP_ACTIONS_GROUP)[0]
@@ -610,6 +611,12 @@ func flood_fill(foc_x, foc_y, remaining_move, visited_tiles):
 		var l2_cost = tileset_props_l2.get_movement_cost(tile_name_l2)
 		remaining_move -= l2_cost
 		total_tile_cost += l2_cost
+		
+	# if the tile is hidden, we can't move there
+	var hidden_tile = (hidden_tiles.get_tile_at_coordinates(Vector2(foc_x, foc_y)) != null)
+	if (hidden_tile):
+		remaining_move -= constants.CANT_MOVE
+		total_tile_cost = constants.CANT_MOVE
 		
 	# the tile is eligible if the remaining_move is >= 0
 	if (foc_x == unit_pos_x && foc_y == unit_pos_y):

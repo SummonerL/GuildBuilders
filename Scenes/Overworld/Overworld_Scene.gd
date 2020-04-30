@@ -39,7 +39,8 @@ onready var scene_transitioner_scn = preload("res://Scenes/Transition_Scene/Tran
 onready var l1_tiles = get_node("World_Map_L1")
 onready var l2_tiles = get_node("World_Map_L2")
 onready var world_map_icons = get_node("World_Map_Icons")
-onready var hidden_tiles = get_node("Hidden_Tiles")
+onready var hidden_tile_icons = get_node("Hidden_Tiles")
+onready var hidden_tiles = get_node("Hidden_Tile_Tracker")
 
 # keep track of the initial state of the map icons (so we can reset each day)
 onready var initial_world_map_icons = world_map_icons.duplicate()
@@ -162,12 +163,22 @@ func hide_region(region):
 	var x = region.x
 	var y = region.y
 	
+	for n1 in range(10):
+		for n2 in range(10):
+			hidden_tile_icons.set_cellv(Vector2(x, y), 
+				hidden_tile_icons.tile_set.find_tile_by_name('hidden_tile'))
+			x += 3
+		x = region.x
+		y += 3
+		
+	x = region.x
+	y = region.y
+	
 	for n1 in range(30):
 		for n2 in range(30):
 			hidden_tiles.set_cellv(Vector2(x + n1, y + n2), 
 				hidden_tiles.tile_set.find_tile_by_name('hidden_tile'))
-	
-	
+
 # end the day
 func end_day():
 	# update the player state
