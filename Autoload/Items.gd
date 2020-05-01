@@ -178,7 +178,7 @@ onready var item_stone = {
 
 onready var item_amethyst = {
 	"name": "Amethyst",
-	"description": "A small, amethyst gemstone. Its violet hue is soothing to look at.",
+	"description": "A small, amethyst gemstone. Its violet hue is quite soothing. Can be used to craft various items.",
 	"type": ITEM_TYPES.GEM,
 	"xp": 2 # xp upon receiving
 }
