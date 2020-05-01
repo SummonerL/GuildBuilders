@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Sprites/terrain/sheet_3.png" type="Texture" id=1]
+[ext_resource path="res://Entities/HUD/World_Map_Scene.gd" type="Script" id=2]
+[ext_resource path="res://Sprites/World/map.png" type="Texture" id=3]
+
+[sub_resource type="TileSet" id=1]
+0/name = "sheet_3.png 0"
+0/texture = ExtResource( 1 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 48, 208, 32, 32 )
+0/tile_mode = 0
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shapes = [  ]
+0/z_index = 0
+
+[node name="World_Map" type="CanvasLayer"]
+layer = 2
+script = ExtResource( 2 )
+
+[node name="World_Map_Sprite" type="Sprite" parent="."]
+texture = ExtResource( 3 )
+centered = false
+
+[node name="hidden_regions" type="TileMap" parent="."]
+tile_set = SubResource( 1 )
+cell_size = Vector2( 8, 8 )
+format = 1
+tile_data = PoolIntArray( 65536, 0, 0, 65540, 0, 0, 65544, 0, 0, 65548, 0, 0, 65552, 0, 0, 327680, 0, 0, 327684, 0, 0, 327688, 0, 0, 327692, 0, 0, 327696, 0, 0, 589824, 0, 0, 589828, 0, 0, 589836, 0, 0, 589840, 0, 0, 851968, 0, 0, 851972, 0, 0, 851976, 0, 0, 851980, 0, 0, 851984, 0, 0 )

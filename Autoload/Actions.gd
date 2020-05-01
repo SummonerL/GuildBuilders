@@ -79,6 +79,7 @@ enum COMPLETE_ACTION_LIST {
 	CROSS, # for rivers (Female Angler Only / Or wooden stilts)
 	INFO,
 	FOCUS,
+	MAP, # view the world map
 	NEXT_TURN,
 	YES, # for confirmation
 	NO, # for confirmation
@@ -105,6 +106,7 @@ const ACTION_LIST_NAMES = [
 	'CROSS',
 	'INFO',
 	'FOCUS',
+	'MAP',
 	'NEXT',
 	'YES',
 	'NO',
@@ -196,6 +198,9 @@ func do_action(action, parent):
 		COMPLETE_ACTION_LIST.FOCUS:
 			# focus the cursor on the next available unit
 			parent.do_action(action)
+		COMPLETE_ACTION_LIST.MAP:
+			# display the world map
+			get_tree().get_current_scene().display_world_map()
 		COMPLETE_ACTION_LIST.NEXT_TURN:
 			# we're finished with this turn (hour), so empty the yet to act array and determine the next state
 			# but first, let the user confirm

@@ -35,6 +35,7 @@ onready var hud_tile_info_scn = preload("res://Entities/HUD/Tile_Info.tscn")
 onready var hud_time_of_day_info_scn = preload("res://Entities/HUD/Time_Of_Day_Info.tscn")
 onready var clock_scn = preload("res://Entities/HUD/Clock/Clock.tscn")
 onready var scene_transitioner_scn = preload("res://Scenes/Transition_Scene/Transition_Scene.tscn")
+onready var world_map_scn = preload("res://Entities/HUD/World_Map_Scene.tscn")
 
 onready var l1_tiles = get_node("World_Map_L1")
 onready var l2_tiles = get_node("World_Map_L2")
@@ -97,6 +98,7 @@ export var transition_type = 1 # TRANS_SINE
 # list of actions that are available when not selecting a unit
 onready var action_list = [
 	global_action_list.COMPLETE_ACTION_LIST.FOCUS,
+	global_action_list.COMPLETE_ACTION_LIST.MAP,
 	global_action_list.COMPLETE_ACTION_LIST.NEXT_TURN
 ]
 
@@ -108,6 +110,7 @@ var cursor
 var camera
 var hud_tile_info
 var hud_tod_info
+var world_map_node
 
 func gameInit():
 	cursor = cursor_scn.instance()
@@ -153,6 +156,23 @@ func gameInit():
 
 	# we begin a new day :) 
 	new_day(true)
+	
+# display the world map
+func display_world_map():
+	# pause this node
+	set_process_input(false)
+
+	world_map_node = world_map_scn.instance()
+	add_child(world_map_node)
+	
+func kill_world_map_screen():
+	# unpause the node
+	set_process_input(true)
+
+	remove_child(world_map_node)
+	
+	# change the player state
+	player.player_state = player.PLAYER_STATE.SELECTING_TILE
 	
 # hide / show tiles based on their status
 func hide_show_tiles():

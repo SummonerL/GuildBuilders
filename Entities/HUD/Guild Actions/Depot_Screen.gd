@@ -18,7 +18,7 @@ onready var global_item_list = get_node("/root/Items")
 # bring in our signals
 onready var signals = get_node("/root/Signal_Manager")
 
-# preaload the letters + symbols
+# preload the letters + symbols
 onready var letters_symbols_scn = preload("res://Entities/HUD/Letters_Symbols/Letters_Symbols.tscn")
 var letters_symbols_node
 
