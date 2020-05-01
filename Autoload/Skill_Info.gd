@@ -70,6 +70,14 @@ onready var SKILL_UNLOCKS = {
 			'type': UNLOCK_TYPES.RESOURCE,
 			'level_required': 1,
 		},
+		{
+			'unlock_text': ' can now mine for Amethyst!',
+			'can_text': 'Mine',
+			'skill_info_text': 'Amethyst',
+			'single_line': true,
+			'type': UNLOCK_TYPES.RESOURCE,
+			'level_required': 1,
+		},
 	],
 	
 	

@@ -22,6 +22,7 @@ const ABILITY_ARTISTIC_NAME = 'Artistic'
 const ABILITY_CONCENTRATION_NAME = 'Concentration'
 const ABILITY_RIVER_QUEEN_NAME = 'River Queen'
 const ABILITY_TUNNELER_NAME = 'Tunneler'
+const ABILITY_GEM_HUNTER_NAME = 'Gem Hunter'
 
 # food (daily) abilities
 const ABILITY_WELL_FED_NAME = 'Status: Well-Fed'
@@ -31,6 +32,7 @@ const ABILITY_FOOD_MUSCLEFISH_NAME = 'Food Effect'
 # other daily abilities
 const ABILITY_INSPIRED_NAME = 'Status: Inspired'
 const ABILITY_HUNGRY_NAME = 'Status: Hungry'
+const ABILITY_ECSTATIC_NAME = 'Status: Ecstatic'
 
 # unit abilities
 const ability_insomniac = {
@@ -75,6 +77,14 @@ const ability_tunneler = {
 	"type": ABILITY_TYPES.UNIT
 }
 
+const ability_gem_hunter = {
+	"name": ABILITY_GEM_HUNTER_NAME,
+	"description": "When this unit finds a gemstone, it becomes ecstatic (its movement increases by 4 for the remainder of the day).",
+	"type": ABILITY_TYPES.UNIT
+}
+
+
+
 # food (daily) abilities
 const ability_well_fed = {
 	"name": ABILITY_WELL_FED_NAME,
@@ -94,10 +104,17 @@ const ability_food_musclefish = {
 }
 
 
+
 # daily abilities
 const ability_inspired = {
 	"name": ABILITY_INSPIRED_NAME,
 	"description": "This unit\'s movement is increased by 1 for the remainder of the day.",
+	"type": ABILITY_TYPES.DAILY
+}
+
+const ability_ecstatic = {
+	"name": ABILITY_ECSTATIC_NAME,
+	"description": "This unit\'s movement is increased by 4 for the remainder of the day.",
 	"type": ABILITY_TYPES.DAILY
 }
 
@@ -170,6 +187,9 @@ func on_add_to_unit(unit, ability):
 		ABILITY_INSPIRED_NAME:
 			# increases the unit's movement by 1
 			unit.base_move += 1
+		ABILITY_ECSTATIC_NAME:
+			# increases the unit's movement by 4
+			unit.base_move += 4
 		ABILITY_HUNGRY_NAME:
 			# remove the unit's starting ability
 			var index = 0
@@ -240,6 +260,11 @@ func on_remove_from_unit(unit, ability):
 		ABILITY_INSPIRED_NAME:
 			# remove 1 from the unit's base_move
 			unit.base_move -= 1
+			if (unit.base_move < 0):
+				unit.base_move = 0
+		ABILITY_ECSTATIC_NAME:
+			# remove 4 from the unit's base_move
+			unit.base_move -= 4
 			if (unit.base_move < 0):
 				unit.base_move = 0
 		ABILITY_HUNGRY_NAME:

@@ -29,6 +29,7 @@ enum ITEM_TYPES {
 	FISH,
 	WOOD,
 	ORE,
+	GEM,
 	CRAFTING_PART,
 	UTILITY
 }
@@ -167,12 +168,19 @@ onready var item_hardwood = {
 
 
 
-# ore
+# ore / gemstones
 onready var item_stone = {
 	"name": "Stone",
 	"description": "A small block of stone. Can be used to craft various items.",
 	"type": ITEM_TYPES.ORE,
 	"xp": 1 # xp upon receiving
+}
+
+onready var item_amethyst = {
+	"name": "Amethyst",
+	"description": "A small, amethyst gemstone. Its violet hue is soothing to look at.",
+	"type": ITEM_TYPES.GEM,
+	"xp": 2 # xp upon receiving
 }
 
 # misc crafting materials

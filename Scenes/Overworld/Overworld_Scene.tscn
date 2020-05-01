@@ -13,7 +13,7 @@
 [ext_resource path="res://Sprites/Animated Textures/guild_hall_night.tres" type="Texture" id=11]
 [ext_resource path="res://Sprites/Animated Textures/guild_hall.tres" type="Texture" id=12]
 
-[sub_resource type="TileSet" id=4]
+[sub_resource type="TileSet" id=1]
 0/name = "tower_sprite"
 0/texture = ExtResource( 10 )
 0/tex_offset = Vector2( 0, 0 )
@@ -45,7 +45,7 @@
 2/shapes = [  ]
 2/z_index = 0
 
-[sub_resource type="TileSet" id=1]
+[sub_resource type="TileSet" id=2]
 0/name = "Fishing_Spot_1"
 0/texture = ExtResource( 8 )
 0/tex_offset = Vector2( 0, 0 )
@@ -137,7 +137,7 @@
 8/shapes = [  ]
 8/z_index = 0
 
-[sub_resource type="TileSet" id=2]
+[sub_resource type="TileSet" id=3]
 0/name = "hidden_tile"
 0/texture = ExtResource( 10 )
 0/tex_offset = Vector2( 0, 0 )
@@ -149,7 +149,7 @@
 0/shapes = [  ]
 0/z_index = 0
 
-[sub_resource type="TileSet" id=3]
+[sub_resource type="TileSet" id=4]
 0/name = "hidden_tile"
 0/texture = ExtResource( 10 )
 0/tex_offset = Vector2( 0, 0 )
@@ -196,7 +196,7 @@ __meta__ = {
 }
 
 [node name="Buildings" type="TileMap" parent="."]
-tile_set = SubResource( 4 )
+tile_set = SubResource( 1 )
 cell_size = Vector2( 16, 16 )
 format = 1
 tile_data = PoolIntArray( 65552, 0, 0, 655388, 0, 0, 917517, 1, 0, 1376257, 0, 0, 1769484, 0, 0 )
@@ -205,7 +205,7 @@ tile_data = PoolIntArray( 65552, 0, 0, 655388, 0, 0, 917517, 1, 0, 1376257, 0, 0
 "map_actions",
 ]]
 visible = false
-tile_set = SubResource( 1 )
+tile_set = SubResource( 2 )
 cell_size = Vector2( 16, 16 )
 format = 1
 tile_data = PoolIntArray( 262153, 6, 0, 327687, 8, 0, 327707, 0, 0, 458760, 6, 0, 458766, 0, 0, 458776, 3, 0, 458779, 0, 0, 589832, 1, 0, 589837, 3, 0, 589843, 6, 0, 589844, 6, 0, 589847, 0, 0, 655381, 6, 0, 720910, 2, 0, 720911, 2, 0, 720913, 6, 0, 720914, 6, 0, 851980, 4, 0, 851981, 4, 0, 851982, 4, 0, 851983, 4, 0, 917511, 0, 0, 917516, 4, 0, 917519, 4, 0, 917523, 0, 0, 917529, 3, 0, 983052, 4, 0, 983055, 4, 0, 983064, 3, 0, 983065, 3, 0, 983066, 3, 0, 1048585, 0, 0, 1048588, 4, 0, 1048589, 4, 0, 1048590, 4, 0, 1048591, 4, 0, 1048598, 1, 0, 1114121, 2, 0, 1114122, 2, 0, 1114130, 2, 0, 1179658, 2, 0, 1179662, 6, 0, 1245187, 3, 0, 1245190, 0, 0, 1245195, 2, 0, 1245201, 0, 0, 1245203, 0, 0, 1310723, 3, 0, 1310724, 3, 0, 1310745, 0, 0, 1376265, 3, 0, 1376267, 6, 0, 1441806, 6, 0, 1441809, 7, 0, 1441813, 6, 0, 1441815, 2, 0, 1572875, 0, 0, 1572885, 3, 0, 1638403, 0, 0, 1638404, 5, 0, 1638419, 6, 0, 1638420, 2, 0, 1703955, 5, 0, 1703958, 0, 0, 1769480, 3, 0, 1769491, 1, 0, 1835016, 3, 0, 1835017, 3, 0 )
@@ -215,7 +215,7 @@ script = ExtResource( 7 )
 "hidden_tiles",
 ]]
 visible = false
-tile_set = SubResource( 2 )
+tile_set = SubResource( 3 )
 cell_size = Vector2( 16, 16 )
 format = 1
 script = ExtResource( 3 )
@@ -223,7 +223,7 @@ script = ExtResource( 3 )
 [node name="Hidden_Tiles" type="TileMap" parent="." groups=[
 "hidden_tiles",
 ]]
-tile_set = SubResource( 3 )
+tile_set = SubResource( 4 )
 cell_size = Vector2( 16, 16 )
 format = 1
 script = ExtResource( 3 )
