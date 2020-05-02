@@ -523,7 +523,8 @@ func initiate_mine_action():
 	# first, determine if the unit has a pickaxe
 	var pickaxe = null
 	for item in active_unit.current_items:
-		if (item.type == global_items_list.ITEM_TYPES.PICKAXE):
+		# make sure the unit cant wield this item as well
+		if (item.type == global_items_list.ITEM_TYPES.PICKAXE && item.level_required <= active_unit.skill_levels[constants.MINING]):
 			pickaxe = item
 	
 	if (pickaxe):
@@ -546,13 +547,24 @@ func initiate_mine_action():
 		else:
 			# they can mine!
 			available_ore.shuffle()
+			
+			# check whether or not the unit gets a gemstone!
+			var gemstone_collected = constants.chance_test(pickaxe.gemstone_chance)
+			
 			var received_ore = available_ore[0]
 			
-			# remove the ore from the list of available ore
-			available_ore.remove(0)
-			
-			# and update the used_tile items (for if the unit continues to mine here)
-			map_actions.set_items_at_coordinates(player.curs_pos_x, player.curs_pos_y, available_ore)
+			# if gemstone is found, find the gemstone <= to the level of the ore at this location
+			if (gemstone_collected):
+				var max_level = received_ore.level_to_mine
+				for gem in global_items_list.gemstone_list: # these should be sorted by level requirement
+					if gem.level_to_mine <= max_level:
+						received_ore = gem
+			else:
+				# remove the ore from the list of available ore
+				available_ore.remove(0)
+				
+				# and update the used_tile items (for if the unit continues to mine here)
+				map_actions.set_items_at_coordinates(player.curs_pos_x, player.curs_pos_y, available_ore)
 			
 			# start mining
 			player.hud.typeTextWithBuffer(active_unit.unit_name + MINING_TEXT, true)

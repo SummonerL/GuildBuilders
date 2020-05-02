@@ -63,6 +63,14 @@ onready var SKILL_UNLOCKS = {
 	# mining
 	constants.MINING: [
 		{
+			'unlock_text': ' can now use a Sturdy Pickaxe!',
+			'can_text': 'Use',
+			'skill_info_text': 'Sturdy Pickaxe',
+			'single_line': true,
+			'type': UNLOCK_TYPES.TOOL,
+			'level_required': 1,
+		},
+		{
 			'unlock_text': ' can now mine for Stone!',
 			'can_text': 'Mine',
 			'skill_info_text': 'Stone',

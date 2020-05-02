@@ -207,3 +207,14 @@ const NEXT_LEVEL_TEXT = "Nxt."
 
 # misc text
 const WHERE_SHOULD_I_RETURN_TEXT = 'Where should I return?'
+
+# helper function for chance tests, based on a passed percentage
+func chance_test(percent):
+	var rng = RandomNumberGenerator.new()
+	rng.randomize() # seed the generator based on time
+	var num = rng.randi_range(1, 100)
+	
+	if (num <= percent):
+		return true
+	else:
+		return false

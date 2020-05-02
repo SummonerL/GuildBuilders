@@ -53,9 +53,11 @@ onready var item_sturdy_axe = {
 
 onready var item_sturdy_pickaxe = {
 	"name": "Sturdy Pickaxe",
-	"description": "A simple stone pickaxe. Allows the unit to mine for ore.",
+	"description": "A simple stone pickaxe. Allows the unit to mine for ore. 5% chance of finding a gemstone.",
 	"type": ITEM_TYPES.PICKAXE,
-	"xp": 2
+	"level_required": 1,
+	"xp": 2,
+	"gemstone_chance": 5 # chance of collecting a gemstone when mining
 }
 
 onready var item_handsaw = {
@@ -173,15 +175,21 @@ onready var item_stone = {
 	"name": "Stone",
 	"description": "A small block of stone. Can be used to craft various items.",
 	"type": ITEM_TYPES.ORE,
-	"xp": 1 # xp upon receiving
+	"xp": 1, # xp upon receiving
+	"level_to_mine": 1 # required level to mine (should match what's in skill_unlocks)
 }
 
 onready var item_amethyst = {
 	"name": "Amethyst",
 	"description": "A small, amethyst gemstone. Its violet hue is quite soothing. Can be used to craft various items.",
 	"type": ITEM_TYPES.GEM,
-	"xp": 2 # xp upon receiving
+	"xp": 2, # xp upon receiving
+	"level_to_mine": 1 # required level to mine (should match what's in skill_unlocks)
 }
+
+onready var gemstone_list = [
+	item_amethyst
+]
 
 # misc crafting materials
 onready var item_wooden_handle = {
