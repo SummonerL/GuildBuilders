@@ -7,6 +7,9 @@ extends Node
 # bring in our items
 onready var global_items_list = get_node("/root/Items")
 
+# bring in our abilities
+onready var global_ability_list = get_node("/root/Abilities")
+
 # bring in the global player variables
 onready var player = get_node("/root/Player_Globals")
 
@@ -221,12 +224,21 @@ func action_window_finished(skill, reward, levelled_up):
 	match(skill):
 		constants.FISHING:
 			player.hud.typeText(FISH_RECEIVED_TEXT + reward.name + constants.EXCLAMATION, false, 'finished_viewing_text_generic') # we do have a signal
+		
 		constants.WOODCUTTING:
 			player.hud.typeText(WOOD_RECEIVED_TEXT + reward.name + constants.EXCLAMATION, false, 'finished_viewing_text_generic') # we do have a signal
+		
 		constants.MINING:
 			player.hud.typeText(ORE_RECEIVED_TEXT + reward.name + constants.EXCLAMATION, false, 'finished_viewing_text_generic') # we do have a signal
+			# for gem hunter ability
+			if (reward.type == global_items_list.ITEM_TYPES.GEM && 
+				global_ability_list.unit_has_ability(active_unit, global_ability_list.ABILITY_GEM_HUNTER_NAME)):
+				yield(signals, "finished_viewing_text_generic")
+				player.hud.typeText(active_unit.GEM_RECEIVED_TEXT, false, 'finished_viewing_text_generic')
+		
 		constants.WOODWORKING:
 			player.hud.typeText(CRAFT_RECEIVED_TEXT + reward.name + constants.EXCLAMATION, false, 'finished_viewing_text_generic') # we do have a signal
+		
 		constants.SMITHING:
 			player.hud.typeText(CRAFT_RECEIVED_TEXT + reward.name + constants.EXCLAMATION, false, 'finished_viewing_text_generic') # we do have a signal
 		_:
@@ -559,6 +571,11 @@ func initiate_mine_action():
 				for gem in global_items_list.gemstone_list: # these should be sorted by level requirement
 					if gem.level_to_mine <= max_level:
 						received_ore = gem
+	
+				# if the unit has the Gemstone Hunter ability, make them ecstatic (frankly, this is too specific to abstract -_-)
+				if (global_ability_list.unit_has_ability(active_unit, global_ability_list.ABILITY_GEM_HUNTER_NAME) && 
+						!global_ability_list.unit_has_ability(active_unit, global_ability_list.ABILITY_ECSTATIC_NAME)):
+					global_ability_list.add_ability_to_unit(active_unit, global_ability_list.ability_ecstatic)
 			else:
 				# remove the ore from the list of available ore
 				available_ore.remove(0)

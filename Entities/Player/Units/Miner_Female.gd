@@ -12,6 +12,8 @@ const NO_MORE_WOOD_TEXT = '...'
 const CANT_MINE_WITHOUT_PICKAXE_TEXT = '...'
 const NO_MORE_ORE_TEXT = '...'
 
+const GEM_RECEIVED_TEXT = 'Jade became ecstatic!'
+
 const INVENTORY_FULL_TEXT = '...'
 
 const NOT_SKILLED_ENOUGH_TEXT = '...'
