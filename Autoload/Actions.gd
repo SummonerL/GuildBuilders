@@ -88,6 +88,9 @@ enum COMPLETE_ACTION_LIST {
 	NO, # for confirmation
 	TRANSFER_ITEM_AT_DEPOT, # for depot screen
 	VIEW_ITEM_INFO_AT_DEPOT, # for depot screen
+	TRASH_ITEM_AT_DEPOT, # for depot screen
+	TRASH_ITEM_IN_UNIT_SCREEN, # for unit info screen
+	VIEW_ITEM_INFO_IN_UNIT_SCREEN, # for unit info screen
 	EAT_FOOD_AT_DINING_HALL, # for dining screen
 	VIEW_ITEM_INFO_AT_DINING_HALL, # for dining screen
 	CRAFT_RECIPE_IN_CRAFTING_SCREEN, # for crafting screen
@@ -114,6 +117,9 @@ const ACTION_LIST_NAMES = [
 	'YES',
 	'NO',
 	'MOVE',
+	'INFO',
+	'TRASH',
+	'TRASH',
 	'INFO',
 	'EAT',
 	'INFO',
@@ -158,6 +164,13 @@ func do_action(action, parent):
 		COMPLETE_ACTION_LIST.VIEW_ITEM_INFO_AT_DEPOT:
 			# show the item info, at the depot
 			guild.show_item_info_at_depot()
+		COMPLETE_ACTION_LIST.TRASH_ITEM_AT_DEPOT:
+			# trash the item (in the depot screen)
+			guild.trash_item_at_depot()
+		COMPLETE_ACTION_LIST.TRASH_ITEM_IN_UNIT_SCREEN:
+			parent.trash_item()
+		COMPLETE_ACTION_LIST.VIEW_ITEM_INFO_IN_UNIT_SCREEN:
+			parent.show_item_info()
 		COMPLETE_ACTION_LIST.EAT_FOOD_AT_DINING_HALL:
 			# eat the selected item at the dining hall
 			guild.eat_food_at_dining_hall()

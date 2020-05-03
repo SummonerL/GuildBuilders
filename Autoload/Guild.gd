@@ -55,6 +55,10 @@ func show_item_info_at_depot():
 	if (hud_depot_screen_node):
 		hud_depot_screen_node.show_item_info()
 		
+func trash_item_at_depot():
+	if (hud_depot_screen_node):
+		hud_depot_screen_node.trash_item()
+		
 func eat_food_at_dining_hall():
 	if (hud_dining_screen_node):
 		hud_dining_screen_node.eat_food()

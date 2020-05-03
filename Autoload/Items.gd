@@ -41,6 +41,7 @@ onready var item_flexible_rod = {
 	"name": "Flexible Rod",
 	"description": "A simple fishing rod made from ash wood. Allows the unit to catch fish.",
 	"type": ITEM_TYPES.ROD,
+	"can_discard": true,
 	"xp": 3 # xp upon crafting
 }
 
@@ -48,6 +49,7 @@ onready var item_sturdy_axe = {
 	"name": "Sturdy Axe",
 	"description": "A simple stone axe. Allows the unit to gather wood.",
 	"type": ITEM_TYPES.AXE,
+	"can_discard": true,
 	"xp": 2
 }
 
@@ -56,6 +58,7 @@ onready var item_sturdy_pickaxe = {
 	"description": "A simple stone pickaxe. Allows the unit to mine for ore. 5% chance of finding a gemstone.",
 	"type": ITEM_TYPES.PICKAXE,
 	"level_required": 1,
+	"can_discard": false,
 	"xp": 2,
 	"gemstone_chance": 5 # chance of collecting a gemstone when mining
 }
@@ -64,6 +67,7 @@ onready var item_handsaw = {
 	"name": "Handsaw",
 	"description": "A basic handsaw. Allows the unit to work with wood.",
 	"type": ITEM_TYPES.SAW,
+	"can_discard": true,
 	"xp": 2 # xp upon crafting
 }
 
@@ -71,6 +75,7 @@ onready var item_hammer = {
 	"name": "Hammer",
 	"description": "A basic hammer. Allows the unit to smith various items.",
 	"type": ITEM_TYPES.HAMMER,
+	"can_discard": true,
 	"xp": 2 # xp upon crafting
 }
 
@@ -81,6 +86,7 @@ onready var item_wooden_stilts = {
 	"name": "Wooden Stilts",
 	"description": "Sturdy wooden legs that allow a unit to cross rivers and other small bodies of water. This item can only be used once.",
 	"type": ITEM_TYPES.UTILITY,
+	"can_discard": true,
 	"can_stack_effect": false,
 	"stat_effected": "extra_actions",
 	"stat_effected_value": [global_action_list.COMPLETE_ACTION_LIST.CROSS],
@@ -92,6 +98,7 @@ onready var item_walking_stick = {
 	"name": "Walking Stick",
 	"description": "A sturdy walking stick made of hardwood. Increases a unit\'s movement by 1 when held. This effect can only be gained once.",
 	"type": ITEM_TYPES.UTILITY,
+	"can_discard": true,
 	"can_stack_effect": false, # this effect can not be added more than once
 	"stat_effected": "base_move",
 	"stat_effected_value": 1,
@@ -102,6 +109,7 @@ onready var item_wooden_basket = {
 	"name": "Wooden Basket",
 	"description": "A basket made from thin strips of ash wood. Increases the unit\'s inventory space by 4. This effect can only be gained once.",
 	"type": ITEM_TYPES.UTILITY,
+	"can_discard": true,
 	"can_stack_effect": false, # this effect can not be added more than once
 	"stat_effected": "item_limit",
 	"stat_effected_value": 4,
@@ -115,6 +123,7 @@ onready var item_jumbofish = {
 	"name": "Jumbofish",
 	"description": "After eating this, the unit will not have to eat for 2 days.",
 	"type": ITEM_TYPES.FISH,
+	"can_discard": true,
 	"xp": 2, # xp upon receiving
 	"connected_ability": global_ability_list.ability_well_fed,
 	"can_stack_effect": false # this effect can not be added more than once
@@ -124,6 +133,7 @@ onready var item_musclefish = {
 	"name": "Musclefish",
 	"description": "Eating this will allow the unit to carry an additional 3 items that day.",
 	"type": ITEM_TYPES.FISH,
+	"can_discard": true,
 	"xp": 2, # xp upon receiving
 	"connected_ability": global_ability_list.ability_food_musclefish,
 	"can_stack_effect": true # this effect can be added more than once
@@ -136,6 +146,7 @@ onready var item_cedar_logs = {
 	"name": "Cedar Logs",
 	"description": "A light-colored wood that is quite aromatic. Can be used to craft various items.",
 	"type": ITEM_TYPES.WOOD,
+	"can_discard": true,
 	"xp": 1 # xp upon receiving
 }
 
@@ -143,6 +154,7 @@ onready var item_ash_logs = {
 	"name": "Ash Logs",
 	"description": "A hardwood that is surprisingly flexible. Can be used to craft various items.",
 	"type": ITEM_TYPES.WOOD,
+	"can_discard": true,
 	"xp": 2 # xp upon receiving
 }
 
@@ -150,6 +162,7 @@ onready var item_fir_logs = {
 	"name": "Fir Logs",
 	"description": "A softwood that feels quite sturdy. Can be used to craft various items.",
 	"type": ITEM_TYPES.WOOD,
+	"can_discard": true,
 	"xp": 2 # xp upon receiving
 }
 
@@ -158,6 +171,7 @@ onready var item_softwood = {
 	"name": "Softwood",
 	"description": "A light-colored wood that is easy to cut. Can be used to craft various items.",
 	"type": ITEM_TYPES.WOOD,
+	"can_discard": true,
 	"xp": 2 # xp upon receiving
 }
 
@@ -165,6 +179,7 @@ onready var item_hardwood = {
 	"name": "Hardwood",
 	"description": "A dark, heavy wood that takes some effort to cut through. Can be used to craft various items.",
 	"type": ITEM_TYPES.WOOD,
+	"can_discard": true,
 	"xp": 3 # xp upon receiving
 }
 

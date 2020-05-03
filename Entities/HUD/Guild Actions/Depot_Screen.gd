@@ -52,7 +52,8 @@ var depot_screen_state = DEPOT_SCREEN_STATES.SELECTING_ITEM
 
 onready var item_actions = [
 	global_action_list.COMPLETE_ACTION_LIST.TRANSFER_ITEM_AT_DEPOT,
-	global_action_list.COMPLETE_ACTION_LIST.VIEW_ITEM_INFO_AT_DEPOT
+	global_action_list.COMPLETE_ACTION_LIST.VIEW_ITEM_INFO_AT_DEPOT,
+	global_action_list.COMPLETE_ACTION_LIST.TRASH_ITEM_AT_DEPOT
 ]
 
 # keep track of the currently selected inv (the unit's, or the depot) 
@@ -68,6 +69,8 @@ var active_unit
 const DEPOT_TEXT = 'Depot'
 const NO_ITEMS_TEXT = "No items..."
 const CANT_CARRY_TEXT = ' can\'t carry anything else...'
+const TRASH_ITEM_TEXT = ' discarded the item.'
+const CANT_DISCARD_TEXT = "This item can not be discarded."
 
 func depot_screen_init():
 	letters_symbols_node = letters_symbols_scn.instance()
@@ -144,6 +147,45 @@ func transfer_item():
 		
 	# reposition the cursor and repopulate the list, now that we've removed that item
 	if (current_item > (focus.current_items.size() - 1)):
+		if (current_item == inv_start_index_tracker && inv_start_index_tracker > 0):
+			inv_start_index_tracker -= 4
+		current_item -= 1
+		
+	populate_items(inv_start_index_tracker)
+	
+	#since we just finished with the selection list, unpause input in this node
+	set_process_input(true)
+		
+# when the player wants to trash a selected item
+func trash_item():
+	# trash the item
+	var item = focus.current_items[current_item]
+	
+	# determine if we can discard this item
+	var can_discard = (item.has("can_discard") && item.can_discard)
+	
+	if (can_discard):
+		if (current_inv == SELECTIONS.DEPOT):
+			# remove from guild
+			guild.current_items.remove(current_item)
+			
+			# sort the guild items (for convenience)
+			guild.current_items.sort_custom(self, 'sort_items_by_name')
+		elif (current_inv == SELECTIONS.UNIT):
+			# remove from unit
+			global_item_list.remove_item_from_unit(focus, current_item)
+		
+	# type the follow up text
+	player.hud.dialogueState = player.hud.STATES.INACTIVE
+	if (can_discard):
+		player.hud.typeTextWithBuffer(active_unit.unit_name + TRASH_ITEM_TEXT, false, 'finished_viewing_text_generic') 
+	else:
+		player.hud.typeTextWithBuffer(CANT_DISCARD_TEXT, false, 'finished_viewing_text_generic') 
+	
+	yield(signals, "finished_viewing_text_generic")
+		
+	# reposition the cursor and repopulate the list, now that we've removed that item
+	if (can_discard && current_item > (focus.current_items.size() - 1)):
 		if (current_item == inv_start_index_tracker && inv_start_index_tracker > 0):
 			inv_start_index_tracker -= 4
 		current_item -= 1

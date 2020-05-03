@@ -53,6 +53,9 @@ var movement_set = []
 onready var unit_move_sound = preload("res://Music/Unit_Move_Sound.wav")
 var unit_move_sound_node = null
 
+# unit info node
+var hud_unit_info_full_node = null
+
 # this dict will be used to track the eligible movement tiles, as well as their total distance
 var eligible_tile_tracker = {}
 
@@ -362,7 +365,7 @@ func cancel_select_list():
 	player.player_state = player.PLAYER_STATE.SELECTING_TILE
 		
 func show_unit_info_full_screen():
-	var hud_unit_info_full_node = hud_unit_info_full_scn.instance()
+	hud_unit_info_full_node = hud_unit_info_full_scn.instance()
 	camera.add_child(hud_unit_info_full_node)
 	
 	hud_unit_info_full_node.set_unit(self)

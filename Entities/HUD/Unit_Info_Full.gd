@@ -6,6 +6,15 @@ onready var constants = get_node("/root/Game_Constants")
 # bring in the global player variables
 onready var player = get_node("/root/Player_Globals")
 
+# bring in our global action list
+onready var global_action_list = get_node("/root/Actions")
+
+# bring in our items
+onready var global_items_list = get_node("/root/Items")
+
+# bring in our signals
+onready var signals = get_node("/root/Signal_Manager")
+
 # preaload the letters + symbols
 onready var letters_symbols_scn = preload("res://Entities/HUD/Letters_Symbols/Letters_Symbols.tscn")
 var letters_symbols_node
@@ -16,6 +25,9 @@ const PORTRAIT_HEIGHT = 3
 # preload the full skill detail screen
 onready var full_skill_detail_screen = preload("res://Entities/HUD/Skill_Details_Full.tscn")
 var full_skill_detail_screen_node
+
+# various hud scenes
+onready var hud_selection_list_scn = preload("res://Entities/HUD/Selection_List.tscn")
 
 # the unit info background sprite
 onready var unit_info_background_sprite = get_node("Unit_Info_Background_Sprite")
@@ -83,6 +95,11 @@ var skill_end_index_tracker = 0
 
 var current_screen = screen_list.BASIC_INFO
 
+onready var item_actions = [
+	global_action_list.COMPLETE_ACTION_LIST.VIEW_ITEM_INFO_IN_UNIT_SCREEN,
+	global_action_list.COMPLETE_ACTION_LIST.TRASH_ITEM_IN_UNIT_SCREEN
+]
+
 const NAME_TEXT = "Name:"
 const AGE_TEXT = "Age:"
 const CLASS_TEXT = "Class:"
@@ -102,6 +119,9 @@ const SMITHING_TEXT = "Smithing"
 
 const NO_ITEMS_TEXT = "No items..."
 const NO_ABIL_TEXT = "No abilities..."
+
+const TRASH_ITEM_TEXT = " discarded the item."
+const CANT_DISCARD_TEXT = "This item can not be discarded."
 
 func unit_info_full_init():
 	letters_symbols_node = letters_symbols_scn.instance()
@@ -320,14 +340,10 @@ func populate_item_screen(inv_start_index = 0):
 	
 	current_item_set = active_unit.current_items.slice(inv_start_index_tracker, inv_end_index_tracker, 1) # only show 4 items at a time
 	
-	# make the selector arrow visible, and start typing the initial item
+	# make the selector arrow visible
 	if (active_unit.current_items.size() > 0):
 		selector_arrow.visible = true
 		selector_arrow.position = Vector2((start_x - 1) * constants.DIA_TILE_WIDTH, (start_y + ((current_item - inv_start_index_tracker) * 2)) * constants.DIA_TILE_HEIGHT)
-
-		# type the item description
-		player.hud.dialogueState = player.hud.STATES.INACTIVE
-		player.hud.typeText(current_item_set[current_item - inv_start_index_tracker].description, true)
 	else:
 		player.hud.dialogueState = player.hud.STATES.INACTIVE
 		player.hud.typeText(NO_ITEMS_TEXT, true)
@@ -345,6 +361,50 @@ func populate_item_screen(inv_start_index = 0):
 		letters_symbols_node.print_immediately(item.name, Vector2(start_x, start_y))
 		start_y += 2
 
+# when the unit has selected 'info' in the selection list
+func show_item_info():
+	var item = current_item_set[current_item - inv_start_index_tracker]
+	# type the item description
+	player.hud.dialogueState = player.hud.STATES.INACTIVE
+	player.hud.typeTextWithBuffer(item.description, false, 'finished_viewing_text_generic') 
+	
+	yield(signals, "finished_viewing_text_generic")
+	
+	# unpause the node
+	set_process_input(true)
+	
+# when the unit selects 'trash' in the selection list
+func trash_item():
+	# determine if we can discard this item
+	var can_discard = (active_unit.current_items[current_item].has("can_discard") && 
+						active_unit.current_items[current_item].can_discard)
+	
+	# remove the item from the unit
+	if (can_discard):
+		global_items_list.remove_item_from_unit(active_unit, current_item)
+	
+	# type the trash item text
+	player.hud.dialogueState = player.hud.STATES.INACTIVE
+	
+	if (can_discard):
+		player.hud.typeTextWithBuffer(active_unit.unit_name + TRASH_ITEM_TEXT, false, 'finished_viewing_text_generic') 
+	else:
+		player.hud.typeTextWithBuffer(CANT_DISCARD_TEXT, false, 'finished_viewing_text_generic') 
+	
+	yield(signals, "finished_viewing_text_generic")
+	
+	# reposition the cursor and repopulate the list, now that we've removed that item
+	if (can_discard && current_item > (active_unit.current_items.size() - 1)):
+		if (current_item == inv_start_index_tracker && inv_start_index_tracker > 0):
+			inv_start_index_tracker -= 4
+		current_item -= 1
+
+	change_screen(inv_start_index_tracker)
+
+	# unpause the node
+	set_process_input(true)
+		
+
 # a function used on the item screen to move the currently selected item
 func move_items(direction):
 	var start_x = 2
@@ -360,8 +420,6 @@ func move_items(direction):
 			player.hud.clearText()
 			player.hud.completeText()
 			player.hud.kill_timers()
-			player.hud.dialogueState = player.hud.STATES.INACTIVE
-			player.hud.typeText(current_item_set[current_item - inv_start_index_tracker].description, true)
 		else:
 			if (letters_symbols_node.arrow_up_sprite.visible): # if we are allowed to move up
 				current_item += direction
@@ -377,12 +435,15 @@ func move_items(direction):
 			player.hud.clearText()
 			player.hud.completeText()
 			player.hud.kill_timers()
-			player.hud.dialogueState = player.hud.STATES.INACTIVE
-			player.hud.typeText(current_item_set[current_item - inv_start_index_tracker].description, true)
 		else:
 			if (letters_symbols_node.arrow_down_sprite.visible): # if we are allowed to move down
 				current_item += direction
 				change_screen(inv_end_index_tracker + direction)
+
+# cancel the item select list
+func cancel_select_list():
+	# unpause this node
+	set_process_input(true)
 
 func populate_ability_screen(abil_start_index = 0):
 	abil_start_index_tracker = abil_start_index
@@ -564,6 +625,16 @@ func _input(event):
 				full_skill_detail_screen_node.set_current_level(active_unit.skill_levels[all_skills[current_skill]])
 				full_skill_detail_screen_node.set_current_skill_icon(all_skill_icons[current_skill].duplicate())
 				full_skill_detail_screen_node.populate_screen()
+			screen_list.ITEMS:
+				# give the unit the option to view 'info' or 'trash'
+				if active_unit.current_items.size() > 0:
+					var hud_selection_list_node = hud_selection_list_scn.instance()
+					add_child(hud_selection_list_node)
+					hud_selection_list_node.layer = self.layer + 1
+					hud_selection_list_node.populate_selection_list(item_actions, self, true, false, true) # can cancel, position to the right
+				
+					# temporarily stop processing input on this node (pause this node)
+					set_process_input(false)
 				
 	if (event.is_action_pressed("ui_cancel")):
 		close_unit_screen()
