@@ -22,7 +22,7 @@ onready var movement_grid_square = preload("res://Entities/Player/Movement_Grid_
 
 # various hud scenes
 onready var hud_selection_list_scn = preload("res://Entities/HUD/Selection_List.tscn")
-onready var hud_unit_info_full_scn = preload("res://Entities/HUD/Unit_Info_Full.tscn")
+onready var hud_unit_info_full_scn = preload("res://Entities/HUD/Info Screens/Unit_Info_Full.tscn")
 
 # bring in any shaders that we can use on our unit sprite
 onready var unit_spent_shader = preload("res://Sprites/Shaders/spent_unit.tres")

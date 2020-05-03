@@ -83,6 +83,7 @@ enum COMPLETE_ACTION_LIST {
 	INFO,
 	FOCUS,
 	MAP, # view the world map
+	GUILD, # view the guild info
 	NEXT_TURN,
 	YES, # for confirmation
 	NO, # for confirmation
@@ -113,6 +114,7 @@ const ACTION_LIST_NAMES = [
 	'INFO',
 	'FOCUS',
 	'MAP',
+	'GUILD',
 	'NEXT',
 	'YES',
 	'NO',
@@ -217,6 +219,9 @@ func do_action(action, parent):
 		COMPLETE_ACTION_LIST.MAP:
 			# display the world map
 			get_tree().get_current_scene().display_world_map()
+		COMPLETE_ACTION_LIST.GUILD:
+			# display the guild info screen
+			guild.display_guild_info_screen()
 		COMPLETE_ACTION_LIST.NEXT_TURN:
 			# we're finished with this turn (hour), so empty the yet to act array and determine the next state
 			# but first, let the user confirm

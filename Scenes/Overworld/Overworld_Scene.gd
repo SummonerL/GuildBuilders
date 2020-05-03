@@ -99,6 +99,7 @@ export var transition_type = 1 # TRANS_SINE
 onready var action_list = [
 	global_action_list.COMPLETE_ACTION_LIST.FOCUS,
 	global_action_list.COMPLETE_ACTION_LIST.MAP,
+	global_action_list.COMPLETE_ACTION_LIST.GUILD,
 	global_action_list.COMPLETE_ACTION_LIST.NEXT_TURN
 ]
 

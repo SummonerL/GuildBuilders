@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Sprites/hud/unit_info_backdrop_full.png" type="Texture" id=1]
+[ext_resource path="res://Sprites/hud/skill_detail_backdrop_full.png" type="Texture" id=2]
+[ext_resource path="res://Entities/HUD/Info Screens/Guild_Info_Screen.gd" type="Script" id=3]
+
+[node name="Guild_Info_Screen" type="CanvasLayer"]
+layer = 3
+script = ExtResource( 3 )
+
+[node name="General_Info_Sprite" type="Sprite" parent="."]
+texture = ExtResource( 2 )
+centered = false
+
+[node name="Quest_Type_Selection_Sprite" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+centered = false

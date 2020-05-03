@@ -23,7 +23,7 @@ const PORTRAIT_WIDTH = 3
 const PORTRAIT_HEIGHT = 3
 
 # preload the full skill detail screen
-onready var full_skill_detail_screen = preload("res://Entities/HUD/Skill_Details_Full.tscn")
+onready var full_skill_detail_screen = preload("res://Entities/HUD/Info Screens/Skill_Details_Full.tscn")
 var full_skill_detail_screen_node
 
 # various hud scenes

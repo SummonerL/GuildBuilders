@@ -58,7 +58,7 @@ onready var item_sturdy_pickaxe = {
 	"description": "A simple stone pickaxe. Allows the unit to mine for ore. 5% chance of finding a gemstone.",
 	"type": ITEM_TYPES.PICKAXE,
 	"level_required": 1,
-	"can_discard": false,
+	"can_discard": true,
 	"xp": 2,
 	"gemstone_chance": 5 # chance of collecting a gemstone when mining
 }

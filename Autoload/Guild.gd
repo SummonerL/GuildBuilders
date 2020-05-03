@@ -65,3 +65,7 @@ func eat_food_at_dining_hall():
 func show_item_info_at_dining_hall():
 	if (hud_dining_screen_node):
 		hud_dining_screen_node.show_item_info()
+		
+func display_guild_info_screen():
+	# initialize the guild info screen
+	pass
