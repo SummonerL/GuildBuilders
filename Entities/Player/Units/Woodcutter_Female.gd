@@ -43,8 +43,8 @@ func unit_init():
 	global_items_list.add_item_to_unit(self, global_items_list.item_jumbofish)
 	
 	# add the unit's starting ability
-	#starting_ability = global_ability_list.ability_insomniac
-	#global_ability_list.add_ability_to_unit(self, global_ability_list.ability_insomniac)
+	starting_ability = global_ability_list.ability_insomniac
+	global_ability_list.add_ability_to_unit(self, global_ability_list.ability_insomniac)
 	
 	self.global_position = Vector2(unit_pos_x*constants.TILE_WIDTH, 
 									unit_pos_y*constants.TILE_HEIGHT)

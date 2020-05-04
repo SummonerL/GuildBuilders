@@ -117,6 +117,14 @@ func remove_abilities_of_type(type):
 		
 		unit.unit_abilities += gained_abilities # any new abilities the unit may have gained as a result of doing this
 
+func calculate_total_skill_level():
+	var total_skill_level = 0
+	for unit in party_members:
+		for key in unit.skill_levels:
+			total_skill_level += unit.skill_levels[key]
+			
+	return total_skill_level
+
 func reset_shaders():
 	for unit in party_members:
 		unit.remove_used_shader()

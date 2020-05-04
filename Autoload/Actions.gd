@@ -221,7 +221,7 @@ func do_action(action, parent):
 			get_tree().get_current_scene().display_world_map()
 		COMPLETE_ACTION_LIST.GUILD:
 			# display the guild info screen
-			guild.display_guild_info_screen()
+			guild.populate_guild_info_screen()
 		COMPLETE_ACTION_LIST.NEXT_TURN:
 			# we're finished with this turn (hour), so empty the yet to act array and determine the next state
 			# but first, let the user confirm
