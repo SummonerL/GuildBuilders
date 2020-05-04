@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Sprites/hud/quest_type_selection_screen.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/hud/guild_info_backdrop.png" type="Texture" id=2]
 [ext_resource path="res://Entities/HUD/Info Screens/Guild_Info_Screen.gd" type="Script" id=3]
 [ext_resource path="res://Sprites/Misc/guild_icon.png" type="Texture" id=4]
+[ext_resource path="res://Sprites/Misc/quest_icon.png" type="Texture" id=5]
 
 [node name="Guild_Info_Screen" type="CanvasLayer"]
 layer = 3
@@ -22,4 +23,9 @@ centered = false
 [node name="guild_icon" type="Sprite" parent="."]
 visible = false
 texture = ExtResource( 4 )
+centered = false
+
+[node name="quest_icon" type="Sprite" parent="."]
+visible = false
+texture = ExtResource( 5 )
 centered = false

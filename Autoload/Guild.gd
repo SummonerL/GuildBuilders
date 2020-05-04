@@ -35,6 +35,16 @@ var hud_dining_screen_node
 # keep track of the guild info screen (if it exists)
 var hud_guild_info_screen_node
 
+# ------------ QUESTS -----------------
+# keep track of the quests that are in progress and completed
+var main_in_progress = []
+var side_in_progress = []
+var main_completed = []
+var side_completed = []
+
+var main_quests = []
+var side_quests = []
+
 func populate_depot_screen(active_unit):
 	camera = get_tree().get_nodes_in_group("Camera")[0]
 	
