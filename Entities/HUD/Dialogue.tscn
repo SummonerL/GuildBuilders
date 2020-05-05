@@ -4,7 +4,7 @@
 [ext_resource path="res://Entities/HUD/Dialogue.gd" type="Script" id=2]
 
 [node name="HUD_Layer" type="CanvasLayer"]
-layer = 4
+layer = 10
 script = ExtResource( 2 )
 
 [node name="Dialogue_Sprite" type="Sprite" parent="."]

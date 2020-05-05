@@ -18,6 +18,10 @@ onready var quest_icon_sprite = get_node("quest_icon")
 onready var letters_symbols_scn = preload("res://Entities/HUD/Letters_Symbols/Letters_Symbols.tscn")
 var letters_symbols_node
 
+# our quest details screen
+onready var quest_details_scn = preload("res://Entities/HUD/Info Screens/Quest_Screen_Details.tscn")
+var quest_details_node
+
 # keep an extra arrow to act as a selector
 var selector_arrow
 
@@ -152,6 +156,24 @@ func make_sprites_invisible():
 	guild_icon_sprite.visible = false
 	quest_icon_sprite.visible = false
 
+func open_quest_details_screen():
+	# pause this node
+	set_process_input(false)
+	
+	# create a new instance of the quest details screen
+	quest_details_node = quest_details_scn.instance()
+	add_child(quest_details_node)
+	
+	# set the quest type
+	quest_details_node.set_quest_type(current_type)
+	
+func close_quest_details_screen():
+	# unpause this node
+	set_process_input(true)
+	
+	# kill the quest details node
+	remove_child(quest_details_node)
+
 func close_guild_screen():
 	# change the player state
 	player.player_state = player.PLAYER_STATE.SELECTING_TILE
@@ -169,6 +191,10 @@ func _input(event):
 		player.hud.clearText()
 		player.hud.completeText()
 		player.hud.kill_timers()
+	if (event.is_action_pressed("ui_accept")):
+		match (current_screen):
+			SCREENS.QUEST_TYPE_SELECT:
+				open_quest_details_screen()
 	if (event.is_action_pressed("ui_right")):
 		# reset certain screen variables
 		current_type = 0

@@ -40,6 +40,7 @@ var hud_guild_info_screen_node
 var main_in_progress = []
 var side_in_progress = []
 var main_completed = []
+
 var side_completed = []
 
 var main_quests = []
