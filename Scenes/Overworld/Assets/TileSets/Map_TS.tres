@@ -287,3 +287,13 @@
 27/navigation_offset = Vector2( 0, 0 )
 27/shapes = [  ]
 27/z_index = 0
+28/name = "npc_man"
+28/texture = ExtResource( 1 )
+28/tex_offset = Vector2( 0, 0 )
+28/modulate = Color( 1, 1, 1, 1 )
+28/region = Rect2( 32, 176, 16, 16 )
+28/tile_mode = 0
+28/occluder_offset = Vector2( 0, 0 )
+28/navigation_offset = Vector2( 0, 0 )
+28/shapes = [  ]
+28/z_index = 0

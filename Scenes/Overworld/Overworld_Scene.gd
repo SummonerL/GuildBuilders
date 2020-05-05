@@ -36,6 +36,7 @@ onready var hud_time_of_day_info_scn = preload("res://Entities/HUD/Time_Of_Day_I
 onready var clock_scn = preload("res://Entities/HUD/Clock/Clock.tscn")
 onready var scene_transitioner_scn = preload("res://Scenes/Transition_Scene/Transition_Scene.tscn")
 onready var world_map_scn = preload("res://Entities/HUD/World_Map_Scene.tscn")
+onready var npcs_scn = preload("res://Entities/NPCs/NPC.tscn")
 
 onready var l1_tiles = get_node("World_Map_L1")
 onready var l2_tiles = get_node("World_Map_L2")
@@ -112,6 +113,7 @@ var camera
 var hud_tile_info
 var hud_tod_info
 var world_map_node
+var npcs
 
 func gameInit():
 	cursor = cursor_scn.instance()
@@ -119,6 +121,7 @@ func gameInit():
 	player.hud = hud_scn.instance()
 	hud_tile_info = hud_tile_info_scn.instance()
 	hud_tod_info = hud_time_of_day_info_scn.instance()
+	npcs = npcs_scn.instance()
 	
 	add_child(camera)
 	camera.add_child(hud_tile_info) # make the hud a child of the camera
@@ -139,6 +142,9 @@ func gameInit():
 	player.party.add_unit(constants.UNIT_TYPES.WOODWORKER_FEMALE)
 	player.party.add_unit(constants.UNIT_TYPES.MINER_MALE)
 	player.party.add_unit(constants.UNIT_TYPES.MINER_FEMALE)
+	
+	# add npcs to the world!
+	add_child(npcs)
 	
 	# lights, camera, action!
 	camera.turnOn()

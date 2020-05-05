@@ -46,6 +46,18 @@ var side_completed = []
 var main_quests = []
 var side_quests = []
 
+onready var quest_friend_wanted = {
+	"name": "Friend Wanted",
+	"start_prompt": "Hear Brother Samuel out?",
+	"statuses": [
+		"A former member of the guild named Brother Samuel has asked you to bring him a wooden pipe."
+	],
+	"current_status": 0,
+	"reward": null
+}
+
+# --------------------------------------
+
 func populate_depot_screen(active_unit):
 	camera = get_tree().get_nodes_in_group("Camera")[0]
 	
