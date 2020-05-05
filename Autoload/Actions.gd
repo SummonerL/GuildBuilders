@@ -78,6 +78,7 @@ enum COMPLETE_ACTION_LIST {
 	FISH,
 	MINE,
 	CHOP,
+	TALK, # used for NPCS
 	TUNNEL # for caves (Male Miner Only)
 	CROSS, # for rivers (Female Angler Only / Or wooden stilts)
 	INFO,
@@ -109,6 +110,7 @@ const ACTION_LIST_NAMES = [
 	'FISH',
 	'MINE',
 	'CHOP',
+	'TALK',
 	'TUNNL',
 	'CROSS',
 	'INFO',
@@ -206,6 +208,9 @@ func do_action(action, parent):
 			player.hud.full_text_destruction()
 			active_unit.return_to(COMPLETE_ACTION_LIST.RETURN_TO_CAMP)
 			get_tree().get_current_scene().send_units_to_bed(true, true)
+		COMPLETE_ACTION_LIST.TALK:
+			# talk to an NPC
+			get_tree().get_current_scene().npcs.talk_to_npc()
 		COMPLETE_ACTION_LIST.TUNNEL:
 			# this action can only be taken by the male miner. Allows the unit to travel between 
 			# cave's (in the same region)

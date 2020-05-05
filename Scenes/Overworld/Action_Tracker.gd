@@ -69,6 +69,9 @@ onready var matching_connections = {
 # river actions (used for crossing)
 onready var river_actions = [global_action_list.COMPLETE_ACTION_LIST.CROSS]
 
+# npc actions
+onready var npc_actions = [global_action_list.COMPLETE_ACTION_LIST.TALK]
+
 # keep track of individual tiles that have been interacted with in a particular day. This will allow us to 'deplete' certain
 # tiles. This will be an object, where the key represents the location on the map, and the value is the remaining items @ that location
 onready var used_tile_items = {

@@ -659,6 +659,17 @@ func populate_unique_actions(unit):
 	if (river_adjacent):
 		unique_actions += map_actions.river_actions 
 		
+	
+	# determine if we are near any npcs
+	var adjacent_npc = null
+	for tile in get_cardinal_tiles(unit):
+		if (adjacent_npc == null):
+			adjacent_npc = npcs.find_npc_at_tile(tile.tile)
+			
+	if (adjacent_npc != null):
+		npcs.set_active_npc(adjacent_npc)
+		unique_actions += map_actions.npc_actions
+	
 	return unique_actions
 	
 # when the action list is cancelled, go back to selecting a tile
