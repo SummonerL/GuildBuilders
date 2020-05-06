@@ -9,9 +9,23 @@ onready var player = get_node("/root/Player_Globals")
 # bring in our guild variables/functions
 onready var guild = get_node("/root/Guild")
 
+# bring in our global action list
+onready var global_action_list = get_node("/root/Actions")
+
+# bring in our signals
+onready var signals = get_node("/root/Signal_Manager")
+
+# various hud scenes
+onready var hud_selection_list_scn = preload("res://Entities/HUD/Selection_List.tscn")
+
 # preaload the letters + symbols
 onready var letters_symbols_scn = preload("res://Entities/HUD/Letters_Symbols/Letters_Symbols.tscn")
 var letters_symbols_node
+
+# actions that can be chosen
+onready var quest_actions = [
+	global_action_list.COMPLETE_ACTION_LIST.QUEST_STATUS
+]
 
 # keep track of the currently selected quest in the quest details screen
 var current_quest_set = []
@@ -36,6 +50,8 @@ var active_in_progress_quests
 var active_completed_quests
 
 var current_quest_type
+
+var total_quests
 
 # keep an extra arrow to act as a selector
 var selector_arrow
@@ -80,7 +96,7 @@ func populate_quest_detail_screen(start_tracker = 0):
 	var start_y = 3
 	
 	# show in progress quests first
-	var total_quests =  active_in_progress_quests + active_completed_quests
+	total_quests =  active_in_progress_quests + active_completed_quests
 	
 	quest_end_index_tracker = quest_start_index_tracker + 3
 	if (quest_end_index_tracker > total_quests.size() - 1): # account for index
@@ -143,6 +159,20 @@ func move_quests(direction):
 				current_quest += direction
 				populate_quest_detail_screen(quest_end_index_tracker + direction)
 
+# show the current quest status for the selected quest
+func show_quest_status():
+	var quest = current_quest_set[current_quest - quest_start_index_tracker]
+	player.hud.typeTextWithBuffer(quest.statuses[quest.current_progress], false, "finished_viewing_text_generic")
+	
+	yield(signals, "finished_viewing_text_generic")
+	
+	# unpause the node
+	set_process_input(true)
+
+func cancel_select_list():
+	# unpause the node
+	set_process_input(true)
+
 func _ready():
 	initialize_quest_info_screen()
 	
@@ -154,6 +184,17 @@ func _input(event):
 		player.hud.kill_timers()
 		
 		get_parent().close_quest_details_screen()
+		
+	if (event.is_action_pressed("ui_accept")):
+			# give the unit the option to view 'info' or 'trash'
+			if total_quests.size() > 0:
+				var hud_selection_list_node = hud_selection_list_scn.instance()
+				add_child(hud_selection_list_node)
+				hud_selection_list_node.layer = self.layer + 1
+				hud_selection_list_node.populate_selection_list(quest_actions, self, true, false, true) # can cancel, position to the right
+			
+				# temporarily stop processing input on this node (pause this node)
+				set_process_input(false)
 		
 	if (event.is_action_pressed("ui_down")):
 		move_quests(1)

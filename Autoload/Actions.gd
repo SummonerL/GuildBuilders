@@ -97,6 +97,7 @@ enum COMPLETE_ACTION_LIST {
 	VIEW_ITEM_INFO_AT_DINING_HALL, # for dining screen
 	CRAFT_RECIPE_IN_CRAFTING_SCREEN, # for crafting screen
 	VIEW_ITEM_INFO_IN_CRAFTING_SCREEN, # for crafting screen
+	QUEST_STATUS, # for the quest detail string
 	RETURN_TO_GUILD, # for bedtime
 	RETURN_TO_CAMP, # for bedtime
 }
@@ -128,6 +129,7 @@ const ACTION_LIST_NAMES = [
 	'EAT',
 	'INFO',
 	'CRAFT',
+	'INFO',
 	'INFO',
 	'GUILD',
 	'CAMP'
@@ -224,6 +226,9 @@ func do_action(action, parent):
 		COMPLETE_ACTION_LIST.MAP:
 			# display the world map
 			get_tree().get_current_scene().display_world_map()
+		COMPLETE_ACTION_LIST.QUEST_STATUS:
+			# show the current status of the quest 
+			parent.show_quest_status()
 		COMPLETE_ACTION_LIST.GUILD:
 			# display the guild info screen
 			guild.populate_guild_info_screen()

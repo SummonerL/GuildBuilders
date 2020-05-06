@@ -47,7 +47,7 @@ onready var quest_friend_wanted = {
 	"name": "Friend Wanted",
 	"start_prompt": "Hear Brother Samuel out?",
 	"statuses": [
-		"A former member of the guild named Brother Samuel has asked you to bring him a wooden pipe."
+		"A former member of the guild named Brother Samuel has asked you bring over some wooden pipes and listen to his tale."
 	],
 	"current_progress": 0,
 	"current_status": 0,
