@@ -1,12 +1,32 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Entities/NPCs/NPC.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/characters/npcs/lonely_man_samuel_1.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/characters/npcs/lonely_man_samuel_2.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/characters/npcs/young_girl_rika1.png" type="Texture" id=4]
+[ext_resource path="res://Sprites/characters/npcs/young_girl_rika2.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/characters/npcs/guild_admirer_harrison2.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/characters/npcs/guild_admirer_harrison1.png" type="Texture" id=7]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
 "frames": [ ExtResource( 2 ), ExtResource( 3 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 4 ), ExtResource( 5 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="SpriteFrames" id=3]
+animations = [ {
+"frames": [ ExtResource( 6 ), ExtResource( 7 ) ],
 "loop": true,
 "name": "default",
 "speed": 5.0
@@ -17,6 +37,20 @@ script = ExtResource( 1 )
 
 [node name="Lonely_Man_Samuel_Sprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
+frame = 1
+speed_scale = 0.5
+playing = true
+centered = false
+
+[node name="Young_Girl_Rika" type="AnimatedSprite" parent="."]
+frames = SubResource( 2 )
+frame = 1
+speed_scale = 0.5
+playing = true
+centered = false
+
+[node name="Guild_Admirer_Harrison" type="AnimatedSprite" parent="."]
+frames = SubResource( 3 )
 frame = 1
 speed_scale = 0.5
 playing = true

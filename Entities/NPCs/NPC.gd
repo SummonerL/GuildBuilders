@@ -50,9 +50,39 @@ onready var npc_lonely_man_samuel = 	{
 	"pos_y": 25
 }
 
+onready var npc_young_girl_rika = {
+	"name": "Rika",
+	"region": 0, # guild region
+	"dialogue": [
+		ml(["This region is known to have a lot of jumbofish. The last time I ate one, I wasn't hungry ",
+		"for a week!"])
+	],
+	"initiates_quest_immediately": false,
+	"current_dialogue": 0, # initial dialogue
+	"overworld_sprite": get_node("Young_Girl_Rika"),
+	"pos_x": 7,
+	"pos_y": 17
+}
+
+onready var npc_guild_admirer_harrison = {
+	"name": "Harrison",
+	"region": 0, # guild region
+	"dialogue": [
+		ml(["Hey! You're from the guild right? Thank you for all that you do. By the way, see that tower over there? ",
+		"Apparently, one was built at the edge of each region. I hear the view from the top is incredible."])
+	],
+	"initiates_quest_immediately": false,
+	"current_dialogue": 0, # initial dialogue
+	"overworld_sprite": get_node("Guild_Admirer_Harrison"),
+	"pos_x": 26,
+	"pos_y": 8
+}
+
 # keep track of all the npcs
 onready var npcs = [
-	npc_lonely_man_samuel
+	npc_lonely_man_samuel,
+	npc_young_girl_rika,
+	npc_guild_admirer_harrison
 ]
 
 # keep track of the npc that is currently being interacted with

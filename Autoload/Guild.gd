@@ -58,7 +58,7 @@ onready var main_quests = []
 onready var side_quests = [quest_friend_wanted]
 
 func already_has_quest(quest_to_check):
-	# make sure the player has not already initiated completed this quest
+	# make sure the player has not already initiated or completed this quest
 	var all_quests = []
 	all_quests += side_in_progress + side_completed + main_in_progress + main_completed
 	
