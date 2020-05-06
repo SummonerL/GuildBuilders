@@ -20,6 +20,7 @@ const TILES = {
 				28: 'NPC_MAN',
 				
 				31: 'CABIN',
+				34: 'HOUSE',
 				
 				32: 'NPC_GIRL',
 				33: 'NPC_BOY'}
@@ -47,7 +48,8 @@ const TILE_INFO_HUD_NAME = {
 	'NPC_MAN': 'Man',
 	'NPC_GIRL': 'Girl',
 	'NPC_BOY': 'Boy',
-	'CABIN': 'Cabin'
+	'CABIN': 'Cabin',
+	'HOUSE': 'House'
 }
 
 
@@ -76,6 +78,7 @@ enum MOVEMENT_COST {
 	NPC_BOY = CANT_MOVE,
 	
 	CABIN = CANT_MOVE
+	HOUSE = CANT_MOVE
 	
 }
 
