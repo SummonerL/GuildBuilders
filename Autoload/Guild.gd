@@ -43,18 +43,51 @@ var main_completed = []
 
 var side_completed = []
 
-var main_quests = []
-var side_quests = []
-
 onready var quest_friend_wanted = {
 	"name": "Friend Wanted",
 	"start_prompt": "Hear Brother Samuel out?",
 	"statuses": [
 		"A former member of the guild named Brother Samuel has asked you to bring him a wooden pipe."
 	],
+	"current_progress": 0,
 	"current_status": 0,
 	"reward": null
 }
+
+onready var main_quests = []
+onready var side_quests = [quest_friend_wanted]
+
+func already_has_quest(quest_to_check):
+	# make sure the player has not already initiated completed this quest
+	var all_quests = []
+	all_quests += side_in_progress + side_completed + main_in_progress + main_completed
+	
+	var has_quest = false
+	
+	for quest in all_quests:
+		if (quest_to_check.name == quest.name):
+			has_quest = true
+			
+	return has_quest
+
+func start_quest(quest_to_start, npc = null):
+	# first, make sure the player hasn't already started this quest
+	if (!already_has_quest(quest_to_start)):
+		# determine if this is a main quest or side quest
+		var is_main_quest = false
+		for quest in main_quests:
+			if (quest.name == quest_to_start.name):
+				is_main_quest = true
+				
+		# add the quest to our in-progress quests
+		if (is_main_quest):
+			main_in_progress.append(quest_to_start)
+		else:
+			side_in_progress.append(quest_to_start)
+			
+		# start the npcs quest dialogue
+		get_tree().get_current_scene().npcs.talk_to_npc(npc, 1, 1)
+
 
 # --------------------------------------
 

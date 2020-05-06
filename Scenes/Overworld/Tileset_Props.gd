@@ -17,7 +17,9 @@ const TILES = {
 				24: 'FIR_TREE',
 				25: 'CAVE',
 				26: 'TOWER',
-				28: 'NPC_MAN'}
+				28: 'NPC_MAN',
+				
+				31: 'CABIN'}
 
 const TILE_INFO_HUD_NAME = { 
 	'WATER':  'Water',
@@ -39,7 +41,8 @@ const TILE_INFO_HUD_NAME = {
 	'MOUNTAIN': 'Mount',
 	'GUILD': 'Guild',
 	'TOWER': 'Tower',
-	'NPC_MAN': 'Man'
+	'NPC_MAN': 'Man',
+	'CABIN': 'Cabin'
 }
 
 
@@ -60,10 +63,13 @@ enum MOVEMENT_COST {
 	BOULDER = NORMAL_MOVE + 1, # boulders are l2 tiles, so they get added to whatever they sit on top of
 	CAVE = 1, # l2 tiles, so add the l1 tile first
 	OCEAN = CANT_MOVE,
-	MOUNTAIN = NORMAL_MOVE + 2 # very difficult to move onto a mountain
-	GUILD = CANT_MOVE
-	TOWER = CANT_MOVE
-	NPC_MAN = CANT_MOVE
+	MOUNTAIN = NORMAL_MOVE + 2, # very difficult to move onto a mountain
+	GUILD = CANT_MOVE,
+	TOWER = CANT_MOVE,
+	NPC_MAN = CANT_MOVE,
+	
+	CABIN = CANT_MOVE
+	
 }
 
 func get_tile_at_coordinates(vec2):
