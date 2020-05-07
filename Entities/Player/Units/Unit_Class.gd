@@ -72,6 +72,9 @@ var base_move = 0
 # the unit's base wake-up time (default 8am)
 var wake_up_time = 8
 
+# an additional percentage of experience that the unit receives (gets rounded up) when using these particular skills
+var general_bonus_xp = .0
+
 # by default, all unit's are asleep
 var unit_awake = false
 

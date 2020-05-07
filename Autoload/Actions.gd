@@ -91,6 +91,7 @@ enum COMPLETE_ACTION_LIST {
 	TRANSFER_ITEM_AT_DEPOT, # for depot screen
 	VIEW_ITEM_INFO_AT_DEPOT, # for depot screen
 	TRASH_ITEM_AT_DEPOT, # for depot screen
+	USE_ITEM_IN_UNIT_INFO_SCREEN, # for unit info screen
 	TRASH_ITEM_IN_UNIT_SCREEN, # for unit info screen
 	VIEW_ITEM_INFO_IN_UNIT_SCREEN, # for unit info screen
 	EAT_FOOD_AT_DINING_HALL, # for dining screen
@@ -124,6 +125,7 @@ const ACTION_LIST_NAMES = [
 	'MOVE',
 	'INFO',
 	'TRASH',
+	'USE',
 	'TRASH',
 	'INFO',
 	'EAT',
@@ -173,6 +175,8 @@ func do_action(action, parent):
 		COMPLETE_ACTION_LIST.TRASH_ITEM_AT_DEPOT:
 			# trash the item (in the depot screen)
 			guild.trash_item_at_depot()
+		COMPLETE_ACTION_LIST.USE_ITEM_IN_UNIT_INFO_SCREEN:
+			parent.use_item()
 		COMPLETE_ACTION_LIST.TRASH_ITEM_IN_UNIT_SCREEN:
 			parent.trash_item()
 		COMPLETE_ACTION_LIST.VIEW_ITEM_INFO_IN_UNIT_SCREEN:
@@ -339,6 +343,11 @@ func show_action_window(skill, reward):
 	var level_before = active_unit.skill_levels[skill]
 	var xp_before = active_unit.skill_xp[skill]
 	var xp_to_gain = reward.xp
+	
+	# determine if the unit receives any bonus xp (round up). This is usually 0%, but can be increased with items / abilities
+	var bonus_xp = ceil(active_unit.general_bonus_xp * xp_to_gain)
+	xp_to_gain += bonus_xp
+	
 	active_unit.gain_xp(xp_to_gain, skill)
 	var xp_after = active_unit.skill_xp[skill]
 	var level_after = active_unit.skill_levels[skill]

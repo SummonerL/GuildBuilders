@@ -94,6 +94,18 @@ onready var item_wooden_stilts = {
 	"xp": 3, # xp upon receiving
 }
 
+onready var item_wooden_pipe = {
+	"name": "Wooden Pipe",
+	"description": "A hand-crafted pipe made of cedar wood. When used, units become calm (they receive 10% more XP for the remainder of the day).",
+	"type": ITEM_TYPES.UTILITY,
+	"can_discard": true,
+	"can_use": true,
+	"use_text": " became calm.",
+	"use_ability" : global_ability_list.ability_calm,
+	"use_breaks": true, # breaks on use
+	"xp": 2, # xp upon receiving
+}
+
 onready var item_walking_stick = {
 	"name": "Walking Stick",
 	"description": "A sturdy walking stick made of hardwood. Increases a unit\'s movement by 1 when held. This effect can only be gained once.",

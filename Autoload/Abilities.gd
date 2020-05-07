@@ -33,6 +33,7 @@ const ABILITY_FOOD_MUSCLEFISH_NAME = 'Food Effect'
 const ABILITY_INSPIRED_NAME = 'Status: Inspired'
 const ABILITY_HUNGRY_NAME = 'Status: Hungry'
 const ABILITY_ECSTATIC_NAME = 'Status: Ecstatic'
+const ABILITY_CALM_NAME = 'Status: Calm'
 
 # unit abilities
 const ability_insomniac = {
@@ -124,6 +125,11 @@ const ability_hungry = {
 	"type": ABILITY_TYPES.DAILY
 }
 
+const ability_calm = {
+	"name": ABILITY_CALM_NAME,
+	"description": "This unit receives 10% more XP for the remainder of the day.",
+	"type": ABILITY_TYPES.DAILY
+}
 
 # a helper function for adding abilities to a unit
 func add_ability_to_unit(unit, ability, front = false):
@@ -203,6 +209,9 @@ func on_add_to_unit(unit, ability):
 				
 			if (starting_ability_index >= 0):
 				remove_ability_from_unit(unit, starting_ability, starting_ability_index)
+		ABILITY_CALM_NAME:
+			# the unit receives 10% more XP for the rest of the day
+			unit.general_bonus_xp += .1
 
 # when a specific ability is removed from a unit
 func on_remove_from_unit(unit, ability):
@@ -270,6 +279,9 @@ func on_remove_from_unit(unit, ability):
 		ABILITY_HUNGRY_NAME:
 			# add the unit's starting ability back
 			add_ability_to_unit(unit, unit.starting_ability, true)
+		ABILITY_CALM_NAME:
+			# remove the additional bonus XP the unit received
+			unit.general_bonus_xp -= .1
 			
 	return gained_abilities
 	

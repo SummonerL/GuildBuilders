@@ -9,6 +9,9 @@ onready var player = get_node("/root/Player_Globals")
 # bring in our global action list
 onready var global_action_list = get_node("/root/Actions")
 
+# bring in our abilities
+onready var global_ability_list = get_node("/root/Abilities")
+
 # bring in our items
 onready var global_items_list = get_node("/root/Items")
 
@@ -122,6 +125,8 @@ const NO_ABIL_TEXT = "No abilities..."
 
 const TRASH_ITEM_TEXT = " discarded the item."
 const CANT_DISCARD_TEXT = "This item can not be discarded."
+const USE_ITEM_TEXT = " used the "
+const ALREADY_HAS_EFFECT_TEXT = ' already has that effect.'
 
 func unit_info_full_init():
 	letters_symbols_node = letters_symbols_scn.instance()
@@ -360,6 +365,54 @@ func populate_item_screen(inv_start_index = 0):
 	for item in current_item_set:
 		letters_symbols_node.print_immediately(item.name, Vector2(start_x, start_y))
 		start_y += 2
+
+# when the unit has selected 'use' in the selection list
+func use_item():
+	var item = current_item_set[current_item - inv_start_index_tracker]
+	var item_used = false
+	
+	# if the item has a usage ability, add that ability
+	if (item.has("use_ability") && !global_ability_list.unit_has_ability(active_unit, item.use_ability.name)):
+		# print the used text
+		player.hud.dialogueState = player.hud.STATES.INACTIVE
+		player.hud.typeTextWithBuffer(active_unit.unit_name + USE_ITEM_TEXT + item.name + ".", false, 'finished_viewing_text_generic') 
+	
+		yield(signals, "finished_viewing_text_generic")
+		
+		# additional text that is displayed when the item is used
+		if (item.has("use_text")):
+			player.hud.dialogueState = player.hud.STATES.INACTIVE
+			player.hud.typeTextWithBuffer(active_unit.unit_name + item.use_text, false, 'finished_viewing_text_generic') 
+		
+			yield(signals, "finished_viewing_text_generic")
+		
+		# add the ability to the unit
+		global_ability_list.add_ability_to_unit(active_unit, item.use_ability)
+		
+		# break the item, if necessary
+		if (item.has("use_breaks") && item.use_breaks):
+			global_items_list.item_broke(item, active_unit)
+			yield(signals, "finished_viewing_text_generic")
+			yield(get_tree().create_timer(.1), "timeout")
+			# reposition the cursor and repopulate the list, now that we've removed that item
+			if (current_item > (active_unit.current_items.size() - 1)):
+				if (current_item == inv_start_index_tracker && inv_start_index_tracker > 0):
+					inv_start_index_tracker -= 4
+				current_item -= 1
+		
+			change_screen(inv_start_index_tracker)
+
+	elif (item.has("use_ability") && global_ability_list.unit_has_ability(active_unit, item.use_ability.name)):
+		# already has that effect
+		player.hud.dialogueState = player.hud.STATES.INACTIVE
+		player.hud.typeTextWithBuffer(active_unit.unit_name + ALREADY_HAS_EFFECT_TEXT, false, 'finished_viewing_text_generic') 
+	
+		yield(signals, "finished_viewing_text_generic")
+	else:
+		pass
+	
+	# unpause the node
+	set_process_input(true)
 
 # when the unit has selected 'info' in the selection list
 func show_item_info():
@@ -631,7 +684,14 @@ func _input(event):
 					var hud_selection_list_node = hud_selection_list_scn.instance()
 					add_child(hud_selection_list_node)
 					hud_selection_list_node.layer = self.layer + 1
-					hud_selection_list_node.populate_selection_list(item_actions, self, true, false, true) # can cancel, position to the right
+					
+					# if this item is 'usable' add that action to the list
+					var use_item = []
+					var item = current_item_set[current_item - inv_start_index_tracker]
+					if (item.has("can_use") && item.can_use):
+						use_item.push_front(global_action_list.COMPLETE_ACTION_LIST.USE_ITEM_IN_UNIT_INFO_SCREEN)
+					
+					hud_selection_list_node.populate_selection_list(use_item + item_actions, self, true, false, true) # can cancel, position to the right
 				
 					# temporarily stop processing input on this node (pause this node)
 					set_process_input(false)
