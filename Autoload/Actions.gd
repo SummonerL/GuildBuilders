@@ -216,7 +216,7 @@ func do_action(action, parent):
 			get_tree().get_current_scene().send_units_to_bed(true, true)
 		COMPLETE_ACTION_LIST.TALK:
 			# talk to an NPC
-			get_tree().get_current_scene().npcs.talk_to_npc()
+			get_tree().get_current_scene().npcs.talk_to_npc(active_unit)
 		COMPLETE_ACTION_LIST.TUNNEL:
 			# this action can only be taken by the male miner. Allows the unit to travel between 
 			# cave's (in the same region)

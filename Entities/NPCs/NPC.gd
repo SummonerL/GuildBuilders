@@ -20,6 +20,9 @@ onready var hud_selection_list_scn = preload("res://Entities/HUD/Selection_List.
 # keep track of the camera
 var camera
 
+# keep track of the unit that is interacting with this npc
+var active_unit
+
 # quick multiline helper
 func ml(str_array):
 	var return_str = ""
@@ -32,6 +35,9 @@ onready var npc_lonely_man_samuel = 	{
 	"region": 0, # guild region
 	"quests_initiated": [
 		guild.quest_friend_wanted
+	],
+	"quests_involved_in": [
+		guild.quest_friend_wanted # should at least contain the quests that this npc initiates
 	],
 	"initiates_quest_immediately": true,
 	"dialogue": [
@@ -103,9 +109,16 @@ onready var npcs = [
 # keep track of the npc that is currently being interacted with
 var active_npc = null
 
-func talk_to_npc(npc = null, dialogue_before_changer = 0, dialogue_after_changer = 0, dialogue_setter = null):
+func talk_to_npc(unit, npc = null, dialogue_before_changer = 0, dialogue_after_changer = 0, dialogue_setter = null, quest_condition_bypass = false):
+	if (unit):
+		active_unit = unit
+	
 	if (npc):
 		active_npc = npc
+		
+	# first, check any quest conditions
+	if (!quest_condition_bypass):
+		guild.check_quest_conditions_npc(active_npc, active_unit)
 		
 	# an argument for explicitly setting the current dialogue
 	if (dialogue_setter):
@@ -155,7 +168,7 @@ func _on_quest_confirmation(yes, quest = null):
 		signals.disconnect("confirm_generic_no", self, "_on_quest_confirmation")
 		
 		# initiate the quest
-		guild.start_quest(quest, active_npc)
+		guild.start_quest(active_unit, quest, active_npc)
 	else:
 		signals.disconnect("confirm_generic_yes", self, "_on_quest_confirmation")
 		# once it's all over, set the player state back

@@ -49,6 +49,21 @@ onready var quest_friend_wanted = {
 	"statuses": [
 		"A former member of the guild named Brother Samuel has asked you bring over some wooden pipes and listen to his tale."
 	],
+	"progress_conditions": [
+		{
+			# requirements to move past progress 0
+			"items_required": [
+				# two wooden pipes
+				global_items_list.item_wooden_pipe,
+				global_items_list.item_wooden_pipe,
+			],
+			"items_for": "Samuel"
+		},
+		{
+			# none, the npc will complete the quest after speaking
+		}
+		
+	],
 	"current_progress": 0,
 	"current_status": 0,
 	"reward": null
@@ -70,7 +85,7 @@ func already_has_quest(quest_to_check):
 			
 	return has_quest
 
-func start_quest(quest_to_start, npc = null):
+func start_quest(active_unit, quest_to_start, npc = null):
 	# first, make sure the player hasn't already started this quest
 	if (!already_has_quest(quest_to_start)):
 		# determine if this is a main quest or side quest
@@ -86,8 +101,65 @@ func start_quest(quest_to_start, npc = null):
 			side_in_progress.append(quest_to_start)
 			
 		# start the npcs quest dialogue
-		get_tree().get_current_scene().npcs.talk_to_npc(npc, 1, 1)
+		get_tree().get_current_scene().npcs.talk_to_npc(active_unit, npc, 1, 1)
 
+# check to make sure this npc doesn't behave a certain way, due to an initiated quest
+func check_quest_conditions_npc(npc, active_unit):
+	# first, see if the player has any quests in-progress that this npc is involved in
+	var in_progress = main_in_progress + side_in_progress
+	
+	var related_quests = []
+	if (npc.has("quests_involved_in")):
+		for in_progress_quest in in_progress:
+			for npc_involved_quest in npc.quests_involved_in:
+				if (in_progress_quest.name == npc_involved_quest.name):
+					related_quests.append(npc_involved_quest)
+					
+	if (related_quests.size() > 0):
+		# for each quest, determine if we can make progress in any.
+		# (btw, we can only make progress in one at a time. If for some reason the player has)
+		# multiple quests they can progress right now, they'll have to speak to this npc again
+		var related_quest_index = 0
+		var matched_related_quest = -1
+		for related_quest in related_quests:
+			# check if the unit meets the conditions to progress this quest 
+			var conditions = related_quest.progress_conditions[related_quest.current_progress]
+			var meets_conditions = false
+			
+			# if the conditions requires the unit to have items
+			if (conditions.has("items_required") && conditions.items_for == npc.name):
+				# the unit needs to give items to this npc
+				var units_items_temp = active_unit.current_items.duplicate()
+				var item_requirements_met = []
+				
+				for item_required in conditions.items_required:
+					# see if the unit has this item
+					var unit_item_index = 0
+					var temp_index = 0
+					for unit_item in units_items_temp:
+						if (unit_item.name == item_required.name):
+							item_requirements_met.append(unit_item_index)
+							units_items_temp.remove(temp_index)
+							temp_index -= 1
+						unit_item_index += 1
+						temp_index += 1
+					
+				if (item_requirements_met.size() == conditions.items_required.size()):
+					matched_related_quest = related_quest_index
+					meets_conditions = true
+					
+			related_quest_index += 1
+			
+			if (meets_conditions):
+				# we've already met conditions for a quest, let's break from this loop
+				print ('MET CONDITIONS FOR')
+				print(related_quests[matched_related_quest])
+				print('!!!')
+				
+			
+				break
+					
+		
 
 # --------------------------------------
 

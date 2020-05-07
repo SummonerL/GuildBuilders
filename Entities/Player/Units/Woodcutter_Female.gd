@@ -42,6 +42,9 @@ func unit_init():
 	global_items_list.add_item_to_unit(self, global_items_list.item_sturdy_axe)
 	global_items_list.add_item_to_unit(self, global_items_list.item_jumbofish)
 	
+	global_items_list.add_item_to_unit(self, global_items_list.item_wooden_pipe)
+	global_items_list.add_item_to_unit(self, global_items_list.item_wooden_pipe)
+	
 	# add the unit's starting ability
 	starting_ability = global_ability_list.ability_insomniac
 	global_ability_list.add_ability_to_unit(self, global_ability_list.ability_insomniac)
