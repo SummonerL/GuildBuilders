@@ -64,6 +64,20 @@ onready var npc_young_girl_rika = {
 	"pos_y": 17
 }
 
+onready var npc_rikas_father_bjorn = {
+	"name": "Bjorn",
+	"region": 0, # guild region
+	"dialogue": [
+		ml(["My daughter loves to go exploring. As a single father, I worry about her. Please keep an eye on her if you see ",
+			"her near the guild."])
+	],
+	"initiates_quest_immediately": false,
+	"current_dialogue": 0, # initial dialogue
+	"overworld_sprite": get_node("Rikas_Father_Bjorn"),
+	"pos_x": 5,
+	"pos_y": 20
+}
+
 onready var npc_guild_admirer_harrison = {
 	"name": "Harrison",
 	"region": 0, # guild region
@@ -82,7 +96,8 @@ onready var npc_guild_admirer_harrison = {
 onready var npcs = [
 	npc_lonely_man_samuel,
 	npc_young_girl_rika,
-	npc_guild_admirer_harrison
+	npc_guild_admirer_harrison,
+	npc_rikas_father_bjorn
 ]
 
 # keep track of the npc that is currently being interacted with
