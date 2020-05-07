@@ -357,3 +357,13 @@
 34/navigation_offset = Vector2( 0, 0 )
 34/shapes = [  ]
 34/z_index = 0
+35/name = "wooden_bridge"
+35/texture = ExtResource( 1 )
+35/tex_offset = Vector2( 0, 0 )
+35/modulate = Color( 1, 1, 1, 1 )
+35/region = Rect2( 48, 96, 16, 16 )
+35/tile_mode = 0
+35/occluder_offset = Vector2( 0, 0 )
+35/navigation_offset = Vector2( 0, 0 )
+35/shapes = [  ]
+35/z_index = 0
