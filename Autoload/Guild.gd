@@ -47,7 +47,8 @@ onready var quest_friend_wanted = {
 	"name": "Friend Wanted",
 	"start_prompt": "Hear Brother Samuel out?",
 	"statuses": [
-		"A former member of the guild named Brother Samuel has asked you bring over some wooden pipes and listen to his tale."
+		"A former member of the guild named Brother Samuel has asked you bring over some wooden pipes and listen to his tale.",
+		"You completed the quest!"
 	],
 	"progress_conditions": [
 		{
@@ -57,7 +58,8 @@ onready var quest_friend_wanted = {
 				global_items_list.item_wooden_pipe,
 				global_items_list.item_wooden_pipe,
 			],
-			"items_for": "Samuel"
+			"items_for": "Samuel",
+			"set_dialogue": 3
 		},
 		{
 			# none, the npc will complete the quest after speaking
@@ -65,7 +67,6 @@ onready var quest_friend_wanted = {
 		
 	],
 	"current_progress": 0,
-	"current_status": 0,
 	"reward": null
 }
 
@@ -101,7 +102,7 @@ func start_quest(active_unit, quest_to_start, npc = null):
 			side_in_progress.append(quest_to_start)
 			
 		# start the npcs quest dialogue
-		get_tree().get_current_scene().npcs.talk_to_npc(active_unit, npc, 1, 1)
+		get_tree().get_current_scene().npcs.talk_to_npc(active_unit, npc, 1, 1, null, true) # bypass quest condition checker, as we just started the quest
 
 # check to make sure this npc doesn't behave a certain way, due to an initiated quest
 func check_quest_conditions_npc(npc, active_unit):
@@ -151,15 +152,16 @@ func check_quest_conditions_npc(npc, active_unit):
 			related_quest_index += 1
 			
 			if (meets_conditions):
-				# we've already met conditions for a quest, let's break from this loop
-				print ('MET CONDITIONS FOR')
-				print(related_quests[matched_related_quest])
-				print('!!!')
+				# we've met the conditions for this quest
+				# bump up the quest progress
+				var old_progress = related_quests[matched_related_quest].current_progress
+				related_quests[matched_related_quest].current_progress += 1
 				
-			
-				break
+				# if the npc has updated dialogue, update it
+				if (related_quests[matched_related_quest].progress_conditions[old_progress].has("set_dialogue")):
+					return related_quests[matched_related_quest].progress_conditions[old_progress].set_dialogue
 					
-		
+	return null
 
 # --------------------------------------
 

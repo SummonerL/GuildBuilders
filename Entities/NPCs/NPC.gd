@@ -47,7 +47,9 @@ onready var npc_lonely_man_samuel = 	{
 		"However, being near the guild gives me a sense of comfort. Reminds me of the good old days... ",
 		"Say, why don't you bring over a couple of pipes and we can have a smoke while I tell my story?"]),
 		
-		"If you want to bring over a couple of pipes, we can have a smoke while I tell my story."
+		"If you want to bring over a couple of pipes, we can have a smoke while I tell my story.",
+		
+		ml(["Excellent! I see you brought some pipes. "])
 	],
 	"current_dialogue": 0, # initial dialogue
 	"current_quest": 0, # quest that is active with this npc
@@ -116,17 +118,21 @@ func talk_to_npc(unit, npc = null, dialogue_before_changer = 0, dialogue_after_c
 	if (npc):
 		active_npc = npc
 		
-	# first, check any quest conditions
+	# first, check any quest conditions (this can sometimes change the npcs dialogue manually)
 	if (!quest_condition_bypass):
-		guild.check_quest_conditions_npc(active_npc, active_unit)
+		var setter = guild.check_quest_conditions_npc(active_npc, active_unit)
+		if setter != null:
+			dialogue_setter = setter
+			print (dialogue_setter)
+			dialogue_before_changer = 0
+			dialogue_after_changer = 0
 		
 	# an argument for explicitly setting the current dialogue
 	if (dialogue_setter):
 		active_npc.current_dialogue = dialogue_setter
 		
 	active_npc.current_dialogue += dialogue_before_changer # this param will change the unit's current dialogue
-		
-	print(active_npc.dialogue[active_npc.current_dialogue])
+	
 	player.hud.typeTextWithBuffer(active_npc.dialogue[active_npc.current_dialogue], false, "finished_viewing_text_generic")
 	
 	yield(signals, "finished_viewing_text_generic")
