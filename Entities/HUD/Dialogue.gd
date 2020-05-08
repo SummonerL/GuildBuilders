@@ -8,7 +8,7 @@ onready var signals = get_node("/root/Signal_Manager")
 
 const DIALOGUE_HEIGHT = 48
 const DIALOGUE_WIDTH = 160
-const MAX_CHARS_PER_ROW = 16
+const MAX_CHARS_PER_ROW = 17
 
 onready var letters_symbols_obj = preload("res://Entities/HUD/Letters_Symbols/Letters_Symbols.tscn")
 onready var dialogue_sprite = get_node("Dialogue_Sprite")
