@@ -122,7 +122,10 @@ func populate_quest_detail_screen(start_tracker = 0):
 			Vector2(((constants.DIA_TILES_PER_ROW - 1) / 2) * constants.DIA_TILE_WIDTH, 2 * constants.DIA_TILE_HEIGHT))
 	
 	for quest in current_quest_set:
-		letters_symbols_node.print_immediately(quest.name, Vector2(start_x, start_y))
+		var completed = ""
+		if (quest.current_progress >= quest.statuses.size() - 1):
+			completed = " " + constants.CHECK_SYMBOL
+		letters_symbols_node.print_immediately(quest.name + completed, Vector2(start_x, start_y))
 		start_y += 2	
 
 func move_quests(direction):

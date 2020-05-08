@@ -60,11 +60,7 @@ onready var quest_friend_wanted = {
 			],
 			"items_for": "Samuel",
 			"set_dialogue": 3
-		},
-		{
-			# none, the npc will complete the quest after speaking
 		}
-		
 	],
 	"current_progress": 0,
 	"reward": null
@@ -157,12 +153,34 @@ func check_quest_conditions_npc(npc, active_unit):
 				var old_progress = related_quests[matched_related_quest].current_progress
 				related_quests[matched_related_quest].current_progress += 1
 				
+				# if the current progress equals the amount of statuses, we've finished the quest! Move the quest to 'completed'
+				if (related_quests[matched_related_quest].current_progress >= related_quests[matched_related_quest].statuses.size() - 1):
+					move_quest_to_completed(related_quests[matched_related_quest])
+				
 				# if the npc has updated dialogue, update it
 				if (related_quests[matched_related_quest].progress_conditions[old_progress].has("set_dialogue")):
 					return related_quests[matched_related_quest].progress_conditions[old_progress].set_dialogue
 					
 	return null
 
+func move_quest_to_completed(quest):
+	# check main and side
+	var index = 0
+	for main_quest in main_in_progress:
+		if (quest.name == main_quest.name):
+			# remove from in_progress and add to main_completed
+			main_in_progress.remove(index)
+			main_completed.append(quest)
+		index += 1
+		
+	
+	index = 0
+	for side_quest in side_in_progress:
+		if (quest.name == side_quest.name):
+			# remove from in_progress and add to side_completed
+			side_in_progress.remove(index)
+			side_completed.append(quest)
+		index += 1
 # --------------------------------------
 
 func populate_depot_screen(active_unit):
