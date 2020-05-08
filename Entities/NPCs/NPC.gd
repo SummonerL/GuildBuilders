@@ -49,7 +49,17 @@ onready var npc_lonely_man_samuel = 	{
 		
 		"If you want to bring over a couple of pipes, we can have a smoke while I tell my story.",
 		
-		ml(["Excellent! I see you brought some pipes. "])
+		ml(["Excellent! I see you brought some pipes. Why don't you take a seat? It gets lonely around here... ",
+			"and with all this talk of war, it's hard to stay positive. One thing that keeps my spirits up is thinking back ",
+			"on my memories in the guild. I was actually a founding member. That was back in the guild's glory days. It was my ",
+			"job to make sure the depot was always stocked with food. ",
+			"No Brother or Sister ever went hungry with me around. Unfortunately, I got a bit gutsy one day ",
+			"and went looking for lavafish near Mount Kaluda. I had one on the hook. A big one... and then... it pulled me in. ",
+			"Fortunately, a Sister was there with me and helped pull me out before I got too burnt. But after that, I knew it was ",
+			"time to retire. Now I watch from afar as the new generation of guildmembers go about their day. I like to think of myself ",
+			"as the guild guardian. Anyway, I've talked long enough. Here, let me give you a gift for putting up with my rambling."]),
+			
+		"Ah... it warms my heart to have a visitor."
 	],
 	"current_dialogue": 0, # initial dialogue
 	"current_quest": 0, # quest that is active with this npc
