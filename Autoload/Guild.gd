@@ -47,7 +47,7 @@ onready var quest_friend_wanted = {
 	"name": "Friend Wanted",
 	"start_prompt": "Hear Brother Samuel out?",
 	"statuses": [
-		"A former member of the guild named Brother Samuel has asked you bring over some wooden pipes and listen to his tale.",
+		"A former member of the guild named Brother Samuel has asked you to bring over some wooden pipes and listen to his tale.",
 		"You completed the quest!"
 	],
 	"progress_conditions": [
@@ -126,24 +126,29 @@ func check_quest_conditions_npc(npc, active_unit):
 			# if the conditions requires the unit to have items
 			if (conditions.has("items_required") && conditions.items_for == npc.name):
 				# the unit needs to give items to this npc
-				var units_items_temp = active_unit.current_items.duplicate()
 				var item_requirements_met = []
 				
 				for item_required in conditions.items_required:
 					# see if the unit has this item
 					var unit_item_index = 0
-					var temp_index = 0
-					for unit_item in units_items_temp:
-						if (unit_item.name == item_required.name):
+
+					for unit_item in active_unit.current_items:
+						if (unit_item.name == item_required.name && !item_requirements_met.has(unit_item_index)):
 							item_requirements_met.append(unit_item_index)
-							units_items_temp.remove(temp_index)
-							temp_index -= 1
-						unit_item_index += 1
-						temp_index += 1
+							# break from the inner loop and look for the next item
+							break
+						else:
+							unit_item_index += 1
 					
+				print (item_requirements_met)
 				if (item_requirements_met.size() == conditions.items_required.size()):
 					matched_related_quest = related_quest_index
 					meets_conditions = true
+					
+					# remove the items from the unit
+					item_requirements_met.invert() # invert, as we will be removing items as we iterate and want to prevent errors
+					for index in item_requirements_met:
+						global_items_list.remove_item_from_unit(active_unit, index)
 					
 			related_quest_index += 1
 			
