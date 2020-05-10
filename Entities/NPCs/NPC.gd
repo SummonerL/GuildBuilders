@@ -130,12 +130,8 @@ func talk_to_npc(unit, npc = null, dialogue_before_changer = 0, dialogue_after_c
 		
 	# first, check any quest conditions (this can sometimes change the npcs dialogue manually)
 	if (!quest_condition_bypass):
-		var setter = guild.check_quest_conditions_npc(active_npc, active_unit)
-		if setter != null:
-			dialogue_setter = setter
-			print (dialogue_setter)
-			dialogue_before_changer = 0
-			dialogue_after_changer = 0
+		guild.check_quest_conditions_npc(active_npc, active_unit)
+		return
 		
 	# an argument for explicitly setting the current dialogue
 	if (dialogue_setter):

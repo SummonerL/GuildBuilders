@@ -139,8 +139,7 @@ func check_quest_conditions_npc(npc, active_unit):
 							break
 						else:
 							unit_item_index += 1
-					
-				print (item_requirements_met)
+
 				if (item_requirements_met.size() == conditions.items_required.size()):
 					matched_related_quest = related_quest_index
 					meets_conditions = true
@@ -164,9 +163,12 @@ func check_quest_conditions_npc(npc, active_unit):
 				
 				# if the npc has updated dialogue, update it
 				if (related_quests[matched_related_quest].progress_conditions[old_progress].has("set_dialogue")):
-					return related_quests[matched_related_quest].progress_conditions[old_progress].set_dialogue
+					get_tree().get_current_scene().npcs.talk_to_npc(active_unit, npc, 0, 1, 
+						related_quests[matched_related_quest].progress_conditions[old_progress].set_dialogue, true)
+					return 
 					
-	return null
+	get_tree().get_current_scene().npcs.talk_to_npc(active_unit, npc, 0, 0, null, true) # bypass quest condition checker
+	return
 
 func move_quest_to_completed(quest):
 	# check main and side
