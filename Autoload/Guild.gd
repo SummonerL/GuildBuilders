@@ -14,11 +14,15 @@ onready var global_items_list = get_node("/root/Items")
 # bring in our global action list
 onready var global_action_list = get_node("/root/Actions")
 
+# bring in our signals
+onready var signals = get_node("/root/Signal_Manager")
+
 # various hud scenes
 onready var hud_selection_list_scn = preload("res://Entities/HUD/Selection_List.tscn")
 onready var hud_depot_screen_scn = preload("res://Entities/HUD/Guild Actions/Depot_Screen.tscn")
 onready var hud_dining_screen_scn = preload("res://Entities/HUD/Guild Actions/Dining_Screen.tscn")
 onready var hud_guild_info_screen_scn = preload("res://Entities/HUD/Info Screens/Guild_Info_Screen.tscn")
+onready var hud_quest_completion_screen_scn = preload("res://Entities/HUD/Quest_Completion_Window.tscn")
 
 # keep track of the camera
 var camera
@@ -34,6 +38,9 @@ var hud_dining_screen_node
 
 # keep track of the guild info screen (if it exists)
 var hud_guild_info_screen_node
+
+# keep track of the quest completion screen (if it exists)
+var hud_quest_completion_screen_node
 
 # ------------ QUESTS -----------------
 # keep track of the quests that are in progress and completed
@@ -152,6 +159,8 @@ func check_quest_conditions_npc(npc, active_unit):
 			related_quest_index += 1
 			
 			if (meets_conditions):
+				var quest_completed = false
+				
 				# we've met the conditions for this quest
 				# bump up the quest progress
 				var old_progress = related_quests[matched_related_quest].current_progress
@@ -160,15 +169,33 @@ func check_quest_conditions_npc(npc, active_unit):
 				# if the current progress equals the amount of statuses, we've finished the quest! Move the quest to 'completed'
 				if (related_quests[matched_related_quest].current_progress >= related_quests[matched_related_quest].statuses.size() - 1):
 					move_quest_to_completed(related_quests[matched_related_quest])
+					quest_completed = true
 				
 				# if the npc has updated dialogue, update it
 				if (related_quests[matched_related_quest].progress_conditions[old_progress].has("set_dialogue")):
 					get_tree().get_current_scene().npcs.talk_to_npc(active_unit, npc, 0, 1, 
 						related_quests[matched_related_quest].progress_conditions[old_progress].set_dialogue, true)
+					if (quest_completed):
+						yield(signals, "finished_viewing_text_generic") # wait for the unit to finish speaking with the npc
+						show_quest_completion_screen(related_quests[matched_related_quest])
 					return 
 					
 	get_tree().get_current_scene().npcs.talk_to_npc(active_unit, npc, 0, 0, null, true) # bypass quest condition checker
 	return
+
+func show_quest_completion_screen(quest):
+	# dampen the background music
+	get_tree().get_current_scene().dampen_background_music()
+	
+	# set the player state
+	player.player_state = player.PLAYER_STATE.COMPLETING_QUEST
+	
+	# create a new quest completion screen
+	hud_quest_completion_screen_node = hud_quest_completion_screen_scn.instance()
+	add_child(hud_quest_completion_screen_node)
+	
+	# set the quest name
+	hud_quest_completion_screen_node.set_quest_name(quest)
 
 func move_quest_to_completed(quest):
 	# check main and side
@@ -188,7 +215,7 @@ func move_quest_to_completed(quest):
 			side_in_progress.remove(index)
 			side_completed.append(quest)
 		index += 1
-# --------------------------------------
+# -------------------------------------------------------------------
 
 func populate_depot_screen(active_unit):
 	camera = get_tree().get_nodes_in_group("Camera")[0]

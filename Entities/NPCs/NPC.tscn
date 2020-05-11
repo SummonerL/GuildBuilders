@@ -65,7 +65,6 @@ centered = false
 
 [node name="Rikas_Father_Bjorn" type="AnimatedSprite" parent="."]
 frames = SubResource( 4 )
-frame = 1
 speed_scale = 0.5
 playing = true
 centered = false

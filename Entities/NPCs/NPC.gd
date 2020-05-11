@@ -160,7 +160,7 @@ func talk_to_npc(unit, npc = null, dialogue_before_changer = 0, dialogue_after_c
 		camera = get_tree().get_nodes_in_group("Camera")[0]
 		camera.add_hud_item(hud_selection_list_node)
 
-		# connect signals for confirming whether or not to craft an item
+		# connect signals for confirming whether or not the player initiates the quest
 		signals.connect("confirm_generic_yes", self, "_on_quest_confirmation", [true, quest], CONNECT_ONESHOT)
 		signals.connect("confirm_generic_no", self, "_on_quest_confirmation", [false], CONNECT_ONESHOT)
 		
