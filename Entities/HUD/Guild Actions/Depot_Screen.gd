@@ -130,7 +130,7 @@ func transfer_item():
 	
 	if (current_inv == SELECTIONS.DEPOT):
 		# remove from guild
-		guild.current_items.remove(current_item)
+		guild.remove_item_from_depot(current_item)
 		
 		# move to unit
 		active_unit.receive_item(item)
@@ -139,7 +139,7 @@ func transfer_item():
 		global_item_list.remove_item_from_unit(focus, current_item)
 		
 		# move to depot
-		guild.current_items.append(item)
+		guild.add_item_to_depot(item)
 		
 		# sort the guild items (for convenience)
 		guild.current_items.sort_custom(self, 'sort_items_by_name')

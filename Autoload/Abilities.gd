@@ -34,6 +34,7 @@ const ABILITY_INSPIRED_NAME = 'Status: Inspired'
 const ABILITY_HUNGRY_NAME = 'Status: Hungry'
 const ABILITY_ECSTATIC_NAME = 'Status: Ecstatic'
 const ABILITY_CALM_NAME = 'Status: Calm'
+const ABILITY_SENSE_OF_DUTY_NAME = 'A Sense of Duty'
 
 # unit abilities
 const ability_insomniac = {
@@ -131,6 +132,12 @@ const ability_calm = {
 	"type": ABILITY_TYPES.DAILY
 }
 
+const ability_a_sense_of_duty = {
+	"name": ABILITY_SENSE_OF_DUTY_NAME,
+	"description": "This unit woke up 2 hours earlier than usual.",
+	"type": ABILITY_TYPES.DAILY
+}
+
 # a helper function for adding abilities to a unit
 func add_ability_to_unit(unit, ability, front = false):
 	if (front):
@@ -212,6 +219,8 @@ func on_add_to_unit(unit, ability):
 		ABILITY_CALM_NAME:
 			# the unit receives 10% more XP for the rest of the day
 			unit.general_bonus_xp += .1
+		ABILITY_SENSE_OF_DUTY_NAME:
+			unit.wake_up_time -= 2
 
 # when a specific ability is removed from a unit
 func on_remove_from_unit(unit, ability):
@@ -282,6 +291,8 @@ func on_remove_from_unit(unit, ability):
 		ABILITY_CALM_NAME:
 			# remove the additional bonus XP the unit received
 			unit.general_bonus_xp -= .1
+		ABILITY_SENSE_OF_DUTY_NAME:
+			unit.wake_up_time += 2
 			
 	return gained_abilities
 	

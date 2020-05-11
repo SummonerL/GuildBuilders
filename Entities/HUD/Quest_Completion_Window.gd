@@ -103,7 +103,7 @@ func set_quest_name(quest, unit):
 			get_parent().global_items_list.add_item_to_unit(unit, reward)
 		else:
 			# send the item to the depot
-			get_parent().current_items.append(reward)
+			get_parent().add_item_to_depot(reward)
 			
 			# read sent to depot text
 			player.hud.typeTextWithBuffer(SENT_TO_DEPOT_TEXT, false, "finished_viewing_text_generic")

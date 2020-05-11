@@ -9,6 +9,9 @@ onready var game_cfg_vars = get_node("/root/Game_Config")
 # bring in our global player variables
 onready var player = get_node("/root/Player_Globals")
 
+# bring in our guild variables/functions
+onready var guild = get_node("/root/Guild")
+
 # have our map_actions layer, for determining more details about the tile
 onready var map_actions = get_tree().get_nodes_in_group(constants.MAP_ACTIONS_GROUP)[0]
 
@@ -253,7 +256,10 @@ func new_day(fade = false, fade_node = null):
 	
 	# remove any food abilities from the previous day
 	player.party.remove_abilities_of_type(global_ability_list.ABILITY_TYPES.FOOD)
-
+	
+	# check for any guild abilities
+	guild.check_guild_abilities()
+	
 	player.party.party_members.sort_custom(self, "sort_units_by_wake_up")
 	
 	var earliest_unit = player.party.party_members[0]

@@ -14,6 +14,9 @@ onready var global_items_list = get_node("/root/Items")
 # bring in our global action list
 onready var global_action_list = get_node("/root/Actions")
 
+# bring in our abilities
+onready var global_ability_list = get_node("/root/Abilities")
+
 # bring in our signals
 onready var signals = get_node("/root/Signal_Manager")
 
@@ -41,6 +44,15 @@ var hud_guild_info_screen_node
 
 # keep track of the quest completion screen (if it exists)
 var hud_quest_completion_screen_node
+
+# the guild can have a few different special abilities as the player progresses through the game. Here is a list of those abilities
+enum GUILD_ABILITIES {
+	RANDOM_UNIT_SENSE_OF_DUTY # a random unit gains A Sense of Duty (related to 'Friend in Need' quest)
+}
+
+var current_guild_abilities = [
+	
+]
 
 # ------------ QUESTS -----------------
 # keep track of the quests that are in progress and completed
@@ -218,6 +230,28 @@ func move_quest_to_completed(quest):
 		index += 1
 # -------------------------------------------------------------------
 
+func add_guild_ability(ability):
+	current_guild_abilities.append(ability)
+	
+func remove_guild_ability(ability):
+	var abil_index = 0
+	for abil in current_guild_abilities:
+		if abil == ability:
+			current_guild_abilities.remove(abil_index)
+			break
+		abil_index += 1
+
+func add_item_to_depot(item):
+	if (item.has("depot_ability")):
+		add_guild_ability(item.depot_ability)
+	current_items.append(item)
+	
+func remove_item_from_depot(item_index):
+	var item = current_items[item_index]
+	if (item.has("depot_ability")):
+		remove_guild_ability(item.depot_ability)
+	current_items.remove(item_index)
+
 func populate_depot_screen(active_unit):
 	camera = get_tree().get_nodes_in_group("Camera")[0]
 	
@@ -259,3 +293,14 @@ func eat_food_at_dining_hall():
 func show_item_info_at_dining_hall():
 	if (hud_dining_screen_node):
 		hud_dining_screen_node.show_item_info()
+		
+# usually ran every morning to determine if any guild abilities kick in
+func check_guild_abilities():
+	for abil in current_guild_abilities:
+		match(abil):
+			GUILD_ABILITIES.RANDOM_UNIT_SENSE_OF_DUTY:
+				# choose a random unit to gain the ability, A Sense of Duty
+				var units = player.party.get_all_units_sleeping_at_guild_hall()
+				units.shuffle()
+				if (units.size() > 0):
+					global_ability_list.add_ability_to_unit(units[0], global_ability_list.ability_a_sense_of_duty)

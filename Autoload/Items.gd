@@ -18,6 +18,9 @@ onready var signals = get_node("/root/Signal_Manager")
 # bring in the global player variables
 onready var player = get_node("/root/Player_Globals")
 
+# bring in our guild variables/functions
+onready var guild = get_node("/root/Guild")
+
 onready var map_actions = get_tree().get_nodes_in_group(constants.MAP_ACTIONS_GROUP)[0]
 
 enum ITEM_TYPES {
@@ -130,9 +133,10 @@ onready var item_wooden_basket = {
 
 onready var item_guild_photo = { # friend wanted - quest reward
 	"name": "Guild Photo",
-	"description": "An old photograph of the founding members of the guild.",
+	"description": "An old photograph of the founding members of the guild. As long as this item is in the depot, a random unit at the guild hall will wake up with A Sense of Duty (they will wake up 2 hours earlier than usual).",
 	"type": ITEM_TYPES.UTILITY,
 	"can_discard": false,
+	"depot_ability": guild.GUILD_ABILITIES.RANDOM_UNIT_SENSE_OF_DUTY
 	# determine use for the guild photo
 }
 

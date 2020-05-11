@@ -117,6 +117,14 @@ func remove_abilities_of_type(type):
 		
 		unit.unit_abilities += gained_abilities # any new abilities the unit may have gained as a result of doing this
 
+# useful function to return all of the units that are asleep, specifically at the guild hall
+func get_all_units_sleeping_at_guild_hall():
+	var at_guild_units = []
+	for unit in party_members:
+		if (unit.unit_pos_x == player.guild_hall_x && unit.unit_pos_y == player.guild_hall_y):
+			at_guild_units.append(unit)
+	return at_guild_units
+
 func calculate_total_skill_level():
 	var total_skill_level = 0
 	for unit in party_members:
