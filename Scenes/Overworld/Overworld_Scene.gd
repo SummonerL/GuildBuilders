@@ -326,6 +326,14 @@ func determine_music_state():
 func dampen_background_music():
 	active_bg_music.volume_db += DAMPENED_VOL
 	
+# pause the bg music
+func pause_background_music():
+	active_bg_music.stream_paused = true
+
+# resume the bg music
+func resume_background_music():
+	active_bg_music.stream_paused = false
+	
 # raise background music
 func heighten_background_music():
 	active_bg_music.volume_db = max_vol

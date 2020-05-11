@@ -128,7 +128,13 @@ onready var item_wooden_basket = {
 	"xp": 3, # xp upon receiving
 }
 
-
+onready var item_guild_photo = { # friend wanted - quest reward
+	"name": "Guild Photo",
+	"description": "An old photograph of the founding members of the guild.",
+	"type": ITEM_TYPES.UTILITY,
+	"can_discard": false,
+	# determine use for the guild photo
+}
 
 # fish
 onready var item_jumbofish = {

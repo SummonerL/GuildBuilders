@@ -69,8 +69,9 @@ onready var quest_friend_wanted = {
 			"set_dialogue": 3
 		}
 	],
+	"completion_text": "Brother Samuel gave you an old Guild Photo.",
 	"current_progress": 0,
-	"reward": null
+	"reward": global_items_list.item_guild_photo
 }
 
 onready var main_quests = []
@@ -177,13 +178,13 @@ func check_quest_conditions_npc(npc, active_unit):
 						related_quests[matched_related_quest].progress_conditions[old_progress].set_dialogue, true)
 					if (quest_completed):
 						yield(signals, "finished_viewing_text_generic") # wait for the unit to finish speaking with the npc
-						show_quest_completion_screen(related_quests[matched_related_quest])
+						show_quest_completion_screen(related_quests[matched_related_quest], active_unit)
 					return 
 					
 	get_tree().get_current_scene().npcs.talk_to_npc(active_unit, npc, 0, 0, null, true) # bypass quest condition checker
 	return
 
-func show_quest_completion_screen(quest):
+func show_quest_completion_screen(quest, active_unit):
 	# dampen the background music
 	get_tree().get_current_scene().dampen_background_music()
 	
@@ -193,9 +194,9 @@ func show_quest_completion_screen(quest):
 	# create a new quest completion screen
 	hud_quest_completion_screen_node = hud_quest_completion_screen_scn.instance()
 	add_child(hud_quest_completion_screen_node)
-	
+
 	# set the quest name
-	hud_quest_completion_screen_node.set_quest_name(quest)
+	hud_quest_completion_screen_node.set_quest_name(quest, active_unit)
 
 func move_quest_to_completed(quest):
 	# check main and side

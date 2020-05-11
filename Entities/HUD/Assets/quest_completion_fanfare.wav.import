@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/quest_completion_fanfare.wav-285b8e8c5f3a07dd8e3fbe132550991d.sample"
+
+[deps]
+
+source_file="res://Entities/HUD/Assets/quest_completion_fanfare.wav"
+dest_files=[ "res://.import/quest_completion_fanfare.wav-285b8e8c5f3a07dd8e3fbe132550991d.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
