@@ -118,7 +118,7 @@ var regions = [
 		'name': 'Region East 1', # will change
 		'x': 30,
 		'y': 0,
-		'hidden': true
+		'hidden': false
 	},
 	{
 		'name': 'Region South 1', # will change
