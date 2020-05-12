@@ -367,3 +367,13 @@
 35/navigation_offset = Vector2( 0, 0 )
 35/shapes = [  ]
 35/z_index = 0
+36/name = "grassland_dec4"
+36/texture = ExtResource( 1 )
+36/tex_offset = Vector2( 0, 0 )
+36/modulate = Color( 1, 1, 1, 1 )
+36/region = Rect2( 32, 144, 16, 16 )
+36/tile_mode = 0
+36/occluder_offset = Vector2( 0, 0 )
+36/navigation_offset = Vector2( 0, 0 )
+36/shapes = [  ]
+36/z_index = 0
