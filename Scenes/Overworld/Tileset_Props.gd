@@ -29,6 +29,8 @@ const TILES = {
 				
 				35: 'BRIDGE',
 				
+				39: 'FENCE',
+				
 				32: 'NPC_GIRL',
 				33: 'NPC_BOY'}
 
@@ -60,7 +62,8 @@ const TILE_INFO_HUD_NAME = {
 	'NPC_BOY': 'Boy',
 	'CABIN': 'Cabin',
 	'HOUSE': 'House',
-	'BRIDGE': 'Bridg'
+	'BRIDGE': 'Bridg',
+	'FENCE': 'Fence',
 }
 
 
@@ -91,10 +94,11 @@ enum MOVEMENT_COST {
 	NPC_GIRL = CANT_MOVE,
 	NPC_BOY = CANT_MOVE,
 	
-	CABIN = CANT_MOVE
-	HOUSE = CANT_MOVE
+	CABIN = CANT_MOVE,
+	HOUSE = CANT_MOVE,
 	
-	BRIDGE = -(CANT_MOVE - 1) # makes water movable
+	BRIDGE = -(CANT_MOVE - 1), # makes water movable
+	FENCE = CANT_MOVE,
 	
 }
 
