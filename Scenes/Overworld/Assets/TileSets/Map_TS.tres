@@ -486,3 +486,13 @@
 46/navigation_offset = Vector2( 0, 0 )
 46/shapes = [  ]
 46/z_index = 0
+47/name = "mill"
+47/texture = ExtResource( 1 )
+47/tex_offset = Vector2( 0, 0 )
+47/modulate = Color( 1, 1, 1, 1 )
+47/region = Rect2( 128, 176, 16, 16 )
+47/tile_mode = 0
+47/occluder_offset = Vector2( 0, 0 )
+47/navigation_offset = Vector2( 0, 0 )
+47/shapes = [  ]
+47/z_index = 0

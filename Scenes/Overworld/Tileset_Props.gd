@@ -31,6 +31,8 @@ const TILES = {
 				24: 'FIR_TREE',
 				25: 'CAVE',
 				26: 'TOWER',
+				47: 'MILL',
+				
 				28: 'NPC_MAN',
 				
 				31: 'CABIN',
@@ -71,6 +73,7 @@ const TILE_INFO_HUD_NAME = {
 	
 	'GUILD': 'Guild',
 	'TOWER': 'Tower',
+	'MILL': 'Mill',
 	'NPC_MAN': 'Man',
 	'NPC_GIRL': 'Girl',
 	'NPC_BOY': 'Boy',
@@ -109,6 +112,7 @@ enum MOVEMENT_COST {
 	
 	GUILD = CANT_MOVE,
 	TOWER = CANT_MOVE,
+	MILL = CANT_MOVE,
 	NPC_MAN = CANT_MOVE,
 	NPC_GIRL = CANT_MOVE,
 	NPC_BOY = CANT_MOVE,
