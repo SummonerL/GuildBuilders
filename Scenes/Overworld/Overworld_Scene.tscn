@@ -253,6 +253,7 @@ script = ExtResource( 3 )
 [node name="Hidden_Tiles" type="TileMap" parent="." groups=[
 "hidden_tiles",
 ]]
+z_index = 1
 tile_set = SubResource( 4 )
 cell_size = Vector2( 16, 16 )
 format = 1
