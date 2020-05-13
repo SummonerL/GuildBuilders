@@ -13,9 +13,18 @@ const TILES = {
 				38: 'GRASSLAND_DEC6',
 				
 				7: 'SAND',
+				
+				41: 'DIRT',
+				
 				8: 'GRASSLAND_TREE', 9: 'SAND_TREE',
 				10: 'HILL', 11: 'DUNE', 
 				12: 'BOULDER', 13: 'OCEAN', 17: 'MOUNTAIN',
+				42: 'LEDGE',
+				43: 'LEDGE',
+				44: 'LEDGE',
+				45: 'LEDGE',
+				46: 'LEDGE',
+				
 				19: 'GUILD',
 				22: 'CEDAR_TREE',
 				23: 'ASH_TREE',
@@ -45,6 +54,7 @@ const TILE_INFO_HUD_NAME = {
 	'GRASSLAND_DEC5': 'Grass',
 	'GRASSLAND_DEC6': 'Grass',
 	'SAND': 'Sand', 
+	'DIRT': 'Dirt',
 	'GRASSLAND_TREE': 'Trees',
 	'CEDAR_TREE': 'Cedar',
 	'ASH_TREE': 'Ash',
@@ -56,6 +66,9 @@ const TILE_INFO_HUD_NAME = {
 	'CAVE': 'Cave',
 	'OCEAN': 'Ocean',
 	'MOUNTAIN': 'Mount',
+	
+	'LEDGE': 'Ledge',
+	
 	'GUILD': 'Guild',
 	'TOWER': 'Tower',
 	'NPC_MAN': 'Man',
@@ -79,6 +92,7 @@ enum MOVEMENT_COST {
 	GRASSLAND_DEC5 = NORMAL_MOVE,
 	GRASSLAND_DEC6 = NORMAL_MOVE,
 	SAND = NORMAL_MOVE,
+	DIRT = NORMAL_MOVE,
 	GRASSLAND_TREE = NORMAL_MOVE + 1,
 	CEDAR_TREE = NORMAL_MOVE + 1,
 	ASH_TREE = NORMAL_MOVE + 1,
@@ -90,6 +104,9 @@ enum MOVEMENT_COST {
 	CAVE = 1, # l2 tiles, so add the l1 tile first
 	OCEAN = CANT_MOVE,
 	MOUNTAIN = NORMAL_MOVE + 2, # very difficult to move onto a mountain
+	LEDGE = NORMAL_MOVE + 2 # l2 tiles (get added to l1 cost)
+	
+	
 	GUILD = CANT_MOVE,
 	TOWER = CANT_MOVE,
 	NPC_MAN = CANT_MOVE,
