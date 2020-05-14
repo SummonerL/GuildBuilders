@@ -15,6 +15,7 @@ const TILES = {
 				7: 'SAND',
 				
 				41: 'DIRT',
+				49: 'ROAD',
 				
 				8: 'GRASSLAND_TREE', 9: 'SAND_TREE',
 				10: 'HILL', 11: 'DUNE', 
@@ -32,6 +33,7 @@ const TILES = {
 				25: 'CAVE',
 				26: 'TOWER',
 				47: 'MILL',
+				48: 'INN',
 				
 				28: 'NPC_MAN',
 				
@@ -57,6 +59,8 @@ const TILE_INFO_HUD_NAME = {
 	'GRASSLAND_DEC6': 'Grass',
 	'SAND': 'Sand', 
 	'DIRT': 'Dirt',
+	'ROAD': 'Road',
+	
 	'GRASSLAND_TREE': 'Trees',
 	'CEDAR_TREE': 'Cedar',
 	'ASH_TREE': 'Ash',
@@ -74,6 +78,7 @@ const TILE_INFO_HUD_NAME = {
 	'GUILD': 'Guild',
 	'TOWER': 'Tower',
 	'MILL': 'Mill',
+	'INN': 'Inn',
 	'NPC_MAN': 'Man',
 	'NPC_GIRL': 'Girl',
 	'NPC_BOY': 'Boy',
@@ -96,6 +101,7 @@ enum MOVEMENT_COST {
 	GRASSLAND_DEC6 = NORMAL_MOVE,
 	SAND = NORMAL_MOVE,
 	DIRT = NORMAL_MOVE,
+	ROAD = NORMAL_MOVE,
 	GRASSLAND_TREE = NORMAL_MOVE + 1,
 	CEDAR_TREE = NORMAL_MOVE + 1,
 	ASH_TREE = NORMAL_MOVE + 1,
@@ -113,6 +119,8 @@ enum MOVEMENT_COST {
 	GUILD = CANT_MOVE,
 	TOWER = CANT_MOVE,
 	MILL = CANT_MOVE,
+	INN = CANT_MOVE,
+	
 	NPC_MAN = CANT_MOVE,
 	NPC_GIRL = CANT_MOVE,
 	NPC_BOY = CANT_MOVE,
