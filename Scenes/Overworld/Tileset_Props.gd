@@ -37,6 +37,8 @@ const TILES = {
 				50: 'LAMP',
 				51: 'SIGN',
 				52: 'FOUNTAIN',
+				53: 'STALL',
+				54: 'STALL_IMMOVABLE',
 				
 				28: 'NPC_MAN',
 				
@@ -85,6 +87,8 @@ const TILE_INFO_HUD_NAME = {
 	'LAMP': 'Lamp',
 	'SIGN': 'Sign',
 	'FOUNTAIN': 'Fount',
+	'STALL': 'Stall',
+	'STALL_IMMOVABLE': 'Stall',
 	
 	'NPC_MAN': 'Man',
 	'NPC_GIRL': 'Girl',
@@ -130,6 +134,8 @@ enum MOVEMENT_COST {
 	LAMP = CANT_MOVE,
 	SIGN = CANT_MOVE,
 	FOUNTAIN = CANT_MOVE,
+	STALL = 0, # gets added to l1
+	STALL_IMMOVABLE = CANT_MOVE,
 	
 	NPC_MAN = CANT_MOVE,
 	NPC_GIRL = CANT_MOVE,
