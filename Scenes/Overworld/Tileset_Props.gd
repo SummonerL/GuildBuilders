@@ -36,6 +36,7 @@ const TILES = {
 				48: 'INN',
 				50: 'LAMP',
 				51: 'SIGN',
+				52: 'FOUNTAIN',
 				
 				28: 'NPC_MAN',
 				
@@ -83,6 +84,7 @@ const TILE_INFO_HUD_NAME = {
 	'INN': 'Inn',
 	'LAMP': 'Lamp',
 	'SIGN': 'Sign',
+	'FOUNTAIN': 'Fount',
 	
 	'NPC_MAN': 'Man',
 	'NPC_GIRL': 'Girl',
@@ -125,8 +127,9 @@ enum MOVEMENT_COST {
 	TOWER = CANT_MOVE,
 	MILL = CANT_MOVE,
 	INN = CANT_MOVE,
-	LAMP = CANT_MOVE	,
+	LAMP = CANT_MOVE,
 	SIGN = CANT_MOVE,
+	FOUNTAIN = CANT_MOVE,
 	
 	NPC_MAN = CANT_MOVE,
 	NPC_GIRL = CANT_MOVE,

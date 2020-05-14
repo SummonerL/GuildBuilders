@@ -545,3 +545,13 @@
 51/navigation_offset = Vector2( 0, 0 )
 51/shapes = [  ]
 51/z_index = 0
+52/name = "fountain"
+52/texture = ExtResource( 1 )
+52/tex_offset = Vector2( 0, 0 )
+52/modulate = Color( 1, 1, 1, 1 )
+52/region = Rect2( 176, 176, 16, 16 )
+52/tile_mode = 0
+52/occluder_offset = Vector2( 0, 0 )
+52/navigation_offset = Vector2( 0, 0 )
+52/shapes = [  ]
+52/z_index = 0
