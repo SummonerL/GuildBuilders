@@ -575,3 +575,13 @@
 54/navigation_offset = Vector2( 0, 0 )
 54/shapes = [  ]
 54/z_index = 0
+55/name = "house"
+55/texture = ExtResource( 1 )
+55/tex_offset = Vector2( 0, 0 )
+55/modulate = Color( 1, 1, 1, 1 )
+55/region = Rect2( 224, 176, 16, 16 )
+55/tile_mode = 0
+55/occluder_offset = Vector2( 0, 0 )
+55/navigation_offset = Vector2( 0, 0 )
+55/shapes = [  ]
+55/z_index = 0

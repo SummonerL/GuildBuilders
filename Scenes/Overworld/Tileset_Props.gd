@@ -44,6 +44,7 @@ const TILES = {
 				
 				31: 'CABIN',
 				34: 'HOUSE',
+				55: 'HOUSE',
 				40: 'BARN',
 				
 				35: 'BRIDGE',
