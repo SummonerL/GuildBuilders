@@ -684,6 +684,17 @@ func populate_unique_actions(unit):
 		npcs.set_active_npc(adjacent_npc)
 		unique_actions += map_actions.npc_actions
 	
+	# determine if we are near any signs
+	var adjacent_sign = null
+	var sign_id = l2_tiles.tile_set.find_tile_by_name('sign')
+	for tile in get_cardinal_tiles(unit):
+		if (l2_tiles.get_cellv(tile.tile) == sign_id && adjacent_sign == null):
+			adjacent_sign = {'type': 'sign', 'pos': tile.tile}
+			
+	if (adjacent_sign != null):
+		player.active_world_object = adjacent_sign
+		unique_actions += map_actions.sign_actions
+	
 	return unique_actions
 	
 # when the action list is cancelled, go back to selecting a tile

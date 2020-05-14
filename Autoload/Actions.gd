@@ -79,6 +79,7 @@ enum COMPLETE_ACTION_LIST {
 	MINE,
 	CHOP,
 	TALK, # used for NPCS
+	READ_SIGN, # used for signs
 	TUNNEL # for caves (Male Miner Only)
 	CROSS, # for rivers (Female Angler Only / Or wooden stilts)
 	INFO,
@@ -113,6 +114,7 @@ const ACTION_LIST_NAMES = [
 	'MINE',
 	'CHOP',
 	'TALK',
+	'READ',
 	'TUNNL',
 	'CROSS',
 	'INFO',
@@ -217,6 +219,9 @@ func do_action(action, parent):
 		COMPLETE_ACTION_LIST.TALK:
 			# talk to an NPC
 			get_tree().get_current_scene().npcs.talk_to_npc(active_unit)
+		COMPLETE_ACTION_LIST.READ_SIGN:
+			# read an adjacent sign
+			initiate_read_sign_action(player.active_world_object)
 		COMPLETE_ACTION_LIST.TUNNEL:
 			# this action can only be taken by the male miner. Allows the unit to travel between 
 			# cave's (in the same region)
@@ -372,6 +377,15 @@ func set_item_reward(reward, timer = null):
 		remove_child(timer)
 
 	action_screen_node.receive_item(reward)
+
+# if the unit is reading a sign
+func initiate_read_sign_action(the_sign):
+	var sign_text = constants.get_sign_text(the_sign.pos)
+	player.hud.typeTextWithBuffer(sign_text, false, 'finished_viewing_text_generic')
+	yield(signals, "finished_viewing_text_generic")
+	
+	# change the state back
+	player.player_state = player.PLAYER_STATE.SELECTING_TILE
 
 # if the unit is tunneling
 func initiate_tunnel_action():

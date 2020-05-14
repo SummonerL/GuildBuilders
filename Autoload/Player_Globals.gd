@@ -47,6 +47,9 @@ var current_day = 1
 var guild_hall_x = 13
 var guild_hall_y = 14
 
+# a useful tracker for what object the player is currently interacting with
+var active_world_object
+
 # function for moving the game clock forward (one turn)
 func move_to_next_hour():
 	current_time_of_day += 1

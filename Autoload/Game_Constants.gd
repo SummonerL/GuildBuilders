@@ -23,6 +23,8 @@ const ABILITY_TEXT = "ABILITIES"
 
 const CHECK_SYMBOL = '¤' #164
 const X_SYMBOL = 'µ' #181
+const EAST_SYMBOL = '→'
+const WEST_SYMBOL = '←'
 
 const EXCLAMATION = '!'
 
@@ -163,6 +165,29 @@ const NORTH_BOUNDARY = -30
 const EAST_BOUNDARY = 59
 const SOUTH_BOUNDARY = 59
 const WEST_BOUNDARY = -30
+
+# keep track of all the signs in the game world
+var sign_list = [
+	{
+		'pos': Vector2(29, 8),
+		'text': WEST_SYMBOL + ' Guild         ' + EAST_SYMBOL + ' Bellmare'
+	},
+	{
+		'pos': Vector2(36, 8),
+		'text': 'Bellmare Ranch'
+	},
+	{
+		'pos': Vector2(50, 6),
+		'text': 'Welcome to Bellmare!'
+	},
+]
+
+# useful function for returning the sign text at given coordinates
+func get_sign_text(pos):
+	for the_sign in sign_list:
+		if (the_sign.pos == pos):
+			return the_sign.text
+	return ''
 
 # experience required for each level
 var experience_required = [

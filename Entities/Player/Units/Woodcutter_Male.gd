@@ -20,7 +20,7 @@ const WAKE_UP_TEXT = 'Here we go! Lots to do today.'
 const BED_TIME_TEXT = 'I\'m exhausted... Time to hit the hay!'
 const HUNGRY_TEXT = 'I\'m so hungry... Must\'ve gotten carried away and forgot to eat.'
 
-func unit_init():
+func unit_init():	
 	unit_portrait_sprite = ps
 
 	unit_sprite_node = get_node("Woodcutter_Male_Sprite")

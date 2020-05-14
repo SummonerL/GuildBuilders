@@ -72,6 +72,9 @@ onready var river_actions = [global_action_list.COMPLETE_ACTION_LIST.CROSS]
 # npc actions
 onready var npc_actions = [global_action_list.COMPLETE_ACTION_LIST.TALK]
 
+# sign actions
+onready var sign_actions = [global_action_list.COMPLETE_ACTION_LIST.READ_SIGN]
+
 # keep track of individual tiles that have been interacted with in a particular day. This will allow us to 'deplete' certain
 # tiles. This will be an object, where the key represents the location on the map, and the value is the remaining items @ that location
 onready var used_tile_items = {
