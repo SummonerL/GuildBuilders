@@ -525,3 +525,13 @@
 49/navigation_offset = Vector2( 0, 0 )
 49/shapes = [  ]
 49/z_index = 0
+50/name = "lamp"
+50/texture = ExtResource( 1 )
+50/tex_offset = Vector2( 0, 0 )
+50/modulate = Color( 1, 1, 1, 1 )
+50/region = Rect2( 160, 176, 16, 16 )
+50/tile_mode = 0
+50/occluder_offset = Vector2( 0, 0 )
+50/navigation_offset = Vector2( 0, 0 )
+50/shapes = [  ]
+50/z_index = 0
