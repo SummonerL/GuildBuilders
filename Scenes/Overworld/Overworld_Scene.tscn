@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Scenes/Overworld/Assets/TileSets/Map_TS.tres" type="TileSet" id=1]
 [ext_resource path="res://Scenes/Overworld/Overworld_Scene.gd" type="Script" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://Sprites/terrain/sheet_3.png" type="Texture" id=10]
 [ext_resource path="res://Sprites/Animated Textures/guild_hall_night.tres" type="Texture" id=11]
 [ext_resource path="res://Sprites/Animated Textures/guild_hall.tres" type="Texture" id=12]
+[ext_resource path="res://Sprites/Animated Textures/windmill.tres" type="Texture" id=13]
 
 [sub_resource type="TileSet" id=1]
 0/name = "tower_sprite"
@@ -74,16 +75,6 @@
 5/navigation_offset = Vector2( 0, 0 )
 5/shapes = [  ]
 5/z_index = 0
-6/name = "mill"
-6/texture = ExtResource( 10 )
-6/tex_offset = Vector2( 0, 0 )
-6/modulate = Color( 1, 1, 1, 1 )
-6/region = Rect2( 160, 96, 16, 32 )
-6/tile_mode = 0
-6/occluder_offset = Vector2( 0, 0 )
-6/navigation_offset = Vector2( 0, 0 )
-6/shapes = [  ]
-6/z_index = 0
 7/name = "inn"
 7/texture = ExtResource( 10 )
 7/tex_offset = Vector2( 0, 0 )
@@ -94,6 +85,16 @@
 7/navigation_offset = Vector2( 0, 0 )
 7/shapes = [  ]
 7/z_index = 0
+8/name = "windmill"
+8/texture = ExtResource( 13 )
+8/tex_offset = Vector2( 0, 0 )
+8/modulate = Color( 1, 1, 1, 1 )
+8/region = Rect2( 0, 0, 16, 32 )
+8/tile_mode = 0
+8/occluder_offset = Vector2( 0, 0 )
+8/navigation_offset = Vector2( 0, 0 )
+8/shapes = [  ]
+8/z_index = 0
 
 [sub_resource type="TileSet" id=2]
 0/name = "Fishing_Spot_1"
@@ -249,7 +250,7 @@ __meta__ = {
 tile_set = SubResource( 1 )
 cell_size = Vector2( 16, 16 )
 format = 1
-tile_data = PoolIntArray( -1048548, 0, 0, 54, 0, 0, 65552, 0, 0, 393254, 5, 0, 524342, 7, 0, 589872, 6, 0, 655388, 0, 0, 917517, 1, 0, 1245188, 4, 0, 1376257, 0, 0, 1703953, 3, 0, 1769484, 0, 0 )
+tile_data = PoolIntArray( -1048548, 0, 0, 54, 0, 0, 65552, 0, 0, 393254, 5, 0, 524342, 7, 0, 589872, 8, 0, 655388, 0, 0, 917517, 1, 0, 1245188, 4, 0, 1376257, 0, 0, 1703953, 3, 0, 1769484, 0, 0 )
 
 [node name="Action_Tracker" type="TileMap" parent="." groups=[
 "map_actions",
