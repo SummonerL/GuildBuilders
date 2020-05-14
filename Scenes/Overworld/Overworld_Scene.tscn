@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Scenes/Overworld/Assets/TileSets/Map_TS.tres" type="TileSet" id=1]
 [ext_resource path="res://Scenes/Overworld/Overworld_Scene.gd" type="Script" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://Sprites/Animated Textures/guild_hall_night.tres" type="Texture" id=11]
 [ext_resource path="res://Sprites/Animated Textures/guild_hall.tres" type="Texture" id=12]
 [ext_resource path="res://Sprites/Animated Textures/windmill.tres" type="Texture" id=13]
+[ext_resource path="res://Sprites/Animated Textures/fountain.tres" type="Texture" id=14]
 
 [sub_resource type="TileSet" id=1]
 0/name = "tower_sprite"
@@ -106,10 +107,10 @@
 9/shapes = [  ]
 9/z_index = 0
 10/name = "fountain"
-10/texture = ExtResource( 10 )
+10/texture = ExtResource( 14 )
 10/tex_offset = Vector2( 0, 0 )
 10/modulate = Color( 1, 1, 1, 1 )
-10/region = Rect2( 224, 96, 32, 32 )
+10/region = Rect2( 0, 0, 32, 32 )
 10/tile_mode = 0
 10/occluder_offset = Vector2( 0, 0 )
 10/navigation_offset = Vector2( 0, 0 )
