@@ -21,6 +21,10 @@ const BED_TIME_TEXT = '...'
 const HUNGRY_TEXT = '...'
 
 func unit_init():	
+	##TEMP
+	unit_pos_x = 29
+	unit_pos_y = 7
+	##TEMP
 	unit_portrait_sprite = ps
 
 	unit_sprite_node = get_node("Miner_Male_Sprite")

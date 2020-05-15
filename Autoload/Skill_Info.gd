@@ -94,6 +94,14 @@ onready var SKILL_UNLOCKS = {
 			'type': UNLOCK_TYPES.RESOURCE,
 			'level_required': 1,
 		},
+		{
+			'unlock_text': ' can now mine for Iron Ore!',
+			'can_text': 'Mine',
+			'skill_info_text': 'Iron Ore',
+			'single_line': true,
+			'type': UNLOCK_TYPES.RESOURCE,
+			'level_required': 3,
+		},
 	],
 	
 	

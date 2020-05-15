@@ -21,6 +21,8 @@ const ACTIONS = {
 	9: 'WOODCUTTING_SPOT_4',
 	
 	6: 'MINING_SPOT_1',
+	10: 'MINING_SPOT_2',
+	
 	4: 'GUILD_SPOT_1',
 	
 	7: 'CAVE_CONNECTOR_1',
@@ -35,7 +37,8 @@ onready var ITEMS_AT_SPOT = {
 	'WOODCUTTING_SPOT_2': [global_items_list.item_ash_logs],
 	'WOODCUTTING_SPOT_3': [global_items_list.item_fir_logs],
 	'WOODCUTTING_SPOT_4': [global_items_list.item_birch_logs],
-	'MINING_SPOT_1': [global_items_list.item_stone]
+	'MINING_SPOT_1': [global_items_list.item_stone],
+	'MINING_SPOT_2': [global_items_list.item_iron_ore],
 }
 
 # specific actions associated with these tiles
@@ -47,6 +50,8 @@ onready var associated_actions = {
 	'WOODCUTTING_SPOT_3': [global_action_list.COMPLETE_ACTION_LIST.CHOP],
 	'WOODCUTTING_SPOT_4': [global_action_list.COMPLETE_ACTION_LIST.CHOP],
 	'MINING_SPOT_1': [global_action_list.COMPLETE_ACTION_LIST.MINE],
+	'MINING_SPOT_2': [global_action_list.COMPLETE_ACTION_LIST.MINE],
+	
 	'GUILD_SPOT_1': [global_action_list.COMPLETE_ACTION_LIST.DEPOT, 
 					global_action_list.COMPLETE_ACTION_LIST.POSIT,
 					global_action_list.COMPLETE_ACTION_LIST.DINE,
@@ -62,8 +67,11 @@ onready var level_requirements = {
 	'WOODCUTTING_SPOT_2': 2,
 	'WOODCUTTING_SPOT_3': 3,
 	'WOODCUTTING_SPOT_4': 4,
+	
 	'FISH_SPOT_1': 1,
+	
 	'MINING_SPOT_1': 1,
+	'MINING_SPOT_2': 3,
 }
 
 # matching connections (used for tunneling)

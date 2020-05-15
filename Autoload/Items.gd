@@ -232,6 +232,15 @@ onready var item_amethyst = {
 	"level_to_mine": 1 # required level to mine (should match what's in skill_unlocks)
 }
 
+onready var item_iron_ore = {
+	"name": "Iron Ore",
+	"description": "A small block of iron ore. Can be used to craft various items.",
+	"type": ITEM_TYPES.ORE,
+	"xp": 2, # xp upon receiving
+	"level_to_mine": 3 # required level to mine (should match what's in skill_unlocks)
+}
+
+
 onready var gemstone_list = [
 	item_amethyst
 ]

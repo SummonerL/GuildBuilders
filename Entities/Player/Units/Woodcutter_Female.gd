@@ -20,12 +20,7 @@ const WAKE_UP_TEXT = 'Ugh... I can\'t sleep. Might as well get started.'
 const BED_TIME_TEXT = 'I should get to bed so I can be just as productive tomorrow!'
 const HUNGRY_TEXT = 'I wish I had eaten yesterday...'
 
-func unit_init():
-	##TEMP
-	unit_pos_x = 29
-	unit_pos_y = 7
-	##TEMP
-	
+func unit_init():	
 	unit_portrait_sprite = ps
 	
 	unit_sprite_node = get_node("Woodcutter_Female_Sprite")
