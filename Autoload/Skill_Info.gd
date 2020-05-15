@@ -56,6 +56,14 @@ onready var SKILL_UNLOCKS = {
 			'single_line': true,
 			'type': UNLOCK_TYPES.RESOURCE,
 			'level_required': 3,
+		},
+		{
+			'unlock_text': ' can now chop Birch Trees!',
+			'can_text': 'Chop',
+			'skill_info_text': 'Birch Trees',
+			'single_line': true,
+			'type': UNLOCK_TYPES.RESOURCE,
+			'level_required': 4,
 		}
 	],
 	

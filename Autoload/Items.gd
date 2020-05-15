@@ -188,6 +188,14 @@ onready var item_fir_logs = {
 	"xp": 2 # xp upon receiving
 }
 
+onready var item_birch_logs = {
+	"name": "Birch Logs",
+	"description": "A pale hardwood that is good for painting. Can be used to craft various items.",
+	"type": ITEM_TYPES.WOOD,
+	"can_discard": true,
+	"xp": 2 # xp upon receiving
+}
+
 # may remove
 onready var item_softwood = {
 	"name": "Softwood",

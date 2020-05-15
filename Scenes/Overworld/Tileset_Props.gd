@@ -30,6 +30,8 @@ const TILES = {
 				22: 'CEDAR_TREE',
 				23: 'ASH_TREE',
 				24: 'FIR_TREE',
+				57: 'BIRCH_TREE',
+				
 				25: 'CAVE',
 				26: 'TOWER',
 				47: 'MILL',
@@ -72,6 +74,8 @@ const TILE_INFO_HUD_NAME = {
 	'CEDAR_TREE': 'Cedar',
 	'ASH_TREE': 'Ash',
 	'FIR_TREE': 'Fir',
+	'BIRCH_TREE': 'Birch',
+	
 	'SAND_TREE': 'Tree',
 	'HILL': 'Hill',
 	'DUNE': 'Dune', 
@@ -120,6 +124,7 @@ enum MOVEMENT_COST {
 	CEDAR_TREE = NORMAL_MOVE + 1,
 	ASH_TREE = NORMAL_MOVE + 1,
 	FIR_TREE = NORMAL_MOVE + 1,
+	BIRCH_TREE = NORMAL_MOVE + 1,
 	SAND_TREE = NORMAL_MOVE + 1,
 	HILL = NORMAL_MOVE + 1,
 	DUNE = NORMAL_MOVE + 1,
