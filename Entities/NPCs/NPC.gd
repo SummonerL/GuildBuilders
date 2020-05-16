@@ -132,13 +132,28 @@ onready var npc_innkeeper_henry = {
 	"pos_y": 10
 }
 
+onready var npc_bellmare_woman_ema = {
+	"name": "Ema",
+	"region": 2, # Bellmare
+	"dialogue": [
+		ml(["I've lived in Bellmare since I was a little girl. I've considered venturing out, but being near the castle makes me feel safe. That's all ",
+			"anyone can ask for these days."])
+	],
+	"initiates_quest_immediately": false,
+	"current_dialogue": 0, # initial dialogue
+	"overworld_sprite": get_node("Bellmare_Woman_Ema"),
+	"pos_x": 55,
+	"pos_y": 15
+}
+
 # keep track of all the npcs
 onready var npcs = [
 	npc_lonely_man_samuel,
 	npc_young_girl_rika,
 	npc_guild_admirer_harrison,
 	npc_rikas_father_bjorn,
-	npc_innkeeper_henry
+	npc_innkeeper_henry,
+	npc_bellmare_woman_ema
 ]
 
 # keep track of the npc that is currently being interacted with

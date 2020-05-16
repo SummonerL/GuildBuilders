@@ -46,8 +46,6 @@ const TILES = {
 				53: 'STALL',
 				54: 'STALL_IMMOVABLE',
 				
-				28: 'NPC_MAN',
-				
 				31: 'CABIN',
 				34: 'HOUSE',
 				55: 'HOUSE',
@@ -57,7 +55,9 @@ const TILES = {
 				
 				39: 'FENCE',
 				56: 'WALL',
-				
+
+				28: 'NPC_MAN',	
+				29: 'NPC_WOMAN',
 				32: 'NPC_GIRL',
 				33: 'NPC_BOY'}
 
@@ -104,6 +104,7 @@ const TILE_INFO_HUD_NAME = {
 	'STALL_IMMOVABLE': 'Stall',
 	
 	'NPC_MAN': 'Man',
+	'NPC_WOMAN': 'Woman',
 	'NPC_GIRL': 'Girl',
 	'NPC_BOY': 'Boy',
 	'CABIN': 'Cabin',
@@ -156,6 +157,7 @@ enum MOVEMENT_COST {
 	STALL_IMMOVABLE = CANT_MOVE,
 	
 	NPC_MAN = CANT_MOVE,
+	NPC_WOMAN = CANT_MOVE,
 	NPC_GIRL = CANT_MOVE,
 	NPC_BOY = CANT_MOVE,
 	
