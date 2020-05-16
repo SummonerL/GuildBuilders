@@ -98,6 +98,9 @@ onready var shelter_locations = [
 	global_action_list.COMPLETE_ACTION_LIST.RETURN_TO_GUILD
 ]
 
+# if the unit is at an inn, keep track of it here
+var active_inn = null
+
 # a unique ID to identify this unit
 var unit_id = 0
 
@@ -506,6 +509,9 @@ func return_to(location):
 			# stay put, and switch to 'camp' icon
 			unit_sprite_node.visible = true
 			unit_sprite_node.animation = "camping"
+		global_action_list.COMPLETE_ACTION_LIST.RETURN_TO_INN:
+			# update coordinates
+			set_unit_pos(active_inn.pos.x, active_inn.pos.y)
 
 # once we've received the path the unit will take, this function will actually move
 # the unit based on a timer

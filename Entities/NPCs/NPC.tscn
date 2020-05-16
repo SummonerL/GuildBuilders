@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Entities/NPCs/NPC.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/characters/npcs/lonely_man_samuel_1.png" type="Texture" id=2]
@@ -9,6 +9,8 @@
 [ext_resource path="res://Sprites/characters/npcs/guild_admirer_harrison1.png" type="Texture" id=7]
 [ext_resource path="res://Sprites/characters/npcs/rikas_father_bjorn2.png" type="Texture" id=8]
 [ext_resource path="res://Sprites/characters/npcs/rikas_father_bjorn1.png" type="Texture" id=9]
+[ext_resource path="res://Sprites/characters/npcs/innkeeper_henry2.png" type="Texture" id=10]
+[ext_resource path="res://Sprites/characters/npcs/innkeeper_henry1.png" type="Texture" id=11]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -42,29 +44,48 @@ animations = [ {
 "speed": 5.0
 } ]
 
+[sub_resource type="SpriteFrames" id=5]
+animations = [ {
+"frames": [ ExtResource( 11 ), ExtResource( 10 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
 [node name="NPC" type="Node2D"]
 script = ExtResource( 1 )
 
 [node name="Lonely_Man_Samuel_Sprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
+frame = 1
 speed_scale = 0.5
 playing = true
 centered = false
 
 [node name="Young_Girl_Rika" type="AnimatedSprite" parent="."]
 frames = SubResource( 2 )
+frame = 1
 speed_scale = 0.5
 playing = true
 centered = false
 
 [node name="Guild_Admirer_Harrison" type="AnimatedSprite" parent="."]
 frames = SubResource( 3 )
+frame = 1
 speed_scale = 0.5
 playing = true
 centered = false
 
 [node name="Rikas_Father_Bjorn" type="AnimatedSprite" parent="."]
 frames = SubResource( 4 )
+frame = 1
+speed_scale = 0.5
+playing = true
+centered = false
+
+[node name="Innkeeper_Henry" type="AnimatedSprite" parent="."]
+frames = SubResource( 5 )
+frame = 1
 speed_scale = 0.5
 playing = true
 centered = false

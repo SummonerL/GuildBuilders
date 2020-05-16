@@ -102,6 +102,7 @@ enum COMPLETE_ACTION_LIST {
 	QUEST_STATUS, # for the quest detail string
 	RETURN_TO_GUILD, # for bedtime
 	RETURN_TO_CAMP, # for bedtime
+	RETURN_TO_INN, # for bedtime
 }
 
 const ACTION_LIST_NAMES = [
@@ -136,7 +137,8 @@ const ACTION_LIST_NAMES = [
 	'INFO',
 	'INFO',
 	'GUILD',
-	'CAMP'
+	'CAMP',
+	'INN'
 ]
 
 # list of exclusive actions
@@ -215,6 +217,11 @@ func do_action(action, parent):
 			# return the unit to his/her camp, and continue to send more units to bed (if necessary)
 			player.hud.full_text_destruction()
 			active_unit.return_to(COMPLETE_ACTION_LIST.RETURN_TO_CAMP)
+			get_tree().get_current_scene().send_units_to_bed(true, true)
+		COMPLETE_ACTION_LIST.RETURN_TO_INN:
+			# return the unit to the inn, and continue to send more units to bed (if necessary)
+			player.hud.full_text_destruction()
+			active_unit.return_to(COMPLETE_ACTION_LIST.RETURN_TO_INN)
 			get_tree().get_current_scene().send_units_to_bed(true, true)
 		COMPLETE_ACTION_LIST.TALK:
 			# talk to an NPC

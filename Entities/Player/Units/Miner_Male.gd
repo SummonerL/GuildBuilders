@@ -22,8 +22,8 @@ const HUNGRY_TEXT = '...'
 
 func unit_init():	
 	##TEMP
-	unit_pos_x = 29
-	unit_pos_y = 7
+	unit_pos_x = 50
+	unit_pos_y = 8
 	##TEMP
 	unit_portrait_sprite = ps
 

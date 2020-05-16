@@ -257,6 +257,12 @@ func new_day(fade = false, fade_node = null):
 	# remove any food abilities from the previous day
 	player.party.remove_abilities_of_type(global_ability_list.ABILITY_TYPES.FOOD)
 	
+	# remove 'INN' from the list of shelter locations
+	player.party.remove_inn_locations()
+	
+	# reset innkeeper dialogue
+	npcs.reset_innkeeper_dialogue()
+	
 	# check for any guild abilities
 	guild.check_guild_abilities()
 	

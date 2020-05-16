@@ -117,7 +117,7 @@ var regions = [
 		'hidden': true
 	},
 	{
-		'name': 'Region East 1', # will change
+		'name': 'Bellmare Region',
 		'x': 30,
 		'y': 0,
 		'hidden': false
@@ -180,6 +180,16 @@ var sign_list = [
 		'pos': Vector2(50, 6),
 		'text': 'Welcome to Bellmare!'
 	},
+]
+
+# keep track of all the inns in the game world
+onready var inn_list = [
+	{
+		"name": "Bellmare Inn",
+		"pos": Vector2(55, 10),
+		"occupants": [],
+		"max_occupancy": 1
+	}
 ]
 
 # useful function for returning the sign text at given coordinates

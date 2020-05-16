@@ -21,6 +21,11 @@ const BED_TIME_TEXT = 'I should get to bed so I can be just as productive tomorr
 const HUNGRY_TEXT = 'I wish I had eaten yesterday...'
 
 func unit_init():	
+	##TEMP
+	unit_pos_x = 50
+	unit_pos_y = 7
+	##TEMP
+	
 	unit_portrait_sprite = ps
 	
 	unit_sprite_node = get_node("Woodcutter_Female_Sprite")

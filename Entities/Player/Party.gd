@@ -3,6 +3,9 @@ extends Node
 # bring in our global constants
 onready var constants = get_node("/root/Game_Constants")
 
+# bring in our global action list
+onready var global_action_list = get_node("/root/Actions")
+
 # keep track of the global player variables
 onready var player = get_node("/root/Player_Globals")
 
@@ -116,6 +119,19 @@ func remove_abilities_of_type(type):
 			index += 1
 		
 		unit.unit_abilities += gained_abilities # any new abilities the unit may have gained as a result of doing this
+
+# every morning, the inn locations should be removed from each unit's shelter locations
+func remove_inn_locations():
+	for unit in party_members:
+		if (unit.active_inn):
+			unit.active_inn.occupants = [] # clear the occupants
+		unit.active_inn = null # set the active_inn to null
+		var index = 0
+		for location in unit.shelter_locations:
+			if (location == global_action_list.COMPLETE_ACTION_LIST.RETURN_TO_INN):
+				unit.shelter_locations.remove(index)
+				break
+			index += 1
 
 # useful function to return all of the units that are asleep, specifically at the guild hall
 func get_all_units_sleeping_at_guild_hall():
