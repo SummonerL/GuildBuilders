@@ -26,7 +26,9 @@ const ACTIONS = {
 	4: 'GUILD_SPOT_1',
 	
 	7: 'CAVE_CONNECTOR_1',
-	8: 'CAVE_CONNECTOR_2'
+	8: 'CAVE_CONNECTOR_2',
+	11: 'CAVE_CONNECTOR_3',
+	12: 'CAVE_CONNECTOR_4'
 }
 
 # keep track of the kind of resources that can be gained on specific action spots
@@ -58,7 +60,9 @@ onready var associated_actions = {
 					global_action_list.COMPLETE_ACTION_LIST.CRAFT],
 					
 	'CAVE_CONNECTOR_1': [global_action_list.COMPLETE_ACTION_LIST.TUNNEL],
-	'CAVE_CONNECTOR_2': [global_action_list.COMPLETE_ACTION_LIST.TUNNEL]
+	'CAVE_CONNECTOR_2': [global_action_list.COMPLETE_ACTION_LIST.TUNNEL],
+	'CAVE_CONNECTOR_3': [global_action_list.COMPLETE_ACTION_LIST.TUNNEL],
+	'CAVE_CONNECTOR_4': [global_action_list.COMPLETE_ACTION_LIST.TUNNEL]
 }
 
 # level requirements for specific spots
@@ -77,7 +81,9 @@ onready var level_requirements = {
 # matching connections (used for tunneling)
 onready var matching_connections = {
 	'CAVE_CONNECTOR_1': 'CAVE_CONNECTOR_2',
-	'CAVE_CONNECTOR_2': 'CAVE_CONNECTOR_1'
+	'CAVE_CONNECTOR_2': 'CAVE_CONNECTOR_1',
+	'CAVE_CONNECTOR_3': 'CAVE_CONNECTOR_4',
+	'CAVE_CONNECTOR_4': 'CAVE_CONNECTOR_3',
 }
 
 # river actions (used for crossing)
