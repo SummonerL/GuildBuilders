@@ -180,6 +180,10 @@ var sign_list = [
 		'pos': Vector2(50, 6),
 		'text': 'Welcome to Bellmare!'
 	},
+	{
+		'pos': Vector2(31, 24),
+		'text': 'GHRAK BORC (GOBLIN VILLAGE) DAHK GRAHN! (LEAVE NOW!)'
+	},
 ]
 
 # keep track of all the inns in the game world

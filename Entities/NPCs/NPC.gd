@@ -146,6 +146,19 @@ onready var npc_bellmare_woman_ema = {
 	"pos_y": 15
 }
 
+onready var npc_farmer_fred = {
+	"name": "Fred",
+	"region": 2, # Bellmare
+	"dialogue": [
+		""
+	],
+	"initiates_quest_immediately": false,
+	"current_dialogue": 0, # initial dialogue
+	"overworld_sprite": get_node("Farmer_Fred"),
+	"pos_x": 39,
+	"pos_y": 8
+}
+
 # keep track of all the npcs
 onready var npcs = [
 	npc_lonely_man_samuel,
@@ -153,7 +166,8 @@ onready var npcs = [
 	npc_guild_admirer_harrison,
 	npc_rikas_father_bjorn,
 	npc_innkeeper_henry,
-	npc_bellmare_woman_ema
+	npc_bellmare_woman_ema,
+	npc_farmer_fred,
 ]
 
 # keep track of the npc that is currently being interacted with

@@ -55,6 +55,7 @@ const TILES = {
 				
 				39: 'FENCE',
 				56: 'WALL',
+				59: 'FENCE',
 
 				28: 'NPC_MAN',	
 				29: 'NPC_WOMAN',
