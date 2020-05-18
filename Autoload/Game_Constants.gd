@@ -242,6 +242,7 @@ const MINING = 'mining'
 const WOODCUTTING = 'woodcutting'
 const WOODWORKING = 'woodworking'
 const SMITHING = 'smithing'
+const BEAST_MASTERY = 'beast_mastery'
 
 # skill pretty names
 const FISHING_PRETTY = 'Fishing'
@@ -249,6 +250,8 @@ const MINING_PRETTY = 'Mining'
 const WOODCUTTING_PRETTY = 'Woodcutting'
 const WOODWORKING_PRETTY = 'Woodworking'
 const SMITHING_PRETTY = 'Smithing'
+const BEAST_MASTERY_PRETTY ='Beast Mastery'
+
 
 # text commonly used across different screens
 const LVL_TEXT = "Lv."

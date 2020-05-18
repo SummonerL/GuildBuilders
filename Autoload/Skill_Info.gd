@@ -13,7 +13,8 @@ enum UNLOCK_TYPES {
 	RECIPE,
 	ABILITY,
 	RESOURCE,
-	TOOL
+	TOOL,
+	ANIMAL
 }
 
 # global list of skill unlocks
@@ -275,5 +276,17 @@ onready var SKILL_UNLOCKS = {
 				},
 			]
 		},
+	],
+	
+	# beast mastery
+	constants.BEAST_MASTERY: [
+		{
+			'unlock_text': ' can now tame doves!',
+			'can_text': 'Tame',
+			'skill_info_text': 'Doves',
+			'single_line': true,
+			'type': UNLOCK_TYPES.ANIMAL,
+			'level_required': 1,
+		}	
 	]
 }

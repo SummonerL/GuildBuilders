@@ -47,6 +47,7 @@ onready var fishing_skill_icon_sprite = get_node("Fishing_Skill_Icon")
 onready var woodcutting_skill_icon_sprite = get_node("Woodcutting_Skill_Icon")
 onready var woodworking_skill_icon_sprite = get_node("Woodworking_Skill_Icon")
 onready var smithing_skill_icon_sprite = get_node("Smithing_Skill_Icon")
+onready var beast_mastery_skill_icon_sprite = get_node("Beast_Mastery_Skill_Icon")
 
 var active_unit
 var portrait_sprite
@@ -80,7 +81,8 @@ onready var all_skills = [
 	constants.WOODCUTTING,
 	constants.MINING,
 	constants.WOODWORKING,
-	constants.SMITHING
+	constants.SMITHING,
+	constants.BEAST_MASTERY
 ]
 
 onready var all_skill_icons = [
@@ -88,7 +90,8 @@ onready var all_skill_icons = [
 	woodcutting_skill_icon_sprite,
 	mining_skill_icon_sprite,
 	woodworking_skill_icon_sprite,
-	smithing_skill_icon_sprite
+	smithing_skill_icon_sprite,
+	beast_mastery_skill_icon_sprite
 ]
 
 var current_skill_set = []
@@ -119,6 +122,7 @@ const FISHING_TEXT = "Fishing"
 const MINING_TEXT = "Mining"
 const WOODWORKING_TEXT = "Woodworking"
 const SMITHING_TEXT = "Smithing"
+const BEAST_MASTERY_TEXT = "Beast Mastery"
 
 const NO_ITEMS_TEXT = "No items..."
 const NO_ABIL_TEXT = "No abilities..."
@@ -234,6 +238,7 @@ func populate_skill_info_screen(skill_start_index = 0):
 	woodcutting_skill_icon_sprite.visible = false
 	woodworking_skill_icon_sprite.visible = false
 	smithing_skill_icon_sprite.visible = false
+	beast_mastery_skill_icon_sprite.visible = false
 	
 	# show the right arrow (for moving to the next screen)
 	letters_symbols_node.print_special_immediately(constants.SPECIAL_SYMBOLS.RIGHT_ARROW, 
@@ -310,6 +315,14 @@ func populate_skill_info_screen(skill_start_index = 0):
 				calc_next = calculate_next_level_percent(constants.SMITHING)
 				smithing_lv_text += "  " + NEXT_LEVEL_TEXT + String(calc_next) + "%"
 				letters_symbols_node.print_immediately(smithing_lv_text, Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2) + 2))
+			constants.BEAST_MASTERY:
+				beast_mastery_skill_icon_sprite.visible = true
+				beast_mastery_skill_icon_sprite.position = Vector2(start_x * constants.TILE_WIDTH, start_y * constants.TILE_HEIGHT)
+				letters_symbols_node.print_immediately(BEAST_MASTERY_TEXT, Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2)))
+				var beast_mastery_lv_text = LVL_TEXT + String(active_unit.skill_levels[constants.BEAST_MASTERY])
+				calc_next = calculate_next_level_percent(constants.BEAST_MASTERY)
+				beast_mastery_lv_text += "  " + NEXT_LEVEL_TEXT + String(calc_next) + "%"
+				letters_symbols_node.print_immediately(beast_mastery_lv_text, Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2) + 2))
 				
 		start_y += 2
 		
