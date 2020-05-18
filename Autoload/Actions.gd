@@ -80,6 +80,7 @@ enum COMPLETE_ACTION_LIST {
 	CHOP,
 	TALK, # used for NPCS
 	READ_SIGN, # used for signs
+	CLIMB_TOWER, # used for towers + revealing regions
 	TUNNEL # for caves (Male Miner Only)
 	CROSS, # for rivers (Female Angler Only / Or wooden stilts)
 	INFO,
@@ -116,6 +117,7 @@ const ACTION_LIST_NAMES = [
 	'CHOP',
 	'TALK',
 	'READ',
+	'CLIMB',
 	'TUNNL',
 	'CROSS',
 	'INFO',
@@ -229,6 +231,9 @@ func do_action(action, parent):
 		COMPLETE_ACTION_LIST.READ_SIGN:
 			# read an adjacent sign
 			initiate_read_sign_action(player.active_world_object)
+		COMPLETE_ACTION_LIST.CLIMB_TOWER:
+			# climb an adjacent tower
+			pass
 		COMPLETE_ACTION_LIST.TUNNEL:
 			# this action can only be taken by the male miner. Allows the unit to travel between 
 			# cave's (in the same region)
