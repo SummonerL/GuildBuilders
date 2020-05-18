@@ -182,6 +182,13 @@ func get_tile_at_coordinates(vec2):
 		return TILES[get_cellv(vec2)]
 	else:
 		return null
+		
+func get_id_at_coordinates(vec2):
+	var tile = get_cellv(vec2)
+	if (tile >= 0):
+		return tile
+	else:
+		return null
 	
 func get_movement_cost(tile):
 	return MOVEMENT_COST[tile]

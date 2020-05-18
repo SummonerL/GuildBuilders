@@ -414,13 +414,19 @@ func use_item():
 				current_item -= 1
 		
 			change_screen(inv_start_index_tracker)
-
+			
 	elif (item.has("use_ability") && global_ability_list.unit_has_ability(active_unit, item.use_ability.name)):
 		# already has that effect
 		player.hud.dialogueState = player.hud.STATES.INACTIVE
 		player.hud.typeTextWithBuffer(active_unit.unit_name + ALREADY_HAS_EFFECT_TEXT, false, 'finished_viewing_text_generic') 
 	
 		yield(signals, "finished_viewing_text_generic")
+	
+	# if the item has "can_place" (i.e. birdhouse)
+	elif (item.has("can_place")):
+		get_tree().get_current_scene().place_item_in_world(item, active_unit)
+		# close the unit screen
+		close_unit_screen()
 	else:
 		pass
 	

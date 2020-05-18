@@ -115,6 +115,7 @@ onready var item_birdhouse = {
 	"type": ITEM_TYPES.UTILITY,
 	"can_discard": true,
 	"can_use": true,
+	"can_place": true,
 	"use_text": " placed the birdhouse.",
 	"xp": 3, # xp upon receiving
 }

@@ -175,6 +175,32 @@ func display_world_map():
 	world_map_node = world_map_scn.instance()
 	add_child(world_map_node)
 	
+# when a unit 'uses' items that are 'placeable' in the unit info screen
+func place_item_in_world(item, unit):
+	print('here!')
+	var grass_ids = [
+		l1_tiles.tile_set.find_tile_by_name('grassland'),
+		l1_tiles.tile_set.find_tile_by_name('grassland_dec1'),
+		l1_tiles.tile_set.find_tile_by_name('grassland_dec2'),
+		l1_tiles.tile_set.find_tile_by_name('grassland_dec3'),
+		l1_tiles.tile_set.find_tile_by_name('grassland_dec4'),
+		l1_tiles.tile_set.find_tile_by_name('grassland_dec5'),
+		l1_tiles.tile_set.find_tile_by_name('grassland_dec6'),
+	]
+	
+	print (grass_ids)
+	print(l1_tiles.get_id_at_coordinates(Vector2(unit.unit_pos_x, unit.unit_pos_y)))
+	print(l2_tiles.get_id_at_coordinates(Vector2(unit.unit_pos_x, unit.unit_pos_y)))
+
+	# first, determine if this is an eligible location to place the item (must be grassland with no L2 tiles)
+	if (
+		grass_ids.has(l1_tiles.get_id_at_coordinates(Vector2(unit.unit_pos_x, unit.unit_pos_y))) &&
+		l2_tiles.get_id_at_coordinates(Vector2(unit.unit_pos_x, unit.unit_pos_y)) == null):
+		print ('ELIGIBLE!')
+	else:
+		print ('NOT ELIGIBLE...')
+	
+
 func kill_world_map_screen():
 	# unpause the node
 	set_process_input(true)
