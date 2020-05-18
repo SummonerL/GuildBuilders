@@ -190,6 +190,9 @@ func hide_show_tiles():
 		if (region.hidden):
 			# hide the region
 			hide_region(region)
+		else:
+			# show the region
+			show_region(region)
 	
 func hide_region(region):
 	var x = region.x
@@ -210,6 +213,24 @@ func hide_region(region):
 		for n2 in range(30):
 			hidden_tiles.set_cellv(Vector2(x + n1, y + n2), 
 				hidden_tiles.tile_set.find_tile_by_name('hidden_tile'))
+
+func show_region(region):
+	var x = region.x
+	var y = region.y
+	
+	for n1 in range(10):
+		for n2 in range(10):
+			hidden_tile_icons.set_cellv(Vector2(x, y), -1)
+			x += 3
+		x = region.x
+		y += 3
+		
+	x = region.x
+	y = region.y
+	
+	for n1 in range(30):
+		for n2 in range(30):
+			hidden_tiles.set_cellv(Vector2(x + n1, y + n2), -1)
 
 # end the day
 func end_day():
@@ -700,6 +721,17 @@ func populate_unique_actions(unit):
 	if (adjacent_sign != null):
 		player.active_world_object = adjacent_sign
 		unique_actions += map_actions.sign_actions
+		
+	# determine if we are near any towers
+	var adjacent_tower = null
+	var tower_id = l2_tiles.tile_set.find_tile_by_name('tower')
+	for tile in get_cardinal_tiles(unit):
+		if (l2_tiles.get_cellv(tile.tile) == tower_id && adjacent_tower == null):
+			adjacent_tower = {'type': 'tower', 'pos': tile.tile}
+			
+	if (adjacent_tower != null):
+		player.active_world_object = adjacent_tower
+		unique_actions += map_actions.tower_actions
 	
 	return unique_actions
 	

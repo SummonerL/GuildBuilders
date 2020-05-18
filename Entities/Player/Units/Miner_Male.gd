@@ -20,6 +20,8 @@ const WAKE_UP_TEXT = '...'
 const BED_TIME_TEXT = '...'
 const HUNGRY_TEXT = '...'
 
+const TOWER_CLIMB_TEXT = "I'm not a fan of heights, but this view is wonderful!"
+
 func unit_init():	
 	##TEMP
 	unit_pos_x = 50

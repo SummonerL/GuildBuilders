@@ -20,6 +20,8 @@ const WAKE_UP_TEXT = 'Another beautiful morning! Maybe I should go for a jog to 
 const BED_TIME_TEXT = 'So... sleepy... Time for bed...'
 const HUNGRY_TEXT = 'Wow, I got too wrapped up in my work and forgot to eat...'
 
+const TOWER_CLIMB_TEXT = 'This view is incredible! I wish I could capture it somehow...'
+
 func unit_init():	
 	unit_portrait_sprite = ps
 

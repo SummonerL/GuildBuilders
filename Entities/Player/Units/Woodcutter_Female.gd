@@ -20,10 +20,12 @@ const WAKE_UP_TEXT = 'Ugh... I can\'t sleep. Might as well get started.'
 const BED_TIME_TEXT = 'I should get to bed so I can be just as productive tomorrow!'
 const HUNGRY_TEXT = 'I wish I had eaten yesterday...'
 
+const TOWER_CLIMB_TEXT = 'What a stunning view!'
+
 func unit_init():	
 	##TEMP
-	unit_pos_x = 53
-	unit_pos_y = 10
+	unit_pos_x = 26
+	unit_pos_y = 12
 	##TEMP
 	
 	unit_portrait_sprite = ps

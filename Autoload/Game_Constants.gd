@@ -120,7 +120,7 @@ var regions = [
 		'name': 'Bellmare Region',
 		'x': 30,
 		'y': 0,
-		'hidden': false
+		'hidden': true
 	},
 	{
 		'name': 'Region South 1', # will change
@@ -184,6 +184,14 @@ var sign_list = [
 		'pos': Vector2(31, 24),
 		'text': 'GHRAK BORC (GOBLIN VILLAGE) DAHK GRAHN! (LEAVE NOW!)'
 	},
+]
+
+# keep track of all the towers in the game world
+var tower_list = [
+	{
+		'positions': [Vector2(28, 11), Vector2(28, 12)],
+		'associated_region_unlock': 'Bellmare Region' # this tower unlocks this region
+	}
 ]
 
 # keep track of all the inns in the game world

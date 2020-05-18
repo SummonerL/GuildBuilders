@@ -22,6 +22,8 @@ const WAKE_UP_TEXT = '...'
 const BED_TIME_TEXT = '...'
 const HUNGRY_TEXT = '...'
 
+const TOWER_CLIMB_TEXT = "Look at all the beautiful colors! The world looks so big from here!"
+
 func unit_init():	
 	unit_portrait_sprite = ps
 

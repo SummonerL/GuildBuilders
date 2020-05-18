@@ -68,6 +68,9 @@ const ORE_RECEIVED_TEXT = "and got some "
 const CRAFT_RECEIVED_TEXT = "and made a "
 
 const PATH_BLOCKED = 'My path is blocked...'
+const UNLOCKED_TEXT = ' unlocked!'
+const BECAME_INSPIRED_TEXT = ' became Inspired!'
+const DOT_DOT_DOT_TEXT = '...'
 
 enum COMPLETE_ACTION_LIST {
 	MOVE,
@@ -233,7 +236,7 @@ func do_action(action, parent):
 			initiate_read_sign_action(player.active_world_object)
 		COMPLETE_ACTION_LIST.CLIMB_TOWER:
 			# climb an adjacent tower
-			pass
+			initiate_climb_tower_action(player.active_world_object)
 		COMPLETE_ACTION_LIST.TUNNEL:
 			# this action can only be taken by the male miner. Allows the unit to travel between 
 			# cave's (in the same region)
@@ -392,10 +395,78 @@ func set_item_reward(reward, timer = null):
 
 # if the unit is reading a sign
 func initiate_read_sign_action(the_sign):
-	var sign_text = constants.get_sign_text(the_sign.pos)
-	player.hud.typeTextWithBuffer(sign_text, false, 'finished_viewing_text_generic')
-	yield(signals, "finished_viewing_text_generic")
+	if (the_sign.type == 'sign'):
+		var sign_text = constants.get_sign_text(the_sign.pos)
+		player.hud.typeTextWithBuffer(sign_text, false, 'finished_viewing_text_generic')
+		yield(signals, "finished_viewing_text_generic")
 	
+	# change the state back
+	player.player_state = player.PLAYER_STATE.SELECTING_TILE
+
+func initiate_climb_tower_action(the_tower):
+	if (the_tower.type == 'tower'):
+		# determine which region is unlocked
+		var region_name = null
+		for const_tower in constants.tower_list:
+			if (const_tower.positions.has(the_tower.pos)):
+				region_name = const_tower.associated_region_unlock
+		
+		# if we have a corresponding region, fade to black, read some text, and unlock the region
+		if (region_name != null):
+			# first, fade out quickly
+			# scene transition fade out
+			var fade = scene_transitioner_scn.instance()
+			add_child(fade)
+			
+			fade.black_in.visible = false
+			fade.black_out.visible = true
+			
+			fade.fade_out_scene(0)
+			
+			yield(fade, "scene_faded_out")
+			
+			fade.black_in.visible = true
+			
+			# with the screen faded out, unlock the region
+			var region = null
+			for const_region in constants.regions:
+				if (const_region.name == region_name):
+					region = const_region
+					break
+			
+			
+			var newly_unlocked = (region.hidden == true)
+			region.hidden = false
+			
+			# show the region in the overworld
+			get_tree().get_current_scene().show_region(Vector2(region.x, region.y))
+			
+			# read the unit's tower climb text
+			player.hud.typeTextWithBuffer(active_unit.TOWER_CLIMB_TEXT, false, 'finished_viewing_text_generic')
+			yield(signals, "finished_viewing_text_generic")
+			
+			# inspire the unit, if they aren't already
+			if (!global_ability_list.unit_has_ability(active_unit, global_ability_list.ABILITY_INSPIRED_NAME)):
+				global_ability_list.add_ability_to_unit(active_unit, global_ability_list.ability_inspired)
+				player.hud.typeTextWithBuffer(DOT_DOT_DOT_TEXT + active_unit.unit_name + BECAME_INSPIRED_TEXT, false, 'finished_viewing_text_generic')
+				yield(signals, "finished_viewing_text_generic")
+			
+			if (newly_unlocked):
+				player.hud.typeTextWithBuffer(DOT_DOT_DOT_TEXT + region.name + UNLOCKED_TEXT, false, 'finished_viewing_text_generic')
+				yield(signals, "finished_viewing_text_generic")
+			
+			# fade back in the scene
+			fade.black_in.visible = true
+			fade.black_out.visible = false
+			fade.fade_in_scene(0)
+			
+			yield(fade, "scene_faded_in")
+			
+			remove_child(fade)
+			
+			# and let the unit know he/she has finished acting :)
+			active_unit.end_action(true) # success!
+			
 	# change the state back
 	player.player_state = player.PLAYER_STATE.SELECTING_TILE
 
