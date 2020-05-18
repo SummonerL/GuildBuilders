@@ -466,9 +466,6 @@ func initiate_climb_tower_action(the_tower):
 			
 			# and let the unit know he/she has finished acting :)
 			active_unit.end_action(true) # success!
-			
-	# change the state back
-	player.player_state = player.PLAYER_STATE.SELECTING_TILE
 
 # if the unit is tunneling
 func initiate_tunnel_action():
