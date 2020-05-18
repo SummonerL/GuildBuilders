@@ -109,6 +109,15 @@ onready var item_wooden_pipe = {
 	"xp": 2, # xp upon receiving
 }
 
+onready var item_birdhouse = {
+	"name": "Birdhouse",
+	"description": "A wooden birdhouse crafted from birch wood. If a birdhouse is placed, there is a 25% chance a bird will be found inside every morning.",
+	"type": ITEM_TYPES.UTILITY,
+	"can_discard": true,
+	"can_use": true,
+	"use_text": " placed the birdhouse.",
+	"xp": 3, # xp upon receiving
+}
 onready var item_walking_stick = {
 	"name": "Walking Stick",
 	"description": "A sturdy walking stick made of hardwood. Increases a unit\'s movement by 1 when held. This effect can only be gained once.",

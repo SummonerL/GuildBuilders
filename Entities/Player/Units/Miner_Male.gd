@@ -23,10 +23,6 @@ const HUNGRY_TEXT = '...'
 const TOWER_CLIMB_TEXT = "I'm not a fan of heights, but this view is wonderful!"
 
 func unit_init():	
-	##TEMP
-	unit_pos_x = 50
-	unit_pos_y = 8
-	##TEMP
 	unit_portrait_sprite = ps
 
 	unit_sprite_node = get_node("Miner_Male_Sprite")

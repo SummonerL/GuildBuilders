@@ -183,6 +183,21 @@ onready var SKILL_UNLOCKS = {
 			]
 		},
 		{
+			'unlock_text': ' can now craft Birdhouses!',
+			'can_text': 'Craft',
+			'skill_info_text': 'Birdhouse',
+			'single_line': true,
+			'type': UNLOCK_TYPES.RECIPE,
+			'level_required': 3,
+			'item': global_item_list.item_birdhouse,
+			'resources_required': [
+				{
+					'item': global_item_list.item_birch_logs,
+					'quantity': 2
+				}
+			]
+		},
+		{
 			'unlock_text': ' can now craft Walking Sticks!',
 			'can_text': 'Craft',
 			'skill_info_text': 'Walking Stick',
