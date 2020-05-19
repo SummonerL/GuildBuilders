@@ -176,8 +176,8 @@ func display_world_map():
 	add_child(world_map_node)
 	
 # when a unit 'uses' items that are 'placeable' in the unit info screen
-func place_item_in_world(item, unit):
-	print('here!')
+func place_item_in_world(item, unit, parent):
+	player.player_state = player.PLAYER_STATE.VIEWING_DIALOGUE
 	var grass_ids = [
 		l1_tiles.tile_set.find_tile_by_name('grassland'),
 		l1_tiles.tile_set.find_tile_by_name('grassland_dec1'),
@@ -187,18 +187,55 @@ func place_item_in_world(item, unit):
 		l1_tiles.tile_set.find_tile_by_name('grassland_dec5'),
 		l1_tiles.tile_set.find_tile_by_name('grassland_dec6'),
 	]
-	
-	print (grass_ids)
-	print(l1_tiles.get_id_at_coordinates(Vector2(unit.unit_pos_x, unit.unit_pos_y)))
-	print(l2_tiles.get_id_at_coordinates(Vector2(unit.unit_pos_x, unit.unit_pos_y)))
 
 	# first, determine if this is an eligible location to place the item (must be grassland with no L2 tiles)
 	if (
 		grass_ids.has(l1_tiles.get_id_at_coordinates(Vector2(unit.unit_pos_x, unit.unit_pos_y))) &&
 		l2_tiles.get_id_at_coordinates(Vector2(unit.unit_pos_x, unit.unit_pos_y)) == null):
-		print ('ELIGIBLE!')
+		
+		# determine the item limit
+		var limit = -1
+		match (guild.placed_items[item.place_type].item_limit):
+			guild.LIMIT_TYPES.NO_LIMIT:
+				limit = -1 # no limit!
+			guild.LIMIT_TYPES.PARTY_MEMBERS:
+				limit = player.party.party_members.size() # one for every member of the party
+		
+		# determine if we've met the limit
+		if (limit >= 0 && guild.placed_items[item.place_type].position_list.size() >= limit):
+			# read the limit text
+			player.hud.dialogueState = player.hud.STATES.INACTIVE
+			player.hud.typeTextWithBuffer(guild.limit_text[guild.placed_items[item.place_type].item_limit], false, 'finished_viewing_text_generic') 
+		
+			yield(signals, "finished_viewing_text_generic")
+
+			# unpause the parent node
+			parent.set_process_input(true)
+		else:
+			# place the item!
+			
+			# update the list with the coordinates of this item
+			guild.placed_items[item.place_type].position_list.append(Vector2(unit.unit_pos_x, unit.unit_pos_y))
+			
+			# update the l2 tile
+			var item_cell_id = l2_tiles.tile_set.find_tile_by_name(item.associated_l2)
+			l2_tiles.set_cellv(Vector2(unit.unit_pos_x, unit.unit_pos_y), item_cell_id)
+			
+			# item placed text
+			player.hud.dialogueState = player.hud.STATES.INACTIVE
+			player.hud.typeTextWithBuffer(constants.ITEM_PLACED_TEXT, false, 'finished_viewing_text_generic') 
+		
+			yield(signals, "finished_viewing_text_generic")
+			# unpause the parent node
+			parent.set_process_input(true)
 	else:
-		print ('NOT ELIGIBLE...')
+		player.hud.dialogueState = player.hud.STATES.INACTIVE
+		player.hud.typeTextWithBuffer(constants.CANT_PLACE_HERE_TEXT, false, 'finished_viewing_text_generic') 
+	
+		yield(signals, "finished_viewing_text_generic")
+		
+		# unpause the parent node
+		parent.set_process_input(true)
 	
 
 func kill_world_map_screen():

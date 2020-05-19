@@ -424,9 +424,9 @@ func use_item():
 	
 	# if the item has "can_place" (i.e. birdhouse)
 	elif (item.has("can_place")):
-		get_tree().get_current_scene().place_item_in_world(item, active_unit)
+		get_tree().get_current_scene().place_item_in_world(item, active_unit, self)
 		# close the unit screen
-		close_unit_screen()
+		return
 	else:
 		pass
 	

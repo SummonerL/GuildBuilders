@@ -116,6 +116,8 @@ onready var item_birdhouse = {
 	"can_discard": true,
 	"can_use": true,
 	"can_place": true,
+	"place_type": guild.PLACEABLE_ITEM_TYPES.BIRDHOUSES,
+	"associated_l2": "birdhouse", # name of the l2 tile associated with this item (for displaying on the overworld)
 	"use_text": " placed the birdhouse.",
 	"xp": 3, # xp upon receiving
 }

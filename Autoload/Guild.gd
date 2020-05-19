@@ -230,6 +230,34 @@ func move_quest_to_completed(quest):
 		index += 1
 # -------------------------------------------------------------------
 
+
+# ------------------------------ CAN_PLACE ITEMS ---------------------------------------
+
+# keep track of items that units can place in the game world. I debated on putting this in Items, but
+# I feel that it is closely tied to the guild in the same way that quests are
+enum PLACEABLE_ITEM_TYPES {
+	BIRDHOUSES,
+}
+
+# limits for the number of items that can be placed for a given item type
+enum LIMIT_TYPES {
+	NO_LIMIT,
+	PARTY_MEMBERS
+}
+
+onready var limit_text = {
+	LIMIT_TYPES.PARTY_MEMBERS: 'You can only place one of these per guild member.'
+}
+
+onready var placed_items = {
+	PLACEABLE_ITEM_TYPES.BIRDHOUSES: {
+		"position_list": [], # empty array (no birdhouses placed initially)
+		"item_limit": LIMIT_TYPES.PARTY_MEMBERS # can never have more than the number of party members
+	}
+}
+
+# --------------------------------------------------------------------------------------
+
 func add_guild_ability(ability):
 	current_guild_abilities.append(ability)
 	
