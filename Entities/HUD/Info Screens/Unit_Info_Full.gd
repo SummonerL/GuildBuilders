@@ -477,6 +477,22 @@ func trash_item():
 	set_process_input(true)
 		
 
+# if the item gets removed (do to placing or 'using' in some way)
+func remove_item():
+	# remove the item from the unit
+	global_items_list.remove_item_from_unit(active_unit, current_item)
+	
+	# type the trash item text
+	player.hud.dialogueState = player.hud.STATES.INACTIVE
+	
+	# reposition the cursor and repopulate the list, now that we've removed that item
+	if (current_item > (active_unit.current_items.size() - 1)):
+		if (current_item == inv_start_index_tracker && inv_start_index_tracker > 0):
+			inv_start_index_tracker -= 4
+		current_item -= 1
+
+	change_screen(inv_start_index_tracker)
+	
 # a function used on the item screen to move the currently selected item
 func move_items(direction):
 	var start_x = 2

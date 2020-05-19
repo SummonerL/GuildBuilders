@@ -226,6 +226,10 @@ func place_item_in_world(item, unit, parent):
 			player.hud.typeTextWithBuffer(constants.ITEM_PLACED_TEXT, false, 'finished_viewing_text_generic') 
 		
 			yield(signals, "finished_viewing_text_generic")
+			
+			# remove the item from the item list
+			parent.remove_item()
+			
 			# unpause the parent node
 			parent.set_process_input(true)
 	else:
