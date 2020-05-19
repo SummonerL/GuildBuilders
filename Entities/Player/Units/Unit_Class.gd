@@ -588,10 +588,10 @@ func calculate_eligible_tiles():
 func flood_fill(foc_x, foc_y, remaining_move, visited_tiles):
 	
 	# first, let's find our boundaries
-	var left_bound = unit_pos_x - base_move
-	var right_bound = unit_pos_x + base_move
-	var up_bound = unit_pos_y - base_move
-	var down_bound = unit_pos_y + base_move
+	var left_bound = unit_pos_x - (base_move * 2) # accomodate for half-tiles (roads)
+	var right_bound = unit_pos_x + (base_move * 2) # accomodate for half-tiles (roads)
+	var up_bound = unit_pos_y - (base_move * 2) # accomodate for half-tiles (roads)
+	var down_bound = unit_pos_y + (base_move * 2) # accomodate for half-tiles (roads)
 	
 	# if we're out of remaining move, skip
 	if (remaining_move <= 0):

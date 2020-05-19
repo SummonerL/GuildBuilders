@@ -23,6 +23,7 @@ onready var hidden_tiles = get_tree().get_nodes_in_group(constants.HIDDEN_TILES_
 const HIDDEN_TILE_NAME = "???"
 const MV_TEXT = "Mv."
 const CANT_MOVE_TEXT = "Ø"
+const HALF_TEXT = "½"
 
 var side
 var left
@@ -94,6 +95,8 @@ func update_tile_info_text():
 	var total_move_str = MV_TEXT
 	if (total_move >= constants.CANT_MOVE):
 		total_move_str += CANT_MOVE_TEXT
+	elif (total_move == .5):
+		total_move_str += HALF_TEXT
 	else:
 		total_move_str += String(total_move)
 	

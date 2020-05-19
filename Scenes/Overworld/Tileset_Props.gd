@@ -122,7 +122,7 @@ const TILE_INFO_HUD_NAME = {
 }
 
 
-enum MOVEMENT_COST {
+const MOVEMENT_COST = {
 	WATER = CANT_MOVE,
 	GRASSLAND = NORMAL_MOVE,
 	GRASSLAND_DEC1 = NORMAL_MOVE,
@@ -133,7 +133,7 @@ enum MOVEMENT_COST {
 	GRASSLAND_DEC6 = NORMAL_MOVE,
 	SAND = NORMAL_MOVE,
 	DIRT = NORMAL_MOVE,
-	ROAD = NORMAL_MOVE,
+	ROAD = .5, # costs half the normal amount
 	GRASSLAND_TREE = NORMAL_MOVE + 1,
 	CEDAR_TREE = NORMAL_MOVE + 1,
 	ASH_TREE = NORMAL_MOVE + 1,
@@ -149,7 +149,7 @@ enum MOVEMENT_COST {
 	CAVE = 1, # l2 tiles, so add the l1 tile first
 	OCEAN = CANT_MOVE,
 	MOUNTAIN = NORMAL_MOVE + 2, # very difficult to move onto a mountain
-	LEDGE = NORMAL_MOVE + 2 # l2 tiles (get added to l1 cost)
+	LEDGE = NORMAL_MOVE + 2, # l2 tiles (get added to l1 cost)
 	
 	
 	GUILD = CANT_MOVE,

@@ -23,6 +23,7 @@ const ABILITY_TEXT = "ABILITIES"
 
 const CHECK_SYMBOL = '¤' #164
 const X_SYMBOL = 'µ' #181
+const HALF_SYMBOL = '½' #189
 const EAST_SYMBOL = '→'
 const WEST_SYMBOL = '←'
 
