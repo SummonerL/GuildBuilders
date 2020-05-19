@@ -653,3 +653,13 @@
 60/navigation_offset = Vector2( 0, 0 )
 60/shapes = [  ]
 60/z_index = 0
+61/name = "birdhouse"
+61/texture = ExtResource( 1 )
+61/tex_offset = Vector2( 0, 0 )
+61/modulate = Color( 1, 1, 1, 1 )
+61/region = Rect2( 96, 144, 16, 16 )
+61/tile_mode = 0
+61/occluder_offset = Vector2( 0, 0 )
+61/navigation_offset = Vector2( 0, 0 )
+61/shapes = [  ]
+61/z_index = 0
