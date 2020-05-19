@@ -118,6 +118,11 @@ onready var item_birdhouse = {
 	"can_place": true,
 	"place_type": guild.PLACEABLE_ITEM_TYPES.BIRDHOUSES,
 	"associated_l2": "birdhouse", # name of the l2 tile associated with this item (for displaying on the overworld)
+	"associated_data": {
+		"place_type": guild.PLACEABLE_ITEM_TYPES.BIRDHOUSES,
+		"occupied": false,
+		"bird_chance": 25, # 25 percent chance of a bird appearing
+	},
 	"use_text": " placed the birdhouse.",
 	"xp": 3, # xp upon receiving
 }

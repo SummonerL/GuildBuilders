@@ -202,7 +202,7 @@ func place_item_in_world(item, unit, parent):
 				limit = player.party.party_members.size() # one for every member of the party
 		
 		# determine if we've met the limit
-		if (limit >= 0 && guild.placed_items[item.place_type].position_list.size() >= limit):
+		if (limit >= 0 && guild.placed_items[item.place_type].item_list.size() >= limit):
 			# read the limit text
 			player.hud.dialogueState = player.hud.STATES.INACTIVE
 			player.hud.typeTextWithBuffer(guild.limit_text[guild.placed_items[item.place_type].item_limit], false, 'finished_viewing_text_generic') 
@@ -215,7 +215,10 @@ func place_item_in_world(item, unit, parent):
 			# place the item!
 			
 			# update the list with the coordinates of this item
-			guild.placed_items[item.place_type].position_list.append(Vector2(unit.unit_pos_x, unit.unit_pos_y))
+			guild.placed_items[item.place_type].item_list.append({
+				"pos": Vector2(unit.unit_pos_x, unit.unit_pos_y),
+				"data": item.associated_data.duplicate() # any associated data for this item
+			})
 			
 			# update the l2 tile
 			var item_cell_id = l2_tiles.tile_set.find_tile_by_name(item.associated_l2)
@@ -373,6 +376,9 @@ func new_day(fade = false, fade_node = null):
 	
 	# reset tiles that are 'used' 
 	map_actions.reset_used_tiles()
+	
+	# check for any misc new-day effects (such as birdhouse occupancy)
+	guild.check_misc_new_day_effects()
 	
 	# mark all units as 'yet to act'
 	player.party.reset_yet_to_act()

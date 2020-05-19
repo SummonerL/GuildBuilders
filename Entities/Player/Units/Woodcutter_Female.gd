@@ -46,6 +46,9 @@ func unit_init():
 	
 	# temp
 	global_items_list.add_item_to_unit(self, global_items_list.item_birdhouse)
+	global_items_list.add_item_to_unit(self, global_items_list.item_birdhouse)
+	global_items_list.add_item_to_unit(self, global_items_list.item_birdhouse)
+	global_items_list.add_item_to_unit(self, global_items_list.item_birdhouse)
 	
 	# add the unit's starting ability
 	starting_ability = global_ability_list.ability_insomniac

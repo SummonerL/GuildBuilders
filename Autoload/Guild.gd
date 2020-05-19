@@ -251,13 +251,31 @@ onready var limit_text = {
 
 onready var placed_items = {
 	PLACEABLE_ITEM_TYPES.BIRDHOUSES: {
-		"position_list": [], # empty array (no birdhouses placed initially)
+		"item_list": [], # empty array (no birdhouses placed initially)
 		"item_limit": LIMIT_TYPES.PARTY_MEMBERS # can never have more than the number of party members
 	}
 }
 
 # --------------------------------------------------------------------------------------
 
+func check_misc_new_day_effects():
+	# at the beginning of the day, check for misc effects (such as birdhouse occupancy)
+	
+	# BIRDHOUSES
+	for birdhouse in placed_items[PLACEABLE_ITEM_TYPES.BIRDHOUSES].item_list:
+		# for each birdhouse, determine if a bird appears there (birdhouse must be unoccupied)!
+		if (constants.chance_test(birdhouse.data.bird_chance)):
+			# occupy the birdhouse!
+			birdhouse.occupied = true
+			
+			
+			# add the beast mastery world map icon
+			var bm_id = get_tree().get_current_scene().world_map_icons.tile_set.find_tile_by_name("beast_mastery_spot_icon")
+			get_tree().get_current_scene().world_map_icons.set_cellv(birdhouse.pos, bm_id)
+	
+	print (placed_items[PLACEABLE_ITEM_TYPES.BIRDHOUSES].item_list)
+			
+		
 func add_guild_ability(ability):
 	current_guild_abilities.append(ability)
 	
