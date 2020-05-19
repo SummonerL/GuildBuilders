@@ -342,7 +342,7 @@ func new_day(fade = false, fade_node = null):
 	# determine which units did/didn't eat, and make them hungry, if necessary (make sure we are not on the first day)
 	if (player.current_day > 1):
 		for unit in player.party.party_members:
-			if (!player.party.did_unit_eat(unit)):
+			if (!player.party.did_unit_eat(unit) && !global_ability_list.unit_has_ability(unit, global_ability_list.ABILITY_HUNGRY_NAME)): # make sure the unit isn't already hungry
 				global_ability_list.add_ability_to_unit(unit, global_ability_list.ability_hungry)
 	
 	# remove any food abilities from the previous day

@@ -12,7 +12,8 @@ onready var global_items_list = get_node("/root/Items")
 enum ABILITY_TYPES {
 	UNIT,
 	FOOD,
-	DAILY
+	DAILY,
+	HUNGER
 }
 
 const ABILITY_INSOMNIAC_NAME = 'Insomniac'
@@ -120,12 +121,6 @@ const ability_ecstatic = {
 	"type": ABILITY_TYPES.DAILY
 }
 
-const ability_hungry = {
-	"name": ABILITY_HUNGRY_NAME,
-	"description": "This unit cannot use it\'s starting ability.",
-	"type": ABILITY_TYPES.DAILY
-}
-
 const ability_calm = {
 	"name": ABILITY_CALM_NAME,
 	"description": "This unit receives 10% more XP for the remainder of the day.",
@@ -137,6 +132,14 @@ const ability_a_sense_of_duty = {
 	"description": "This unit woke up 2 hours earlier than usual.",
 	"type": ABILITY_TYPES.DAILY
 }
+
+# hunger ability
+const ability_hungry = {
+	"name": ABILITY_HUNGRY_NAME,
+	"description": "This unit cannot use it\'s starting ability.",
+	"type": ABILITY_TYPES.HUNGER
+}
+
 
 # a helper function for adding abilities to a unit
 func add_ability_to_unit(unit, ability, front = false):
