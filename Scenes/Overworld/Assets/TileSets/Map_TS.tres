@@ -1,4 +1,4 @@
-[gd_resource type="TileSet" load_steps=8 format=2]
+[gd_resource type="TileSet" load_steps=9 format=2]
 
 [ext_resource path="res://Sprites/terrain/sheet_3.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Animated Textures/fish_spot_icon.tres" type="Texture" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Sprites/Animated Textures/guild_hall.tres" type="Texture" id=5]
 [ext_resource path="res://Sprites/Animated Textures/guild_hall_night.tres" type="Texture" id=6]
 [ext_resource path="res://Sprites/Animated Textures/empty_spot.tres" type="Texture" id=7]
+[ext_resource path="res://Sprites/Animated Textures/beast_mastery_spot_icon.tres" type="Texture" id=8]
 
 [resource]
 2/name = "water"
@@ -663,3 +664,13 @@
 61/navigation_offset = Vector2( 0, 0 )
 61/shapes = [  ]
 61/z_index = 0
+62/name = "beast_mastery_spot_icon"
+62/texture = ExtResource( 8 )
+62/tex_offset = Vector2( 0, 0 )
+62/modulate = Color( 1, 1, 1, 1 )
+62/region = Rect2( 0, 0, 16, 16 )
+62/tile_mode = 0
+62/occluder_offset = Vector2( 0, 0 )
+62/navigation_offset = Vector2( 0, 0 )
+62/shapes = [  ]
+62/z_index = 0
