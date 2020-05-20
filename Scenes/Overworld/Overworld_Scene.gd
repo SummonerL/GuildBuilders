@@ -226,7 +226,7 @@ func place_item_in_world(item, unit, parent):
 			
 			# item placed text
 			player.hud.dialogueState = player.hud.STATES.INACTIVE
-			player.hud.typeTextWithBuffer(constants.ITEM_PLACED_TEXT, false, 'finished_viewing_text_generic') 
+			player.hud.typeTextWithBuffer(constants.ITEM_PLACED_TEXT + unit.unit_name + '.', false, 'finished_viewing_text_generic') 
 		
 			yield(signals, "finished_viewing_text_generic")
 			
