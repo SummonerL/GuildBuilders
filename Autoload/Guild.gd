@@ -230,6 +230,25 @@ func move_quest_to_completed(quest):
 		index += 1
 # -------------------------------------------------------------------
 
+# ------------------------------ ACTIVE ANIMALS ---------------------------------------
+var guild_animals = [
+	
+]
+
+func add_animal(animal_scn):
+	# create an instance of this scene
+	var animal_instance = animal_scn.instance()
+	player.party.add_child(animal_instance)
+	
+	# add to the list of guild animals
+	guild_animals.append(animal_instance)
+	
+	# return the animal
+	return animal_instance
+	
+	
+# --------------------------------------------------------------------------------------
+
 
 # ------------------------------ CAN_PLACE ITEMS ---------------------------------------
 
@@ -266,7 +285,7 @@ func check_misc_new_day_effects():
 		# for each birdhouse, determine if a bird appears there (birdhouse must be unoccupied)!
 		if (constants.chance_test(birdhouse.data.bird_chance)):
 			# occupy the birdhouse!
-			birdhouse.occupied = true
+			birdhouse.data.occupied = true
 			
 			
 			# add the beast mastery world map icon

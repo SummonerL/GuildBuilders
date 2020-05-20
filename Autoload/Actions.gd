@@ -81,6 +81,7 @@ enum COMPLETE_ACTION_LIST {
 	FISH,
 	MINE,
 	CHOP,
+	CHECK_BIRDHOUSE, # used for Beast Mastery
 	TALK, # used for NPCS
 	READ_SIGN, # used for signs
 	CLIMB_TOWER, # used for towers + revealing regions
@@ -118,6 +119,7 @@ const ACTION_LIST_NAMES = [
 	'FISH',
 	'MINE',
 	'CHOP',
+	'CHECK',
 	'TALK',
 	'READ',
 	'CLIMB',
@@ -208,6 +210,8 @@ func do_action(action, parent):
 			initiate_mine_action()
 		COMPLETE_ACTION_LIST.CHOP:
 			initiate_woodcutting_action()
+		COMPLETE_ACTION_LIST.CHECK_BIRDHOUSE:
+			initiate_check_birdhouse_action()
 		COMPLETE_ACTION_LIST.INFO:
 			# let the unit handle this action
 			active_unit.do_action(action)
@@ -617,6 +621,38 @@ func initiate_fish_action():
 			
 	else:
 		player.hud.typeTextWithBuffer(active_unit.CANT_FISH_WITHOUT_ROD_TEXT, false, 'finished_action_failed') # they did not succeed
+
+# if the unit is checking a birdhouse
+func initiate_check_birdhouse_action():
+	# first, find the birdhouse in our placed_items list
+	var selected_birdhouse = null
+	for birdhouse in guild.placed_items[guild.PLACEABLE_ITEM_TYPES.BIRDHOUSES].item_list:
+		if birdhouse.pos == Vector2(player.curs_pos_x, player.curs_pos_y):
+			selected_birdhouse = birdhouse
+			
+	# determine if the birdhouse is occupied
+	print(selected_birdhouse)
+	
+	if (selected_birdhouse.data.occupied):
+		# determine whether or not the unit can do this
+		
+		# get the action spot
+		var spot = map_actions.get_action_spot_at_coordinates(Vector2(player.curs_pos_x, player.curs_pos_y))
+		
+		# get the animals that can be found at this spot
+		var animal_scns = map_actions.get_animals_at_spot(spot)
+		animal_scns.shuffle()
+		var animal_scn = animal_scns[0]
+		
+		
+		# create the animal instance!
+		var animal = guild.add_animal(animal_scn)
+		animal.set_animal_position(Vector2(player.curs_pos_x - 1, player.curs_pos_y))
+		
+	else:
+		player.hud.typeTextWithBuffer(active_unit.NOTHING_HERE_GENERIC_TEXT, false, 'finished_action_failed')
+		
+		#yield(signals, "finished_viewing_text_generic")
 
 # if the unit is woodcutting
 func initiate_woodcutting_action():

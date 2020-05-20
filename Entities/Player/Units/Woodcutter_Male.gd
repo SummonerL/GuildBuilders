@@ -12,6 +12,8 @@ const NO_MORE_WOOD_TEXT = 'No more wood here! Let\'s find someplace else.'
 const CANT_MINE_WITHOUT_PICKAXE_TEXT = 'I\'m not too sure I can do this with my bare hands...'
 const NO_MORE_ORE_TEXT = 'Nope! Nothing else here!'
 
+const NOTHING_HERE_GENERIC_TEXT = "I don't see a thing..."
+
 const INVENTORY_FULL_TEXT = 'Surprisingly, I don\'t think I can carry anything else. I\'ll try this again later.'
 
 const NOT_SKILLED_ENOUGH_TEXT = 'I\'m good at this, but not THAT good...'

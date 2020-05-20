@@ -12,6 +12,8 @@ const NO_MORE_WOOD_TEXT = '...and that\'s enough for that area. Let\'s look else
 const CANT_MINE_WITHOUT_PICKAXE_TEXT = 'This looks tough to do without any kind of mining equipment...'
 const NO_MORE_ORE_TEXT = 'Hmm... it doesn\'t look like there\'s anything else here...'
 
+const NOTHING_HERE_GENERIC_TEXT = "Nothing to find here..."
+
 const INVENTORY_FULL_TEXT = 'If only I had a bigger bag... I should try this again after I free up some space.'
 
 const NOT_SKILLED_ENOUGH_TEXT = 'If only I were a little more skilled at this...'

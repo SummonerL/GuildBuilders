@@ -123,6 +123,7 @@ onready var item_birdhouse = {
 		"occupied": false,
 		"bird_chance": 25, # 25 percent chance of a bird appearing
 	},
+	"associated_action_spot": "Beast_Mastery_Spot_1", # which action spot gets tagged when placed
 	"use_text": " placed the birdhouse.",
 	"xp": 3, # xp upon receiving
 }

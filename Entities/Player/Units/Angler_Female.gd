@@ -12,6 +12,8 @@ const NO_MORE_WOOD_TEXT = 'I\'ve exhausted this area. Time to find another spot!
 const CANT_MINE_WITHOUT_PICKAXE_TEXT = 'This looks too tough to do with my hands...'
 const NO_MORE_ORE_TEXT = 'I don\'t see anything else here...'
 
+const NOTHING_HERE_GENERIC_TEXT = "I don't see anything here..."
+
 const INVENTORY_FULL_TEXT = 'My hands are full... Looks like I\'m going to have to come back later.'
 
 const NOT_SKILLED_ENOUGH_TEXT = 'That looks a bit too tough for me...'

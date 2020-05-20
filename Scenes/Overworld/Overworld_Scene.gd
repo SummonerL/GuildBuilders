@@ -44,6 +44,7 @@ onready var npcs_scn = preload("res://Entities/NPCs/NPC.tscn")
 onready var l1_tiles = get_node("World_Map_L1")
 onready var l2_tiles = get_node("World_Map_L2")
 onready var world_map_icons = get_node("World_Map_Icons")
+onready var action_spots = get_node("Action_Tracker")
 onready var hidden_tile_icons = get_node("Hidden_Tiles")
 onready var hidden_tiles = get_node("Hidden_Tile_Tracker")
 onready var building_tiles = get_node("Buildings")
@@ -223,6 +224,10 @@ func place_item_in_world(item, unit, parent):
 			# update the l2 tile
 			var item_cell_id = l2_tiles.tile_set.find_tile_by_name(item.associated_l2)
 			l2_tiles.set_cellv(Vector2(unit.unit_pos_x, unit.unit_pos_y), item_cell_id)
+			
+			# add the action spot
+			var action_spot_id = action_spots.tile_set.find_tile_by_name(item.associated_action_spot)
+			action_spots.set_cellv(Vector2(unit.unit_pos_x, unit.unit_pos_y), action_spot_id)
 			
 			# item placed text
 			player.hud.dialogueState = player.hud.STATES.INACTIVE

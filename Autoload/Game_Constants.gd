@@ -75,6 +75,10 @@ enum UNIT_TYPES {
 	MINER_FEMALE
 }
 
+enum ANIMAL_TYPES {
+	BIRD
+}
+
 # times of day
 const TIMES_OF_DAY = [
 	"12AM",

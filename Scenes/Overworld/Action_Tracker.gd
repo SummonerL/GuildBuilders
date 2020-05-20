@@ -9,6 +9,9 @@ onready var global_items_list = get_node("/root/Items")
 # bring in our global constants
 onready var constants = get_node("/root/Game_Constants")
 
+# our various animal scenes
+onready var dove_scn = preload("res://Entities/Player/Animals/Bird.tscn")
+
 var map_icons
 
 const ACTIONS = {
@@ -22,6 +25,8 @@ const ACTIONS = {
 	
 	6: 'MINING_SPOT_1',
 	10: 'MINING_SPOT_2',
+	
+	13: 'BEAST_MASTERY_SPOT_1',
 	
 	4: 'GUILD_SPOT_1',
 	
@@ -43,6 +48,11 @@ onready var ITEMS_AT_SPOT = {
 	'MINING_SPOT_2': [global_items_list.item_iron_ore],
 }
 
+# keep track of the animals that can be found at specific spots
+onready var ANIMALS_AT_SPOT = {
+	'BEAST_MASTERY_SPOT_1': [dove_scn],
+}
+
 # specific actions associated with these tiles
 onready var associated_actions = {
 	'FISH_SPOT_1': [global_action_list.COMPLETE_ACTION_LIST.FISH],
@@ -53,6 +63,7 @@ onready var associated_actions = {
 	'WOODCUTTING_SPOT_4': [global_action_list.COMPLETE_ACTION_LIST.CHOP],
 	'MINING_SPOT_1': [global_action_list.COMPLETE_ACTION_LIST.MINE],
 	'MINING_SPOT_2': [global_action_list.COMPLETE_ACTION_LIST.MINE],
+	'BEAST_MASTERY_SPOT_1': [global_action_list.COMPLETE_ACTION_LIST.CHECK_BIRDHOUSE],
 	
 	'GUILD_SPOT_1': [global_action_list.COMPLETE_ACTION_LIST.DEPOT, 
 					global_action_list.COMPLETE_ACTION_LIST.POSIT,
@@ -76,6 +87,8 @@ onready var level_requirements = {
 	
 	'MINING_SPOT_1': 1,
 	'MINING_SPOT_2': 3,
+	
+	'BEAST_MASTERY_SPOT_1': 1
 }
 
 # matching connections (used for tunneling)
@@ -165,5 +178,8 @@ func reset_used_tiles():
 
 func get_items_at_spot(spot):	
 	return ITEMS_AT_SPOT[spot]
+	
+func get_animals_at_spot(spot):
+	return ANIMALS_AT_SPOT[spot]
 	
 	
