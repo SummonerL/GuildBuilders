@@ -72,6 +72,8 @@ const UNLOCKED_TEXT = ' unlocked!'
 const BECAME_INSPIRED_TEXT = ' became Inspired!'
 const DOT_DOT_DOT_TEXT = '...'
 
+const NO_ROOM_FOR_ANIMAL = "There's no room for an animal to be deployed..."
+
 enum COMPLETE_ACTION_LIST {
 	MOVE,
 	DEPOT,
@@ -88,6 +90,7 @@ enum COMPLETE_ACTION_LIST {
 	TUNNEL # for caves (Male Miner Only)
 	CROSS, # for rivers (Female Angler Only / Or wooden stilts)
 	INFO,
+	ANIMAL_INFO, # for viewing animal info screens
 	FOCUS,
 	MAP, # view the world map
 	GUILD, # view the guild info
@@ -110,7 +113,7 @@ enum COMPLETE_ACTION_LIST {
 	RETURN_TO_INN, # for bedtime
 }
 
-const ACTION_LIST_NAMES = [
+const ACTION_LIST_NAMES = [ # in the same order as actions above
 	'MOVE',
 	'DEPOT',
 	'DINE',
@@ -125,6 +128,7 @@ const ACTION_LIST_NAMES = [
 	'CLIMB',
 	'TUNNL',
 	'CROSS',
+	'INFO',
 	'INFO',
 	'FOCUS',
 	'MAP',
@@ -156,8 +160,10 @@ onready var exclusive_actions = {
 
 func do_action(action, parent):
 	# see if the parent is a unit, and if so, set the active unit
-	if not parent.get('unit_id') == null:
+	if not parent.get('unit_id') == null :
 		active_unit = parent
+	elif parent.get('is_animal') == true:
+		active_unit = parent # if animal
 	else:
 		active_unit = null
 	
@@ -631,28 +637,48 @@ func initiate_check_birdhouse_action():
 			selected_birdhouse = birdhouse
 			
 	# determine if the birdhouse is occupied
-	print(selected_birdhouse)
-	
 	if (selected_birdhouse.data.occupied):
 		# determine whether or not the unit can do this
 		
 		# get the action spot
 		var spot = map_actions.get_action_spot_at_coordinates(Vector2(player.curs_pos_x, player.curs_pos_y))
 		
+		# get the level requirement for this spot
+		var level_requirement = map_actions.get_level_requirement_at_spot(spot)
+	
 		# get the animals that can be found at this spot
 		var animal_scns = map_actions.get_animals_at_spot(spot)
 		animal_scns.shuffle()
 		var animal_scn = animal_scns[0]
 		
-		
-		# create the animal instance!
-		var animal = guild.add_animal(animal_scn)
-		animal.set_animal_position(Vector2(player.curs_pos_x - 1, player.curs_pos_y))
+		if (level_requirement > active_unit.skill_levels[constants.BEAST_MASTERY]):
+			player.hud.typeTextWithBuffer(active_unit.NOT_SKILLED_ENOUGH_TEXT, false, 'finished_action_failed') # they did not succeed 
+		else:
+			# determine a location for the animal to be deployed to
+			var deploy_spot = null
+			
+			# check the four cardinal tiles around the unit
+			for tile in get_tree().get_current_scene().get_cardinal_tiles(active_unit):
+				if !(get_tree().get_current_scene().unit_exists_at_coordinates(tile.tile.x, tile.tile.y)):
+					deploy_spot = tile.tile
+					break
+					
+			# SHOW ACTION / XP REWARD SCREEN
+					
+			if (deploy_spot != null):	
+				# create the animal instance!
+				var animal = guild.add_animal(animal_scn)
+				animal.set_animal_position(deploy_spot)
+				
+				# TEMP
+				_on_finished_action(true)
+				
+			else:
+				# no space for the animal to be deployed
+				player.hud.typeTextWithBuffer(active_unit.NOTHING_HERE_GENERIC_TEXT, false, 'finished_action_failed')
 		
 	else:
 		player.hud.typeTextWithBuffer(active_unit.NOTHING_HERE_GENERIC_TEXT, false, 'finished_action_failed')
-		
-		#yield(signals, "finished_viewing_text_generic")
 
 # if the unit is woodcutting
 func initiate_woodcutting_action():

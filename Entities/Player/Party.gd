@@ -9,6 +9,9 @@ onready var global_action_list = get_node("/root/Actions")
 # keep track of the global player variables
 onready var player = get_node("/root/Player_Globals")
 
+# bring in our guild variables/functions
+onready var guild = get_node("/root/Guild")
+
 # bring in our abilities
 onready var global_ability_list = get_node("/root/Abilities")
 
@@ -45,6 +48,11 @@ func reset_yet_to_act():
 	for unit in party_members:
 		if (unit.unit_awake):
 			yet_to_act.append(unit)
+			
+	# append animals as well
+	for animal in guild.guild_animals:
+		if (animal.unit_awake):
+			yet_to_act.append(animal)
 
 func remove_from_yet_to_act(unit_id):
 	var index = 0
@@ -85,6 +93,12 @@ func reset_unit_actions():
 		unit.reset_action_list()
 		# also make sure we update their 'acted' state for the new turn
 		unit.set_has_acted_state(false)
+		
+	# reset animals
+	for animal in guild.guild_animals:
+		animal.reset_action_list()
+		# also make sure we update their 'acted' state for the new turn
+		animal.set_has_acted_state(false)
 
 func did_unit_eat(unit):
 	var ate = false
@@ -152,6 +166,10 @@ func calculate_total_skill_level():
 func reset_shaders():
 	for unit in party_members:
 		unit.remove_used_shader()
+		
+	# reset animal shaders
+	for animal in guild.guild_animals:
+		animal.remove_used_shader()
 
 func add_unit(unit):
 	match unit:

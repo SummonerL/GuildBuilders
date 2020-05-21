@@ -9,6 +9,9 @@ onready var party = get_node("/root/Player_Party")
 # bring in the global player variables
 onready var player = get_node("/root/Player_Globals")
 
+# bring in our guild variables/functions
+onready var guild = get_node("/root/Guild")
+
 # bring in our global action list
 onready var global_action_list = get_node("/root/Actions")
 
@@ -81,7 +84,7 @@ func focus_on(x, y, reprint_info = true):
 	
 func get_selected_tile_units():
 	# find if there are any active units on the current tile
-	for unit in party.get_all_units():
+	for unit in party.get_all_units(): # (includes animals as well)
 		if (unit.unit_pos_x == player.curs_pos_x && unit.unit_pos_y == player.curs_pos_y && unit.unit_awake):
 			return unit
 			

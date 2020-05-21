@@ -119,6 +119,9 @@ var hud_tod_info
 var world_map_node
 var npcs
 
+##TEMP##
+onready var dove_scn = preload("res://Entities/Player/Animals/Bird.tscn")
+
 func gameInit():
 	cursor = cursor_scn.instance()
 	camera = camera_scn.instance()
@@ -149,6 +152,11 @@ func gameInit():
 	
 	# add npcs to the world!
 	add_child(npcs)
+	
+	####TEMP
+	var animal = guild.add_animal(dove_scn)
+	animal.set_animal_position(Vector2(15, 18))
+	########
 	
 	# lights, camera, action!
 	camera.turnOn()
@@ -537,6 +545,12 @@ func unit_exists_at_coordinates(x, y):
 	for unit in player.party.party_members:
 		if (unit.unit_pos_x == x && unit.unit_pos_y == y):
 			exists = true
+			
+	# check animals as well :)
+	for animal in guild.guild_animals:
+		if (animal.unit_pos_x == x && animal.unit_pos_y == y):
+			exists = true
+
 	return exists
 
 # function for finding an empty spot

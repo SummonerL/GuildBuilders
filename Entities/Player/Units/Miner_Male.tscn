@@ -19,6 +19,7 @@ script = ExtResource( 3 )
 [node name="Miner_Male_Sprite" type="AnimatedSprite" parent="."]
 visible = false
 frames = SubResource( 1 )
+frame = 1
 speed_scale = 0.5
 playing = true
 centered = false
