@@ -14,6 +14,9 @@ onready var global_action_list = get_node("/root/Actions")
 # bring in our guild variables/functions
 onready var guild = get_node("/root/Guild")
 
+# bring in our items
+onready var global_items_list = get_node("/root/Items")
+
 # various hud scenes
 onready var hud_selection_list_scn = preload("res://Entities/HUD/Selection_List.tscn")
 
@@ -35,8 +38,16 @@ var unit_pos_y = 0
 # the animal's base movement
 var base_move = 3
 
+var unit_name = ""
+
 # the animals sprite
 var animal_sprite
+
+# keep track of the unit's items
+var item_limit = 0 # default
+
+var current_items = [
+]
 
 # bring in any shaders that we can use on our unit sprite
 onready var unit_spent_shader = preload("res://Sprites/Shaders/spent_unit.tres")
@@ -128,8 +139,25 @@ func determine_action_list():
 		# empty the action list
 		current_action_list = initial_action_list.duplicate()
 		
+		# check for 'DEPOT' action
+		var guild_spot_id = get_tree().get_current_scene().action_spots.tile_set.find_tile_by_name("Guild_Spot_1")
+		if (get_tree().get_current_scene().action_spots.get_cellv(Vector2(unit_pos_x, unit_pos_y)) == guild_spot_id):
+			current_action_list.append(global_action_list.COMPLETE_ACTION_LIST.DEPOT)
+		
 		# sort them
 		current_action_list.sort()
+		
+# add an item to the unit's inventory
+func receive_item(item):
+	if (current_items.size() < item_limit):
+		global_items_list.add_item_to_unit(self, item)
+		
+	# otherwise... sorry? You probably shouldn't have gotten here ;) 
+		
+# quick function for checking if the unit's inventory is full
+func is_inventory_full(item_removal_buffer = 0):
+	# item removal buffer is used for instances where the unit may be losing items to receive items (i.e. crafting)
+	return (current_items.size() - item_removal_buffer >= item_limit)
 		
 func show_action_list():
 	# add a selection list istance to our camera

@@ -275,19 +275,19 @@ onready var item_wooden_handle = {
 func add_item_to_unit(unit, item):
 	
 	# determine if the unit's stats should be modified based on the item
-	
-	# if there is a duplicate ability with this effect, which the unit already has
-	if (item.has('duplicate_ability') && global_ability_list.unit_has_ability(unit, item.duplicate_ability)):
-		# no need to add the effect
-		pass
-	# if this item's affect can not be stacked and we already have this item, make sure not to add the effect
-	elif (item.has('can_stack_effect') && !item.can_stack_effect) && ((unit_has_item(unit, item, 1)).size() > 0):
-		# do not add the effect to the unit
-		pass
-	else: 
-		# we can add the effect
-		if (item.has('stat_effected')):
-			unit[item.stat_effected] += item.stat_effected_value
+	if (unit.get("is_animal") == null):
+		# if there is a duplicate ability with this effect, which the unit already has
+		if (item.has('duplicate_ability') && global_ability_list.unit_has_ability(unit, item.duplicate_ability)):
+			# no need to add the effect
+			pass
+		# if this item's affect can not be stacked and we already have this item, make sure not to add the effect
+		elif (item.has('can_stack_effect') && !item.can_stack_effect) && ((unit_has_item(unit, item, 1)).size() > 0):
+			# do not add the effect to the unit
+			pass
+		else: 
+			# we can add the effect
+			if (item.has('stat_effected')):
+				unit[item.stat_effected] += item.stat_effected_value
 		
 		# add custom effects below
 
@@ -303,29 +303,30 @@ func remove_item_from_unit(unit, index):
 	
 	# determine if the unit's stats should be modified when removing the item
 
-	# if there is a duplicate ability with this effect, which the unit already has
-	if (item.has('duplicate_ability') && global_ability_list.unit_has_ability(unit, item.duplicate_ability)):
-		# no need to remove the effect
-		pass
-	# if this item's affect can not be stacked and we still have this item, make sure not to remove the effect
-	elif (item.has('can_stack_effect') && !item.can_stack_effect) && ((unit_has_item(unit, item, 1)).size() > 0):
-		# do not remove the effect from the unit (because we still have that item)
-		pass
-	else: 
-		# we can remove the effect
-		if (item.has('stat_effected')):
-			if (typeof(unit[item.stat_effected]) == TYPE_ARRAY):
-				var i = 0
-				for el in unit[item.stat_effected]:
-					if (item.stat_effected_value.has(el)):
-						# remove it from array
-						unit[item.stat_effected].remove(i)
-						i -= 1
-					i += 1
-			else:
-				unit[item.stat_effected] -= item.stat_effected_value
-			
-		# add custom effect removals below
+	if (unit.get("is_animal") == null):
+		# if there is a duplicate ability with this effect, which the unit already has
+		if (item.has('duplicate_ability') && global_ability_list.unit_has_ability(unit, item.duplicate_ability)):
+			# no need to remove the effect
+			pass
+		# if this item's affect can not be stacked and we still have this item, make sure not to remove the effect
+		elif (item.has('can_stack_effect') && !item.can_stack_effect) && ((unit_has_item(unit, item, 1)).size() > 0):
+			# do not remove the effect from the unit (because we still have that item)
+			pass
+		else: 
+			# we can remove the effect
+			if (item.has('stat_effected')):
+				if (typeof(unit[item.stat_effected]) == TYPE_ARRAY):
+					var i = 0
+					for el in unit[item.stat_effected]:
+						if (item.stat_effected_value.has(el)):
+							# remove it from array
+							unit[item.stat_effected].remove(i)
+							i -= 1
+						i += 1
+				else:
+					unit[item.stat_effected] -= item.stat_effected_value
+				
+			# add custom effect removals below
 
 # a helper function for determining if a unit has a given tool type
 func unit_has_tool(unit, tool_type):

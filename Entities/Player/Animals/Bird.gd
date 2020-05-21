@@ -8,6 +8,11 @@ func animal_init():
 	# dove's have a base move of 7
 	base_move = 7
 	
+	unit_name = "Dove"
+	
+	# dove's can carry 3 items
+	item_limit = 3
+	
 	# dove's fly!
 	flying = true
 
