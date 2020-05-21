@@ -19,11 +19,15 @@ onready var global_items_list = get_node("/root/Items")
 
 # various hud scenes
 onready var hud_selection_list_scn = preload("res://Entities/HUD/Selection_List.tscn")
+onready var hud_unit_info_full_scn = preload("res://Entities/HUD/Info Screens/Animal_Info_Full.tscn")
 
 # bring in our signals
 onready var signals = get_node("/root/Signal_Manager")
 
 onready var movement_grid_square = preload("res://Entities/Player/Movement_Grid_Square.tscn")
+
+# unit info node
+var hud_unit_info_full_node = null
 
 # the animal type
 var type
@@ -177,6 +181,15 @@ func do_action(action):
 		global_action_list.COMPLETE_ACTION_LIST.MOVE:
 			# enable the animal's movement state
 			enable_movement_state()
+		global_action_list.COMPLETE_ACTION_LIST.ANIMAL_INFO:
+			show_unit_info_full_screen()
+			
+func show_unit_info_full_screen():
+	hud_unit_info_full_node = hud_unit_info_full_scn.instance()
+	camera.add_child(hud_unit_info_full_node)
+	
+	hud_unit_info_full_node.set_unit(self)
+	hud_unit_info_full_node.initialize_screen()
 			
 # we can now enable the animal's movement state + show movement grid
 func enable_movement_state():

@@ -221,7 +221,9 @@ func do_action(action, parent):
 		COMPLETE_ACTION_LIST.INFO:
 			# let the unit handle this action
 			active_unit.do_action(action)
-			
+		COMPLETE_ACTION_LIST.ANIMAL_INFO:
+			# let the unit handle this action
+			active_unit.do_action(action)
 		# actions for returning home at night
 		COMPLETE_ACTION_LIST.RETURN_TO_GUILD:
 			# return the unit to the guild, and continue to send more units to bed (if necessary)
