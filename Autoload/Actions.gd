@@ -84,6 +84,7 @@ enum COMPLETE_ACTION_LIST {
 	MINE,
 	CHOP,
 	CHECK_BIRDHOUSE, # used for Beast Mastery
+	TRADE_ITEMS, # trade items between units
 	TALK, # used for NPCS
 	READ_SIGN, # used for signs
 	CLIMB_TOWER, # used for towers + revealing regions
@@ -100,6 +101,8 @@ enum COMPLETE_ACTION_LIST {
 	TRANSFER_ITEM_AT_DEPOT, # for depot screen
 	VIEW_ITEM_INFO_AT_DEPOT, # for depot screen
 	TRASH_ITEM_AT_DEPOT, # for depot screen
+	TRANSFER_ITEM_ON_TRADE_SCREEN, # for trade screen
+	VIEW_ITEM_INFO_ON_TRADE_SCREEN, # for trade screen
 	USE_ITEM_IN_UNIT_INFO_SCREEN, # for unit info screen
 	TRASH_ITEM_IN_UNIT_SCREEN, # for unit info screen
 	VIEW_ITEM_INFO_IN_UNIT_SCREEN, # for unit info screen
@@ -123,6 +126,7 @@ const ACTION_LIST_NAMES = [ # in the same order as actions above
 	'MINE',
 	'CHOP',
 	'CHECK',
+	'TRADE',
 	'TALK',
 	'READ',
 	'CLIMB',
@@ -139,6 +143,8 @@ const ACTION_LIST_NAMES = [ # in the same order as actions above
 	'MOVE',
 	'INFO',
 	'TRASH',
+	'MOVE',
+	'INFO',
 	'USE',
 	'TRASH',
 	'INFO',
@@ -243,6 +249,9 @@ func do_action(action, parent):
 		COMPLETE_ACTION_LIST.TALK:
 			# talk to an NPC
 			get_tree().get_current_scene().npcs.talk_to_npc(active_unit)
+		COMPLETE_ACTION_LIST.TRADE_ITEMS:
+			# trade items between units
+			active_unit.show_trade_selector()
 		COMPLETE_ACTION_LIST.READ_SIGN:
 			# read an adjacent sign
 			initiate_read_sign_action(player.active_world_object)

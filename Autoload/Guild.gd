@@ -291,9 +291,6 @@ func check_misc_new_day_effects():
 			# add the beast mastery world map icon
 			var bm_id = get_tree().get_current_scene().world_map_icons.tile_set.find_tile_by_name("beast_mastery_spot_icon")
 			get_tree().get_current_scene().world_map_icons.set_cellv(birdhouse.pos, bm_id)
-	
-	print (placed_items[PLACEABLE_ITEM_TYPES.BIRDHOUSES].item_list)
-			
 		
 func add_guild_ability(ability):
 	current_guild_abilities.append(ability)

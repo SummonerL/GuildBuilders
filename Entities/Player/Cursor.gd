@@ -177,7 +177,8 @@ func _input(event):
 	if (player.player_state == player.PLAYER_STATE.SELECTING_MOVEMENT ||
 	player.player_state == player.PLAYER_STATE.SELECTING_TILE ||
 	player.player_state == player.PLAYER_STATE.POSITIONING_UNIT ||
-	player.player_state == player.PLAYER_STATE.CROSSING_WATER):
+	player.player_state == player.PLAYER_STATE.CROSSING_WATER ||
+	player.player_state == player.PLAYER_STATE.SELECTING_TRADE_UNIT):
 		# immediately move, then continue moving
 		if event.is_action_pressed("ui_up"):
 			# if we're changing directions, act as if we're resetting
@@ -244,6 +245,13 @@ func _input(event):
 						if (!global_ability_list.unit_has_ability(party.get_active_unit(), global_ability_list.ABILITY_RIVER_QUEEN_NAME)):
 							party.get_active_unit().item_in_use = global_items_list.item_wooden_stilts
 						party.get_active_unit().position_unit_if_eligible(player.curs_pos_x, player.curs_pos_y, true)
+		else:
+				match player.player_state:
+					player.PLAYER_STATE.SELECTING_TRADE_UNIT:
+						print('SELECTING TRADE UNIT')
+						# trade with the target unit
+						if (player.party.is_unit_here(player.curs_pos_x, player.curs_pos_y)):
+							party.get_active_unit().trade_with_unit_at_pos(player.curs_pos_x, player.curs_pos_y)
 						
 							
 	if event.is_action_pressed("ui_select"):
@@ -255,7 +263,8 @@ func _input(event):
 		# allow the unit to cancel out of selecting movement
 		if (player.player_state == player.PLAYER_STATE.SELECTING_MOVEMENT || 
 		player.player_state == player.PLAYER_STATE.POSITIONING_UNIT ||
-		player.player_state == player.PLAYER_STATE.CROSSING_WATER):		
+		player.player_state == player.PLAYER_STATE.CROSSING_WATER ||
+		player.player_state == player.PLAYER_STATE.SELECTING_TRADE_UNIT):		
 			party.get_active_unit().clear_movement_grid_squares()
 			# change our state back to selecting tile
 			player.player_state = player.PLAYER_STATE.SELECTING_TILE

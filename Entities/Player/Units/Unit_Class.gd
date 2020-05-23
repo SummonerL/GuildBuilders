@@ -303,7 +303,6 @@ func cross_water():
 	
 				show_movement_grid_square(adj.x, adj.y)
 	
-	print ('here??')
 	if (movement_set.size() == 0):
 		# the path is blocked...
 		player.player_state = player.PLAYER_STATE.ANIMATING_MOVEMENT # use to temporarily halt any input

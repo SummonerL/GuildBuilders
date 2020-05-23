@@ -85,6 +85,12 @@ func is_unit_here(x, y):
 	for unit in party_members:
 		if (unit.unit_pos_x == x && unit.unit_pos_y == y):
 			is_here = true
+			
+	# check for animals as well
+	for animal in guild.guild_animals:
+		if (animal.unit_pos_x == x && animal.unit_pos_y == y):
+			is_here = true
+			
 	return is_here
 		
 
@@ -146,6 +152,21 @@ func remove_inn_locations():
 				unit.shelter_locations.remove(index)
 				break
 			index += 1
+
+# useful function for returning a single unit at given coordinates
+func get_unit_at_coordinates(target_x, target_y):
+	var target_unit = null
+	# first check party members
+	for unit in party_members:
+		if (unit.unit_pos_x == target_x && unit.unit_pos_y == target_y && unit.unit_awake):
+			target_unit = unit
+			
+	# then check animals
+	for animal in guild.guild_animals:
+		if (animal.unit_pos_x == target_x && animal.unit_pos_y == target_y && animal.unit_awake):
+			target_unit = animal
+			
+	return target_unit
 
 # useful function to return all of the units that are asleep, specifically at the guild hall
 func get_all_units_sleeping_at_guild_hall():

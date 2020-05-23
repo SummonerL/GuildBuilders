@@ -20,6 +20,7 @@ onready var global_items_list = get_node("/root/Items")
 # various hud scenes
 onready var hud_selection_list_scn = preload("res://Entities/HUD/Selection_List.tscn")
 onready var hud_unit_info_full_scn = preload("res://Entities/HUD/Info Screens/Animal_Info_Full.tscn")
+onready var hud_trade_screen_scn = preload("res://Entities/HUD/Unit Actions/Trade_Screen.tscn")
 
 # bring in our signals
 onready var signals = get_node("/root/Signal_Manager")
@@ -28,6 +29,9 @@ onready var movement_grid_square = preload("res://Entities/Player/Movement_Grid_
 
 # unit info node
 var hud_unit_info_full_node = null
+
+# keep track of the trade screen (if it exists)
+var hud_trade_screen_node
 
 # the animal type
 var type
@@ -148,9 +152,49 @@ func determine_action_list():
 		if (get_tree().get_current_scene().action_spots.get_cellv(Vector2(unit_pos_x, unit_pos_y)) == guild_spot_id):
 			current_action_list.append(global_action_list.COMPLETE_ACTION_LIST.DEPOT)
 		
+		# determine if we are adjacent to any units (for TRADE action)
+		var adjacent_to_unit = false
+		for tile in get_tree().get_current_scene().get_cardinal_tiles(self):
+			if (player.party.is_unit_here(tile.tile.x, tile.tile.y)):
+				adjacent_to_unit = true
+				
+		if (adjacent_to_unit):
+			current_action_list.append(global_action_list.COMPLETE_ACTION_LIST.TRADE_ITEMS)
+		
 		# sort them
 		current_action_list.sort()
 		
+# allow the unit to select another unit to trade with
+func show_trade_selector():
+	# change the state (reuse a state)
+	player.player_state = player.PLAYER_STATE.SELECTING_TRADE_UNIT
+	
+
+	for tile in get_tree().get_current_scene().get_cardinal_tiles(self):
+		if (player.party.is_unit_here(tile.tile.x, tile.tile.y)):
+			show_movement_grid_square(tile.tile.x, tile.tile.y, true) # allow showing the square on a unit or restricted tile (since we aren't moving here')
+		
+		
+# open the trade screen for the selected unit
+func trade_with_unit_at_pos(target_x, target_y):
+	# find the unit at this position
+	var target_unit = player.party.get_unit_at_coordinates(target_x, target_y)
+	if (target_unit != null):
+		# we have the unit, now open the trade screen with this specific unit
+		open_trade_screen(target_unit)
+
+func open_trade_screen(target_unit):
+	player.player_state = player.PLAYER_STATE.SELECTING_ACTION # change to another state so the cursor won't move
+	clear_movement_grid_squares()
+	
+	camera = get_tree().get_nodes_in_group("Camera")[0]
+	
+	hud_trade_screen_node = hud_trade_screen_scn.instance()
+	camera.add_child(hud_trade_screen_node)
+	
+	# set the active units
+	hud_trade_screen_node.set_units(self, target_unit)
+
 # add an item to the unit's inventory
 func receive_item(item):
 	if (current_items.size() < item_limit):
@@ -318,18 +362,20 @@ func flood_fill(foc_x, foc_y, remaining_move, visited_tiles):
 		flood_fill(foc_x, foc_y + 1, remaining_move, visited_tiles); # tile to the south
 		flood_fill(foc_x, foc_y - 1, remaining_move, visited_tiles); # tile to the north
 	
-func show_movement_grid_square(pos_x, pos_y):
+func show_movement_grid_square(pos_x, pos_y, show_on_unit_and_restricted = false):
 	# if there is a unit here, don't show the square
 	var unit_here = false
-	for unit in player.party.get_all_units():
-		if (unit.unit_pos_x == pos_x && unit.unit_pos_y == pos_y):
-			unit_here = true
+	if (!show_on_unit_and_restricted):
+		for unit in player.party.get_all_units():
+			if (unit.unit_pos_x == pos_x && unit.unit_pos_y == pos_y):
+				unit_here = true
 			
 	# make sure the tile is not in a restricted location
 	var restricted = false
-	for restricted_tile in restricted_coordinates:
-		if (restricted_tile == Vector2(pos_x, pos_y)):
-			restricted = true
+	if (!show_on_unit_and_restricted):
+		for restricted_tile in restricted_coordinates:
+			if (restricted_tile == Vector2(pos_x, pos_y)):
+				restricted = true
 	
 	if (!unit_here && !restricted):
 		var square = movement_grid_square.instance()
