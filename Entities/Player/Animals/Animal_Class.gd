@@ -68,6 +68,14 @@ var flying = false
 # whether or not the animal is awake
 var unit_awake = true
 
+# default bedtime (or ESCAPE time XD)
+var bed_time = 21 # 9pm
+
+# default wake-up time (if the animal stays in the party)
+var wake_up_time = 8 # 8 AM
+
+var escapes = true # the animal will leave the party at end of day (amed animals are generally single-day use. That's why they're so easy to tame)
+
 var unit_id = 100 # buffer to not conflict with normal units
 
 # a set of Vector2s that are currently eligible for movement (doesn't include distance)

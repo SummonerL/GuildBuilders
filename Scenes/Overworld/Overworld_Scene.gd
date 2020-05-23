@@ -611,17 +611,42 @@ func _on_finished_viewing_bedtime_text():
 	player.hud.completeText()
 	player.hud.kill_timers()
 	
-	# create a select list for determining where the unit should return for sleep
-	var hud_selection_list_node = hud_selection_list_scn.instance()
-	add_child(hud_selection_list_node)
+	if (focused_unit.get("is_animal") != null && focused_unit.is_animal):
+		# if the unit is an animal, they behave differently
+		if (focused_unit.escapes):
+			# determine if the animal has any items
+			if (focused_unit.current_items.size() > 0):
+				# send the items to the depot
+				for item in focused_unit.current_items:
+					guild.add_item_to_depot(item)
+					
+				# read SENT TO DEPOT text
+				player.hud.typeTextWithBuffer(guild.SENT_TO_DEPOT_TEXT, false, 'finished_viewing_text_generic') 
+		
+				yield(signals, "finished_viewing_text_generic")
+				
+			# remove the animal from the game
+			guild.remove_animal(focused_unit.unit_id)
+			
+			player.party.set_active_unit(null) # remove the animal as the active unit (it no longer exists)
+			
+		
+		player.hud.full_text_destruction()
+		
+		# send more units to bed (if necessary)
+		send_units_to_bed(true, true)
+	else:
+		# create a select list for determining where the unit should return for sleep
+		var hud_selection_list_node = hud_selection_list_scn.instance()
+		add_child(hud_selection_list_node)
+		
+		player.hud.typeText(constants.WHERE_SHOULD_I_RETURN_TEXT, true)
 	
-	player.hud.typeText(constants.WHERE_SHOULD_I_RETURN_TEXT, true)
-
-	player.player_state = player.PLAYER_STATE.SELECTING_ACTION
-	hud_selection_list_node.populate_selection_list(focused_unit.shelter_locations, focused_unit, true, false, false, false) # can not cancel, position to the right
-	
-	# temporarily stop processing input on the cursor (pause the node)
-	cursor.set_process_input(false)
+		player.player_state = player.PLAYER_STATE.SELECTING_ACTION
+		hud_selection_list_node.populate_selection_list(focused_unit.shelter_locations, focused_unit, true, false, false, false) # can not cancel, position to the right
+		
+		# temporarily stop processing input on the cursor (pause the node)
+		cursor.set_process_input(false)
 
 func send_units_to_bed(delay = true, went_to_sleep = false):
 	# if there are no units left to act, all units have gone to sleep. Time to end the day!
@@ -633,6 +658,12 @@ func send_units_to_bed(delay = true, went_to_sleep = false):
 	for unit in player.party.party_members:
 		if (unit.bed_time == player.current_time_of_day && unit.unit_awake):
 			unit_to_bed = unit
+			break
+			
+	# check animals as well
+	for animal in guild.guild_animals:
+		if (animal.bed_time == player.current_time_of_day && animal.unit_awake):
+			unit_to_bed = animal
 			break
 	
 	# send the unit to bed

@@ -1,5 +1,7 @@
 extends "res://Entities/Player/Animals/Animal_Class.gd"
 
+const BED_TIME_TEXT = 'Dove flew away...'
+
 func animal_init():
 	type = constants.ANIMAL_TYPES.BIRD
 	
@@ -15,6 +17,9 @@ func animal_init():
 	
 	# dove's fly!
 	flying = true
+	
+	# the dove will fly away at the end of day
+	escapes = true
 
 func _ready():
 	animal_base_init()

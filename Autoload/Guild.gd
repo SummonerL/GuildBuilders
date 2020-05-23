@@ -27,6 +27,8 @@ onready var hud_dining_screen_scn = preload("res://Entities/HUD/Guild Actions/Di
 onready var hud_guild_info_screen_scn = preload("res://Entities/HUD/Info Screens/Guild_Info_Screen.tscn")
 onready var hud_quest_completion_screen_scn = preload("res://Entities/HUD/Quest_Completion_Window.tscn")
 
+const SENT_TO_DEPOT_TEXT = 'Items sent to depot...'
+
 # keep track of the camera
 var camera
 
@@ -246,6 +248,14 @@ func add_animal(animal_scn):
 	# return the animal
 	return animal_instance
 	
+	
+func remove_animal(animal_id):
+	var animal_index = 0
+	for animal in guild_animals:
+		if (animal.unit_id == animal_id):
+			player.party.remove_child(animal)
+			guild_animals.remove(animal_index)
+		animal_index += 1
 	
 # --------------------------------------------------------------------------------------
 
