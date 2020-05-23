@@ -195,6 +195,10 @@ func do_action(action, parent):
 		COMPLETE_ACTION_LIST.VIEW_ITEM_INFO_AT_DEPOT:
 			# show the item info, at the depot
 			guild.show_item_info_at_depot()
+		COMPLETE_ACTION_LIST.TRANSFER_ITEM_ON_TRADE_SCREEN:
+			parent.transfer_current_item()
+		COMPLETE_ACTION_LIST.VIEW_ITEM_INFO_ON_TRADE_SCREEN:
+			parent.view_item_info()
 		COMPLETE_ACTION_LIST.TRASH_ITEM_AT_DEPOT:
 			# trash the item (in the depot screen)
 			guild.trash_item_at_depot()

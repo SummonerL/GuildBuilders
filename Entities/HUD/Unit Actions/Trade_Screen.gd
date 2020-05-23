@@ -97,6 +97,70 @@ func set_units(active_unit, target_unit):
 	
 	populate_items()
 	
+func _on_cant_carry_item_dialogue_completion():
+	# unpause the node
+	set_process_input(true)
+	
+# move the current item to the other unit
+func transfer_current_item():
+	# determine if the unit can carry anything else
+	if (current_inv == SELECTIONS.ACTIVE_UNIT && (right_unit.current_items.size() >= right_unit.item_limit)):
+		signals.connect("cant_carry_item_dialogue_depot", self, "_on_cant_carry_item_dialogue_completion", [], signals.CONNECT_ONESHOT)
+		
+		player.hud.dialogueState = player.hud.STATES.INACTIVE
+		player.hud.typeTextWithBuffer(right_unit.unit_name + CANT_CARRY_TEXT, false, 'cant_carry_item_dialogue_depot') 
+		return
+	elif (current_inv == SELECTIONS.TARGET_UNIT && (left_unit.current_items.size() >= left_unit.item_limit)):
+		signals.connect("cant_carry_item_dialogue_depot", self, "_on_cant_carry_item_dialogue_completion", [], signals.CONNECT_ONESHOT)
+		
+		player.hud.dialogueState = player.hud.STATES.INACTIVE
+		player.hud.typeTextWithBuffer(left_unit.unit_name + CANT_CARRY_TEXT, false, 'cant_carry_item_dialogue_depot') 
+		return
+
+	# now move the item
+	var item = focus.current_items[current_item]
+	
+	if (current_inv == SELECTIONS.ACTIVE_UNIT):
+		# remove from active unit
+		global_item_list.remove_item_from_unit(left_unit, current_item)
+		
+		# move to target unit
+		right_unit.receive_item(item)
+	elif (current_inv == SELECTIONS.TARGET_UNIT):
+		# remove from active unit
+		global_item_list.remove_item_from_unit(right_unit, current_item)
+		
+		# move to target unit
+		left_unit.receive_item(item)
+		
+		
+	# reposition the cursor and repopulate the list, now that we've removed that item
+	if (current_item > (focus.current_items.size() - 1)):
+		if (current_item == inv_start_index_tracker && inv_start_index_tracker > 0):
+			inv_start_index_tracker -= 4
+		current_item -= 1
+		
+	populate_items(inv_start_index_tracker)
+	
+	#since we just finished with the selection list, unpause input in this node
+	set_process_input(true)
+	
+func view_item_info():
+	var item = focus.current_items[current_item]
+	
+	# type the item info
+	player.hud.dialogueState = player.hud.STATES.INACTIVE
+	player.hud.typeTextWithBuffer(item.description, false, 'finished_viewing_item_info_depot') # reuse_signal
+
+	yield(signals, "finished_viewing_item_info_depot")
+
+	# since we just finished with the selection list, unpause input in this node
+	set_process_input(true)
+	
+func cancel_select_list():
+	# start processing input again (unpause this node)
+	set_process_input(true)
+	
 func populate_items(inv_start_index = 0):
 	inv_start_index_tracker = inv_start_index
 	
@@ -239,6 +303,16 @@ func _input(event):
 		move_items(1)
 	if (event.is_action_pressed("ui_up")):
 		move_items(-1)
+	if (event.is_action_pressed("ui_accept")):		
+		# give the unit the option to 'move' or view 'info'
+		if focus.current_items.size() > 0:
+			var hud_selection_list_node = hud_selection_list_scn.instance()
+			add_child(hud_selection_list_node)
+			hud_selection_list_node.layer = self.layer + 1
+			hud_selection_list_node.populate_selection_list(item_actions, self, true, false, true) # can cancel, position to the right
+			
+			# temporarily stop processing input on this node (pause this node)
+			set_process_input(false)
 	
 func _ready():
 	trade_screen_init()
