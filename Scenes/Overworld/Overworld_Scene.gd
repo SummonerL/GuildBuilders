@@ -828,7 +828,7 @@ func populate_unique_actions(unit):
 		if (adjacent_npc == null):
 			adjacent_npc = npcs.find_npc_at_tile(tile.tile)
 			
-	if (adjacent_npc != null):
+	if (adjacent_npc != null && (adjacent_npc.get("no_talk") == null)):
 		npcs.set_active_npc(adjacent_npc)
 		unique_actions += map_actions.npc_actions
 	

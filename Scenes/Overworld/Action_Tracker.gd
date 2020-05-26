@@ -27,6 +27,7 @@ const ACTIONS = {
 	10: 'MINING_SPOT_2',
 	
 	13: 'BEAST_MASTERY_SPOT_1',
+	14: 'BEAST_MASTERY_SPOT_2',
 	
 	4: 'GUILD_SPOT_1',
 	
@@ -64,6 +65,7 @@ onready var associated_actions = {
 	'MINING_SPOT_1': [global_action_list.COMPLETE_ACTION_LIST.MINE],
 	'MINING_SPOT_2': [global_action_list.COMPLETE_ACTION_LIST.MINE],
 	'BEAST_MASTERY_SPOT_1': [global_action_list.COMPLETE_ACTION_LIST.CHECK_BIRDHOUSE],
+	'BEAST_MASTERY_SPOT_2': [global_action_list.COMPLETE_ACTION_LIST.PET_CAT],
 	
 	'GUILD_SPOT_1': [global_action_list.COMPLETE_ACTION_LIST.DEPOT, 
 					global_action_list.COMPLETE_ACTION_LIST.POSIT,
@@ -119,7 +121,8 @@ onready var used_tile_items = {
 
 # list of actions in which still apply when adjacent
 onready var adjacent_applicable = [
-	global_action_list.COMPLETE_ACTION_LIST.FISH
+	global_action_list.COMPLETE_ACTION_LIST.FISH,
+	global_action_list.COMPLETE_ACTION_LIST.PET_CAT
 ]
 
 func get_action_spot_at_coordinates(vec2):

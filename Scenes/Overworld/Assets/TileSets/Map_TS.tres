@@ -674,3 +674,13 @@
 62/navigation_offset = Vector2( 0, 0 )
 62/shapes = [  ]
 62/z_index = 0
+63/name = "cat"
+63/texture = ExtResource( 1 )
+63/tex_offset = Vector2( 0, 0 )
+63/modulate = Color( 1, 1, 1, 1 )
+63/region = Rect2( 256, 176, 16, 16 )
+63/tile_mode = 0
+63/occluder_offset = Vector2( 0, 0 )
+63/navigation_offset = Vector2( 0, 0 )
+63/shapes = [  ]
+63/z_index = 0

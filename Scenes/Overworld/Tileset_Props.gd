@@ -62,7 +62,8 @@ const TILES = {
 				28: 'NPC_MAN',	
 				29: 'NPC_WOMAN',
 				32: 'NPC_GIRL',
-				33: 'NPC_BOY'}
+				33: 'NPC_BOY',
+				63: 'CAT'}
 
 const TILE_INFO_HUD_NAME = { 
 	'WATER':  'Water',
@@ -110,6 +111,7 @@ const TILE_INFO_HUD_NAME = {
 	'NPC_WOMAN': 'Woman',
 	'NPC_GIRL': 'Girl',
 	'NPC_BOY': 'Boy',
+	'CAT': 'Cat',
 	'CABIN': 'Cabin',
 	'HOUSE': 'House',
 	'BARN': 'Barn',
@@ -166,6 +168,7 @@ const MOVEMENT_COST = {
 	NPC_WOMAN = CANT_MOVE,
 	NPC_GIRL = CANT_MOVE,
 	NPC_BOY = CANT_MOVE,
+	CAT = CANT_MOVE,
 	
 	CABIN = CANT_MOVE,
 	HOUSE = CANT_MOVE,

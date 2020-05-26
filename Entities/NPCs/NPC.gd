@@ -159,6 +159,20 @@ onready var npc_farmer_fred = {
 	"pos_y": 8
 }
 
+onready var npc_bellmare_cat = {
+	"name": "Bellmare Cat",
+	"region": 2, # Bellmare
+	"dialogue": [
+		""
+	],
+	"no_talk": true,
+	"initiates_quest_immediately": false,
+	"current_dialogue": 0, # initial dialogue
+	"overworld_sprite": get_node("Bellmare_Cat"),
+	"pos_x": 53,
+	"pos_y": 14
+}
+
 # keep track of all the npcs
 onready var npcs = [
 	npc_lonely_man_samuel,
@@ -168,6 +182,7 @@ onready var npcs = [
 	npc_innkeeper_henry,
 	npc_bellmare_woman_ema,
 	npc_farmer_fred,
+	npc_bellmare_cat
 ]
 
 # keep track of the npc that is currently being interacted with

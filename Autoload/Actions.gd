@@ -86,6 +86,7 @@ enum COMPLETE_ACTION_LIST {
 	MINE,
 	CHOP,
 	CHECK_BIRDHOUSE, # used for Beast Mastery
+	PET_CAT, # used for Beast Mastery
 	TRADE_ITEMS, # trade items between units
 	TALK, # used for NPCS
 	READ_SIGN, # used for signs
@@ -128,6 +129,7 @@ const ACTION_LIST_NAMES = [ # in the same order as actions above
 	'MINE',
 	'CHOP',
 	'CHECK',
+	'PET',
 	'TRADE',
 	'TALK',
 	'READ',
@@ -230,6 +232,9 @@ func do_action(action, parent):
 			initiate_woodcutting_action()
 		COMPLETE_ACTION_LIST.CHECK_BIRDHOUSE:
 			initiate_check_birdhouse_action()
+		COMPLETE_ACTION_LIST.PET_CAT:
+			# pet a cat!
+			pass
 		COMPLETE_ACTION_LIST.INFO:
 			# let the unit handle this action
 			active_unit.do_action(action)
