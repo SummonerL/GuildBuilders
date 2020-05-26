@@ -61,6 +61,7 @@ const FISHING_TEXT = " started fishing..."
 const WOODCUTTING_TEXT = " started chopping..."
 const MINING_TEXT = " started mining..."
 const CRAFTING_TEXT = " started crafting..."
+const CHECK_BIRDHOUSE = " checked the birdhouse..."
 
 const FISH_RECEIVED_TEXT = "and caught a "
 const WOOD_RECEIVED_TEXT = "and got some "
@@ -318,6 +319,8 @@ func action_window_finished(skill, reward, levelled_up):
 		
 		constants.SMITHING:
 			player.hud.typeText(CRAFT_RECEIVED_TEXT + reward.name + constants.EXCLAMATION, false, 'finished_viewing_text_generic') # we do have a signal
+		constants.BEAST_MASTERY:
+			player.hud.typeText(reward.special_conclusion + reward.name + constants.EXCLAMATION, false, 'finished_viewing_text_generic') # we do have a signal
 		_:
 			# do nothing
 			pass
@@ -360,7 +363,7 @@ func _on_end_turn(confirm = false):
 	player.determine_next_state()
 
 # a function used for showing the action window, reward, and experience gained
-func show_action_window(skill, reward):
+func show_action_window(skill, reward, special_received_text = null, special_reward_name = null, special_xp = 0, special_conclusion_text = null):
 	# dampen the background music
 	get_tree().get_current_scene().dampen_background_music()
 	
@@ -377,17 +380,29 @@ func show_action_window(skill, reward):
 	# show the item being received, after 3 seconds
 	var timer = Timer.new()
 	timer.wait_time = SKILL_WAIT_TIME
-	timer.connect("timeout", self, "set_item_reward", [reward, timer])
+	if (special_received_text != null):
+		timer.connect("timeout", self, "set_special_reward", [special_received_text, special_reward_name, timer])
+	else:
+		timer.connect("timeout", self, "set_item_reward", [reward, timer])
 	add_child(timer)
 	timer.start()
 	
 	# give the item to the unit
-	active_unit.receive_item(reward)
+	if (reward != null):
+		active_unit.receive_item(reward)
 	
 	# give the xp to the unit
 	var level_before = active_unit.skill_levels[skill]
 	var xp_before = active_unit.skill_xp[skill]
-	var xp_to_gain = reward.xp
+	var xp_to_gain
+	if (reward != null):
+		xp_to_gain = reward.xp
+	else:
+		xp_to_gain = special_xp
+		reward = {
+			"name": special_reward_name,
+			"special_conclusion": special_conclusion_text
+		}
 	
 	# determine if the unit receives any bonus xp (round up). This is usually 0%, but can be increased with items / abilities
 	var bonus_xp = ceil(active_unit.general_bonus_xp * xp_to_gain)
@@ -417,6 +432,13 @@ func set_item_reward(reward, timer = null):
 		remove_child(timer)
 
 	action_screen_node.receive_item(reward)
+	
+func set_special_reward(special_text, special_name, timer = null):
+	if (timer):
+		timer.stop()
+		remove_child(timer)
+
+	action_screen_node.receive_special(special_text, special_name)
 
 # if the unit is reading a sign
 func initiate_read_sign_action(the_sign):
@@ -674,20 +696,31 @@ func initiate_check_birdhouse_action():
 			
 			# check the four cardinal tiles around the unit
 			for tile in get_tree().get_current_scene().get_cardinal_tiles(active_unit):
-				if !(get_tree().get_current_scene().unit_exists_at_coordinates(tile.tile.x, tile.tile.y)):
+				if (!(get_tree().get_current_scene().unit_exists_at_coordinates(tile.tile.x, tile.tile.y)) && 
+					!player.animal_restricted_coordinates.has(Vector2(tile.tile.x, tile.tile.y))):
 					deploy_spot = tile.tile
 					break
-					
-			# SHOW ACTION / XP REWARD SCREEN
 					
 			if (deploy_spot != null):	
 				# create the animal instance!
 				var animal = guild.add_animal(animal_scn)
 				animal.set_animal_position(deploy_spot)
 				
-				# TEMP
-				_on_finished_action(true)
+				# the birdhouse is no longer occupied
+				selected_birdhouse.data.occupied = false
 				
+				# and remove the BM icon from this tile
+				map_actions.remove_map_icon_at_coordinates(player.curs_pos_x, player.curs_pos_y)
+				
+				# start taming
+				player.hud.typeTextWithBuffer(active_unit.unit_name + CHECK_BIRDHOUSE, true)
+				
+				show_action_window(constants.BEAST_MASTERY, null, 'Tamed', 'Dove', animal.tame_xp, '...and tamed a ') 
+				
+				yield(signals, "finished_action_success")
+
+				# make the animal sprite visible
+				animal.animal_sprite.visible = true
 			else:
 				# no space for the animal to be deployed
 				player.hud.typeTextWithBuffer(active_unit.NOTHING_HERE_GENERIC_TEXT, false, 'finished_action_failed')

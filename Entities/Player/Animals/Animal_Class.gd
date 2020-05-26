@@ -54,6 +54,8 @@ var animal_sprite
 # keep track of the unit's items
 var item_limit = 0 # default
 
+var tame_xp = 0 # xp gained when a unit tames this animal
+
 var current_items = [
 ]
 

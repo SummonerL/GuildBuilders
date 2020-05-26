@@ -51,6 +51,23 @@ var guild_hall_y = 14
 # a useful tracker for what object the player is currently interacting with
 var active_world_object
 
+# an array of coordinates that animals cannot occupy, for various reasons
+# list of coordinates that animals cannot move onto, for various reasons
+onready var animal_restricted_coordinates = [
+		Vector2(guild_hall_x, guild_hall_y),
+		Vector2(guild_hall_x + 1, guild_hall_y),
+		Vector2(guild_hall_x, guild_hall_y + 1),
+		Vector2(guild_hall_x + 1, guild_hall_y + 1),
+		Vector2(guild_hall_x + 1, guild_hall_y + 2),
+		Vector2(guild_hall_x, guild_hall_y + 2),
+		Vector2(guild_hall_x - 1, guild_hall_y + 1),
+		Vector2(guild_hall_x - 1, guild_hall_y),
+		Vector2(guild_hall_x + 2, guild_hall_y + 1),
+		Vector2(guild_hall_x + 2, guild_hall_y),
+		Vector2(guild_hall_x, guild_hall_y - 1),
+		Vector2(guild_hall_x + 1, guild_hall_y - 1),
+]
+
 # function for moving the game clock forward (one turn)
 func move_to_next_hour():
 	current_time_of_day += 1

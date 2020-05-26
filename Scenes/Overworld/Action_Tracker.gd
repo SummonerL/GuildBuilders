@@ -169,6 +169,13 @@ func set_items_at_coordinates(x, y, item_array, clear_icon_if_empty = true):
 		
 		map_icons.set_cellv(Vector2(x, y), tileset.find_tile_by_name("empty_spot"))
 
+func remove_map_icon_at_coordinates(x, y):
+		map_icons = get_tree().get_nodes_in_group(constants.MAP_ICONS_GROUP)[0]
+		
+		var tileset = map_icons.get_tileset()
+		
+		map_icons.set_cellv(Vector2(x, y), tileset.find_tile_by_name("empty_spot"))
+
 func get_cave_connection(connection):
 	return matching_connections[connection]
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Sprites/hud/hud_action_reward_screen.png" type="Texture" id=1]
 [ext_resource path="res://Entities/HUD/Action_Window.gd" type="Script" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://Entities/HUD/Assets/level_up_fanfare.wav" type="AudioStream" id=8]
 [ext_resource path="res://Sprites/Skills/woodworking_skill_icon.png" type="Texture" id=9]
 [ext_resource path="res://Sprites/Skills/smithing_skill_icon.png" type="Texture" id=10]
+[ext_resource path="res://Sprites/Skills/beast_mastery_skill_icon.png" type="Texture" id=11]
 
 [node name="Action_Window" type="CanvasLayer"]
 script = ExtResource( 2 )
@@ -41,6 +42,11 @@ centered = false
 [node name="Smithing_Skill_Icon" type="Sprite" parent="."]
 visible = false
 texture = ExtResource( 10 )
+centered = false
+
+[node name="Beast_Mastery_Skill_Icon" type="Sprite" parent="."]
+visible = false
+texture = ExtResource( 11 )
 centered = false
 
 [node name="XP_Gain_Sound" type="AudioStreamPlayer" parent="."]

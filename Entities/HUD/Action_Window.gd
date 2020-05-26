@@ -19,6 +19,7 @@ onready var woodcutting_icon_sprite = get_node("Woodcutting_Skill_Icon")
 onready var fishing_icon_sprite = get_node("Fishing_Skill_Icon")
 onready var woodworking_icon_sprite = get_node("Woodworking_Skill_Icon")
 onready var smithing_icon_sprite = get_node("Smithing_Skill_Icon")
+onready var beast_mastery_icon_sprite = get_node("Beast_Mastery_Skill_Icon")
 
 # the xp gain sound
 onready var xp_gain_sound = get_node("XP_Gain_Sound")
@@ -34,6 +35,7 @@ const GOT_TEXT = 'Got'
 const EXCLAMATION = '!'
 const NEXT_LEVEL_TEXT = "Nxt."
 const LVL_TEXT = "Lv."
+const BEAST_MASTERY_SHORTENED = "B. Mastery"
 
 const XP_GAINED_SPEED = .08
 
@@ -76,6 +78,9 @@ func window_init():
 	
 	smithing_icon_sprite.position.x = pos_x + constants.DIA_TILE_WIDTH
 	smithing_icon_sprite.position.y = pos_y + constants.DIA_TILE_HEIGHT
+	
+	beast_mastery_icon_sprite.position.x = pos_x + constants.DIA_TILE_WIDTH
+	beast_mastery_icon_sprite.position.y = pos_y + constants.DIA_TILE_HEIGHT
 
 # useful functioning for quickly calculating the next level experience percentage
 func calculate_next_level_percent(xp, level_before):
@@ -113,6 +118,13 @@ func set_skill(skill):
 				(pos_y / constants.DIA_TILE_HEIGHT) + 1))
 				
 			smithing_icon_sprite.visible = true	
+		constants.BEAST_MASTERY:
+			pretty_name = BEAST_MASTERY_SHORTENED
+			
+			letters_symbols_node.print_immediately(pretty_name, Vector2(((WINDOW_WIDTH + 2) - floor(len(pretty_name) / 2.0) + 1),
+				(pos_y / constants.DIA_TILE_HEIGHT) + 1))
+				
+			beast_mastery_icon_sprite.visible = true	
 		constants.MINING:
 			pretty_name = constants.MINING_PRETTY
 			
@@ -133,7 +145,19 @@ func receive_item(item):
 		
 	# play the item get sound
 	item_get_sound.play()
+	
+func receive_special(special_text, special_name):
+	var receive_text = special_name + EXCLAMATION
+	
+	letters_symbols_node.print_immediately(special_text, Vector2((WINDOW_WIDTH + 2) - floor(len(special_text) / 2.0),
+		(pos_y / constants.DIA_TILE_HEIGHT) + 3))
+
+
+	letters_symbols_node.print_immediately(receive_text, Vector2((WINDOW_WIDTH + 2) - floor(len(receive_text) / 2.0),
+		(pos_y / constants.DIA_TILE_HEIGHT) + 4))
 		
+	# play the item get sound
+	item_get_sound.play()
 	
 func show_xp_reward(unit, reward, skill, level_before, level_after, xp_after, xp_before, parent, timer = null):
 	

@@ -153,11 +153,6 @@ func gameInit():
 	# add npcs to the world!
 	add_child(npcs)
 	
-	####TEMP
-	var animal = guild.add_animal(dove_scn)
-	animal.set_animal_position(Vector2(15, 18))
-	########
-	
 	# lights, camera, action!
 	camera.turnOn()
 	

@@ -7,6 +7,9 @@ func animal_init():
 	
 	animal_sprite = get_node("Bird_Sprite")
 	
+	# xp gained when the unit tames this animal
+	tame_xp = 4
+	
 	# dove's have a base move of 7
 	base_move = 7
 	
