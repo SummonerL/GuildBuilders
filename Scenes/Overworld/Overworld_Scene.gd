@@ -356,6 +356,9 @@ func new_day(fade = false, fade_node = null):
 	# remove any food abilities from the previous day
 	player.party.remove_abilities_of_type(global_ability_list.ABILITY_TYPES.FOOD)
 	
+	# reset any daily variables, specific to each unit
+	player.party.reset_daily_variables()
+	
 	# remove 'INN' from the list of shelter locations
 	player.party.remove_inn_locations()
 	

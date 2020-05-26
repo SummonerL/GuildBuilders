@@ -74,6 +74,7 @@ const BECAME_INSPIRED_TEXT = ' became Inspired!'
 const DOT_DOT_DOT_TEXT = '...'
 
 const NO_ROOM_FOR_ANIMAL = "There's no room for an animal to be deployed..."
+const CANT_TAME_ANY_MORE = " can't tame any more animals today..."
 
 enum COMPLETE_ACTION_LIST {
 	MOVE,
@@ -676,55 +677,64 @@ func initiate_check_birdhouse_action():
 	# determine if the birdhouse is occupied
 	if (selected_birdhouse.data.occupied):
 		# determine whether or not the unit can do this
+		var daily_tamed = active_unit.beasts_tamed_today
 		
-		# get the action spot
-		var spot = map_actions.get_action_spot_at_coordinates(Vector2(player.curs_pos_x, player.curs_pos_y))
-		
-		# get the level requirement for this spot
-		var level_requirement = map_actions.get_level_requirement_at_spot(spot)
-	
-		# get the animals that can be found at this spot
-		var animal_scns = map_actions.get_animals_at_spot(spot)
-		animal_scns.shuffle()
-		var animal_scn = animal_scns[0]
-		
-		if (level_requirement > active_unit.skill_levels[constants.BEAST_MASTERY]):
-			player.hud.typeTextWithBuffer(active_unit.NOT_SKILLED_ENOUGH_TEXT, false, 'finished_action_failed') # they did not succeed 
-		else:
-			# determine a location for the animal to be deployed to
-			var deploy_spot = null
+		# determine if the unit can tame any more beasts today
+		var level_for_more_beasts = skill_info.beast_mastery_tame_restrictions.get(daily_tamed + 1)
+		if (level_for_more_beasts != null && level_for_more_beasts <= active_unit.skill_levels[constants.BEAST_MASTERY]):
+			# get the action spot
+			var spot = map_actions.get_action_spot_at_coordinates(Vector2(player.curs_pos_x, player.curs_pos_y))
 			
-			# check the four cardinal tiles around the unit
-			for tile in get_tree().get_current_scene().get_cardinal_tiles(active_unit):
-				if (!(get_tree().get_current_scene().unit_exists_at_coordinates(tile.tile.x, tile.tile.y)) && 
-					!player.animal_restricted_coordinates.has(Vector2(tile.tile.x, tile.tile.y))):
-					deploy_spot = tile.tile
-					break
-					
-			if (deploy_spot != null):	
-				# create the animal instance!
-				var animal = guild.add_animal(animal_scn)
-				animal.set_animal_position(deploy_spot)
-				
-				# the birdhouse is no longer occupied
-				selected_birdhouse.data.occupied = false
-				
-				# and remove the BM icon from this tile
-				map_actions.remove_map_icon_at_coordinates(player.curs_pos_x, player.curs_pos_y)
-				
-				# start taming
-				player.hud.typeTextWithBuffer(active_unit.unit_name + CHECK_BIRDHOUSE, true)
-				
-				show_action_window(constants.BEAST_MASTERY, null, 'Tamed', 'Dove', animal.tame_xp, '...and tamed a ') 
-				
-				yield(signals, "finished_action_success")
-
-				# make the animal sprite visible
-				animal.animal_sprite.visible = true
-			else:
-				# no space for the animal to be deployed
-				player.hud.typeTextWithBuffer(active_unit.NOTHING_HERE_GENERIC_TEXT, false, 'finished_action_failed')
+			# get the level requirement for this spot
+			var level_requirement = map_actions.get_level_requirement_at_spot(spot)
 		
+			# get the animals that can be found at this spot
+			var animal_scns = map_actions.get_animals_at_spot(spot)
+			animal_scns.shuffle()
+			var animal_scn = animal_scns[0]
+			
+			if (level_requirement > active_unit.skill_levels[constants.BEAST_MASTERY]):
+				player.hud.typeTextWithBuffer(active_unit.NOT_SKILLED_ENOUGH_TEXT, false, 'finished_action_failed') # they did not succeed 
+			else:
+				# determine a location for the animal to be deployed to
+				var deploy_spot = null
+				
+				# check the four cardinal tiles around the unit
+				for tile in get_tree().get_current_scene().get_cardinal_tiles(active_unit):
+					if (!(get_tree().get_current_scene().unit_exists_at_coordinates(tile.tile.x, tile.tile.y)) && 
+						!player.animal_restricted_coordinates.has(Vector2(tile.tile.x, tile.tile.y))):
+						deploy_spot = tile.tile
+						break
+						
+				if (deploy_spot != null):	
+					# create the animal instance!
+					var animal = guild.add_animal(animal_scn)
+					animal.set_animal_position(deploy_spot)
+					
+					# the birdhouse is no longer occupied
+					selected_birdhouse.data.occupied = false
+					
+					# the unit tamed a beast
+					active_unit.beasts_tamed_today += 1
+					
+					# and remove the BM icon from this tile
+					map_actions.remove_map_icon_at_coordinates(player.curs_pos_x, player.curs_pos_y)
+					
+					# start taming
+					player.hud.typeTextWithBuffer(active_unit.unit_name + CHECK_BIRDHOUSE, true)
+					
+					show_action_window(constants.BEAST_MASTERY, null, 'Tamed', 'Dove', animal.tame_xp, '...and tamed a ') 
+					
+					yield(signals, "finished_action_success")
+	
+					# make the animal sprite visible
+					animal.animal_sprite.visible = true
+				else:
+					# no space for the animal to be deployed
+					player.hud.typeTextWithBuffer(active_unit.NOTHING_HERE_GENERIC_TEXT, false, 'finished_action_failed')
+		else:
+			# the unit cannot tame any more beasts today
+			player.hud.typeTextWithBuffer(active_unit.unit_name + CANT_TAME_ANY_MORE, false, 'finished_action_failed')
 	else:
 		player.hud.typeTextWithBuffer(active_unit.NOTHING_HERE_GENERIC_TEXT, false, 'finished_action_failed')
 

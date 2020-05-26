@@ -159,6 +159,9 @@ onready var current_action_list = initial_action_list.duplicate()
 # a tracker variable
 var item_in_use = null
 
+# skill variables to keep track of
+var beasts_tamed_today = 0
+
 # initialize the unit (all units will need to call this)
 func unit_base_init():	
 	unit_move_sound_node = AudioStreamPlayer.new()
@@ -818,3 +821,8 @@ func a_star(target_x, target_y):
 
 	# return the path
 	return path
+
+# reset daily variables
+func reset_daily_vars():
+	beasts_tamed_today = 0
+	

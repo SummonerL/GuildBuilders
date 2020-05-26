@@ -71,6 +71,10 @@ func remove_from_yet_to_act(unit_id):
 func empty_yet_to_act():
 	yet_to_act = []
 
+func reset_daily_variables():
+	for unit in party_members:
+		unit.reset_daily_vars()
+
 # function for determining if a unit is asleep at these coordinates
 func is_unit_asleep_at(x, y):
 	var is_asleep_here = false

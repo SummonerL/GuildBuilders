@@ -14,7 +14,8 @@ enum UNLOCK_TYPES {
 	ABILITY,
 	RESOURCE,
 	TOOL,
-	ANIMAL
+	ANIMAL,
+	LIMIT,
 }
 
 # global list of skill unlocks
@@ -296,6 +297,14 @@ onready var SKILL_UNLOCKS = {
 	# beast mastery
 	constants.BEAST_MASTERY: [
 		{
+			'unlock_text': ' can now tame one animal per day!',
+			'can_text': 'Tame',
+			'skill_info_text': '1 Beast Per Day',
+			'single_line': false,
+			'type': UNLOCK_TYPES.LIMIT,
+			'level_required': 1,
+		},
+		{
 			'unlock_text': ' can now tame doves!',
 			'can_text': 'Tame',
 			'skill_info_text': 'Doves',
@@ -304,4 +313,8 @@ onready var SKILL_UNLOCKS = {
 			'level_required': 1,
 		}	
 	]
+}
+
+const beast_mastery_tame_restrictions = {
+	1: 1 # tame one beast per day at level 1
 }
