@@ -332,7 +332,15 @@ onready var SKILL_UNLOCKS = {
 			'single_line': false,
 			'type': UNLOCK_TYPES.ACTION,
 			'level_required': 1,
-		}	
+		},
+		{
+			'unlock_text': ' can now speak Goblintongue!',
+			'can_text': 'Speak',
+			'skill_info_text': 'Goblintongue',
+			'single_line': true,
+			'type': UNLOCK_TYPES.LIMIT,
+			'level_required': 5,
+		},
 	],
 }
 

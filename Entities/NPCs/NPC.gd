@@ -173,6 +173,34 @@ onready var npc_bellmare_cat = {
 	"pos_y": 14
 }
 
+onready var npc_bellmare_knight_girault = {
+	"name": "Girault",
+	"region": 2, # Bellmare
+	"dialogue": [
+		ml(["I've been serving King Raolet for over 20 years now, but I've yet to see him this distressed... For the past ",
+			"few months, he's spent most of his time contemplating in the castle courtyard. He acts as if he bears the weight of the world. ",
+			"I guess he does, in a way."])
+	],
+	"initiates_quest_immediately": false,
+	"current_dialogue": 0, # initial dialogue
+	"overworld_sprite": get_node("Bellmare_Knight_Girault"),
+	"pos_x": 48,
+	"pos_y": 24
+}
+
+onready var npc_king_raolet = {
+	"name": "Raolet",
+	"region": 2, # Bellmare
+	"dialogue": [
+		ml([""])
+	],
+	"initiates_quest_immediately": false,
+	"current_dialogue": 0, # initial dialogue
+	"overworld_sprite": get_node("King_Raolet"),
+	"pos_x": 43,
+	"pos_y": 22
+}
+
 # keep track of all the npcs
 onready var npcs = [
 	npc_lonely_man_samuel,
@@ -182,7 +210,9 @@ onready var npcs = [
 	npc_innkeeper_henry,
 	npc_bellmare_woman_ema,
 	npc_farmer_fred,
-	npc_bellmare_cat
+	npc_bellmare_cat,
+	npc_bellmare_knight_girault,
+	npc_king_raolet
 ]
 
 # keep track of the npc that is currently being interacted with
