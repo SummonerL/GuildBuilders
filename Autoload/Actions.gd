@@ -62,6 +62,7 @@ const WOODCUTTING_TEXT = " started chopping..."
 const MINING_TEXT = " started mining..."
 const CRAFTING_TEXT = " started crafting..."
 const CHECK_BIRDHOUSE = " checked the birdhouse..."
+const PET_CAT = " reached out..."
 
 const FISH_RECEIVED_TEXT = "and caught a "
 const WOOD_RECEIVED_TEXT = "and got some "
@@ -71,10 +72,12 @@ const CRAFT_RECEIVED_TEXT = "and made a "
 const PATH_BLOCKED = 'My path is blocked...'
 const UNLOCKED_TEXT = ' unlocked!'
 const BECAME_INSPIRED_TEXT = ' became Inspired!'
+const BECAME_CALM_TEXT = ' became Calm!'
 const DOT_DOT_DOT_TEXT = '...'
 
 const NO_ROOM_FOR_ANIMAL = "There's no room for an animal to be deployed..."
 const CANT_TAME_ANY_MORE = " can't tame any more animals today..."
+const CANT_PET_ANYMORE = "This cat doesn't want to be pet anymore..."
 
 enum COMPLETE_ACTION_LIST {
 	MOVE,
@@ -234,7 +237,7 @@ func do_action(action, parent):
 			initiate_check_birdhouse_action()
 		COMPLETE_ACTION_LIST.PET_CAT:
 			# pet a cat!
-			pass
+			initiate_pet_cat_action()
 		COMPLETE_ACTION_LIST.INFO:
 			# let the unit handle this action
 			active_unit.do_action(action)
@@ -327,6 +330,13 @@ func action_window_finished(skill, reward, levelled_up):
 			player.hud.typeText(CRAFT_RECEIVED_TEXT + reward.name + constants.EXCLAMATION, false, 'finished_viewing_text_generic') # we do have a signal
 		constants.BEAST_MASTERY:
 			player.hud.typeText(reward.special_conclusion + reward.name + constants.EXCLAMATION, false, 'finished_viewing_text_generic') # we do have a signal
+			
+			# for cat petting (give them 'calm', if they don't have it')
+			if (reward.name == 'Cat' && !global_ability_list.unit_has_ability(active_unit, global_ability_list.ABILITY_CALM_NAME)):
+				yield(signals, "finished_viewing_text_generic")
+				player.hud.typeText(active_unit.unit_name + BECAME_CALM_TEXT, false, 'finished_viewing_text_generic')
+				# give the unit CALM
+				global_ability_list.add_ability_to_unit(active_unit, global_ability_list.ability_calm)
 		_:
 			# do nothing
 			pass
@@ -742,6 +752,47 @@ func initiate_check_birdhouse_action():
 			player.hud.typeTextWithBuffer(active_unit.unit_name + CANT_TAME_ANY_MORE, false, 'finished_action_failed')
 	else:
 		player.hud.typeTextWithBuffer(active_unit.NOTHING_HERE_GENERIC_TEXT, false, 'finished_action_failed')
+
+# pet a cat! (beast mastery action)
+func initiate_pet_cat_action():
+	# since this action can be taken on an adjacent tile, determine where the cat is
+	var the_cat_pos = null
+	var the_cat_spot = null
+	var cat_action_id = map_actions.tile_set.find_tile_by_name("Beast_Mastery_Spot_2") # pet cat
+	
+	for tile in get_tree().get_current_scene().get_cardinal_tiles(active_unit):
+		if (map_actions.get_cellv(tile.tile) == cat_action_id):
+			the_cat_pos = tile.tile
+			the_cat_spot = map_actions.get_action_spot_at_coordinates(tile.tile)
+	
+	# determine if the cat has already been pet today (check for a BM icon)
+	var map_icons = get_tree().get_nodes_in_group(constants.MAP_ICONS_GROUP)[0]
+	var tileset = map_icons.get_tileset()
+	var empty_id = tileset.find_tile_by_name("empty_spot")
+	
+	var already_pet = (map_icons.get_cellv(the_cat_pos) == empty_id)
+	
+	if (!already_pet):
+		# get the level requirement for this spot
+		var level_requirement = map_actions.get_level_requirement_at_spot(the_cat_spot)
+		
+		# make sure we meet the requirement
+		if (level_requirement > active_unit.skill_levels[constants.BEAST_MASTERY]):
+			player.hud.typeTextWithBuffer(active_unit.NOT_SKILLED_ENOUGH_TEXT, false, 'finished_action_failed') # they did not succeed 
+		else:
+			# the unit can pet the cat!
+			
+			# start petting
+			player.hud.typeTextWithBuffer(active_unit.unit_name + PET_CAT, true)
+			
+			show_action_window(constants.BEAST_MASTERY, null, 'Pet', 'Cat', skill_info.PET_CAT_XP, '...and managed to pet the ') 
+			
+			yield(signals, "finished_action_success")
+
+			# and remove the BM icon from this tile
+			map_actions.remove_map_icon_at_coordinates(the_cat_pos.x, the_cat_pos.y)		
+	else:
+		player.hud.typeTextWithBuffer(CANT_PET_ANYMORE, false, 'finished_action_failed')	
 
 # if the unit is woodcutting
 func initiate_woodcutting_action():

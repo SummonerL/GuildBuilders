@@ -90,7 +90,8 @@ onready var level_requirements = {
 	'MINING_SPOT_1': 1,
 	'MINING_SPOT_2': 3,
 	
-	'BEAST_MASTERY_SPOT_1': 1
+	'BEAST_MASTERY_SPOT_2': 1,
+	'BEAST_MASTERY_SPOT_1': 3
 }
 
 # matching connections (used for tunneling)

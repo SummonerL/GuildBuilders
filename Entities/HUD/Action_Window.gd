@@ -149,7 +149,7 @@ func receive_item(item):
 func receive_special(special_text, special_name):
 	var receive_text = special_name + EXCLAMATION
 	
-	letters_symbols_node.print_immediately(special_text, Vector2((WINDOW_WIDTH + 2) - floor(len(special_text) / 2.0),
+	letters_symbols_node.print_immediately(special_text, Vector2(((WINDOW_WIDTH + 2) - floor(len(special_text) / 2.0) - 1),
 		(pos_y / constants.DIA_TILE_HEIGHT) + 3))
 
 

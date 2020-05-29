@@ -16,6 +16,7 @@ enum UNLOCK_TYPES {
 	TOOL,
 	ANIMAL,
 	LIMIT,
+	ACTION,
 }
 
 # global list of skill unlocks
@@ -305,12 +306,20 @@ onready var SKILL_UNLOCKS = {
 			'level_required': 1,
 		},
 		{
+			'unlock_text': ' can now pet cats!',
+			'can_text': 'Pet',
+			'skill_info_text': 'Cats',
+			'single_line': true,
+			'type': UNLOCK_TYPES.ACTION,
+			'level_required': 1,
+		},
+		{
 			'unlock_text': ' can now tame doves!',
 			'can_text': 'Tame',
 			'skill_info_text': 'Doves',
 			'single_line': true,
 			'type': UNLOCK_TYPES.ANIMAL,
-			'level_required': 1,
+			'level_required': 3,
 		}	
 	]
 }
@@ -318,3 +327,6 @@ onready var SKILL_UNLOCKS = {
 const beast_mastery_tame_restrictions = {
 	1: 1 # tame one beast per day at level 1
 }
+
+# MISC XP GAINS
+const PET_CAT_XP = 2
