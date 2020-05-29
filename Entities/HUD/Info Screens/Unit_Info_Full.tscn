@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Sprites/Skills/woodcutting_skill_icon.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/hud/unit_info_backdrop.png" type="Texture" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://Sprites/Skills/woodworking_skill_icon.png" type="Texture" id=8]
 [ext_resource path="res://Sprites/Skills/fishing_skill_icon.png" type="Texture" id=9]
 [ext_resource path="res://Sprites/Skills/beast_mastery_skill_icon.png" type="Texture" id=10]
+[ext_resource path="res://Sprites/Skills/diplomacy_skill_icon.png" type="Texture" id=11]
 
 [node name="Unit_Info_Full" type="CanvasLayer"]
 layer = 2
@@ -58,4 +59,9 @@ centered = false
 [node name="Beast_Mastery_Skill_Icon" type="Sprite" parent="."]
 visible = false
 texture = ExtResource( 10 )
+centered = false
+
+[node name="Diplomacy_Skill_Icon" type="Sprite" parent="."]
+visible = false
+texture = ExtResource( 11 )
 centered = false

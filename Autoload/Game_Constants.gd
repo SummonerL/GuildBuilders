@@ -248,6 +248,7 @@ const WOODCUTTING = 'woodcutting'
 const WOODWORKING = 'woodworking'
 const SMITHING = 'smithing'
 const BEAST_MASTERY = 'beast_mastery'
+const DIPLOMACY = 'diplomacy'
 
 # skill pretty names
 const FISHING_PRETTY = 'Fishing'
@@ -256,6 +257,7 @@ const WOODCUTTING_PRETTY = 'Woodcutting'
 const WOODWORKING_PRETTY = 'Woodworking'
 const SMITHING_PRETTY = 'Smithing'
 const BEAST_MASTERY_PRETTY ='Beast Mastery'
+const DIPLOMACY_PRETTY = 'Diplomacy'
 
 
 # text commonly used across different screens

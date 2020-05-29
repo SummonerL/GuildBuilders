@@ -321,7 +321,19 @@ onready var SKILL_UNLOCKS = {
 			'type': UNLOCK_TYPES.ANIMAL,
 			'level_required': 3,
 		}	
-	]
+	],
+	
+	# diplomacy
+	constants.DIPLOMACY: [
+		{
+			'unlock_text': ' can now meet with diplomatic leaders!',
+			'can_text': 'Meet With',
+			'skill_info_text': 'Diplomatic Leaders',
+			'single_line': false,
+			'type': UNLOCK_TYPES.ACTION,
+			'level_required': 1,
+		}	
+	],
 }
 
 const beast_mastery_tame_restrictions = {

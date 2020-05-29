@@ -126,7 +126,8 @@ var skill_levels = {
 	"woodcutting": 1,
 	"woodworking": 1,
 	"smithing": 1,
-	"beast_mastery": 1
+	"beast_mastery": 1,
+	"diplomacy": 1
 }
 
 var skill_xp = {
@@ -135,7 +136,8 @@ var skill_xp = {
 	"woodcutting": 0,
 	"woodworking": 0,
 	"smithing": 0,
-	"beast_mastery": 0
+	"beast_mastery": 0,
+	"diplomacy": 0
 }
 
 # list of actions that are available to the unit
