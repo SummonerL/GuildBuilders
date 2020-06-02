@@ -119,9 +119,6 @@ var hud_tod_info
 var world_map_node
 var npcs
 
-##TEMP##
-onready var dove_scn = preload("res://Entities/Player/Animals/Bird.tscn")
-
 func gameInit():
 	cursor = cursor_scn.instance()
 	camera = camera_scn.instance()
@@ -362,8 +359,8 @@ func new_day(fade = false, fade_node = null):
 	# remove 'INN' from the list of shelter locations
 	player.party.remove_inn_locations()
 	
-	# reset innkeeper dialogue
-	npcs.reset_innkeeper_dialogue()
+	# reset any daily npc values
+	npcs.reset_npcs()
 	
 	# check for any guild abilities
 	guild.check_guild_abilities()

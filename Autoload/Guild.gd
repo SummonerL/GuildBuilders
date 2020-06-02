@@ -259,6 +259,21 @@ func remove_animal(animal_id):
 	
 # --------------------------------------------------------------------------------------
 
+# ------------------------------ GUILD RELATIONS ---------------------------------------
+
+onready var bellmare_relation = {
+	"faction": constants.faction_list[0],
+	"favor": 0,
+	"favor_limit": 10,
+	"established": false
+}
+
+# keep track of all relations and their current favor
+onready var guild_relations = [
+	bellmare_relation
+]
+
+# --------------------------------------------------------------------------------------
 
 # ------------------------------ CAN_PLACE ITEMS ---------------------------------------
 

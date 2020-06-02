@@ -189,7 +189,7 @@ onready var npc_bellmare_knight_girault = {
 }
 
 onready var npc_king_raolet = {
-	"name": "Raolet",
+	"name": "King Raolet",
 	"region": 2, # Bellmare
 	"dialogue": [
 		ml([""])
@@ -197,6 +197,9 @@ onready var npc_king_raolet = {
 	"initiates_quest_immediately": false,
 	"current_dialogue": 0, # initial dialogue
 	"overworld_sprite": get_node("King_Raolet"),
+	"diplomatic_leader": constants.faction_list[0], # king of Bellmare
+	"faction_relation": guild.bellmare_relation, # the actual relationship between the guild and bellmare
+	"met_with_unit_today": false, # keep track of whether or not this unit has met with a guildmember today
 	"pos_x": 43,
 	"pos_y": 22
 }
@@ -293,6 +296,14 @@ func talk_to_npc(unit, npc = null, dialogue_before_changer = 0, dialogue_after_c
 		# once it's all over, set the player state back
 		player.player_state = player.PLAYER_STATE.SELECTING_TILE
 
+func get_npc_by_name(name):
+	# return the corresponding NPC
+	for npc in npcs:
+		if (name == npc.name):
+			return npc
+			
+	return null
+
 func check_npc_conditions(active_npc, active_unit):
 	# if the unit is an innkeeper, and the npc is already staying here
 	if (active_npc.has("innkeeper") && active_unit.active_inn != null && 
@@ -362,11 +373,15 @@ func initialize_npcs():
 	for npc in npcs:
 		npc.overworld_sprite.position = Vector2(npc.pos_x*constants.TILE_WIDTH, npc.pos_y*constants.TILE_HEIGHT)
 
-# every morning, the innkeepers dialogue should reset
-func reset_innkeeper_dialogue():
+func reset_npcs():
 	for npc in npcs:
+		# every morning, the innkeepers dialogue should reset
 		if (npc.has("innkeeper")):
 			npc.current_dialogue = 0
+			
+		# reset any diplomatoc leaders
+		if (npc.has("diplomatic_leader")):
+			npc.met_with_unit_today = false
 
 func _ready():
 	initialize_npcs()

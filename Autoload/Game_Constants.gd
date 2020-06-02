@@ -191,6 +191,13 @@ var sign_list = [
 	},
 ]
 
+# keep track of the different diplomatic factions
+var faction_list = [
+	{
+		"name": "Bellmare"
+	}
+]
+
 # keep track of all the towers in the game world
 var tower_list = [
 	{

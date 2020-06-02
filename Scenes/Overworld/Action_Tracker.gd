@@ -9,6 +9,8 @@ onready var global_items_list = get_node("/root/Items")
 # bring in our global constants
 onready var constants = get_node("/root/Game_Constants")
 
+
+
 # our various animal scenes
 onready var dove_scn = preload("res://Entities/Player/Animals/Bird.tscn")
 
@@ -28,6 +30,8 @@ const ACTIONS = {
 	
 	13: 'BEAST_MASTERY_SPOT_1',
 	14: 'BEAST_MASTERY_SPOT_2',
+	
+	15: 'DIPLOMACY_SPOT_1',
 	
 	4: 'GUILD_SPOT_1',
 	
@@ -54,6 +58,12 @@ onready var ANIMALS_AT_SPOT = {
 	'BEAST_MASTERY_SPOT_1': [dove_scn],
 }
 
+# keep track of the diplomatic leaders that can be found at specific spots
+
+onready var LEADER_AT_SPOT = {
+	'DIPLOMACY_SPOT_1': 'King Raolet' # king raolet at Bellmare castle
+}
+
 # specific actions associated with these tiles
 onready var associated_actions = {
 	'FISH_SPOT_1': [global_action_list.COMPLETE_ACTION_LIST.FISH],
@@ -66,6 +76,8 @@ onready var associated_actions = {
 	'MINING_SPOT_2': [global_action_list.COMPLETE_ACTION_LIST.MINE],
 	'BEAST_MASTERY_SPOT_1': [global_action_list.COMPLETE_ACTION_LIST.CHECK_BIRDHOUSE],
 	'BEAST_MASTERY_SPOT_2': [global_action_list.COMPLETE_ACTION_LIST.PET_CAT],
+	
+	'DIPLOMACY_SPOT_1': [global_action_list.COMPLETE_ACTION_LIST.MEET_WITH_LEADER],
 	
 	'GUILD_SPOT_1': [global_action_list.COMPLETE_ACTION_LIST.DEPOT, 
 					global_action_list.COMPLETE_ACTION_LIST.POSIT,
@@ -89,6 +101,8 @@ onready var level_requirements = {
 	
 	'MINING_SPOT_1': 1,
 	'MINING_SPOT_2': 3,
+	
+	'DIPLOMACY_SPOT_1': 1,
 	
 	'BEAST_MASTERY_SPOT_2': 1,
 	'BEAST_MASTERY_SPOT_1': 3
@@ -123,7 +137,8 @@ onready var used_tile_items = {
 # list of actions in which still apply when adjacent
 onready var adjacent_applicable = [
 	global_action_list.COMPLETE_ACTION_LIST.FISH,
-	global_action_list.COMPLETE_ACTION_LIST.PET_CAT
+	global_action_list.COMPLETE_ACTION_LIST.PET_CAT,
+	global_action_list.COMPLETE_ACTION_LIST.MEET_WITH_LEADER,
 ]
 
 func get_action_spot_at_coordinates(vec2):
@@ -192,5 +207,8 @@ func get_items_at_spot(spot):
 	
 func get_animals_at_spot(spot):
 	return ANIMALS_AT_SPOT[spot]
+	
+func get_leader_name_at_spot(spot):
+	return LEADER_AT_SPOT[spot]
 	
 	

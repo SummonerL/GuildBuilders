@@ -63,6 +63,7 @@ const MINING_TEXT = " started mining..."
 const CRAFTING_TEXT = " started crafting..."
 const CHECK_BIRDHOUSE = " checked the birdhouse..."
 const PET_CAT = " reached out..."
+const HELD_A_MEETING = " held a meeting..."
 
 const FISH_RECEIVED_TEXT = "and caught a "
 const WOOD_RECEIVED_TEXT = "and got some "
@@ -78,6 +79,7 @@ const DOT_DOT_DOT_TEXT = '...'
 const NO_ROOM_FOR_ANIMAL = "There's no room for an animal to be deployed..."
 const CANT_TAME_ANY_MORE = " can't tame any more animals today..."
 const CANT_PET_ANYMORE = "This cat doesn't want to be pet anymore..."
+const ALREADY_MET_TEXT = "This leader is not available for any more meetings..."
 
 enum COMPLETE_ACTION_LIST {
 	MOVE,
@@ -90,6 +92,7 @@ enum COMPLETE_ACTION_LIST {
 	CHOP,
 	CHECK_BIRDHOUSE, # used for Beast Mastery
 	PET_CAT, # used for Beast Mastery
+	MEET_WITH_LEADER, # used for Diplomacy
 	TRADE_ITEMS, # trade items between units
 	TALK, # used for NPCS
 	READ_SIGN, # used for signs
@@ -133,6 +136,7 @@ const ACTION_LIST_NAMES = [ # in the same order as actions above
 	'CHOP',
 	'CHECK',
 	'PET',
+	'MEET',
 	'TRADE',
 	'TALK',
 	'READ',
@@ -238,6 +242,9 @@ func do_action(action, parent):
 		COMPLETE_ACTION_LIST.PET_CAT:
 			# pet a cat!
 			initiate_pet_cat_action()
+		COMPLETE_ACTION_LIST.MEET_WITH_LEADER:
+			# meet with a diplomatic leader
+			initiate_meet_with_leader_action()
 		COMPLETE_ACTION_LIST.INFO:
 			# let the unit handle this action
 			active_unit.do_action(action)
@@ -337,6 +344,8 @@ func action_window_finished(skill, reward, levelled_up):
 				player.hud.typeText(active_unit.unit_name + BECAME_CALM_TEXT, false, 'finished_viewing_text_generic')
 				# give the unit CALM
 				global_ability_list.add_ability_to_unit(active_unit, global_ability_list.ability_calm)
+		constants.DIPLOMACY:
+			player.hud.typeText(reward.special_conclusion, false, 'finished_viewing_text_generic') # we do have a signal
 		_:
 			# do nothing
 			pass
@@ -793,6 +802,53 @@ func initiate_pet_cat_action():
 			map_actions.remove_map_icon_at_coordinates(the_cat_pos.x, the_cat_pos.y)		
 	else:
 		player.hud.typeTextWithBuffer(CANT_PET_ANYMORE, false, 'finished_action_failed')	
+
+# meet with a diplomatic leader
+func initiate_meet_with_leader_action():
+	# since this action can be taken on an adjacent tile, determine where the leader is
+	var the_leader_pos = null
+	var the_leader_spot = null
+
+	for tile in get_tree().get_current_scene().get_cardinal_tiles(active_unit):
+		# check if the tile contains a meet_with_leader action
+		if (map_actions.get_actions_at_coordinates(tile.tile)).has(COMPLETE_ACTION_LIST.MEET_WITH_LEADER):
+			the_leader_pos = tile.tile
+			the_leader_spot = map_actions.get_action_spot_at_coordinates(tile.tile)
+			
+	
+	if (the_leader_pos != null):
+		# get the leader 
+		var leader_npc = get_tree().get_current_scene().npcs.get_npc_by_name(map_actions.get_leader_name_at_spot(the_leader_spot))
+		
+		# get the level requirement for this spot
+		var level_requirement = map_actions.get_level_requirement_at_spot(the_leader_spot)
+		
+		# make sure the leader hasn't already been visited today
+		if (!leader_npc.met_with_unit_today):
+			# make sure we meet the requirement
+			if (level_requirement > active_unit.skill_levels[constants.DIPLOMACY]):
+				player.hud.typeTextWithBuffer(active_unit.NOT_SKILLED_ENOUGH_TEXT, false, 'finished_action_failed') # they did not succeed 
+			else:
+				# the unit can meet with the leader!
+				player.hud.typeTextWithBuffer(active_unit.unit_name + HELD_A_MEETING, true)
+				
+				# check if a relationship is established
+				if (!leader_npc.faction_relation.established):
+					leader_npc.faction_relation.established = true # establish it!
+
+				# increase favor!
+				
+				show_action_window(constants.DIPLOMACY, null, 'Met With', leader_npc.name, 2, '...and increased favor with ' + leader_npc.diplomatic_leader.name + '!') 
+				
+				yield(signals, "finished_action_success")
+				
+				# the leader met with someone today
+				leader_npc.met_with_unit_today = true
+		else:
+			player.hud.typeTextWithBuffer(ALREADY_MET_TEXT, false, 'finished_action_failed') # they did not succeed 
+	else:
+		# not sure how we got here... just set the state back as a failsafe
+		player.player_state = player.PLAYER_STATE.SELECTING_TILE
 
 # if the unit is woodcutting
 func initiate_woodcutting_action():
