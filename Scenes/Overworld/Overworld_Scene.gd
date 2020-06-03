@@ -362,6 +362,9 @@ func new_day(fade = false, fade_node = null):
 	# reset any daily npc values
 	npcs.reset_npcs()
 	
+	# reduce favor for each relation (by 1)
+	guild.reduce_favor()
+	
 	# check for any guild abilities
 	guild.check_guild_abilities()
 	

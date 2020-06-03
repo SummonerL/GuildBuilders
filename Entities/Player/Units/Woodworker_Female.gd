@@ -47,6 +47,9 @@ func unit_init():
 	global_items_list.add_item_to_unit(self, global_items_list.item_handsaw)
 	global_items_list.add_item_to_unit(self, global_items_list.item_jumbofish)
 	
+	# TEMP
+	global_items_list.add_item_to_unit(self, global_items_list.item_birch_logs)
+	
 	# add the unit's starting ability
 	starting_ability = global_ability_list.ability_artistic
 	global_ability_list.add_ability_to_unit(self, global_ability_list.ability_artistic)

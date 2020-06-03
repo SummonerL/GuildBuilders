@@ -199,6 +199,21 @@ onready var SKILL_UNLOCKS = {
 				}
 			]
 		},
+			{
+			'unlock_text': ' can now craft Paper!',
+			'can_text': 'Craft',
+			'skill_info_text': 'Paper',
+			'single_line': true,
+			'type': UNLOCK_TYPES.RECIPE,
+			'level_required': 4,
+			'item': global_item_list.item_paper,
+			'resources_required': [
+				{
+					'item': global_item_list.item_birch_logs,
+					'quantity': 1
+				}
+			]
+		},
 		{
 			'unlock_text': ' can now craft Walking Sticks!',
 			'can_text': 'Craft',
@@ -332,6 +347,14 @@ onready var SKILL_UNLOCKS = {
 			'single_line': false,
 			'type': UNLOCK_TYPES.ACTION,
 			'level_required': 1,
+		},
+		{
+			'unlock_text': ' can now write diplomatic letters!',
+			'can_text': 'Write',
+			'skill_info_text': 'Diplomatic Letters',
+			'single_line': false,
+			'type': UNLOCK_TYPES.ACTION,
+			'level_required': 3,
 		},
 		{
 			'unlock_text': ' can now speak Goblintongue!',

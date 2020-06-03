@@ -136,6 +136,8 @@ const CANT_DISCARD_TEXT = "This item can not be discarded."
 const USE_ITEM_TEXT = " used the "
 const ALREADY_HAS_EFFECT_TEXT = ' already has that effect.'
 
+const CANT_USE_ITEM_ACTING = 'You can\'t use items after acting...'
+
 func unit_info_full_init():
 	letters_symbols_node = letters_symbols_scn.instance()
 	add_child(letters_symbols_node)
@@ -394,6 +396,19 @@ func populate_item_screen(inv_start_index = 0):
 
 # when the unit has selected 'use' in the selection list
 func use_item():
+	
+	# check if the unit has acted
+	if (active_unit.has_acted):
+		player.hud.dialogueState = player.hud.STATES.INACTIVE
+		player.hud.typeTextWithBuffer(CANT_USE_ITEM_ACTING, false, 'finished_viewing_text_generic') 
+	
+		yield(signals, "finished_viewing_text_generic")
+		
+		# unpause the node and return
+		set_process_input(true)
+		
+		return
+	
 	var item = current_item_set[current_item - inv_start_index_tracker]
 	var item_used = false
 	
@@ -439,6 +454,21 @@ func use_item():
 	elif (item.has("can_place")):
 		get_tree().get_current_scene().place_item_in_world(item, active_unit, self)
 		# close the unit screen
+		return
+	# if the item triggers another action
+	elif (item.has("triggers_action")):
+		# pause this node
+		set_process_input(false)
+		
+		# initiate an action
+		global_action_list.do_action(global_action_list.COMPLETE_ACTION_LIST.WRITE_LETTER, active_unit, 
+			{
+				"item": item,
+				"item_index": current_item,
+				"unit_info_screen": self
+			})
+		
+		# let the action unpause this node (if needed)
 		return
 	else:
 		pass

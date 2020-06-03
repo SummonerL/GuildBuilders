@@ -273,6 +273,12 @@ onready var guild_relations = [
 	bellmare_relation
 ]
 
+func reduce_favor():
+	for relation in guild_relations:
+		relation.favor -= 1 # reduce all favor by 1
+		if (relation.favor < 0):
+			relation.favor = 0
+
 # --------------------------------------------------------------------------------------
 
 # ------------------------------ CAN_PLACE ITEMS ---------------------------------------

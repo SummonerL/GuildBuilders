@@ -51,11 +51,9 @@ func unit_init():
 	global_items_list.add_item_to_unit(self, global_items_list.item_sturdy_axe)
 	global_items_list.add_item_to_unit(self, global_items_list.item_jumbofish)
 	
-	# temp
-	global_items_list.add_item_to_unit(self, global_items_list.item_birdhouse)
-	global_items_list.add_item_to_unit(self, global_items_list.item_birdhouse)
-	global_items_list.add_item_to_unit(self, global_items_list.item_birdhouse)
-	global_items_list.add_item_to_unit(self, global_items_list.item_birdhouse)
+	#TEMP!!!!!-----
+	global_items_list.add_item_to_unit(self, global_items_list.item_paper)
+	skill_levels[constants.DIPLOMACY] = 5
 	
 	# add the unit's starting ability
 	starting_ability = global_ability_list.ability_insomniac

@@ -34,7 +34,8 @@ enum ITEM_TYPES {
 	ORE,
 	GEM,
 	CRAFTING_PART,
-	UTILITY
+	UTILITY,
+	DIPLOMATIC_GIFT,
 }
 
 const BROKE_TEXT = ' broke...'
@@ -155,7 +156,27 @@ onready var item_guild_photo = { # friend wanted - quest reward
 	"type": ITEM_TYPES.UTILITY,
 	"can_discard": false,
 	"depot_ability": guild.GUILD_ABILITIES.RANDOM_UNIT_SENSE_OF_DUTY
-	# determine use for the guild photo
+}
+
+onready var item_letter = { # used for diplomacy
+	"name": "Letter",
+	"description": "A letter that can be given to any diplomatic leader for 2 points of favor. Letters can be delivered personally or via animal.",
+	"type": ITEM_TYPES.DIPLOMATIC_GIFT,
+	"can_discard": true,
+	"xp": 1 # xp to write
+}
+
+onready var item_paper = { # used for writing letters
+	"name": "Sheet of Paper",
+	"description": "A thin strip of birch wood. Use this item to write a diplomatic letter.",
+	"can_use": true,
+	"triggers_action": global_action_list.COMPLETE_ACTION_LIST.WRITE_LETTER, # using this item triggers another action
+	"associated_skill": constants.DIPLOMACY,
+	"level_requirement_for_action": 3, # should match whatever is in skill info
+	"use_linked_item": item_letter,
+	"type": ITEM_TYPES.UTILITY,
+	"can_discord": true,
+	"xp": 2 # xp to craft
 }
 
 # fish

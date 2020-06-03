@@ -64,6 +64,7 @@ const CRAFTING_TEXT = " started crafting..."
 const CHECK_BIRDHOUSE = " checked the birdhouse..."
 const PET_CAT = " reached out..."
 const HELD_A_MEETING = " held a meeting..."
+const STARTED_WRITING = " started writing..."
 
 const FISH_RECEIVED_TEXT = "and caught a "
 const WOOD_RECEIVED_TEXT = "and got some "
@@ -80,6 +81,8 @@ const NO_ROOM_FOR_ANIMAL = "There's no room for an animal to be deployed..."
 const CANT_TAME_ANY_MORE = " can't tame any more animals today..."
 const CANT_PET_ANYMORE = "This cat doesn't want to be pet anymore..."
 const ALREADY_MET_TEXT = "This leader is not available for any more meetings..."
+
+const RELATION_ESTABLISHED = "New Relation established!"
 
 enum COMPLETE_ACTION_LIST {
 	MOVE,
@@ -107,6 +110,7 @@ enum COMPLETE_ACTION_LIST {
 	NEXT_TURN,
 	YES, # for confirmation
 	NO, # for confirmation
+	WRITE_LETTER, # write a diplomatic letter
 	TRANSFER_ITEM_AT_DEPOT, # for depot screen
 	VIEW_ITEM_INFO_AT_DEPOT, # for depot screen
 	TRASH_ITEM_AT_DEPOT, # for depot screen
@@ -151,6 +155,7 @@ const ACTION_LIST_NAMES = [ # in the same order as actions above
 	'NEXT',
 	'YES',
 	'NO',
+	'WRITE',
 	'MOVE',
 	'INFO',
 	'TRASH',
@@ -175,7 +180,7 @@ onready var exclusive_actions = {
 	COMPLETE_ACTION_LIST.CROSS: 'true'
 }
 
-func do_action(action, parent):
+func do_action(action, parent, additional_params = null):
 	# see if the parent is a unit, and if so, set the active unit
 	if not parent.get('unit_id') == null :
 		active_unit = parent
@@ -213,6 +218,9 @@ func do_action(action, parent):
 		COMPLETE_ACTION_LIST.TRASH_ITEM_AT_DEPOT:
 			# trash the item (in the depot screen)
 			guild.trash_item_at_depot()
+		COMPLETE_ACTION_LIST.WRITE_LETTER:
+			# write a letter with a piece of paper
+			initiate_write_letter_action(additional_params)
 		COMPLETE_ACTION_LIST.USE_ITEM_IN_UNIT_INFO_SCREEN:
 			parent.use_item()
 		COMPLETE_ACTION_LIST.TRASH_ITEM_IN_UNIT_SCREEN:
@@ -345,7 +353,13 @@ func action_window_finished(skill, reward, levelled_up):
 				# give the unit CALM
 				global_ability_list.add_ability_to_unit(active_unit, global_ability_list.ability_calm)
 		constants.DIPLOMACY:
-			player.hud.typeText(reward.special_conclusion, false, 'finished_viewing_text_generic') # we do have a signal
+			# assume the special conclusion is an array
+			var message_index = 0
+			for message in reward.special_conclusion:
+				player.hud.typeText(message, false, 'finished_viewing_text_generic')
+				if (message_index < reward.special_conclusion.size() - 1):
+					yield(signals, "finished_viewing_text_generic")
+				message_index += 1
 		_:
 			# do nothing
 			pass
@@ -422,6 +436,13 @@ func show_action_window(skill, reward, special_received_text = null, special_rew
 	var xp_to_gain
 	if (reward != null):
 		xp_to_gain = reward.xp
+		
+		# for versatility, you can still receive an item and have special conclusion text
+		if (special_reward_name != null):
+			reward.name = special_reward_name
+			
+		if (special_conclusion_text != null):
+			reward.special_conclusion = special_conclusion_text
 	else:
 		xp_to_gain = special_xp
 		reward = {
@@ -803,6 +824,46 @@ func initiate_pet_cat_action():
 	else:
 		player.hud.typeTextWithBuffer(CANT_PET_ANYMORE, false, 'finished_action_failed')	
 
+# write a diplomatic letter
+func initiate_write_letter_action(param_object):	
+	# because this action is triggered from the info screen - that screen is currently open
+	# first - determine if the unit can do this action
+	var level_requirement = param_object.item.level_requirement_for_action
+	
+	if (active_unit.skill_levels[param_object.item.associated_skill] > level_requirement):
+		# can do the action!
+		
+		# go ahead and remove the item from the unit
+		param_object.unit_info_screen.remove_item() # remove the selected item
+		
+		# close the info screen
+		param_object.unit_info_screen.close_unit_screen()
+		
+		# make sure we close the dialogue box as well, if it's present
+		player.hud.clearText()
+		player.hud.completeText()
+		player.hud.kill_timers()
+		
+		# make sure the player state is not set to selecting tile
+		player.player_state = player.PLAYER_STATE.SELECTING_ACTION
+		
+		# now show the action screen
+		# start writting
+		player.hud.typeTextWithBuffer(active_unit.unit_name + STARTED_WRITING, true)
+		
+		show_action_window(constants.DIPLOMACY, global_items_list.item_letter, 'Wrote', 
+			global_items_list.item_letter.name, global_items_list.item_letter.xp, ['...and wrote a letter!']) 
+		
+		yield(signals, "finished_action_success")
+	else:
+		player.hud.typeTextWithBuffer(active_unit.NOT_SKILLED_ENOUGH_TEXT, false, 'finished_viewing_text_generic') # they did not succeed 
+		
+		yield(signals, "finished_viewing_text_generic")
+		
+		# unpause the unit info screen
+		param_object.unit_info_screen.set_process_input(true)	
+	pass
+
 # meet with a diplomatic leader
 func initiate_meet_with_leader_action():
 	# since this action can be taken on an adjacent tile, determine where the leader is
@@ -833,6 +894,7 @@ func initiate_meet_with_leader_action():
 				player.hud.typeTextWithBuffer(active_unit.unit_name + HELD_A_MEETING, true)
 				
 				# check if a relationship is established
+				var already_established = leader_npc.faction_relation.established
 				if (!leader_npc.faction_relation.established):
 					leader_npc.faction_relation.established = true # establish it!
 
@@ -840,8 +902,16 @@ func initiate_meet_with_leader_action():
 				leader_npc.faction_relation.favor += active_unit.diplomacy_points
 				if (leader_npc.faction_relation.favor > leader_npc.faction_relation.favor_limit):
 					leader_npc.faction_relation.favor = leader_npc.faction_relation.favor_limit
+					
+				var post_text = []
 				
-				show_action_window(constants.DIPLOMACY, null, 'Met With', leader_npc.name, 2, '...and increased favor with ' + leader_npc.diplomatic_leader.name + '!') 
+				if (!already_established):
+					post_text.push_back(RELATION_ESTABLISHED)
+					post_text.push_back('Increased favor with ' + leader_npc.diplomatic_leader.name + '!')
+				else:
+					post_text.push_back('...and increased favor with ' + leader_npc.diplomatic_leader.name + '!')
+				
+				show_action_window(constants.DIPLOMACY, null, 'Met With', leader_npc.name, 2, post_text) 
 				
 				yield(signals, "finished_action_success")
 				

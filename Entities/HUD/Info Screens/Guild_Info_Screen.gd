@@ -189,6 +189,12 @@ func display_relation_screen(relation_start_index = 0):
 	if (all_relations.size() > 0):
 		selector_arrow.visible = true
 		selector_arrow.position = Vector2((start_x - 1) * constants.DIA_TILE_WIDTH, (start_y + ((current_relation - relation_start_index_tracker) * 2)) * constants.DIA_TILE_HEIGHT)
+		
+		# type the current favor
+		var relation = current_relation_set[current_relation - relation_start_index_tracker]
+		
+		player.hud.dialogueState = player.hud.STATES.INACTIVE
+		player.hud.typeText("Favor: " + String(relation.favor) + "/" + String(relation.favor_limit), true)
 	else:
 		player.hud.dialogueState = player.hud.STATES.INACTIVE
 		player.hud.typeText(NO_RELATION_TEXT, true)
@@ -206,7 +212,53 @@ func display_relation_screen(relation_start_index = 0):
 		letters_symbols_node.print_immediately(relation.faction.name, Vector2(start_x, start_y))
 		start_y += 2
 
-func change_screens():
+func move_relations(direction):
+	var start_x = 2
+	var start_y = 3
+	
+	if (direction < 0):
+		# move up
+		if (current_relation > relation_start_index_tracker):
+			current_relation += direction
+			selector_arrow.visible = true
+			selector_arrow.position = Vector2((start_x - 1) * constants.DIA_TILE_WIDTH, 
+				(start_y + ((current_relation - relation_start_index_tracker) * 2)) * constants.DIA_TILE_HEIGHT)
+			player.hud.clearText()
+			player.hud.completeText()
+			player.hud.kill_timers()
+			
+			# type the current favor
+			var relation = current_relation_set[current_relation - relation_start_index_tracker]
+			
+			player.hud.dialogueState = player.hud.STATES.INACTIVE
+			player.hud.typeText("Favor: " + String(relation.favor) + "/" + String(relation.favor_limit), true)
+		else:
+			if (letters_symbols_node.arrow_up_sprite.visible): # if we are allowed to move up
+				current_relation += direction
+				relation_start_index_tracker -= 4
+				relation_end_index_tracker = relation_start_index_tracker + 3
+				change_screens(relation_start_index_tracker)
+	else:
+		if (current_relation < relation_end_index_tracker):
+			current_relation += direction
+			selector_arrow.visible = true
+			selector_arrow.position = Vector2((start_x - 1) * constants.DIA_TILE_WIDTH, 
+				(start_y + ((current_relation - relation_start_index_tracker) * 2)) * constants.DIA_TILE_HEIGHT)
+			player.hud.clearText()
+			player.hud.completeText()
+			player.hud.kill_timers()
+			
+			# type the current favor
+			var relation = current_relation_set[current_relation - relation_start_index_tracker]
+			
+			player.hud.dialogueState = player.hud.STATES.INACTIVE
+			player.hud.typeText("Favor: " + String(relation.favor) + "/" + String(relation.favor_limit), true)
+		else:
+			if (letters_symbols_node.arrow_down_sprite.visible): # if we are allowed to move down
+				current_relation += direction
+				change_screens(relation_end_index_tracker + direction)
+
+func change_screens(screen_start_index = 0):
 	# clear any letters / symbols
 	letters_symbols_node.clearText()
 	letters_symbols_node.clear_specials()
@@ -226,7 +278,7 @@ func change_screens():
 		SCREENS.QUEST_TYPE_SELECT:
 			display_quest_type_selection()
 		SCREENS.RELATIONS:
-			display_relation_screen()
+			display_relation_screen(screen_start_index)
 
 func make_sprites_invisible():
 	selector_arrow.visible = false
@@ -300,6 +352,8 @@ func _input(event):
 				if (current_type < (quest_types.size() - 1)): # account for index
 					current_type += 1
 					change_screens()
+			SCREENS.RELATIONS:
+				move_relations(1)
 		
 	if (event.is_action_pressed("ui_up")):
 		match (current_screen):
@@ -307,6 +361,8 @@ func _input(event):
 				if (current_type > 0):
 					current_type -= 1
 					change_screens()
+			SCREENS.RELATIONS:
+				move_relations(-1)
 
 func _ready():
 	initialize_guild_info()
