@@ -87,6 +87,9 @@ var item_limit = 5 # default
 # keep track of the player's meal limit
 var meal_limit = 1
 
+# keep track of the number of points of favor this unit will increase when meeting with a leader
+var diplomacy_points = 4
+
 var current_items = [
 ]
 

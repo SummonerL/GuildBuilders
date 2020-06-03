@@ -837,6 +837,9 @@ func initiate_meet_with_leader_action():
 					leader_npc.faction_relation.established = true # establish it!
 
 				# increase favor!
+				leader_npc.faction_relation.favor += active_unit.diplomacy_points
+				if (leader_npc.faction_relation.favor > leader_npc.faction_relation.favor_limit):
+					leader_npc.faction_relation.favor = leader_npc.faction_relation.favor_limit
 				
 				show_action_window(constants.DIPLOMACY, null, 'Met With', leader_npc.name, 2, '...and increased favor with ' + leader_npc.diplomatic_leader.name + '!') 
 				
