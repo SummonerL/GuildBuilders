@@ -42,6 +42,10 @@ var action_screen_node
 onready var crafting_screen_scn = preload("res://Entities/HUD/Unit Actions/Crafting_Screen.tscn")
 var crafting_screen_node
 
+# our gift screen (we can instance this when a unit gives a gift to an npc)
+onready var gift_screen_scn = preload("res://Entities/HUD/Unit Actions/Give_Gift_Screen.tscn")
+var gift_screen_node
+
 # 3 seconds to receive the skill reward
 const SKILL_WAIT_TIME = 3
 
@@ -96,6 +100,7 @@ enum COMPLETE_ACTION_LIST {
 	CHECK_BIRDHOUSE, # used for Beast Mastery
 	PET_CAT, # used for Beast Mastery
 	MEET_WITH_LEADER, # used for Diplomacy
+	GIVE_GIFT_TO_LEADER, # used for Diplomacy
 	TRADE_ITEMS, # trade items between units
 	TALK, # used for NPCS
 	READ_SIGN, # used for signs
@@ -141,6 +146,7 @@ const ACTION_LIST_NAMES = [ # in the same order as actions above
 	'CHECK',
 	'PET',
 	'MEET',
+	'GIVE',
 	'TRADE',
 	'TALK',
 	'READ',
@@ -253,6 +259,9 @@ func do_action(action, parent, additional_params = null):
 		COMPLETE_ACTION_LIST.MEET_WITH_LEADER:
 			# meet with a diplomatic leader
 			initiate_meet_with_leader_action()
+		COMPLETE_ACTION_LIST.GIVE_GIFT_TO_LEADER:
+			# open the gift-giving screen
+			initiate_give_gift_action()
 		COMPLETE_ACTION_LIST.INFO:
 			# let the unit handle this action
 			active_unit.do_action(action)
@@ -922,6 +931,34 @@ func initiate_meet_with_leader_action():
 	else:
 		# not sure how we got here... just set the state back as a failsafe
 		player.player_state = player.PLAYER_STATE.SELECTING_TILE
+
+# give gift to a diplomatic leader
+func initiate_give_gift_action():
+	# since this action can be taken on an adjacent tile, determine where the leader is
+	var the_leader_pos = null
+	var the_leader_spot = null
+
+	for tile in get_tree().get_current_scene().get_cardinal_tiles(active_unit):
+		# check if the tile contains a meet_with_leader action
+		if (map_actions.get_actions_at_coordinates(tile.tile)).has(COMPLETE_ACTION_LIST.GIVE_GIFT_TO_LEADER):
+			the_leader_pos = tile.tile
+			the_leader_spot = map_actions.get_action_spot_at_coordinates(tile.tile)
+			
+	
+	if (the_leader_pos != null):
+		# get the leader 
+		var leader_npc = get_tree().get_current_scene().npcs.get_npc_by_name(map_actions.get_leader_name_at_spot(the_leader_spot))
+		
+		# now open the give gift screen
+		gift_screen_node = gift_screen_scn.instance()
+		
+		camera = get_tree().get_nodes_in_group("Camera")[0]
+		
+		camera.add_child(gift_screen_node)
+		
+		gift_screen_node.set_unit(active_unit)
+		gift_screen_node.set_npc(leader_npc)
+		
 
 # if the unit is woodcutting
 func initiate_woodcutting_action():

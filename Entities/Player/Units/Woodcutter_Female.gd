@@ -52,7 +52,12 @@ func unit_init():
 	global_items_list.add_item_to_unit(self, global_items_list.item_jumbofish)
 	
 	#TEMP!!!!!-----
-	global_items_list.add_item_to_unit(self, global_items_list.item_paper)
+	global_items_list.add_item_to_unit(self, global_items_list.item_letter)
+	global_items_list.add_item_to_unit(self, global_items_list.item_letter)
+	global_items_list.add_item_to_unit(self, global_items_list.item_letter)
+	global_items_list.add_item_to_unit(self, global_items_list.item_letter)
+	global_items_list.add_item_to_unit(self, global_items_list.item_letter)
+	global_items_list.add_item_to_unit(self, global_items_list.item_letter)
 	skill_levels[constants.DIPLOMACY] = 5
 	
 	# add the unit's starting ability

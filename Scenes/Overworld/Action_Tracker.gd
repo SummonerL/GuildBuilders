@@ -77,7 +77,8 @@ onready var associated_actions = {
 	'BEAST_MASTERY_SPOT_1': [global_action_list.COMPLETE_ACTION_LIST.CHECK_BIRDHOUSE],
 	'BEAST_MASTERY_SPOT_2': [global_action_list.COMPLETE_ACTION_LIST.PET_CAT],
 	
-	'DIPLOMACY_SPOT_1': [global_action_list.COMPLETE_ACTION_LIST.MEET_WITH_LEADER],
+	'DIPLOMACY_SPOT_1': [global_action_list.COMPLETE_ACTION_LIST.MEET_WITH_LEADER,
+						global_action_list.COMPLETE_ACTION_LIST.GIVE_GIFT_TO_LEADER],
 	
 	'GUILD_SPOT_1': [global_action_list.COMPLETE_ACTION_LIST.DEPOT, 
 					global_action_list.COMPLETE_ACTION_LIST.POSIT,
@@ -139,6 +140,7 @@ onready var adjacent_applicable = [
 	global_action_list.COMPLETE_ACTION_LIST.FISH,
 	global_action_list.COMPLETE_ACTION_LIST.PET_CAT,
 	global_action_list.COMPLETE_ACTION_LIST.MEET_WITH_LEADER,
+	global_action_list.COMPLETE_ACTION_LIST.GIVE_GIFT_TO_LEADER
 ]
 
 func get_action_spot_at_coordinates(vec2):
