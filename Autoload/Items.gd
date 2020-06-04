@@ -162,6 +162,7 @@ onready var item_letter = { # used for diplomacy
 	"name": "Letter",
 	"description": "A letter that can be given to any diplomatic leader for 2 points of favor. Letters can be delivered personally or via animal.",
 	"type": ITEM_TYPES.DIPLOMATIC_GIFT,
+	"favor_increase": 2, # how many points of favor this item gives
 	"can_discard": true,
 	"xp": 1 # xp to write
 }

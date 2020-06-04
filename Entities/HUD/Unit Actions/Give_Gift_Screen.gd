@@ -47,8 +47,8 @@ enum TRADE_SCREEN_STATES {
 var trade_screen_state = TRADE_SCREEN_STATES.SELECTING_ITEM
 
 onready var item_actions = [
-	#global_action_list.COMPLETE_ACTION_LIST.TRANSFER_ITEM_ON_TRADE_SCREEN,
-	global_action_list.COMPLETE_ACTION_LIST.VIEW_ITEM_INFO_ON_TRADE_SCREEN
+	global_action_list.COMPLETE_ACTION_LIST.GIVE_GIFT_ON_GIFT_SCREEN,
+	global_action_list.COMPLETE_ACTION_LIST.VIEW_ITEM_INFO_ON_TRADE_SCREEN # reuse this action
 ]
 
 # keep track of the active unit
@@ -60,6 +60,9 @@ var active_npc
 # text for the gift screen
 const NO_ITEMS_TEXT = "Nothing to give..."
 const GIVE_ITEM_TEXT = "Give Item"
+
+const FAVOR_WITH_TEXT = "Favor with "
+const INCREASED_TEXT = " increased!"
 
 func gift_screen_init():
 	letters_symbols_node = letters_symbols_scn.instance()
@@ -99,6 +102,25 @@ func set_npc(npc):
 	
 # give the current item to the npc
 func give_current_item():
+	
+	var the_item = all_items_list[current_item]
+	
+	# remove the item from the unit
+	global_item_list.remove_item_from_unit(active_unit, the_item.unit_item_index)
+	
+	# remove the item from the list of gifts
+	all_items_list.remove(current_item)
+		
+	# increase favor
+	active_npc.faction_relation.favor += the_item.item.favor_increase
+	if (active_npc.faction_relation.favor > active_npc.faction_relation.favor_limit):
+		active_npc.faction_relation.favor = active_npc.faction_relation.favor_limit
+		
+	# read some text
+	player.hud.dialogueState = player.hud.STATES.INACTIVE
+	player.hud.typeTextWithBuffer(FAVOR_WITH_TEXT + active_npc.faction_relation.faction.name + INCREASED_TEXT, false, 'finished_viewing_text_generic') # reuse_signal
+	
+	yield(signals, "finished_viewing_text_generic")
 		
 	# reposition the cursor and repopulate the list, now that we've removed that item
 	if (current_item > (all_items_list.size() - 1)):

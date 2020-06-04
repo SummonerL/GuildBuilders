@@ -88,6 +88,8 @@ const ALREADY_MET_TEXT = "This leader is not available for any more meetings..."
 
 const RELATION_ESTABLISHED = "New Relation established!"
 
+const YOU_MUST_ESTABLISH_RELATION = "You must establish a relationship with this person before gifting items..."
+
 enum COMPLETE_ACTION_LIST {
 	MOVE,
 	DEPOT,
@@ -101,6 +103,7 @@ enum COMPLETE_ACTION_LIST {
 	PET_CAT, # used for Beast Mastery
 	MEET_WITH_LEADER, # used for Diplomacy
 	GIVE_GIFT_TO_LEADER, # used for Diplomacy
+	GIVE_GIFT_ON_GIFT_SCREEN, # used for Gift screen
 	TRADE_ITEMS, # trade items between units
 	TALK, # used for NPCS
 	READ_SIGN, # used for signs
@@ -146,6 +149,7 @@ const ACTION_LIST_NAMES = [ # in the same order as actions above
 	'CHECK',
 	'PET',
 	'MEET',
+	'GIVE',
 	'GIVE',
 	'TRADE',
 	'TALK',
@@ -262,6 +266,8 @@ func do_action(action, parent, additional_params = null):
 		COMPLETE_ACTION_LIST.GIVE_GIFT_TO_LEADER:
 			# open the gift-giving screen
 			initiate_give_gift_action()
+		COMPLETE_ACTION_LIST.GIVE_GIFT_ON_GIFT_SCREEN:
+			gift_screen_node.give_current_item()
 		COMPLETE_ACTION_LIST.INFO:
 			# let the unit handle this action
 			active_unit.do_action(action)
@@ -949,17 +955,20 @@ func initiate_give_gift_action():
 		# get the leader 
 		var leader_npc = get_tree().get_current_scene().npcs.get_npc_by_name(map_actions.get_leader_name_at_spot(the_leader_spot))
 		
-		# now open the give gift screen
-		gift_screen_node = gift_screen_scn.instance()
+		# make sure we've established a relationship
+		if (leader_npc.faction_relation.established):
+			# now open the give gift screen
+			gift_screen_node = gift_screen_scn.instance()
+			
+			camera = get_tree().get_nodes_in_group("Camera")[0]
+			
+			camera.add_child(gift_screen_node)
+			
+			gift_screen_node.set_unit(active_unit)
+			gift_screen_node.set_npc(leader_npc)
+		else:
+			player.hud.typeTextWithBuffer(YOU_MUST_ESTABLISH_RELATION, false, 'finished_action_failed') # they did not succeed 
 		
-		camera = get_tree().get_nodes_in_group("Camera")[0]
-		
-		camera.add_child(gift_screen_node)
-		
-		gift_screen_node.set_unit(active_unit)
-		gift_screen_node.set_npc(leader_npc)
-		
-
 # if the unit is woodcutting
 func initiate_woodcutting_action():
 	# first, determine if the unit has an axe
