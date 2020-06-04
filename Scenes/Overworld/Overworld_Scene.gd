@@ -856,6 +856,23 @@ func populate_unique_actions(unit):
 	
 	return unique_actions
 	
+func populate_unique_animal_actions(unit): # unique actions (exclusive to animals!)
+	var unique_actions = []
+	
+	# determine if we are near any diplomatic leaders
+	var adjacent_npc = null
+	for tile in get_cardinal_tiles(unit):
+		if (adjacent_npc == null):
+			adjacent_npc = npcs.find_npc_at_tile(tile.tile)
+			if (adjacent_npc != null && !adjacent_npc.has("diplomatic_leader")):
+				adjacent_npc = null
+			
+	if (adjacent_npc != null):
+		npcs.set_active_npc(adjacent_npc)
+		unique_actions += [global_action_list.COMPLETE_ACTION_LIST.GIVE_GIFT_TO_LEADER]
+	
+	return unique_actions
+	
 # when the action list is cancelled, go back to selecting a tile
 func cancel_select_list():
 	player.player_state = player.PLAYER_STATE.SELECTING_TILE

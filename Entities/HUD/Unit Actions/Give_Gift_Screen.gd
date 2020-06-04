@@ -81,9 +81,15 @@ func gift_screen_init():
 	
 func set_unit(unit):
 	active_unit = unit
+
+	filter_items()
 	
+	populate_items()
+	
+func filter_items():
 	# filter the items to only show 'GIFTS'
 	var item_index = 0
+	all_items_list = [] # empty the array
 	for item in active_unit.current_items:
 		if (item.type == global_item_list.ITEM_TYPES.DIPLOMATIC_GIFT):
 			var the_item = {
@@ -94,8 +100,6 @@ func set_unit(unit):
 			all_items_list.push_back(the_item)
 		
 		item_index += 1
-	
-	populate_items()
 	
 func set_npc(npc):
 	active_npc = npc
@@ -108,8 +112,8 @@ func give_current_item():
 	# remove the item from the unit
 	global_item_list.remove_item_from_unit(active_unit, the_item.unit_item_index)
 	
-	# remove the item from the list of gifts
-	all_items_list.remove(current_item)
+	# repopulate the filtered list of gifts
+	filter_items()
 		
 	# increase favor
 	active_npc.faction_relation.favor += the_item.item.favor_increase

@@ -171,6 +171,9 @@ func determine_action_list():
 		if (adjacent_to_unit):
 			current_action_list.append(global_action_list.COMPLETE_ACTION_LIST.TRADE_ITEMS)
 		
+		# check special actions (for unique locations on the map)
+		current_action_list += get_tree().get_current_scene().populate_unique_animal_actions(self)
+		
 		# sort them
 		current_action_list.sort()
 		
