@@ -65,7 +65,8 @@ const TILES = {
 				33: 'NPC_BOY',
 				63: 'CAT',
 				64: 'GUARD',
-				65: 'KING'}
+				65: 'KING',
+				66: 'GOBLIN'}
 
 const TILE_INFO_HUD_NAME = { 
 	'WATER':  'Water',
@@ -116,6 +117,7 @@ const TILE_INFO_HUD_NAME = {
 	'CAT': 'Cat',
 	'GUARD': 'Guard',
 	'KING': 'King',
+	'GOBLIN': 'Gobln',
 	
 	'CABIN': 'Cabin',
 	'HOUSE': 'House',
@@ -176,6 +178,7 @@ const MOVEMENT_COST = {
 	CAT = CANT_MOVE,
 	GUARD = CANT_MOVE,
 	KING = CANT_MOVE,
+	GOBLIN = CANT_MOVE,
 	
 	CABIN = CANT_MOVE,
 	HOUSE = CANT_MOVE,

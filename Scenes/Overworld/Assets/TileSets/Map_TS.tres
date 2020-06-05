@@ -704,3 +704,13 @@
 65/navigation_offset = Vector2( 0, 0 )
 65/shapes = [  ]
 65/z_index = 0
+66/name = "goblin"
+66/texture = ExtResource( 1 )
+66/tex_offset = Vector2( 0, 0 )
+66/modulate = Color( 1, 1, 1, 1 )
+66/region = Rect2( 304, 176, 16, 16 )
+66/tile_mode = 0
+66/occluder_offset = Vector2( 0, 0 )
+66/navigation_offset = Vector2( 0, 0 )
+66/shapes = [  ]
+66/z_index = 0

@@ -35,8 +35,19 @@ func ml(str_array):
 		return_str += string
 	return return_str
 
+enum RACES {
+	HUMAN,
+	GOBLIN,
+	ANIMAL,
+}
+
+onready var race_diplomacy_requirements = {
+	RACES.GOBLIN: 5
+}
+
 onready var npc_lonely_man_samuel = 	{
 	"name": "Samuel",
+	"race": RACES.HUMAN,
 	"region": 0, # guild region
 	"quests_initiated": [
 		guild.quest_friend_wanted
@@ -75,6 +86,7 @@ onready var npc_lonely_man_samuel = 	{
 
 onready var npc_young_girl_rika = {
 	"name": "Rika",
+	"race": RACES.HUMAN,
 	"region": 0, # guild region
 	"dialogue": [
 		ml(["This region is known to have a lot of jumbofish. The last time I ate one, I wasn't hungry ",
@@ -89,6 +101,7 @@ onready var npc_young_girl_rika = {
 
 onready var npc_rikas_father_bjorn = {
 	"name": "Bjorn",
+	"race": RACES.HUMAN,
 	"region": 0, # guild region
 	"dialogue": [
 		ml(["My daughter loves to go exploring. As a single father, I worry about her. Please keep an eye on her if you see ",
@@ -103,6 +116,7 @@ onready var npc_rikas_father_bjorn = {
 
 onready var npc_guild_admirer_harrison = {
 	"name": "Harrison",
+	"race": RACES.HUMAN,
 	"region": 0, # guild region
 	"dialogue": [
 		ml(["Hey! You're from the guild right? Thank you for all that you do. By the way, see that tower over there? ",
@@ -117,6 +131,7 @@ onready var npc_guild_admirer_harrison = {
 
 onready var npc_innkeeper_henry = {
 	"name": "Henry",
+	"race": RACES.HUMAN,
 	"region": 2, # Bellmare
 	"dialogue": [
 		"Hi there! Would you like to stay a night at the inn? It's free for guild members!",
@@ -134,6 +149,7 @@ onready var npc_innkeeper_henry = {
 
 onready var npc_bellmare_woman_ema = {
 	"name": "Ema",
+	"race": RACES.HUMAN,
 	"region": 2, # Bellmare
 	"dialogue": [
 		ml(["I've lived in Bellmare since I was a little girl. I've considered venturing out, but being near the castle makes me feel safe. That's all ",
@@ -148,6 +164,7 @@ onready var npc_bellmare_woman_ema = {
 
 onready var npc_farmer_fred = {
 	"name": "Fred",
+	"race": RACES.HUMAN,
 	"region": 2, # Bellmare
 	"dialogue": [
 		""
@@ -161,6 +178,7 @@ onready var npc_farmer_fred = {
 
 onready var npc_bellmare_cat = {
 	"name": "Bellmare Cat",
+	"race": RACES.ANIMAL,
 	"region": 2, # Bellmare
 	"dialogue": [
 		""
@@ -175,6 +193,7 @@ onready var npc_bellmare_cat = {
 
 onready var npc_bellmare_knight_girault = {
 	"name": "Girault",
+	"race": RACES.HUMAN,
 	"region": 2, # Bellmare
 	"dialogue": [
 		ml(["I've been serving King Raolet for over 20 years now, but I've yet to see him this distressed... For the past ",
@@ -190,6 +209,7 @@ onready var npc_bellmare_knight_girault = {
 
 onready var npc_king_raolet = {
 	"name": "King Raolet",
+	"race": RACES.HUMAN,
 	"region": 2, # Bellmare
 	"dialogue": [
 		ml([""])
@@ -204,6 +224,37 @@ onready var npc_king_raolet = {
 	"pos_y": 22
 }
 
+onready var npc_goblin_villager_drig = {
+	"name": "Drig",
+	"race": RACES.GOBLIN,
+	"region": 2, # Bellmare
+	"dialogue": [
+		"RHAL KAAKHAKHEC DAAN HAAR.",
+		ml(["Goblins get a bad rep. We're not all that bad, we just really like horse flesh."])
+	],
+	"initiates_quest_immediately": false,
+	"current_dialogue": 1, # initial dialogue
+	"overworld_sprite": get_node("Goblin_Villager_Drig"),
+	"pos_x": 36,
+	"pos_y": 26
+}
+
+onready var npc_goblin_villager_fafza = {
+	"name": "Fafza",
+	"race": RACES.GOBLIN,
+	"region": 2, # Bellmare
+	"dialogue": [
+		"HUUKEC DUULKAAC HAAKHEC.",
+		ml(["Goblin women are known throughout the world for their beauty. At least, that's ",
+			 "what my mom tells me."])
+	],
+	"initiates_quest_immediately": false,
+	"current_dialogue": 1, # initial dialogue
+	"overworld_sprite": get_node("Goblin_Villager_Fafza"),
+	"pos_x": 33,
+	"pos_y": 24
+}
+
 # keep track of all the npcs
 onready var npcs = [
 	npc_lonely_man_samuel,
@@ -215,7 +266,9 @@ onready var npcs = [
 	npc_farmer_fred,
 	npc_bellmare_cat,
 	npc_bellmare_knight_girault,
-	npc_king_raolet
+	npc_king_raolet,
+	npc_goblin_villager_drig,
+	npc_goblin_villager_fafza
 ]
 
 # keep track of the npc that is currently being interacted with
@@ -309,6 +362,9 @@ func check_npc_conditions(active_npc, active_unit):
 	if (active_npc.has("innkeeper") && active_unit.active_inn != null && 
 			active_unit.active_inn.name == active_npc.innkeeper.name):
 		return 3
+	# check if the npc speaks a different language, and the active_unit doesn't have high enough diplomacy
+	elif (race_diplomacy_requirements.has(active_npc.race) && active_unit.skill_levels[constants.DIPLOMACY] < race_diplomacy_requirements[active_npc.race]):
+		return 0 # return the dialogue for when the unit can't understand
 	else:
 		return null
 

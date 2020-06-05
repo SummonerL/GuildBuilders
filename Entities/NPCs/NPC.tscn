@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://Entities/NPCs/NPC.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/characters/npcs/lonely_man_samuel_1.png" type="Texture" id=2]
@@ -21,6 +21,10 @@
 [ext_resource path="res://Sprites/characters/npcs/bellmare_knight_girault_1.png" type="Texture" id=19]
 [ext_resource path="res://Sprites/characters/npcs/king_raolet1.png" type="Texture" id=20]
 [ext_resource path="res://Sprites/characters/npcs/king_raolet2.png" type="Texture" id=21]
+[ext_resource path="res://Sprites/characters/npcs/goblin_villager_drig_1.png" type="Texture" id=22]
+[ext_resource path="res://Sprites/characters/npcs/goblin_villager_drig_2.png" type="Texture" id=23]
+[ext_resource path="res://Sprites/characters/npcs/goblin_villager_fafza_2.png" type="Texture" id=24]
+[ext_resource path="res://Sprites/characters/npcs/goblin_villager_fafza_1.png" type="Texture" id=25]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -102,6 +106,22 @@ animations = [ {
 "speed": 5.0
 } ]
 
+[sub_resource type="SpriteFrames" id=11]
+animations = [ {
+"frames": [ ExtResource( 22 ), ExtResource( 23 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="SpriteFrames" id=12]
+animations = [ {
+"frames": [ ExtResource( 25 ), ExtResource( 24 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
 [node name="NPC" type="Node2D"]
 script = ExtResource( 1 )
 
@@ -154,6 +174,7 @@ centered = false
 
 [node name="Bellmare_Cat" type="AnimatedSprite" parent="."]
 frames = SubResource( 8 )
+frame = 1
 speed_scale = 0.45
 playing = true
 centered = false
@@ -167,6 +188,20 @@ centered = false
 
 [node name="King_Raolet" type="AnimatedSprite" parent="."]
 frames = SubResource( 10 )
+speed_scale = 0.5
+playing = true
+centered = false
+
+[node name="Goblin_Villager_Drig" type="AnimatedSprite" parent="."]
+frames = SubResource( 11 )
+frame = 1
+speed_scale = 0.5
+playing = true
+centered = false
+
+[node name="Goblin_Villager_Fafza" type="AnimatedSprite" parent="."]
+frames = SubResource( 12 )
+frame = 1
 speed_scale = 0.5
 playing = true
 centered = false
