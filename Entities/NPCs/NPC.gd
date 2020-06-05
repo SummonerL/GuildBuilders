@@ -255,6 +255,23 @@ onready var npc_goblin_villager_fafza = {
 	"pos_y": 24
 }
 
+onready var npc_goblin_king_rul = {
+	"name": "King Rul",
+	"race": RACES.GOBLIN,
+	"region": 2, # Bellmare
+	"dialogue": [
+		"HUUKEC DUULKAAC HAAKHEC.",
+		ml(["",
+			 ""])
+	],
+	"initiates_quest_immediately": false,
+	"current_dialogue": 1, # initial dialogue
+	"overworld_sprite": get_node("Goblin_King_Rul"),
+	"pos_x": 35,
+	"pos_y": 21
+}
+
+
 # keep track of all the npcs
 onready var npcs = [
 	npc_lonely_man_samuel,
@@ -268,7 +285,8 @@ onready var npcs = [
 	npc_bellmare_knight_girault,
 	npc_king_raolet,
 	npc_goblin_villager_drig,
-	npc_goblin_villager_fafza
+	npc_goblin_villager_fafza,
+	npc_goblin_king_rul
 ]
 
 # keep track of the npc that is currently being interacted with

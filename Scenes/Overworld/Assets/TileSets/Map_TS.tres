@@ -714,3 +714,13 @@
 66/navigation_offset = Vector2( 0, 0 )
 66/shapes = [  ]
 66/z_index = 0
+67/name = "hut"
+67/texture = ExtResource( 1 )
+67/tex_offset = Vector2( 0, 0 )
+67/modulate = Color( 1, 1, 1, 1 )
+67/region = Rect2( 320, 176, 16, 16 )
+67/tile_mode = 0
+67/occluder_offset = Vector2( 0, 0 )
+67/navigation_offset = Vector2( 0, 0 )
+67/shapes = [  ]
+67/z_index = 0
