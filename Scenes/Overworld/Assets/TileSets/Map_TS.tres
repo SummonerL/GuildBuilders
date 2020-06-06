@@ -734,3 +734,13 @@
 68/navigation_offset = Vector2( 0, 0 )
 68/shapes = [  ]
 68/z_index = 0
+69/name = "horse"
+69/texture = ExtResource( 1 )
+69/tex_offset = Vector2( 0, 0 )
+69/modulate = Color( 1, 1, 1, 1 )
+69/region = Rect2( 336, 176, 16, 16 )
+69/tile_mode = 0
+69/occluder_offset = Vector2( 0, 0 )
+69/navigation_offset = Vector2( 0, 0 )
+69/shapes = [  ]
+69/z_index = 0

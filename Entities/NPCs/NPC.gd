@@ -308,6 +308,21 @@ onready var npc_goblin_king_rul = {
 	"pos_y": 21
 }
 
+onready var npc_horse_skyheart = {
+	"name": "Skyheart",
+	"race": RACES.ANIMAL,
+	"region": 2, # Bellmare
+	"dialogue": [
+		""
+	],
+	"no_talk": true,
+	"initiates_quest_immediately": false,
+	"current_dialogue": 0, # initial dialogue
+	"overworld_sprite": get_node("Horse_Skyheart"),
+	"pos_x": 34,
+	"pos_y": 21
+}
+
 
 # keep track of all the npcs
 onready var npcs = [
@@ -323,7 +338,8 @@ onready var npcs = [
 	npc_king_raolet,
 	npc_goblin_villager_drig,
 	npc_goblin_villager_fafza,
-	npc_goblin_king_rul
+	npc_goblin_king_rul,
+	npc_horse_skyheart
 ]
 
 # keep track of the npc that is currently being interacted with
