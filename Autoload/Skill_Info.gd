@@ -30,6 +30,14 @@ onready var SKILL_UNLOCKS = {
 			'single_line': true,
 			'type': UNLOCK_TYPES.RESOURCE,
 			'level_required': 1,
+		},
+		{
+			'unlock_text': ' can now catch Musclefish!',
+			'can_text': 'Catch',
+			'skill_info_text': 'Musclefish',
+			'single_line': true,
+			'type': UNLOCK_TYPES.RESOURCE,
+			'level_required': 2,
 		}
 	],
 	

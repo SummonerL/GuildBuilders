@@ -304,6 +304,9 @@ onready var npc_goblin_king_rul = {
 	"initiates_quest_immediately": false,
 	"current_dialogue": 1, # initial dialogue
 	"overworld_sprite": get_node("Goblin_King_Rul"),
+	"diplomatic_leader": constants.faction_list[1], # king of the Goblin clan
+	"faction_relation": guild.goblin_clan_relation, # the actual relationship between the guild and the goblins
+	"met_with_unit_today": false, # keep track of whether or not this unit has met with a guildmember today
 	"pos_x": 35,
 	"pos_y": 21
 }

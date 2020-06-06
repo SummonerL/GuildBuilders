@@ -195,6 +195,9 @@ var sign_list = [
 var faction_list = [
 	{
 		"name": "Bellmare"
+	},
+	{
+		'name': "Goblin Clan"
 	}
 ]
 

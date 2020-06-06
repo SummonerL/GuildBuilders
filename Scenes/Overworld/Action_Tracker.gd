@@ -33,6 +33,7 @@ const ACTIONS = {
 	14: 'BEAST_MASTERY_SPOT_2',
 	
 	15: 'DIPLOMACY_SPOT_1',
+	17: 'DIPLOMACY_SPOT_2',
 	
 	4: 'GUILD_SPOT_1',
 	
@@ -45,7 +46,7 @@ const ACTIONS = {
 # keep track of the kind of resources that can be gained on specific action spots
 onready var ITEMS_AT_SPOT = {
 	'FISH_SPOT_1': [global_items_list.item_jumbofish],
-	'FISH_SPOT_2': [],
+	'FISH_SPOT_2': [global_items_list.item_musclefish],
 	'WOODCUTTING_SPOT_1': [global_items_list.item_cedar_logs],
 	'WOODCUTTING_SPOT_2': [global_items_list.item_ash_logs],
 	'WOODCUTTING_SPOT_3': [global_items_list.item_fir_logs],
@@ -63,7 +64,8 @@ onready var ANIMALS_AT_SPOT = {
 # keep track of the diplomatic leaders that can be found at specific spots
 
 onready var LEADER_AT_SPOT = {
-	'DIPLOMACY_SPOT_1': 'King Raolet' # king raolet at Bellmare castle
+	'DIPLOMACY_SPOT_1': 'King Raolet', # king raolet at Bellmare castle,
+	'DIPLOMACY_SPOT_2': 'King Rul' # king Rul of the goblins
 }
 
 # specific actions associated with these tiles
@@ -80,6 +82,8 @@ onready var associated_actions = {
 	'BEAST_MASTERY_SPOT_2': [global_action_list.COMPLETE_ACTION_LIST.PET_CAT],
 	
 	'DIPLOMACY_SPOT_1': [global_action_list.COMPLETE_ACTION_LIST.MEET_WITH_LEADER,
+						global_action_list.COMPLETE_ACTION_LIST.GIVE_GIFT_TO_LEADER],
+	'DIPLOMACY_SPOT_2': [global_action_list.COMPLETE_ACTION_LIST.MEET_WITH_LEADER,
 						global_action_list.COMPLETE_ACTION_LIST.GIVE_GIFT_TO_LEADER],
 	
 	'GUILD_SPOT_1': [global_action_list.COMPLETE_ACTION_LIST.DEPOT, 
@@ -107,6 +111,7 @@ onready var level_requirements = {
 	'MINING_SPOT_3': 5,
 	
 	'DIPLOMACY_SPOT_1': 1,
+	'DIPLOMACY_SPOT_2': 5,
 	
 	'BEAST_MASTERY_SPOT_2': 1,
 	'BEAST_MASTERY_SPOT_1': 3

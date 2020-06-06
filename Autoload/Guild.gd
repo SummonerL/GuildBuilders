@@ -334,6 +334,13 @@ onready var bellmare_relation = {
 	"established": false
 }
 
+onready var goblin_clan_relation = {
+	"faction": constants.faction_list[1],
+	"favor": 0,
+	"favor_limit": 10,
+	"established": false
+}
+
 # keep track of all relations and their current favor
 onready var guild_relations = [
 	bellmare_relation
