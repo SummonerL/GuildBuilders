@@ -56,7 +56,7 @@ func unit_init():
 	global_items_list.add_item_to_unit(self, global_items_list.item_letter)
 	global_items_list.add_item_to_unit(self, global_items_list.item_letter)
 	global_items_list.add_item_to_unit(self, global_items_list.item_letter)
-	skill_levels[constants.DIPLOMACY] = 5
+	skill_levels[constants.DIPLOMACY] = 4
 	skill_levels[constants.BEAST_MASTERY] = 5
 	global_items_list.add_item_to_unit(self, global_items_list.item_birdhouse)
 	global_items_list.add_item_to_unit(self, global_items_list.item_birdhouse)

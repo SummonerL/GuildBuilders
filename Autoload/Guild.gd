@@ -64,6 +64,13 @@ var main_completed = []
 
 var side_completed = []
 
+# quick multiline helper
+func ml(str_array):
+	var return_str = ""
+	for string in str_array:
+		return_str += string
+	return return_str
+
 onready var quest_friend_wanted = {
 	"name": "Friend Wanted",
 	"start_prompt": "Hear Brother Samuel out?",
@@ -93,14 +100,39 @@ onready var quest_horse_rescue = {
 	"start_prompt": "Listen to Farmer Fred?",
 	"statuses": [
 		"Farmer Fred has lost his horse, Skyheart. He suspects she was taken by a band of goblins, and has asked you to investigate.",
+		
+		ml(["King Rul of the Goblin Clan has mentioned some sort of Alag Banquet. It seems the goblins intend to feast on Skyheart. I should ",
+		"inquire further."]),
+		
+		ml(["King Rul spoke of a banquet held every year in honor of King Alag. It seems this banquet is of huge importance to the goblins. ",
+		"I should ask if there is any way Skyheart can be returned to Farmer Fred. "]),
+		
+		ml(["King Rul offered to return Skyheart if I can provide a food more delicious. I will need to provide enough for each villager."]),
+		
 		"You completed the quest!"
 	],
 	"progress_conditions": [
 		{
 			# requirements to move past progress 0
-			"talk_to": "Fred",
-			"set_dialogue": 3
-		}
+			"talk_to": "King Rul",
+			"set_dialogue": 2,
+			"level_requirement": 5,
+			"skill_tested": constants.DIPLOMACY
+		},
+		{
+			# requirements to move past progress 1
+			"talk_to": "King Rul",
+			"set_dialogue": 3,
+			"level_requirement": 5,
+			"skill_tested": constants.DIPLOMACY
+		},
+		{
+			# requirements to move past progress 1
+			"talk_to": "King Rul",
+			"set_dialogue": 4,
+			"level_requirement": 5,
+			"skill_tested": constants.DIPLOMACY
+		},
 	],
 	"current_progress": 0,
 	"completion_text": "Pizza pie",
@@ -195,6 +227,15 @@ func check_quest_conditions_npc(npc, active_unit):
 			# if the conditions simply require talking to an npc
 			if (conditions.has("talk_to") && conditions.talk_to == npc.name):
 				meets_conditions = true # that was easy
+					
+			# if there are any associated skill tests, the condition will fail if the unit doesn't have that skill level
+			if (conditions.has("level_requirement")):
+				var the_skill = conditions.skill_tested
+				
+				if (active_unit.skill_levels[the_skill] < conditions.level_requirement):
+					meets_conditions = false
+				
+				
 					
 			related_quest_index += 1
 			

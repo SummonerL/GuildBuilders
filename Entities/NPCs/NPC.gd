@@ -277,10 +277,29 @@ onready var npc_goblin_king_rul = {
 	"name": "King Rul",
 	"race": RACES.GOBLIN,
 	"region": 2, # Bellmare
+	"quests_involved_in": [
+		guild.quest_horse_rescue
+	],
 	"dialogue": [
-		"HUUKEC DUULKAAC HAAKHEC.",
-		ml(["",
-			 ""])
+		"HOCH HUUL DUUN HUUKEC. MOLKAC MAKHAAN AN.",
+		
+		ml(["I really appreciate that the guild is taking time to talk with us goblins. Most humans ",
+			 "despise us."]),
+			
+		ml(["Look at this beauty that we managed to get our hands on! She's going to make this year's Alag Banquet ",
+			 "the best ever."]),
+			
+		ml(["Every year the Goblin Clan holds a feast in honor of the great goblin King Alag. It was many centuries ago ",
+		"that Alag rode across the kingdom on his faithful companion, Anziyan, in a diplomatic mission. The charasmatic king ",
+		"dreamt of a world where goblin tribes would no longer be divided. With his affable nature, he managed to win the hearts ",
+		"of all the goblin chieftans. To this day, we all stand united."]),
+		
+		ml(["I see that old farmer has sent you for this horse. I can sympathize with the fact that the farmer thinks of this ",
+		"horse as his companion. We goblins also view horses as companions. However, it is customary for goblins to dine on horse. ",
+		"We view it as a horse's final sacrifice to us. I would be willing to make an exception for this year's feast. However, ",
+		"I would require a food just as delicious as horse. Additionally, we will need enough for each villager."]),
+		
+		"Please return with a food just as delicious as horse. We will require enough for each villager."
 	],
 	"initiates_quest_immediately": false,
 	"current_dialogue": 1, # initial dialogue

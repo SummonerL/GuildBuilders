@@ -67,7 +67,7 @@ func set_quest_name(quest, unit):
 	var quest_name =  quest.name
 	
 	# print the quest name
-	letters_symbols_node.print_immediately(quest_name, Vector2((WINDOW_WIDTH + 1) - floor(len(quest_name) / 2.0),
+	letters_symbols_node.print_immediately(quest_name, Vector2((WINDOW_WIDTH + 2) - floor(len(quest_name) / 2.0),
 		(pos_y / constants.DIA_TILE_HEIGHT) + 5))
 		
 	# wait 1 second
