@@ -27,6 +27,7 @@ const ACTIONS = {
 	
 	6: 'MINING_SPOT_1',
 	10: 'MINING_SPOT_2',
+	16: 'MINING_SPOT_3',
 	
 	13: 'BEAST_MASTERY_SPOT_1',
 	14: 'BEAST_MASTERY_SPOT_2',
@@ -51,6 +52,7 @@ onready var ITEMS_AT_SPOT = {
 	'WOODCUTTING_SPOT_4': [global_items_list.item_birch_logs],
 	'MINING_SPOT_1': [global_items_list.item_stone],
 	'MINING_SPOT_2': [global_items_list.item_iron_ore],
+	'MINING_SPOT_3': [global_items_list.item_gold],
 }
 
 # keep track of the animals that can be found at specific spots
@@ -102,6 +104,7 @@ onready var level_requirements = {
 	
 	'MINING_SPOT_1': 1,
 	'MINING_SPOT_2': 3,
+	'MINING_SPOT_3': 5,
 	
 	'DIPLOMACY_SPOT_1': 1,
 	

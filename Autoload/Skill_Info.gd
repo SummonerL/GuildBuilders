@@ -71,6 +71,7 @@ onready var SKILL_UNLOCKS = {
 	],
 	
 	
+	
 	# mining
 	constants.MINING: [
 		{
@@ -105,13 +106,19 @@ onready var SKILL_UNLOCKS = {
 			'type': UNLOCK_TYPES.RESOURCE,
 			'level_required': 3,
 		},
+		{
+			'unlock_text': ' can now mine for Gold!',
+			'can_text': 'Mine',
+			'skill_info_text': 'Gold',
+			'single_line': true,
+			'type': UNLOCK_TYPES.RESOURCE,
+			'level_required': 5,
+		},
 	],
 	
 	
 	
 	
-	
-
 	# woodworking
 	constants.WOODWORKING: [
 		{
@@ -306,6 +313,21 @@ onready var SKILL_UNLOCKS = {
 					'item': global_item_list.item_stone,
 					'quantity': 2
 				},
+			]
+		},
+		{
+			'can_text': 'Craft',
+			'skill_info_text': 'Cheap Rings',
+			'single_line': false,
+			'type': UNLOCK_TYPES.RECIPE,
+			'level_required': 5,
+			'item': global_item_list.item_cheap_ring,
+			'no_tool_required': false,
+			'resources_required': [
+				{
+					'item': global_item_list.item_gold,
+					'quantity': 2
+				}
 			]
 		},
 	],

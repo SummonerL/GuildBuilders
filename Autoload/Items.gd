@@ -158,6 +158,17 @@ onready var item_guild_photo = { # friend wanted - quest reward
 	"depot_ability": guild.GUILD_ABILITIES.RANDOM_UNIT_SENSE_OF_DUTY
 }
 
+onready var item_cheap_ring = { # used in diplomacy
+	"name": "Cheap Ring",
+	"description": "A plain ring made from gold. When held, increases the amount of favor gained during meetings with diplomatic leaders by 1. This effect can only be gained once.",
+	"type": ITEM_TYPES.UTILITY,
+	"can_discard": true,
+	"can_stack_effect": false, # this effect can not be added more than once
+	"stat_effected": "diplomacy_points",
+	"stat_effected_value": 1,
+	"xp": 3, # xp upon receiving
+}
+
 onready var item_letter = { # used for diplomacy
 	"name": "Letter",
 	"description": "A letter that can be given to any diplomatic leader for 2 points of favor. Letters can be delivered personally or via animal.",
@@ -278,6 +289,14 @@ onready var item_iron_ore = {
 	"type": ITEM_TYPES.ORE,
 	"xp": 2, # xp upon receiving
 	"level_to_mine": 3 # required level to mine (should match what's in skill_unlocks)
+}
+
+onready var item_gold = {
+	"name": "Gold",
+	"description": "A small chunk of gold ore. Can be used to craft various items.",
+	"type": ITEM_TYPES.ORE,
+	"xp": 3, # xp upon receiving
+	"level_to_mine": 5 # required level to mine (should match what's in skill_unlocks)
 }
 
 

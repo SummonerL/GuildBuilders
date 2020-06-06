@@ -88,8 +88,29 @@ onready var quest_friend_wanted = {
 	"reward": global_items_list.item_guild_photo
 }
 
+onready var quest_horse_rescue = {
+	"name": "Horse Rescue",
+	"start_prompt": "Listen to Farmer Fred?",
+	"statuses": [
+		"Farmer Fred has lost his horse, Skyheart. He suspects she was taken by a band of goblins, and has asked you to investigate.",
+		"You completed the quest!"
+	],
+	"progress_conditions": [
+		{
+			# requirements to move past progress 0
+			"talk_to": "Fred",
+			"set_dialogue": 3
+		}
+	],
+	"current_progress": 0,
+	"completion_text": "Pizza pie",
+}
+
 onready var main_quests = []
-onready var side_quests = [quest_friend_wanted]
+onready var side_quests = [
+	quest_friend_wanted,
+	quest_horse_rescue
+]
 
 func already_has_quest(quest_to_check):
 	# make sure the player has not already initiated or completed this quest
@@ -170,6 +191,10 @@ func check_quest_conditions_npc(npc, active_unit):
 					item_requirements_met.invert() # invert, as we will be removing items as we iterate and want to prevent errors
 					for index in item_requirements_met:
 						global_items_list.remove_item_from_unit(active_unit, index)
+					
+			# if the conditions simply require talking to an npc
+			if (conditions.has("talk_to") && conditions.talk_to == npc.name):
+				meets_conditions = true # that was easy
 					
 			related_quest_index += 1
 			

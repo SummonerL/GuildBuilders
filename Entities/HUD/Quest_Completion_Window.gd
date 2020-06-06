@@ -94,7 +94,7 @@ func set_quest_name(quest, unit):
 	yield(signals, "finished_viewing_text_generic")
 	
 	# determine if there is a reward and, if so, whether or not the unit can receive it
-	if (quest.reward != null):
+	if (quest.has("reward") && quest.reward != null):
 		# we have an item reward
 		var reward = quest.reward
 		

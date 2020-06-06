@@ -22,6 +22,7 @@ const TILES = {
 				
 				12: 'BOULDER',
 				58: 'IRON',
+				68: 'GOLD',
 				
 				13: 'OCEAN', 17: 'MOUNTAIN',
 				42: 'LEDGE',
@@ -94,6 +95,7 @@ const TILE_INFO_HUD_NAME = {
 	
 	'BOULDER': 'Stone',
 	'IRON': 'Iron',
+	'GOLD': 'Gold',
 	
 	'CAVE': 'Cave',
 	'OCEAN': 'Ocean',
@@ -156,6 +158,7 @@ const MOVEMENT_COST = {
 	
 	BOULDER = NORMAL_MOVE + 1, # boulders are l2 tiles, so they get added to whatever they sit on top of
 	IRON = NORMAL_MOVE + 1,
+	GOLD = NORMAL_MOVE + 1,
 	
 	CAVE = 1, # l2 tiles, so add the l1 tile first
 	OCEAN = CANT_MOVE,

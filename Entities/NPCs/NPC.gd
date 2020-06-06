@@ -166,11 +166,29 @@ onready var npc_farmer_fred = {
 	"name": "Fred",
 	"race": RACES.HUMAN,
 	"region": 2, # Bellmare
-	"dialogue": [
-		""
+	"quests_initiated": [
+		guild.quest_horse_rescue
 	],
-	"initiates_quest_immediately": false,
+	"quests_involved_in": [
+		guild.quest_horse_rescue # should at least contain the quests that this npc initiates
+	],
+	"initiates_quest_immediately": true,
+	"dialogue": [
+		"I can't believe my best friend was taken from me...",
+		
+		ml(["Skyheart... that was her name. A beautiful white horse that lived here on the farm with me. I awoke yesterday morning to find that she was gone. ",
+			"The fence was open, and I saw several tracks in the ground. I have a suspicion that she was taken by goblins. There is a goblin camp just ",
+			"Southwest of here. Nasty bunch. They're always giving the folks of Bellare trouble. I don't expect her",
+			" to still be alive, but could you please go investigate? If there's any possibility of getting her back, I'll do whatever it takes."]),
+		
+		"Please let me know if you find Skyheart!",
+		
+		"Ya finished! Yay!",
+		
+		"pizza?"
+	],
 	"current_dialogue": 0, # initial dialogue
+	"current_quest": 0, # quest that is active with this npc
 	"overworld_sprite": get_node("Farmer_Fred"),
 	"pos_x": 39,
 	"pos_y": 8

@@ -724,3 +724,13 @@
 67/navigation_offset = Vector2( 0, 0 )
 67/shapes = [  ]
 67/z_index = 0
+68/name = "gold"
+68/texture = ExtResource( 1 )
+68/tex_offset = Vector2( 0, 0 )
+68/modulate = Color( 1, 1, 1, 1 )
+68/region = Rect2( 112, 160, 16, 16 )
+68/tile_mode = 0
+68/occluder_offset = Vector2( 0, 0 )
+68/navigation_offset = Vector2( 0, 0 )
+68/shapes = [  ]
+68/z_index = 0
