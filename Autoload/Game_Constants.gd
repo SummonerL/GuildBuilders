@@ -134,10 +134,10 @@ var regions = [
 		'hidden': true
 	},
 	{
-		'name': 'Region West 1', # will change
+		'name': 'Sedgelin Swamplands', # will change
 		'x': -30,
 		'y': 0,
-		'hidden': true
+		'hidden': false
 	},
 	{
 		'name': 'Region Northeast 1', # will change

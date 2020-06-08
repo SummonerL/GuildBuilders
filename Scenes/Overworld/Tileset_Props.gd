@@ -11,6 +11,11 @@ const TILES = {
 				36: 'GRASSLAND_DEC4',
 				37: 'GRASSLAND_DEC5',
 				38: 'GRASSLAND_DEC6',
+				70: 'MARSH_DEC1',
+				71: 'MARSH_DEC2',
+				73: 'MARSH_DEC3',
+				74: 'MARSH_DEC4',
+				72: 'SWAMP',
 				
 				7: 'SAND',
 				
@@ -46,6 +51,7 @@ const TILES = {
 				52: 'FOUNTAIN',
 				53: 'STALL',
 				54: 'STALL_IMMOVABLE',
+				76: 'GRAVE',
 				
 				31: 'CABIN',
 				34: 'HOUSE',
@@ -56,6 +62,7 @@ const TILES = {
 				61: 'BIRDHOUSE',
 				
 				35: 'BRIDGE',
+				75: 'BRIDGE',
 				
 				39: 'FENCE',
 				56: 'WALL',
@@ -80,6 +87,11 @@ const TILE_INFO_HUD_NAME = {
 	'GRASSLAND_DEC4': 'Grass',
 	'GRASSLAND_DEC5': 'Grass',
 	'GRASSLAND_DEC6': 'Grass',
+	'MARSH_DEC1': 'Marsh',
+	'MARSH_DEC2': 'Marsh',
+	'MARSH_DEC3': 'Marsh',
+	'MARSH_DEC4': 'Marsh',
+	'SWAMP': 'Swamp',
 	'SAND': 'Sand', 
 	'DIRT': 'Dirt',
 	'ROAD': 'Road',
@@ -113,6 +125,7 @@ const TILE_INFO_HUD_NAME = {
 	'FOUNTAIN': 'Fount',
 	'STALL': 'Stall',
 	'STALL_IMMOVABLE': 'Stall',
+	'GRAVE': 'Grave',
 	
 	'NPC_MAN': 'Man',
 	'NPC_WOMAN': 'Woman',
@@ -146,6 +159,11 @@ const MOVEMENT_COST = {
 	GRASSLAND_DEC4 = NORMAL_MOVE,
 	GRASSLAND_DEC5 = NORMAL_MOVE,
 	GRASSLAND_DEC6 = NORMAL_MOVE,
+	MARSH_DEC1 = NORMAL_MOVE + 1,
+	MARSH_DEC2 = NORMAL_MOVE + 1,
+	MARSH_DEC3 = NORMAL_MOVE + 1,
+	MARSH_DEC4 = NORMAL_MOVE + 1,
+	SWAMP = CANT_MOVE,
 	SAND = NORMAL_MOVE,
 	DIRT = NORMAL_MOVE,
 	ROAD = .5, # costs half the normal amount
@@ -177,6 +195,7 @@ const MOVEMENT_COST = {
 	FOUNTAIN = CANT_MOVE,
 	STALL = 0, # gets added to l1
 	STALL_IMMOVABLE = CANT_MOVE,
+	GRAVE = CANT_MOVE,
 	
 	NPC_MAN = CANT_MOVE,
 	NPC_WOMAN = CANT_MOVE,
