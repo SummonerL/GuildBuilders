@@ -365,7 +365,15 @@ onready var SKILL_UNLOCKS = {
 			'single_line': true,
 			'type': UNLOCK_TYPES.ANIMAL,
 			'level_required': 3,
-		}	
+		},
+		{
+			'unlock_text': ' can now tame Beavers!',
+			'can_text': 'Tame',
+			'skill_info_text': 'Beavers',
+			'single_line': true,
+			'type': UNLOCK_TYPES.ANIMAL,
+			'level_required': 5,
+		}		
 	],
 	
 	# diplomacy

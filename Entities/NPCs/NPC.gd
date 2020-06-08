@@ -209,6 +209,21 @@ onready var npc_bellmare_cat = {
 	"pos_y": 14
 }
 
+onready var npc_guild_beaver = { # can turn into an actual 'animal' unit when tamed
+	"name": "Guild Beaver",
+	"race": RACES.ANIMAL,
+	"region": 1, # Guild
+	"dialogue": [
+		""
+	],
+	"no_talk": true,
+	"initiates_quest_immediately": false,
+	"current_dialogue": 0, # initial dialogue
+	"overworld_sprite": get_node("Guild_Beaver"),
+	"pos_x": 18,
+	"pos_y": 18
+}
+
 onready var npc_bellmare_knight_girault = {
 	"name": "Girault",
 	"race": RACES.HUMAN,
@@ -342,7 +357,8 @@ onready var npcs = [
 	npc_goblin_villager_drig,
 	npc_goblin_villager_fafza,
 	npc_goblin_king_rul,
-	npc_horse_skyheart
+	npc_horse_skyheart,
+	npc_guild_beaver
 ]
 
 # keep track of the npc that is currently being interacted with
@@ -512,6 +528,9 @@ func reset_npcs():
 		# reset any diplomatoc leaders
 		if (npc.has("diplomatic_leader")):
 			npc.met_with_unit_today = false
+			
+		# make all npcs visible
+		npc.overworld_sprite.visible = true
 
 func _ready():
 	initialize_npcs()

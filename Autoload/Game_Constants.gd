@@ -76,7 +76,8 @@ enum UNIT_TYPES {
 }
 
 enum ANIMAL_TYPES {
-	BIRD
+	BIRD,
+	BEAVER,
 }
 
 # times of day
@@ -105,6 +106,13 @@ const TIMES_OF_DAY = [
 	"9PM",
 	"10PM",
 	"11PM"
+]
+
+# keep track of the various 'water' tiles
+const SWIM_TILES = [
+	'WATER',
+	'OCEAN',
+	'SWAMP'
 ]
 
 # keep track of all the regions / zones in the game (they are all 30x30, so add that to x/y when considering boundaries)

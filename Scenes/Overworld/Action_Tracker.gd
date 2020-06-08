@@ -13,6 +13,7 @@ onready var constants = get_node("/root/Game_Constants")
 
 # our various animal scenes
 onready var dove_scn = preload("res://Entities/Player/Animals/Bird.tscn")
+onready var beaver_scn = preload("res://Entities/Player/Animals/Beaver.tscn")
 
 var map_icons
 
@@ -31,6 +32,7 @@ const ACTIONS = {
 	
 	13: 'BEAST_MASTERY_SPOT_1',
 	14: 'BEAST_MASTERY_SPOT_2',
+	18: 'BEAST_MASTERY_SPOT_3',
 	
 	15: 'DIPLOMACY_SPOT_1',
 	17: 'DIPLOMACY_SPOT_2',
@@ -59,6 +61,7 @@ onready var ITEMS_AT_SPOT = {
 # keep track of the animals that can be found at specific spots
 onready var ANIMALS_AT_SPOT = {
 	'BEAST_MASTERY_SPOT_1': [dove_scn],
+	'BEAST_MASTERY_SPOT_3': [beaver_scn],
 }
 
 # keep track of the diplomatic leaders that can be found at specific spots
@@ -80,6 +83,7 @@ onready var associated_actions = {
 	'MINING_SPOT_2': [global_action_list.COMPLETE_ACTION_LIST.MINE],
 	'BEAST_MASTERY_SPOT_1': [global_action_list.COMPLETE_ACTION_LIST.CHECK_BIRDHOUSE],
 	'BEAST_MASTERY_SPOT_2': [global_action_list.COMPLETE_ACTION_LIST.PET_CAT],
+	'BEAST_MASTERY_SPOT_3': [global_action_list.COMPLETE_ACTION_LIST.TAME_BEAVER],
 	
 	'DIPLOMACY_SPOT_1': [global_action_list.COMPLETE_ACTION_LIST.MEET_WITH_LEADER,
 						global_action_list.COMPLETE_ACTION_LIST.GIVE_GIFT_TO_LEADER],
@@ -114,7 +118,8 @@ onready var level_requirements = {
 	'DIPLOMACY_SPOT_2': 5,
 	
 	'BEAST_MASTERY_SPOT_2': 1,
-	'BEAST_MASTERY_SPOT_1': 3
+	'BEAST_MASTERY_SPOT_1': 3,
+	'BEAST_MASTERY_SPOT_3': 5,
 }
 
 # matching connections (used for tunneling)
@@ -147,6 +152,7 @@ onready var used_tile_items = {
 onready var adjacent_applicable = [
 	global_action_list.COMPLETE_ACTION_LIST.FISH,
 	global_action_list.COMPLETE_ACTION_LIST.PET_CAT,
+	global_action_list.COMPLETE_ACTION_LIST.TAME_BEAVER,
 	global_action_list.COMPLETE_ACTION_LIST.MEET_WITH_LEADER,
 	global_action_list.COMPLETE_ACTION_LIST.GIVE_GIFT_TO_LEADER
 ]

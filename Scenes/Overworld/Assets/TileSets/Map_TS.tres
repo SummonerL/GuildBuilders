@@ -823,3 +823,13 @@
 76/navigation_offset = Vector2( 0, 0 )
 76/shapes = [  ]
 76/z_index = 0
+77/name = "beaver"
+77/texture = ExtResource( 1 )
+77/tex_offset = Vector2( 0, 0 )
+77/modulate = Color( 1, 1, 1, 1 )
+77/region = Rect2( 352, 176, 16, 16 )
+77/tile_mode = 0
+77/occluder_offset = Vector2( 0, 0 )
+77/navigation_offset = Vector2( 0, 0 )
+77/shapes = [  ]
+77/z_index = 0

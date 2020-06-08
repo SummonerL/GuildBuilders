@@ -67,6 +67,7 @@ const MINING_TEXT = " started mining..."
 const CRAFTING_TEXT = " started crafting..."
 const CHECK_BIRDHOUSE = " checked the birdhouse..."
 const PET_CAT = " reached out..."
+const TAMED_MISC = " worked with the animal..."
 const HELD_A_MEETING = " held a meeting..."
 const STARTED_WRITING = " started writing..."
 
@@ -101,6 +102,7 @@ enum COMPLETE_ACTION_LIST {
 	CHOP,
 	CHECK_BIRDHOUSE, # used for Beast Mastery
 	PET_CAT, # used for Beast Mastery
+	TAME_BEAVER, # used for Beast Mastery
 	MEET_WITH_LEADER, # used for Diplomacy
 	GIVE_GIFT_TO_LEADER, # used for Diplomacy
 	GIVE_GIFT_ON_GIFT_SCREEN, # used for Gift screen
@@ -148,6 +150,7 @@ const ACTION_LIST_NAMES = [ # in the same order as actions above
 	'CHOP',
 	'CHECK',
 	'PET',
+	'TAME',
 	'MEET',
 	'GIVE',
 	'GIVE',
@@ -260,6 +263,9 @@ func do_action(action, parent, additional_params = null):
 		COMPLETE_ACTION_LIST.PET_CAT:
 			# pet a cat!
 			initiate_pet_cat_action()
+		COMPLETE_ACTION_LIST.TAME_BEAVER:
+			# tame a beaver
+			initiate_tame_beaver_action()
 		COMPLETE_ACTION_LIST.MEET_WITH_LEADER:
 			# meet with a diplomatic leader
 			initiate_meet_with_leader_action()
@@ -839,6 +845,58 @@ func initiate_pet_cat_action():
 	else:
 		player.hud.typeTextWithBuffer(CANT_PET_ANYMORE, false, 'finished_action_failed')	
 
+# tame a beaver!
+func initiate_tame_beaver_action():
+	# since this action can be taken on an adjacent tile, determine where the beaver is
+	var the_beaver_pos = null
+	var the_beaver_spot = null
+	var beaver_action_id = map_actions.tile_set.find_tile_by_name("Beast_Mastery_Spot_3") # tame beaver
+	
+	for tile in get_tree().get_current_scene().get_cardinal_tiles(active_unit):
+		if (map_actions.get_cellv(tile.tile) == beaver_action_id):
+			the_beaver_pos = tile.tile
+			the_beaver_spot = map_actions.get_action_spot_at_coordinates(tile.tile)
+		
+	var daily_tamed = active_unit.beasts_tamed_today
+	
+	# determine if the unit can tame any more beasts today
+	var level_for_more_beasts = skill_info.beast_mastery_tame_restrictions.get(daily_tamed + 1)
+	if (level_for_more_beasts != null && level_for_more_beasts <= active_unit.skill_levels[constants.BEAST_MASTERY]):
+		# get the level requirement for this spot
+		var level_requirement = map_actions.get_level_requirement_at_spot(the_beaver_spot)
+		
+		if (level_requirement > active_unit.skill_levels[constants.BEAST_MASTERY]):
+			player.hud.typeTextWithBuffer(active_unit.NOT_SKILLED_ENOUGH_TEXT, false, 'finished_action_failed') # they did not succeed 
+		else:
+			# they can tame the beaver!
+			var animal_scns = map_actions.get_animals_at_spot(the_beaver_spot)
+			animal_scns.shuffle()
+			var animal_scn = animal_scns[0]
+			
+#			 create the animal instance!
+			var animal = guild.add_animal(animal_scn)
+			animal.set_animal_position(the_beaver_pos)
+			
+			# the unit tamed a beast
+			active_unit.beasts_tamed_today += 1
+			
+			# and remove the BM icon from this tile
+			map_actions.remove_map_icon_at_coordinates(the_beaver_pos.x, the_beaver_pos.y)
+			
+			# set the npc animal's sprite as invisible since it will be converted to an actual animal unit
+			get_tree().get_current_scene().npcs.find_npc_at_tile(the_beaver_pos).overworld_sprite.visible = false
+			
+			# start taming
+			player.hud.typeTextWithBuffer(active_unit.unit_name + TAMED_MISC, true)
+			
+			show_action_window(constants.BEAST_MASTERY, null, 'Tamed', 'Beaver', animal.tame_xp, '...and tamed the ') 
+			
+			yield(signals, "finished_action_success")
+
+			# make the animal sprite visible
+			animal.animal_sprite.visible = true
+
+	
 # write a diplomatic letter
 func initiate_write_letter_action(param_object):	
 	# because this action is triggered from the info screen - that screen is currently open

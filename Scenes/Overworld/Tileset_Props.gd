@@ -76,7 +76,9 @@ const TILES = {
 				69: 'HORSE',
 				64: 'GUARD',
 				65: 'KING',
-				66: 'GOBLIN'}
+				66: 'GOBLIN',
+				77: 'BEAVER'
+				}
 
 const TILE_INFO_HUD_NAME = { 
 	'WATER':  'Water',
@@ -136,6 +138,7 @@ const TILE_INFO_HUD_NAME = {
 	'GUARD': 'Guard',
 	'KING': 'King',
 	'GOBLIN': 'Gobln',
+	'BEAVER': 'Beavr',
 	
 	'CABIN': 'Cabin',
 	'HOUSE': 'House',
@@ -206,6 +209,7 @@ const MOVEMENT_COST = {
 	GUARD = CANT_MOVE,
 	KING = CANT_MOVE,
 	GOBLIN = CANT_MOVE,
+	BEAVER = CANT_MOVE,
 	
 	CABIN = CANT_MOVE,
 	HOUSE = CANT_MOVE,

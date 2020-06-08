@@ -67,6 +67,8 @@ var has_acted = false
 
 var flying = false
 
+var swims_only = false
+
 # whether or not the animal is awake
 var unit_awake = true
 
@@ -301,7 +303,20 @@ func flood_fill(foc_x, foc_y, remaining_move, visited_tiles):
 	# the remaining movement the unit has.
 	var total_tile_cost = 0 # we'll need this later for a*
 	
-	if (!flying): # if the unit is flying, all tiles should have a cost of '1'
+	if (flying): # if the unit is flying, all tiles should have a cost of '1'
+		total_tile_cost = 1
+		remaining_move -= 1	
+	elif (swims_only):
+
+		# the unit can only move on water tiles
+		if (constants.SWIM_TILES.has(tile_name_l1)):
+			total_tile_cost = 1
+			remaining_move -= 1	
+		else:
+			# can't move on land :(
+			remaining_move -= constants.CANT_MOVE
+			total_tile_cost = constants.CANT_MOVE
+	else: # the unit moves normally
 		# subtract the cost of the l1 tiles (if they exist. Else, we DEFINITELY can't move there!)
 		if (tile_name_l1 != null):
 			var l1_cost = tileset_props_l1.get_movement_cost(tile_name_l1)
@@ -316,9 +331,6 @@ func flood_fill(foc_x, foc_y, remaining_move, visited_tiles):
 			var l2_cost = tileset_props_l2.get_movement_cost(tile_name_l2)
 			remaining_move -= l2_cost
 			total_tile_cost += l2_cost
-	else:
-		total_tile_cost = 1
-		remaining_move -= 1
 		
 	# if the tile is hidden, we can't move there
 	var hidden_tile = (hidden_tiles.get_tile_at_coordinates(Vector2(foc_x, foc_y)) != null)
