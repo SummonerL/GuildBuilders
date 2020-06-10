@@ -164,6 +164,13 @@ func get_action_spot_at_coordinates(vec2):
 	else:
 		return null
 		
+func get_id_at_coordinates(vec2):
+	var tile = get_cellv(vec2)
+	if (tile >= 0):
+		return tile
+	else:
+		return null
+		
 func get_actions_at_spot(spot):
 	return associated_actions[spot]
 

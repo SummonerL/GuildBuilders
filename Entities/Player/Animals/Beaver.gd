@@ -1,6 +1,7 @@
 extends "res://Entities/Player/Animals/Animal_Class.gd"
 
 const BED_TIME_TEXT = 'Beaver swam home...'
+const BEAVER_BUILT_BRIDGE_TEXT = ' built a bridge. It doesn\'t look like it will last long...'
 
 func animal_init():
 	type = constants.ANIMAL_TYPES.BEAVER

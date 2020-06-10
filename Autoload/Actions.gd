@@ -67,7 +67,7 @@ const MINING_TEXT = " started mining..."
 const CRAFTING_TEXT = " started crafting..."
 const CHECK_BIRDHOUSE = " checked the birdhouse..."
 const PET_CAT = " reached out..."
-const TAMED_MISC = " worked with the animal..."
+const TAMED_MISC = " spoke softly..."
 const HELD_A_MEETING = " held a meeting..."
 const STARTED_WRITING = " started writing..."
 
@@ -112,6 +112,8 @@ enum COMPLETE_ACTION_LIST {
 	CLIMB_TOWER, # used for towers + revealing regions
 	TUNNEL # for caves (Male Miner Only)
 	CROSS, # for rivers (Female Angler Only / Or wooden stilts)
+	BUILD_BEAVER_BRIDGE_HORIZONTAL, # for beavers!
+	BUILD_BEAVER_BRIDGE_VERTICAL, # for beavers
 	INFO,
 	ANIMAL_INFO, # for viewing animal info screens
 	FOCUS,
@@ -160,6 +162,8 @@ const ACTION_LIST_NAMES = [ # in the same order as actions above
 	'CLIMB',
 	'TUNNL',
 	'CROSS',
+	'BUILD',
+	'BUILD',
 	'INFO',
 	'INFO',
 	'FOCUS',
@@ -315,6 +319,10 @@ func do_action(action, parent, additional_params = null):
 		COMPLETE_ACTION_LIST.CROSS:
 			# this action can only be taken by the female angler, or a unit holding wooden stilts
 			active_unit.cross_water()
+		COMPLETE_ACTION_LIST.BUILD_BEAVER_BRIDGE_HORIZONTAL:
+			initiate_build_beaver_bridge_action(true)
+		COMPLETE_ACTION_LIST.BUILD_BEAVER_BRIDGE_VERTICAL:
+			initiate_build_beaver_bridge_action(false)
 		COMPLETE_ACTION_LIST.FOCUS:
 			# focus the cursor on the next available unit
 			parent.do_action(action)
@@ -407,7 +415,9 @@ func action_window_finished(skill, reward, levelled_up):
 func _on_finished_action(success = false): # signal callback
 	if (success):
 		# we are finished with the action
-		camera.remove_child(action_screen_node)
+		if (action_screen_node != null):
+			camera.remove_child(action_screen_node)
+			action_screen_node = null
 		
 		# turn the music back up
 		get_tree().get_current_scene().heighten_background_music()
@@ -915,6 +925,28 @@ func initiate_tame_beaver_action():
 			# make the animal sprite visible
 			animal.animal_sprite.visible = true
 
+# allow beavers to build bridges
+func initiate_build_beaver_bridge_action(horizontal = false):
+	# get the ids for the corresponding bridge
+	var bridge_id = -1
+	
+	if (horizontal):
+		bridge_id = get_tree().get_current_scene().l2_tiles.tile_set.find_tile_by_name('beaver_bridge_horizontal')
+	else:
+		bridge_id = get_tree().get_current_scene().l2_tiles.tile_set.find_tile_by_name('beaver_bridge_vertical')
+		
+	# place the bridge!
+	get_tree().get_current_scene().l2_tiles.set_cellv(Vector2(active_unit.unit_pos_x, active_unit.unit_pos_y), bridge_id)
+	
+	# make sure the bridge gets removed in new_day
+	get_tree().get_current_scene().reset_terrain_tracker += [{
+		"layer": get_tree().get_current_scene().l2_tiles,
+		"pos": Vector2(active_unit.unit_pos_x, active_unit.unit_pos_y),
+		"id": -1
+	}]
+	
+	# action was successful!
+	player.hud.typeTextWithBuffer(active_unit.unit_name + active_unit.BEAVER_BUILT_BRIDGE_TEXT, false, 'finished_action_success')
 	
 # write a diplomatic letter
 func initiate_write_letter_action(param_object):	

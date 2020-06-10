@@ -63,6 +63,8 @@ const TILES = {
 				
 				35: 'BRIDGE',
 				75: 'BRIDGE',
+				78: 'BRIDGE',
+				79: 'BRIDGE',
 				
 				39: 'FENCE',
 				56: 'WALL',

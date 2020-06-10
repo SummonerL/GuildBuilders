@@ -893,6 +893,23 @@ func populate_unique_animal_actions(unit): # unique actions (exclusive to animal
 		npcs.set_active_npc(adjacent_npc)
 		unique_actions += [global_action_list.COMPLETE_ACTION_LIST.GIVE_GIFT_TO_LEADER]
 	
+	# if the animal is a beaver, determine if it can 'BUILD_BEAVER_BRIDGE' here
+	if (unit.type == constants.ANIMAL_TYPES.BEAVER):
+		# make sure this location is eligible for building a bridge
+		# l2 & action tracker must be empty (can't build on fish spots)
+		if (l2_tiles.get_id_at_coordinates(Vector2(unit.unit_pos_x, unit.unit_pos_y)) == null &&
+			map_actions.get_id_at_coordinates(Vector2(unit.unit_pos_x, unit.unit_pos_y)) == null):
+				# make sure this spot is also one square wide.
+				
+				# vertical bridge
+				if (!constants.SWIM_TILES.has(l1_tiles.get_tile_at_coordinates(Vector2(unit.unit_pos_x, unit.unit_pos_y - 1))) &&
+					!constants.SWIM_TILES.has(l1_tiles.get_tile_at_coordinates(Vector2(unit.unit_pos_x, unit.unit_pos_y + 1)))):
+					unique_actions += [global_action_list.COMPLETE_ACTION_LIST.BUILD_BEAVER_BRIDGE_VERTICAL]
+				# horizontal bridge
+				elif (!constants.SWIM_TILES.has(l1_tiles.get_tile_at_coordinates(Vector2(unit.unit_pos_x - 1, unit.unit_pos_y))) &&
+					!constants.SWIM_TILES.has(l1_tiles.get_tile_at_coordinates(Vector2(unit.unit_pos_x + 1, unit.unit_pos_y)))):
+					unique_actions += [global_action_list.COMPLETE_ACTION_LIST.BUILD_BEAVER_BRIDGE_HORIZONTAL]
+	
 	return unique_actions
 	
 # when the action list is cancelled, go back to selecting a tile
