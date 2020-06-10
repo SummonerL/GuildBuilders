@@ -13,7 +13,7 @@ animations = [ {
 } ]
 
 [node name="Woodworker_Female" type="Node2D"]
-z_index = 1
+z_index = 3
 script = ExtResource( 3 )
 
 [node name="Woodworker_Female_Sprite" type="AnimatedSprite" parent="."]

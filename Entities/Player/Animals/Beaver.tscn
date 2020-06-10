@@ -13,7 +13,7 @@ animations = [ {
 } ]
 
 [node name="Beaver" type="Node2D"]
-z_index = 1
+z_index = 3
 script = ExtResource( 1 )
 
 [node name="Beaver" type="AnimatedSprite" parent="."]

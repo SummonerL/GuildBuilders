@@ -25,9 +25,6 @@ var letters_symbols_node
 # various hud scenes
 onready var hud_selection_list_scn = preload("res://Entities/HUD/Selection_List.tscn")
 
-# our depot background sprite
-onready var depot_background_sprite = get_node("Item_Info_Background_Sprite")
-
 # keep two extra arrows to act as a selectors 
 var selector_arrow_toggle
 var selector_arrow_item
@@ -35,7 +32,7 @@ var selector_arrow_item
 var left_unit = null # unit on the left
 var right_unit = null # unit on the right (target)
 
-# keep track of the currently selected item in the depot screen
+# keep track of the currently selected item in the trade screen
 var current_item_set = []
 var current_item = 0
 var inv_start_index_tracker = 0

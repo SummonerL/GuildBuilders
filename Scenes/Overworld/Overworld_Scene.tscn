@@ -391,6 +391,7 @@ script = ExtResource( 2 )
 "map_tiles",
 ]]
 material = ExtResource( 6 )
+z_index = 1
 tile_set = ExtResource( 1 )
 cell_size = Vector2( 16, 16 )
 format = 1
@@ -401,6 +402,7 @@ script = ExtResource( 3 )
 "map_tiles",
 ]]
 material = ExtResource( 6 )
+z_index = 1
 tile_set = ExtResource( 1 )
 cell_size = Vector2( 16, 16 )
 format = 1
@@ -410,6 +412,7 @@ script = ExtResource( 3 )
 [node name="World_Map_Icons" type="TileMap" parent="." groups=[
 "map_icons",
 ]]
+z_index = 2
 tile_set = ExtResource( 1 )
 cell_size = Vector2( 16, 16 )
 format = 1

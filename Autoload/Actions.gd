@@ -883,6 +883,25 @@ func initiate_tame_beaver_action():
 			# and remove the BM icon from this tile
 			map_actions.remove_map_icon_at_coordinates(the_beaver_pos.x, the_beaver_pos.y)
 			
+			# remove the L2, 'BEAVER' tile
+			var beaver_id = get_tree().get_current_scene().l2_tiles.get_cellv(the_beaver_pos)
+			get_tree().get_current_scene().l2_tiles.set_cellv(the_beaver_pos, -1) # clear the tile
+			
+			# remove the action tracker from this tile
+			var action_id = map_actions.get_cellv(the_beaver_pos)
+			map_actions.set_cellv(the_beaver_pos, -1) # clear the tile
+			
+			# we also need to make sure this gets reset in new_day
+			get_tree().get_current_scene().reset_terrain_tracker += [{
+				"layer": get_tree().get_current_scene().l2_tiles,
+				"pos": the_beaver_pos,
+				"id": beaver_id
+			}, {
+				"layer": map_actions,
+				"pos": the_beaver_pos,
+				"id": action_id
+			}]
+			
 			# set the npc animal's sprite as invisible since it will be converted to an actual animal unit
 			get_tree().get_current_scene().npcs.find_npc_at_tile(the_beaver_pos).overworld_sprite.visible = false
 			

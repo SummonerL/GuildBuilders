@@ -52,6 +52,17 @@ onready var building_tiles = get_node("Buildings")
 # keep track of the initial state of the map icons (so we can reset each day)
 onready var initial_world_map_icons = world_map_icons.duplicate()
 
+# keep a tracker for any additional tiles that need to be reset 
+# i.e
+# {
+#    "layer": l2_tiles
+#	 "pos": Vec2(x, y)
+#    "id": <whatever we need to set the cell to>
+# }  
+onready var reset_terrain_tracker = [
+	
+]
+
 onready var time_shaders = [
 	preload("res://Sprites/Shaders/12_AM_Shader.tres"),
 	preload("res://Sprites/Shaders/1_AM_Shader.tres"),
@@ -388,6 +399,9 @@ func new_day(fade = false, fade_node = null):
 	# reset tiles that are 'used' 
 	map_actions.reset_used_tiles()
 	
+	# reset any additional misc tiles
+	reset_misc_tiles()
+	
 	# check for any misc new-day effects (such as birdhouse occupancy)
 	guild.check_misc_new_day_effects()
 	
@@ -420,6 +434,14 @@ func new_day(fade = false, fade_node = null):
 	
 	# and wake up units (no delay)
 	wake_up_units(true)
+
+func reset_misc_tiles():
+	# iterate over our reset tracker, and set the tiles back to their original position
+	for reset in reset_terrain_tracker:
+		reset.layer.set_cellv(reset.pos, reset.id)
+		
+	# clear the array
+	reset_terrain_tracker = []
 
 # called to show the clock animation when the time moves forward
 func show_clock_anim():
