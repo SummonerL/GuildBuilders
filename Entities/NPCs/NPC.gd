@@ -341,6 +341,20 @@ onready var npc_horse_skyheart = {
 	"pos_y": 21
 }
 
+onready var npc_court_mage_ashan = {
+	"name": "Ashan",
+	"race": RACES.HUMAN,
+	"region": 2, # Bellmare
+	"dialogue": [
+		ml(["I am a magician in service to King Raolet. Lately I've been working on a spell to transport ",
+		"items instantly over long distances."])
+	],
+	"initiates_quest_immediately": false,
+	"current_dialogue": 0, # initial dialogue
+	"overworld_sprite": get_node("Court_Mage_Ashan"),
+	"pos_x": 50,
+	"pos_y": 17
+}
 
 # keep track of all the npcs
 onready var npcs = [
@@ -358,7 +372,8 @@ onready var npcs = [
 	npc_goblin_villager_fafza,
 	npc_goblin_king_rul,
 	npc_horse_skyheart,
-	npc_guild_beaver
+	npc_guild_beaver,
+	npc_court_mage_ashan
 ]
 
 # keep track of the npc that is currently being interacted with

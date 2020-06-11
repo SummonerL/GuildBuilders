@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=2]
+[gd_scene load_steps=50 format=2]
 
 [ext_resource path="res://Entities/NPCs/NPC.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/characters/npcs/lonely_man_samuel_1.png" type="Texture" id=2]
@@ -31,6 +31,8 @@
 [ext_resource path="res://Sprites/characters/animals/skyheart_1.png" type="Texture" id=29]
 [ext_resource path="res://Sprites/characters/animals/beaver_2.png" type="Texture" id=30]
 [ext_resource path="res://Sprites/characters/animals/beaver_1.png" type="Texture" id=31]
+[ext_resource path="res://Sprites/characters/npcs/bellmare_court_mage_ashan1.png" type="Texture" id=32]
+[ext_resource path="res://Sprites/characters/npcs/bellmare_court_mage_ashan2.png" type="Texture" id=33]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -152,6 +154,14 @@ animations = [ {
 "speed": 5.0
 } ]
 
+[sub_resource type="SpriteFrames" id=16]
+animations = [ {
+"frames": [ ExtResource( 32 ), ExtResource( 33 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
 [node name="NPC" type="Node2D"]
 z_index = 2
 script = ExtResource( 1 )
@@ -247,6 +257,13 @@ centered = false
 
 [node name="Guild_Beaver" type="AnimatedSprite" parent="."]
 frames = SubResource( 15 )
+speed_scale = 0.5
+playing = true
+centered = false
+
+[node name="Court_Mage_Ashan" type="AnimatedSprite" parent="."]
+frames = SubResource( 16 )
+frame = 1
 speed_scale = 0.5
 playing = true
 centered = false

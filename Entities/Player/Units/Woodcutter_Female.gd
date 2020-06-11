@@ -25,6 +25,11 @@ const HUNGRY_TEXT = 'I wish I had eaten yesterday...'
 const TOWER_CLIMB_TEXT = 'What a stunning view!'
 
 func unit_init():			
+	#TEMP
+	unit_pos_x = 50
+	unit_pos_y = 16
+	#TEMP
+	
 	unit_portrait_sprite = ps
 	
 	unit_sprite_node = get_node("Woodcutter_Female_Sprite")

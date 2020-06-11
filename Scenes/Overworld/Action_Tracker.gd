@@ -38,6 +38,7 @@ const ACTIONS = {
 	17: 'DIPLOMACY_SPOT_2',
 	
 	4: 'GUILD_SPOT_1',
+	19: 'GUILD_SPOT_2',
 	
 	7: 'CAVE_CONNECTOR_1',
 	8: 'CAVE_CONNECTOR_2',
@@ -94,6 +95,7 @@ onready var associated_actions = {
 					global_action_list.COMPLETE_ACTION_LIST.POSIT,
 					global_action_list.COMPLETE_ACTION_LIST.DINE,
 					global_action_list.COMPLETE_ACTION_LIST.CRAFT],
+	'GUILD_SPOT_2': [global_action_list.COMPLETE_ACTION_LIST.ACCESS_DEPOT_VIA_MAGE_ASHEN],
 					
 	'CAVE_CONNECTOR_1': [global_action_list.COMPLETE_ACTION_LIST.TUNNEL],
 	'CAVE_CONNECTOR_2': [global_action_list.COMPLETE_ACTION_LIST.TUNNEL],
@@ -154,7 +156,8 @@ onready var adjacent_applicable = [
 	global_action_list.COMPLETE_ACTION_LIST.PET_CAT,
 	global_action_list.COMPLETE_ACTION_LIST.TAME_BEAVER,
 	global_action_list.COMPLETE_ACTION_LIST.MEET_WITH_LEADER,
-	global_action_list.COMPLETE_ACTION_LIST.GIVE_GIFT_TO_LEADER
+	global_action_list.COMPLETE_ACTION_LIST.GIVE_GIFT_TO_LEADER,
+	global_action_list.COMPLETE_ACTION_LIST.ACCESS_DEPOT_VIA_MAGE_ASHEN,
 ]
 
 func get_action_spot_at_coordinates(vec2):

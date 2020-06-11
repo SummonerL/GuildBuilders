@@ -86,6 +86,9 @@ const NO_ROOM_FOR_ANIMAL = "There's no room for an animal to be deployed..."
 const CANT_TAME_ANY_MORE = " can't tame any more animals today..."
 const CANT_PET_ANYMORE = "This cat doesn't want to be pet anymore..."
 const ALREADY_MET_TEXT = "This leader is not available for any more meetings..."
+const NEED_AT_LEAST = "You need at least "
+const WITH_TEXT = " favor with "
+const TO_DO_THIS_TEXT = " to do this..."
 
 const RELATION_ESTABLISHED = "New Relation established!"
 
@@ -108,6 +111,7 @@ enum COMPLETE_ACTION_LIST {
 	GIVE_GIFT_ON_GIFT_SCREEN, # used for Gift screen
 	TRADE_ITEMS, # trade items between units
 	TALK, # used for NPCS
+	ACCESS_DEPOT_VIA_MAGE_ASHEN, # access depot
 	READ_SIGN, # used for signs
 	CLIMB_TOWER, # used for towers + revealing regions
 	TUNNEL # for caves (Male Miner Only)
@@ -158,6 +162,7 @@ const ACTION_LIST_NAMES = [ # in the same order as actions above
 	'GIVE',
 	'TRADE',
 	'TALK',
+	'DEPOT',
 	'READ',
 	'CLIMB',
 	'TUNNL',
@@ -303,6 +308,9 @@ func do_action(action, parent, additional_params = null):
 		COMPLETE_ACTION_LIST.TALK:
 			# talk to an NPC
 			get_tree().get_current_scene().npcs.talk_to_npc(active_unit)
+		COMPLETE_ACTION_LIST.ACCESS_DEPOT_VIA_MAGE_ASHEN:
+			# access the depot, via npc
+			access_depot_via_npc(guild.bellmare_relation, 6) # requires 6 favor with bellmare
 		COMPLETE_ACTION_LIST.TRADE_ITEMS:
 			# trade items between units
 			active_unit.show_trade_selector()
@@ -526,6 +534,18 @@ func initiate_read_sign_action(the_sign):
 	
 	# change the state back
 	player.player_state = player.PLAYER_STATE.SELECTING_TILE
+
+# access the guild depot through an npc
+func access_depot_via_npc(relation, favor):
+	if (relation.favor >= favor):
+		# initialize the depot screen
+		guild.populate_depot_screen(active_unit)
+	else:
+		player.hud.typeTextWithBuffer(NEED_AT_LEAST + String(favor) + WITH_TEXT + relation.faction.name + TO_DO_THIS_TEXT, 
+			false, 'finished_viewing_text_generic')
+		yield(signals, "finished_viewing_text_generic")
+		# change the state back
+		player.player_state = player.PLAYER_STATE.SELECTING_TILE
 
 func initiate_climb_tower_action(the_tower):
 	if (the_tower.type == 'tower'):
