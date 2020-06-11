@@ -212,7 +212,15 @@ onready var item_musclefish = {
 	"can_stack_effect": true # this effect can be added more than once
 }
 
-
+onready var item_catfish = {
+	"name": "Catfish",
+	"description": "After eating this, for the remainder of the day, petting cats will grant the unit an additional 'Relaxed' effect (10% bonus XP).",
+	"type": ITEM_TYPES.FISH,
+	"can_discard": true,
+	"xp": 2, # xp upon receiving
+	"connected_ability": global_ability_list.ability_food_catfish,
+	"can_stack_effect": false # this effect can not be added more than once
+}
 
 # wood
 onready var item_cedar_logs = {

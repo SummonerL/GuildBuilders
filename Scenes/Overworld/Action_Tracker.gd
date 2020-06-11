@@ -20,6 +20,7 @@ var map_icons
 const ACTIONS = {
 	0: 'FISH_SPOT_1',
 	1: 'FISH_SPOT_2',
+	20: 'FISH_SPOT_3',
 	
 	2: 'WOODCUTTING_SPOT_1',
 	3: 'WOODCUTTING_SPOT_2',
@@ -50,10 +51,13 @@ const ACTIONS = {
 onready var ITEMS_AT_SPOT = {
 	'FISH_SPOT_1': [global_items_list.item_jumbofish],
 	'FISH_SPOT_2': [global_items_list.item_musclefish],
+	'FISH_SPOT_3': [global_items_list.item_catfish],
+	
 	'WOODCUTTING_SPOT_1': [global_items_list.item_cedar_logs],
 	'WOODCUTTING_SPOT_2': [global_items_list.item_ash_logs],
 	'WOODCUTTING_SPOT_3': [global_items_list.item_fir_logs],
 	'WOODCUTTING_SPOT_4': [global_items_list.item_birch_logs],
+	
 	'MINING_SPOT_1': [global_items_list.item_stone],
 	'MINING_SPOT_2': [global_items_list.item_iron_ore],
 	'MINING_SPOT_3': [global_items_list.item_gold],
@@ -76,10 +80,13 @@ onready var LEADER_AT_SPOT = {
 onready var associated_actions = {
 	'FISH_SPOT_1': [global_action_list.COMPLETE_ACTION_LIST.FISH],
 	'FISH_SPOT_2': [global_action_list.COMPLETE_ACTION_LIST.FISH],
+	'FISH_SPOT_3': [global_action_list.COMPLETE_ACTION_LIST.FISH],
+	
 	'WOODCUTTING_SPOT_1': [global_action_list.COMPLETE_ACTION_LIST.CHOP],
 	'WOODCUTTING_SPOT_2': [global_action_list.COMPLETE_ACTION_LIST.CHOP],
 	'WOODCUTTING_SPOT_3': [global_action_list.COMPLETE_ACTION_LIST.CHOP],
 	'WOODCUTTING_SPOT_4': [global_action_list.COMPLETE_ACTION_LIST.CHOP],
+	
 	'MINING_SPOT_1': [global_action_list.COMPLETE_ACTION_LIST.MINE],
 	'MINING_SPOT_2': [global_action_list.COMPLETE_ACTION_LIST.MINE],
 	'BEAST_MASTERY_SPOT_1': [global_action_list.COMPLETE_ACTION_LIST.CHECK_BIRDHOUSE],
@@ -111,6 +118,8 @@ onready var level_requirements = {
 	'WOODCUTTING_SPOT_4': 4,
 	
 	'FISH_SPOT_1': 1,
+	'FISH_SPOT_2': 2,
+	'FISH_SPOT_3': 3,
 	
 	'MINING_SPOT_1': 1,
 	'MINING_SPOT_2': 3,

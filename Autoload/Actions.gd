@@ -80,6 +80,7 @@ const PATH_BLOCKED = 'My path is blocked...'
 const UNLOCKED_TEXT = ' unlocked!'
 const BECAME_INSPIRED_TEXT = ' became Inspired!'
 const BECAME_CALM_TEXT = ' became Calm!'
+const BECAME_RELAXED_TEXT = ' became Relaxed!'
 const DOT_DOT_DOT_TEXT = '...'
 
 const NO_ROOM_FOR_ANIMAL = "There's no room for an animal to be deployed..."
@@ -389,6 +390,14 @@ func action_window_finished(skill, reward, levelled_up):
 				player.hud.typeText(active_unit.unit_name + BECAME_CALM_TEXT, false, 'finished_viewing_text_generic')
 				# give the unit CALM
 				global_ability_list.add_ability_to_unit(active_unit, global_ability_list.ability_calm)
+				
+				# if the unit has the catfish food effect, they get 'Relaxed' as well
+				if (global_ability_list.unit_has_ability(active_unit, global_ability_list.ABILITY_FOOD_CATFISH_NAME) &&
+					!global_ability_list.unit_has_ability(active_unit, global_ability_list.ABILITY_RELAXED_NAME)):
+					yield(signals, "finished_viewing_text_generic")
+					player.hud.typeText(active_unit.unit_name + BECAME_RELAXED_TEXT, false, 'finished_viewing_text_generic')
+					# give the unit RELAXED
+					global_ability_list.add_ability_to_unit(active_unit, global_ability_list.ability_relaxed)
 		constants.DIPLOMACY:
 			# assume the special conclusion is an array
 			var message_index = 0

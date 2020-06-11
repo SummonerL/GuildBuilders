@@ -29,12 +29,14 @@ const ABILITY_GEM_HUNTER_NAME = 'Gem Hunter'
 const ABILITY_WELL_FED_NAME = 'Status: Well-Fed'
 const ABILITY_FED_NAME = 'Status: Fed'
 const ABILITY_FOOD_MUSCLEFISH_NAME = 'Food Effect'
+const ABILITY_FOOD_CATFISH_NAME = 'Food Effect'
 
 # other daily abilities
 const ABILITY_INSPIRED_NAME = 'Status: Inspired'
 const ABILITY_HUNGRY_NAME = 'Status: Hungry'
 const ABILITY_ECSTATIC_NAME = 'Status: Ecstatic'
 const ABILITY_CALM_NAME = 'Status: Calm'
+const ABILITY_RELAXED_NAME = 'Status: Relaxed'
 const ABILITY_SENSE_OF_DUTY_NAME = 'A Sense of Duty'
 
 # unit abilities
@@ -106,7 +108,11 @@ const ability_food_musclefish = {
 	"type": ABILITY_TYPES.FOOD
 }
 
-
+const ability_food_catfish = {
+	"name": ABILITY_FOOD_CATFISH_NAME,
+	"description": "For the remainder of the day, petting cats will grant this unit an additional 'Relaxed' effect (10% bonus XP).",
+	"type": ABILITY_TYPES.FOOD
+}
 
 # daily abilities
 const ability_inspired = {
@@ -123,6 +129,12 @@ const ability_ecstatic = {
 
 const ability_calm = {
 	"name": ABILITY_CALM_NAME,
+	"description": "This unit receives 10% more XP for the remainder of the day.",
+	"type": ABILITY_TYPES.DAILY
+}
+
+const ability_relaxed = {
+	"name": ABILITY_RELAXED_NAME,
 	"description": "This unit receives 10% more XP for the remainder of the day.",
 	"type": ABILITY_TYPES.DAILY
 }
@@ -222,6 +234,9 @@ func on_add_to_unit(unit, ability):
 		ABILITY_CALM_NAME:
 			# the unit receives 10% more XP for the rest of the day
 			unit.general_bonus_xp += .1
+		ABILITY_RELAXED_NAME:
+			# the unit receives 10% more XP for the rest of the day
+			unit.general_bonus_xp += .1
 		ABILITY_SENSE_OF_DUTY_NAME:
 			unit.wake_up_time -= 2
 
@@ -292,6 +307,9 @@ func on_remove_from_unit(unit, ability):
 			# add the unit's starting ability back
 			add_ability_to_unit(unit, unit.starting_ability, true)
 		ABILITY_CALM_NAME:
+			# remove the additional bonus XP the unit received
+			unit.general_bonus_xp -= .1
+		ABILITY_RELAXED_NAME:
 			# remove the additional bonus XP the unit received
 			unit.general_bonus_xp -= .1
 		ABILITY_SENSE_OF_DUTY_NAME:

@@ -38,6 +38,14 @@ onready var SKILL_UNLOCKS = {
 			'single_line': true,
 			'type': UNLOCK_TYPES.RESOURCE,
 			'level_required': 2,
+		},
+		{
+			'unlock_text': ' can now catch Catfish!',
+			'can_text': 'Catch',
+			'skill_info_text': 'Catfish',
+			'single_line': true,
+			'type': UNLOCK_TYPES.RESOURCE,
+			'level_required': 3,
 		}
 	],
 	
