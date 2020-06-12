@@ -425,7 +425,7 @@ func populate_depot_screen(active_unit):
 	camera.add_child(hud_depot_screen_node)
 	hud_depot_screen_node.set_unit(active_unit)
 	
-func populate_dining_screen(active_unit):
+func populate_dining_screen(active_unit, from_inv = false):
 	camera = get_tree().get_nodes_in_group("Camera")[0]
 	
 	# add the dine screen to the camera
@@ -433,6 +433,8 @@ func populate_dining_screen(active_unit):
 	camera.add_child(hud_dining_screen_node)
 	
 	hud_dining_screen_node.set_unit(active_unit)
+	
+	hud_dining_screen_node.set_source(from_inv) # whether we pull from inv or depot
 	
 func populate_guild_info_screen():
 	camera = get_tree().get_nodes_in_group("Camera")[0]

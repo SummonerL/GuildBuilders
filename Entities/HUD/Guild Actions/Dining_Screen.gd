@@ -58,9 +58,13 @@ onready var food_actions = [
 # keep track of the active unit
 var active_unit
 
+# a tracker for whether to pull from the inventory, or from the depot
+var pull_from_inv = false
+
 # text for the dining screen
 const DINE_TEXT = 'Dining Hall'
 const NO_FOOD_TEXT = "No food at the depot..."
+const NO_FOOD_INV_TEXT = "No food in inventory..."
 const CAN_NOT_BE_GAINED_MORE_THAN_ONCE_TEXT = "This effect can not be gained more than once. "
 const ALREADY_HAS_EFFECT_TEXT = ' already has that effect.'
 const CANT_EAT_ANY_MORE_MEALS_TEXT = ' can\'t eat any more meals today...'
@@ -84,6 +88,9 @@ func dining_screen_init():
 	
 	# dampen the background music while we are viewing the unit's information
 	get_tree().get_current_scene().dampen_background_music()
+
+func set_source(from_inv):
+	pull_from_inv = from_inv
 	
 	# go ahead and start printing the food items
 	populate_food_items()
@@ -115,12 +122,29 @@ func get_food_items_from_depot():
 			})
 		
 		guild_items_index += 1
+		
+func get_food_items_from_inv():
+	current_food_items = []
+	
+	var inv_tems_index = 0
+	
+	for item in active_unit.current_items:
+		if (item.type == global_items_list.ITEM_TYPES.FISH):
+			current_food_items.append({
+				"item": item,
+				"index": inv_tems_index
+			})
+		
+		inv_tems_index += 1
 
 func populate_food_items(depot_start_index = 0):
 	dining_start_index_tracker = depot_start_index
 	
 	# first get all of the food items
-	get_food_items_from_depot()
+	if (pull_from_inv):
+		get_food_items_from_inv()
+	else:
+		get_food_items_from_depot()
 	
 	# clear any letters / symbols
 	letters_symbols_node.clearText()
@@ -151,7 +175,10 @@ func populate_food_items(depot_start_index = 0):
 		selector_arrow.position = Vector2((start_x - 1) * constants.DIA_TILE_WIDTH, (start_y + ((current_item - dining_start_index_tracker) * 2)) * constants.DIA_TILE_HEIGHT)
 	else:
 		player.hud.dialogueState = player.hud.STATES.INACTIVE
-		player.hud.typeTextWithBuffer(NO_FOOD_TEXT, true)
+		if (pull_from_inv):
+			player.hud.typeTextWithBuffer(NO_FOOD_INV_TEXT, true)
+		else:
+			player.hud.typeTextWithBuffer(NO_FOOD_TEXT, true)
 		
 	# print the down / up arrow, depending on where we are in the list of food items
 	if (current_item_set.size() >= 4 && (dining_start_index_tracker + 3) < current_food_items.size() - 1): # account for index
@@ -247,11 +274,17 @@ func eat_food():
 
 	yield(signals, 'food_ate_dialogue_dining')
 	
-	# remove the item from the depot item list
-	guild.current_items.remove(food.index)
-	
-	# recalculate the current food items
-	get_food_items_from_depot()
+	# remove the item from the depot item list (or the inventory)
+	if (pull_from_inv):
+		active_unit.current_items.remove(food.index)
+		
+		# recalculate the current food items
+		get_food_items_from_inv()
+	else:
+		guild.current_items.remove(food.index)
+		
+		# recalculate the current food items
+		get_food_items_from_depot()
 	
 	# reposition the cursor and repopulate the list, now that we've removed that item
 	if (current_item > (current_food_items.size() - 1)):

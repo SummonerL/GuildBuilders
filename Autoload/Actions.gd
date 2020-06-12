@@ -113,6 +113,7 @@ enum COMPLETE_ACTION_LIST {
 	TRADE_ITEMS, # trade items between units
 	TALK, # used for NPCS
 	ACCESS_DEPOT_VIA_MAGE_ASHEN, # access depot
+	ACCESS_DINING_VIA_CHEF_FREDERIK, # access dining
 	READ_SIGN, # used for signs
 	CLIMB_TOWER, # used for towers + revealing regions
 	TUNNEL # for caves (Male Miner Only)
@@ -164,6 +165,7 @@ const ACTION_LIST_NAMES = [ # in the same order as actions above
 	'TRADE',
 	'TALK',
 	'DEPOT',
+	'DINE',
 	'READ',
 	'CLIMB',
 	'TUNNL',
@@ -312,6 +314,9 @@ func do_action(action, parent, additional_params = null):
 		COMPLETE_ACTION_LIST.ACCESS_DEPOT_VIA_MAGE_ASHEN:
 			# access the depot, via npc
 			access_depot_via_npc(guild.bellmare_relation, 6) # requires 6 favor with bellmare
+		COMPLETE_ACTION_LIST.ACCESS_DINING_VIA_CHEF_FREDERIK:
+			# access the dining window, via npc
+			access_dining_via_npc(guild.bellmare_relation, 6, true) # requires 6 favor with bellmare, pulls from inv
 		COMPLETE_ACTION_LIST.TRADE_ITEMS:
 			# trade items between units
 			active_unit.show_trade_selector()
@@ -549,6 +554,17 @@ func access_depot_via_npc(relation, favor):
 	if (relation.favor >= favor):
 		# initialize the depot screen
 		guild.populate_depot_screen(active_unit)
+	else:
+		player.hud.typeTextWithBuffer(NEED_AT_LEAST + String(favor) + WITH_TEXT + relation.faction.name + TO_DO_THIS_TEXT, 
+			false, 'finished_viewing_text_generic')
+		yield(signals, "finished_viewing_text_generic")
+		# change the state back
+		player.player_state = player.PLAYER_STATE.SELECTING_TILE
+
+func access_dining_via_npc(relation, favor, pulls_from_inv = true):
+	if (relation.favor >= favor):
+		# initialize the dining screen
+		guild.populate_dining_screen(active_unit, pulls_from_inv)
 	else:
 		player.hud.typeTextWithBuffer(NEED_AT_LEAST + String(favor) + WITH_TEXT + relation.faction.name + TO_DO_THIS_TEXT, 
 			false, 'finished_viewing_text_generic')

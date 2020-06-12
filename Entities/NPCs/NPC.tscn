@@ -1,4 +1,4 @@
-[gd_scene load_steps=50 format=2]
+[gd_scene load_steps=53 format=2]
 
 [ext_resource path="res://Entities/NPCs/NPC.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/characters/npcs/lonely_man_samuel_1.png" type="Texture" id=2]
@@ -33,6 +33,8 @@
 [ext_resource path="res://Sprites/characters/animals/beaver_1.png" type="Texture" id=31]
 [ext_resource path="res://Sprites/characters/npcs/bellmare_court_mage_ashan1.png" type="Texture" id=32]
 [ext_resource path="res://Sprites/characters/npcs/bellmare_court_mage_ashan2.png" type="Texture" id=33]
+[ext_resource path="res://Sprites/characters/npcs/bellmare_head_chef_frederik1.png" type="Texture" id=34]
+[ext_resource path="res://Sprites/characters/npcs/bellmare_head_chef_frederik2.png" type="Texture" id=35]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -162,6 +164,14 @@ animations = [ {
 "speed": 5.0
 } ]
 
+[sub_resource type="SpriteFrames" id=17]
+animations = [ {
+"frames": [ ExtResource( 34 ), ExtResource( 35 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
 [node name="NPC" type="Node2D"]
 z_index = 2
 script = ExtResource( 1 )
@@ -212,6 +222,7 @@ centered = false
 
 [node name="Bellmare_Cat" type="AnimatedSprite" parent="."]
 frames = SubResource( 8 )
+frame = 1
 speed_scale = 0.45
 playing = true
 centered = false
@@ -263,6 +274,12 @@ centered = false
 
 [node name="Court_Mage_Ashan" type="AnimatedSprite" parent="."]
 frames = SubResource( 16 )
+speed_scale = 0.5
+playing = true
+centered = false
+
+[node name="Head_Chef_Frederik" type="AnimatedSprite" parent="."]
+frames = SubResource( 17 )
 frame = 1
 speed_scale = 0.5
 playing = true

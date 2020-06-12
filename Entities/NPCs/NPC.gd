@@ -356,6 +356,21 @@ onready var npc_court_mage_ashan = {
 	"pos_y": 17
 }
 
+onready var npc_bellmare_head_chef_frederik = {
+	"name": "Frederik",
+	"race": RACES.HUMAN,
+	"region": 2, # Bellmare
+	"dialogue": [
+		ml(["I'm the head chef here at the inn. If you have some fish on you, I might be able to ",
+			"prepare it for you."])
+	],
+	"initiates_quest_immediately": false,
+	"current_dialogue": 0, # initial dialogue
+	"overworld_sprite": get_node("Head_Chef_Frederik"),
+	"pos_x": 56,
+	"pos_y": 10
+}
+
 # keep track of all the npcs
 onready var npcs = [
 	npc_lonely_man_samuel,
@@ -373,7 +388,8 @@ onready var npcs = [
 	npc_goblin_king_rul,
 	npc_horse_skyheart,
 	npc_guild_beaver,
-	npc_court_mage_ashan
+	npc_court_mage_ashan,
+	npc_bellmare_head_chef_frederik
 ]
 
 # keep track of the npc that is currently being interacted with
