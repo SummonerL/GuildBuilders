@@ -25,11 +25,6 @@ const HUNGRY_TEXT = 'Did I seriously forget to eat yesterday...?'
 const TOWER_CLIMB_TEXT = "I feel like I could reach the heavens from here!"
 
 func unit_init():
-	#TEMP
-	unit_pos_x = 50
-	unit_pos_y = 13
-	#TEMP
-	
 	unit_portrait_sprite = ps
 	
 	unit_sprite_node = get_node("Angler_Male_Sprite")

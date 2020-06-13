@@ -29,6 +29,7 @@ enum ITEM_TYPES {
 	PICKAXE,
 	SAW,
 	HAMMER,
+	SCISSORS,
 	FISH,
 	WOOD,
 	ORE,
@@ -166,6 +167,17 @@ onready var item_cheap_ring = { # used in diplomacy
 	"can_stack_effect": false, # this effect can not be added more than once
 	"stat_effected": "diplomacy_points",
 	"stat_effected_value": 1,
+	"xp": 3, # xp upon receiving
+}
+
+onready var item_amethyst_ring = { # used in diplomacy
+	"name": "Amethyst Ring",
+	"description": "A gold ring with an amethyst setting. When held, increases the amount of favor gained during meetings with diplomatic leaders by 2. This effect can only be gained once.",
+	"type": ITEM_TYPES.UTILITY,
+	"can_discard": true,
+	"can_stack_effect": false, # this effect can not be added more than once
+	"stat_effected": "diplomacy_points",
+	"stat_effected_value": 2,
 	"xp": 3, # xp upon receiving
 }
 

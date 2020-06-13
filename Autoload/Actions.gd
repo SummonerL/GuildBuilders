@@ -386,6 +386,10 @@ func action_window_finished(skill, reward, levelled_up):
 		
 		constants.SMITHING:
 			player.hud.typeText(CRAFT_RECEIVED_TEXT + reward.name + constants.EXCLAMATION, false, 'finished_viewing_text_generic') # we do have a signal
+
+		constants.FASHIONING:
+			player.hud.typeText(CRAFT_RECEIVED_TEXT + reward.name + constants.EXCLAMATION, false, 'finished_viewing_text_generic') # we do have a signal
+			
 		constants.BEAST_MASTERY:
 			player.hud.typeText(reward.special_conclusion + reward.name + constants.EXCLAMATION, false, 'finished_viewing_text_generic') # we do have a signal
 			

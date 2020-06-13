@@ -39,6 +39,7 @@ onready var recipe_selection_background_sprite = get_node("Recipe_Selection_Scre
 # our skill icon sprites
 onready var woodworking_skill_icon_sprite = get_node("Woodworking_Skill_Icon")
 onready var smithing_skill_icon_sprite = get_node("Smithing_Skill_Icon")
+onready var fashioning_skill_icon_sprite = get_node("Fashioning_Skill_Icon")
 
 # keep an extra arrow to act as a selector
 var selector_arrow
@@ -52,7 +53,8 @@ var active_skill
 # keep track of the currently selected skill in the the user can choose for crafting
 onready var all_skills = [
 	constants.WOODWORKING,
-	constants.SMITHING
+	constants.SMITHING,
+	constants.FASHIONING
 ]
 var current_skill_set = []
 var current_skill = 0
@@ -70,6 +72,7 @@ var recipe_end_index_tracker
 const CRAFT_TEXT = 'Craft'
 const WOODWORKING_TEXT = "Woodworking"
 const SMITHING_TEXT = "Smithing"
+const FASHIONING_TEXT = "Fashioning"
 
 const RECIPES_TEXT = ' Recipes'
 const NO_RECIPES_TEXT = 'No recipes...'
@@ -124,7 +127,9 @@ func _on_confirm_craft(crafting, recipe = null, item_indexes = []):
 		signals.disconnect("confirm_generic_yes", self, "_on_confirm_craft")
 	
 	if (crafting):
+		print(item_indexes)
 		# first, remove the items from the player
+		item_indexes.sort() # sort, so the indexes are in ascending order
 		item_indexes.invert() # invert, as we will be removing items as we iterate and want to prevent errors
 		for index in item_indexes:
 			global_items_list.remove_item_from_unit(active_unit, index)
@@ -158,6 +163,7 @@ func populate_skill_selection_screen(skill_start_index = 0):
 
 	woodworking_skill_icon_sprite.visible = false
 	smithing_skill_icon_sprite.visible = false
+	fashioning_skill_icon_sprite.visible = false
 	
 	# skills text
 	letters_symbols_node.print_immediately(CRAFT_TEXT, Vector2((constants.DIA_TILES_PER_ROW - len(CRAFT_TEXT)) / 2, 1))
@@ -202,6 +208,14 @@ func populate_skill_selection_screen(skill_start_index = 0):
 				calc_next = calculate_next_level_percent(constants.SMITHING)
 				smithing_lv_text += "  " + constants.NEXT_LEVEL_TEXT + String(calc_next) + "%"
 				letters_symbols_node.print_immediately(smithing_lv_text, Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2) + 2))
+			constants.FASHIONING:
+				fashioning_skill_icon_sprite.visible = true
+				fashioning_skill_icon_sprite.position = Vector2(start_x * constants.TILE_WIDTH, start_y * constants.TILE_HEIGHT)
+				letters_symbols_node.print_immediately(FASHIONING_TEXT, Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2)))
+				var fashioning_lv_text = constants.LVL_TEXT + String(active_unit.skill_levels[constants.FASHIONING])
+				calc_next = calculate_next_level_percent(constants.FASHIONING)
+				fashioning_lv_text += "  " + constants.NEXT_LEVEL_TEXT + String(calc_next) + "%"
+				letters_symbols_node.print_immediately(fashioning_lv_text, Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2) + 2))
 				
 		start_y += 2
 
@@ -294,6 +308,7 @@ func make_background_sprites_invisible():
 	
 	woodworking_skill_icon_sprite.visible = false
 	smithing_skill_icon_sprite.visible = false
+	fashioning_skill_icon_sprite.visible = false
 	
 	selector_arrow.visible = false
 
@@ -355,7 +370,9 @@ func populate_recipe_confirmation_screen():
 			tool_type = global_items_list.ITEM_TYPES.SAW
 		constants.SMITHING:
 			tool_type = global_items_list.ITEM_TYPES.HAMMER
-	
+		constants.FASHIONING:
+			tool_type = global_items_list.ITEM_TYPES.SCISSORS
+		
 	var has_tool = (global_items_list.unit_has_tool(active_unit, tool_type) >= 0)
 	
 	# show the tool text
@@ -381,6 +398,9 @@ func populate_recipe_confirmation_screen():
 		constants.SMITHING:
 			smithing_skill_icon_sprite.visible = true
 			smithing_skill_icon_sprite.position = Vector2(constants.DIA_TILE_WIDTH * 11, 9 * constants.DIA_TILE_HEIGHT)
+		constants.FASHIONING:
+			fashioning_skill_icon_sprite.visible = true
+			fashioning_skill_icon_sprite.position = Vector2(constants.DIA_TILE_WIDTH * 11, 9 * constants.DIA_TILE_HEIGHT)
 
 	# if the unit doesn't have the required skill level, type a message
 	if (recipe.level_required > active_unit.skill_levels[active_skill]):
@@ -442,6 +462,9 @@ func populate_recipe_selection_screen(recipe_start_index = 0):
 		constants.SMITHING:
 			smithing_skill_icon_sprite.visible = true
 			smithing_skill_icon_sprite.position = Vector2((constants.DIA_TILES_PER_COL - 2) * constants.DIA_TILE_WIDTH, 1 * constants.DIA_TILE_HEIGHT)
+		constants.FASHIONING:
+			fashioning_skill_icon_sprite.visible = true
+			fashioning_skill_icon_sprite.position = Vector2((constants.DIA_TILES_PER_COL - 2) * constants.DIA_TILE_WIDTH, 1 * constants.DIA_TILE_HEIGHT)
 	
 	# recipe text
 	letters_symbols_node.print_immediately(RECIPES_TEXT, Vector2((constants.DIA_TILES_PER_ROW - len(RECIPES_TEXT)) / 2 - 1, 1))

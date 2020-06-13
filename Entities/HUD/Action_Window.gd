@@ -19,6 +19,7 @@ onready var woodcutting_icon_sprite = get_node("Woodcutting_Skill_Icon")
 onready var fishing_icon_sprite = get_node("Fishing_Skill_Icon")
 onready var woodworking_icon_sprite = get_node("Woodworking_Skill_Icon")
 onready var smithing_icon_sprite = get_node("Smithing_Skill_Icon")
+onready var fashioning_icon_sprite = get_node("Fashioning_Skill_Icon")
 onready var beast_mastery_icon_sprite = get_node("Beast_Mastery_Skill_Icon")
 onready var diplomacy_icon_sprite = get_node("Diplomacy_Skill_Icon")
 
@@ -80,6 +81,9 @@ func window_init():
 	smithing_icon_sprite.position.x = pos_x + constants.DIA_TILE_WIDTH
 	smithing_icon_sprite.position.y = pos_y + constants.DIA_TILE_HEIGHT
 	
+	fashioning_icon_sprite.position.x = pos_x + constants.DIA_TILE_WIDTH
+	fashioning_icon_sprite.position.y = pos_y + constants.DIA_TILE_HEIGHT
+	
 	beast_mastery_icon_sprite.position.x = pos_x + constants.DIA_TILE_WIDTH
 	beast_mastery_icon_sprite.position.y = pos_y + constants.DIA_TILE_HEIGHT
 	
@@ -122,6 +126,13 @@ func set_skill(skill):
 				(pos_y / constants.DIA_TILE_HEIGHT) + 1))
 				
 			smithing_icon_sprite.visible = true	
+		constants.FASHIONING:
+			pretty_name = constants.FASHIONING_PRETTY
+			
+			letters_symbols_node.print_immediately(pretty_name, Vector2(((WINDOW_WIDTH + 2) - floor(len(pretty_name) / 2.0) + 1),
+				(pos_y / constants.DIA_TILE_HEIGHT) + 1))
+				
+			fashioning_icon_sprite.visible = true	
 		constants.BEAST_MASTERY:
 			pretty_name = BEAST_MASTERY_SHORTENED
 			

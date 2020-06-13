@@ -257,6 +257,7 @@ onready var SKILL_UNLOCKS = {
 	# smithing
 	constants.SMITHING: [
 		{
+			'unlock_text': ' can now craft Sturdy Axes!',
 			'can_text': 'Craft',
 			'skill_info_text': 'Sturdy Axe',
 			'single_line': true,
@@ -276,6 +277,7 @@ onready var SKILL_UNLOCKS = {
 			]
 		},
 		{
+			'unlock_text': ' can now craft Sturdy Pickaxes!',
 			'can_text': 'Craft',
 			'skill_info_text': 'Sturdy Pickaxe',
 			'type': UNLOCK_TYPES.RECIPE,
@@ -294,6 +296,7 @@ onready var SKILL_UNLOCKS = {
 			]
 		},
 		{
+			'unlock_text': ' can now craft Sturdy Hammers!',
 			'can_text': 'Craft',
 			'skill_info_text': 'Hammer',
 			'single_line': true,
@@ -313,6 +316,7 @@ onready var SKILL_UNLOCKS = {
 			]
 		},
 		{
+			'unlock_text': ' can now craft Handsaws!',
 			'can_text': 'Craft',
 			'skill_info_text': 'Handsaw',
 			'single_line': true,
@@ -332,19 +336,43 @@ onready var SKILL_UNLOCKS = {
 			]
 		},
 		{
+			'unlock_text': ' can now craft Cheap Rings!',
 			'can_text': 'Craft',
 			'skill_info_text': 'Cheap Rings',
 			'single_line': false,
 			'type': UNLOCK_TYPES.RECIPE,
 			'level_required': 5,
 			'item': global_item_list.item_cheap_ring,
-			'no_tool_required': false,
 			'resources_required': [
 				{
 					'item': global_item_list.item_gold,
 					'quantity': 2
 				}
 			]
+		},
+	],
+	
+	# fashioning
+	constants.FASHIONING: [
+		{
+			'unlock_text': ' can now craft Amethyst Rings!',
+			'can_text': 'Craft',
+			'skill_info_text': 'Amethyst Rings',
+			'single_line': false,
+			'type': UNLOCK_TYPES.RECIPE,
+			'level_required': 5,
+			'item': global_item_list.item_amethyst_ring,
+			'no_tool_required': true,
+			'resources_required': [
+				{
+					'item': global_item_list.item_cheap_ring,
+					'quantity': 1
+				},
+				{
+					'item': global_item_list.item_amethyst,
+					'quantity': 1
+				}
+			],
 		},
 	],
 	

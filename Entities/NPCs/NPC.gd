@@ -314,7 +314,9 @@ onready var npc_goblin_king_rul = {
 		"We view it as a horse's final sacrifice to us. I would be willing to make an exception for this year's feast. However, ",
 		"I would require a food just as delicious as horse. Additionally, we will need enough for each villager."]),
 		
-		"Please return with a food just as delicious as horse. We will require enough for each villager."
+		"Please return with a food just as delicious as horse. We will require enough for each villager.",
+		
+		"Catfish! Delicious! I see you've brought enough for everyone. As promised, I'll return Skyheart to that old farmer."
 	],
 	"initiates_quest_immediately": false,
 	"current_dialogue": 1, # initial dialogue

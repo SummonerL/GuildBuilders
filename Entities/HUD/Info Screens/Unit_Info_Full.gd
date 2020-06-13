@@ -47,6 +47,7 @@ onready var fishing_skill_icon_sprite = get_node("Fishing_Skill_Icon")
 onready var woodcutting_skill_icon_sprite = get_node("Woodcutting_Skill_Icon")
 onready var woodworking_skill_icon_sprite = get_node("Woodworking_Skill_Icon")
 onready var smithing_skill_icon_sprite = get_node("Smithing_Skill_Icon")
+onready var fashioning_skill_icon_sprite = get_node("Fashioning_Skill_Icon")
 onready var beast_mastery_skill_icon_sprite = get_node("Beast_Mastery_Skill_Icon")
 onready var diplomacy_skill_icon_sprite = get_node("Diplomacy_Skill_Icon")
 
@@ -83,6 +84,7 @@ onready var all_skills = [
 	constants.MINING,
 	constants.WOODWORKING,
 	constants.SMITHING,
+	constants.FASHIONING,
 	constants.BEAST_MASTERY,
 	constants.DIPLOMACY
 ]
@@ -93,6 +95,7 @@ onready var all_skill_icons = [
 	mining_skill_icon_sprite,
 	woodworking_skill_icon_sprite,
 	smithing_skill_icon_sprite,
+	fashioning_skill_icon_sprite,
 	beast_mastery_skill_icon_sprite,
 	diplomacy_skill_icon_sprite
 ]
@@ -125,6 +128,7 @@ const FISHING_TEXT = "Fishing"
 const MINING_TEXT = "Mining"
 const WOODWORKING_TEXT = "Woodworking"
 const SMITHING_TEXT = "Smithing"
+const FASHIONING_TEXT = "Fashioning"
 const BEAST_MASTERY_TEXT = "Beast Mastery"
 const DIPLOMACY_TEXT = "Diplomacy"
 
@@ -244,6 +248,7 @@ func populate_skill_info_screen(skill_start_index = 0):
 	woodcutting_skill_icon_sprite.visible = false
 	woodworking_skill_icon_sprite.visible = false
 	smithing_skill_icon_sprite.visible = false
+	fashioning_skill_icon_sprite.visible = false
 	beast_mastery_skill_icon_sprite.visible = false
 	diplomacy_skill_icon_sprite.visible = false
 	
@@ -322,6 +327,14 @@ func populate_skill_info_screen(skill_start_index = 0):
 				calc_next = calculate_next_level_percent(constants.SMITHING)
 				smithing_lv_text += "  " + NEXT_LEVEL_TEXT + String(calc_next) + "%"
 				letters_symbols_node.print_immediately(smithing_lv_text, Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2) + 2))
+			constants.FASHIONING:
+				fashioning_skill_icon_sprite.visible = true
+				fashioning_skill_icon_sprite.position = Vector2(start_x * constants.TILE_WIDTH, start_y * constants.TILE_HEIGHT)
+				letters_symbols_node.print_immediately(FASHIONING_TEXT, Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2)))
+				var fashioning_lv_text = LVL_TEXT + String(active_unit.skill_levels[constants.FASHIONING])
+				calc_next = calculate_next_level_percent(constants.FASHIONING)
+				fashioning_lv_text += "  " + NEXT_LEVEL_TEXT + String(calc_next) + "%"
+				letters_symbols_node.print_immediately(fashioning_lv_text, Vector2(((start_x + 1 ) * 2) + 1, (start_y * 2) + 2))
 			constants.BEAST_MASTERY:
 				beast_mastery_skill_icon_sprite.visible = true
 				beast_mastery_skill_icon_sprite.position = Vector2(start_x * constants.TILE_WIDTH, start_y * constants.TILE_HEIGHT)

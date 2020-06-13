@@ -127,9 +127,19 @@ onready var quest_horse_rescue = {
 			"skill_tested": constants.DIPLOMACY
 		},
 		{
-			# requirements to move past progress 1
+			# requirements to move past progress 2
 			"talk_to": "King Rul",
 			"set_dialogue": 4,
+			"level_requirement": 5,
+			"skill_tested": constants.DIPLOMACY
+		},
+		{
+			# requirements to move past progress 3
+			"items_required": [
+				# three fish
+			],
+			"items_for": "King Rul",
+			"set_dialogue": 6,
 			"level_requirement": 5,
 			"skill_tested": constants.DIPLOMACY
 		},
