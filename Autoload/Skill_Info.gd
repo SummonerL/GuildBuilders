@@ -385,6 +385,21 @@ onready var SKILL_UNLOCKS = {
 	# fashioning
 	constants.FASHIONING: [
 		{
+			'unlock_text': ' can now craft Rubber Boots!',
+			'can_text': 'Craft',
+			'skill_info_text': 'Rubber Boots',
+			'single_line': false,
+			'type': UNLOCK_TYPES.RECIPE,
+			'level_required': 3,
+			'item': global_item_list.item_rubber_boots,
+			'resources_required': [
+				{
+					'item': global_item_list.item_latex,
+					'quantity': 2
+				}
+			],
+		},
+		{
 			'unlock_text': ' can now craft Amethyst Rings!',
 			'can_text': 'Craft',
 			'skill_info_text': 'Amethyst Rings',

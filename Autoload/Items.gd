@@ -35,6 +35,7 @@ enum ITEM_TYPES {
 	WOOD,
 	ORE,
 	GEM,
+	CLOTHING,
 	CRAFTING_PART,
 	UTILITY,
 	DIPLOMATIC_GIFT,
@@ -164,6 +165,15 @@ onready var item_wooden_basket = {
 	"can_stack_effect": false, # this effect can not be added more than once
 	"stat_effected": "item_limit",
 	"stat_effected_value": 4,
+	"xp": 3, # xp upon receiving
+}
+
+onready var item_rubber_boots = { # crafted from latex
+	"name": "Rubber Boots",
+	"description": "A pair of boots made from rubber. When held, marsh terrain costs 1 less movement.",
+	"type": ITEM_TYPES.CLOTHING,
+	"can_discard": true,
+	"can_stack_effect": false, # this effect can not be added more than once
 	"xp": 3, # xp upon receiving
 }
 
