@@ -12,6 +12,8 @@ const NO_MORE_WOOD_TEXT = 'I think I\'ve exhausted this area...'
 const CANT_MINE_WITHOUT_PICKAXE_TEXT = 'Hmm... I should try this again when I have some mining equipment.'
 const NO_MORE_ORE_TEXT = '...and I think that about does it for this area. Nothing else to find here.'
 
+const CANT_TAP_WITHOUT_TAPPER_TEXT = 'Maybe I should craft a tree tapper so I can do this...'
+
 const NOTHING_HERE_GENERIC_TEXT = "Hmm... looks like nothing is here."
 
 const INVENTORY_FULL_TEXT = 'If I try to carry anything else I\'ll probably collapse!'

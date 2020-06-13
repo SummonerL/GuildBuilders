@@ -9,6 +9,8 @@ const NO_MORE_FISH_TEXT = 'There\'s no more fish here. I guess I must have scare
 const CANT_WOODCUT_WITHOUT_AXE_TEXT = 'I\'m pretty skilled at this, but not enough to cut wood with my bare hands.'
 const NO_MORE_WOOD_TEXT = 'No more wood here! Let\'s find someplace else.'
 
+const CANT_TAP_WITHOUT_TAPPER_TEXT = 'I can\'t tap this tree with my bare hands...'
+
 const CANT_MINE_WITHOUT_PICKAXE_TEXT = 'I\'m not too sure I can do this with my bare hands...'
 const NO_MORE_ORE_TEXT = 'Nope! Nothing else here!'
 

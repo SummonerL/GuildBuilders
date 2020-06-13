@@ -12,6 +12,8 @@ const NO_MORE_WOOD_TEXT = '...and that\'s enough for that area. Let\'s look else
 const CANT_MINE_WITHOUT_PICKAXE_TEXT = 'This looks tough to do without any kind of mining equipment...'
 const NO_MORE_ORE_TEXT = 'Hmm... it doesn\'t look like there\'s anything else here...'
 
+const CANT_TAP_WITHOUT_TAPPER_TEXT = 'I\'ll probably need a tree tapper if I want to do that...'
+
 const NOTHING_HERE_GENERIC_TEXT = "Nothing to find here..."
 
 const INVENTORY_FULL_TEXT = 'If only I had a bigger bag... I should try this again after I free up some space.'
@@ -24,7 +26,13 @@ const HUNGRY_TEXT = 'I wish I had eaten yesterday...'
 
 const TOWER_CLIMB_TEXT = 'What a stunning view!'
 
-func unit_init():				
+func unit_init():
+	#TEMP-----
+	unit_pos_x = 35
+	unit_pos_y = 12
+	#----------
+	
+	
 	unit_portrait_sprite = ps
 	
 	unit_sprite_node = get_node("Woodcutter_Female_Sprite")
@@ -47,8 +55,7 @@ func unit_init():
 	global_items_list.add_item_to_unit(self, global_items_list.item_jumbofish)
 	
 	#TEMP
-	global_items_list.add_item_to_unit(self, global_items_list.item_amethyst)
-	global_items_list.add_item_to_unit(self, global_items_list.item_cheap_ring)
+	global_items_list.add_item_to_unit(self, global_items_list.item_tree_tapper)
 	skill_levels[constants.FASHIONING] = 5
 	
 	# add the unit's starting ability

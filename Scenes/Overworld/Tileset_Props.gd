@@ -41,6 +41,7 @@ const TILES = {
 				23: 'ASH_TREE',
 				24: 'FIR_TREE',
 				57: 'BIRCH_TREE',
+				80: 'RUBBER_TREE',
 				
 				25: 'CAVE',
 				26: 'TOWER',
@@ -105,6 +106,7 @@ const TILE_INFO_HUD_NAME = {
 	'ASH_TREE': 'Ash',
 	'FIR_TREE': 'Fir',
 	'BIRCH_TREE': 'Birch',
+	'RUBBER_TREE': 'Rubbr',
 	
 	'SAND_TREE': 'Tree',
 	'HILL': 'Hill',
@@ -178,6 +180,8 @@ const MOVEMENT_COST = {
 	FIR_TREE = NORMAL_MOVE + 1,
 	BIRCH_TREE = NORMAL_MOVE + 1,
 	SAND_TREE = NORMAL_MOVE + 1,
+	RUBBER_TREE = NORMAL_MOVE + 1,
+	
 	HILL = NORMAL_MOVE + 1,
 	DUNE = NORMAL_MOVE + 1,
 	

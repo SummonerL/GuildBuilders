@@ -12,6 +12,8 @@ const NO_MORE_WOOD_TEXT = 'Hmm... No more wood here.'
 const CANT_MINE_WITHOUT_PICKAXE_TEXT = 'I didn\'t even bring a pickaxe... I should just stay in my lane.'
 const NO_MORE_ORE_TEXT = 'There\'s nothing else here...'
 
+const CANT_TAP_WITHOUT_TAPPER_TEXT = 'I\'m going to need a tree tapper if I want to do that...'
+
 const NOTHING_HERE_GENERIC_TEXT = "Nope... Nothing."
 
 const INVENTORY_FULL_TEXT = 'I probably shouldn\'t try to carry anything else...'

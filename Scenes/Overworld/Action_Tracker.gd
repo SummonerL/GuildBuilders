@@ -42,6 +42,8 @@ const ACTIONS = {
 	19: 'GUILD_SPOT_2',
 	21: 'GUILD_SPOT_3',
 	
+	22: 'MISC_SPOT_1',
+	
 	7: 'CAVE_CONNECTOR_1',
 	8: 'CAVE_CONNECTOR_2',
 	11: 'CAVE_CONNECTOR_3',
@@ -62,6 +64,8 @@ onready var ITEMS_AT_SPOT = {
 	'MINING_SPOT_1': [global_items_list.item_stone],
 	'MINING_SPOT_2': [global_items_list.item_iron_ore],
 	'MINING_SPOT_3': [global_items_list.item_gold],
+	
+	'MISC_SPOT_1': [global_items_list.item_latex],
 }
 
 # keep track of the animals that can be found at specific spots
@@ -98,6 +102,8 @@ onready var associated_actions = {
 						global_action_list.COMPLETE_ACTION_LIST.GIVE_GIFT_TO_LEADER],
 	'DIPLOMACY_SPOT_2': [global_action_list.COMPLETE_ACTION_LIST.MEET_WITH_LEADER,
 						global_action_list.COMPLETE_ACTION_LIST.GIVE_GIFT_TO_LEADER],
+						
+	'MISC_SPOT_1': [global_action_list.COMPLETE_ACTION_LIST.TAP_RUBBER_TREE],
 	
 	'GUILD_SPOT_1': [global_action_list.COMPLETE_ACTION_LIST.DEPOT, 
 					global_action_list.COMPLETE_ACTION_LIST.POSIT,

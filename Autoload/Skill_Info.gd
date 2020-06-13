@@ -336,6 +336,36 @@ onready var SKILL_UNLOCKS = {
 			]
 		},
 		{
+			'unlock_text': ' can now craft Scissors!',
+			'can_text': 'Craft',
+			'skill_info_text': 'Scissors',
+			'single_line': true,
+			'type': UNLOCK_TYPES.RECIPE,
+			'level_required': 3,
+			'item': global_item_list.item_scissors,
+			'resources_required': [
+				{
+					'item': global_item_list.item_iron_ore,
+					'quantity': 2
+				}
+			]
+		},
+		{
+			'unlock_text': ' can now craft Tree Tapper!',
+			'can_text': 'Craft',
+			'skill_info_text': 'Tree Tapper',
+			'single_line': false,
+			'type': UNLOCK_TYPES.RECIPE,
+			'level_required': 3,
+			'item': global_item_list.item_tree_tapper,
+			'resources_required': [
+				{
+					'item': global_item_list.item_iron_ore,
+					'quantity': 2
+				}
+			]
+		},
+		{
 			'unlock_text': ' can now craft Cheap Rings!',
 			'can_text': 'Craft',
 			'skill_info_text': 'Cheap Rings',

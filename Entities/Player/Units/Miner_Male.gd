@@ -12,6 +12,8 @@ const NO_MORE_WOOD_TEXT = '...'
 const CANT_MINE_WITHOUT_PICKAXE_TEXT = '...'
 const NO_MORE_ORE_TEXT = '...'
 
+const CANT_TAP_WITHOUT_TAPPER_TEXT = '...'
+
 const NOTHING_HERE_GENERIC_TEXT = "It's empty..."
 
 const INVENTORY_FULL_TEXT = '...'

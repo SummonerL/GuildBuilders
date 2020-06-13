@@ -30,6 +30,7 @@ enum ITEM_TYPES {
 	SAW,
 	HAMMER,
 	SCISSORS,
+	TAPPER,
 	FISH,
 	WOOD,
 	ORE,
@@ -84,6 +85,21 @@ onready var item_hammer = {
 	"xp": 2 # xp upon crafting
 }
 
+onready var item_scissors = {
+	"name": "Scissors",
+	"description": "A pair of metal scissors. Allows the unit to fashion various items.",
+	"type": ITEM_TYPES.SCISSORS,
+	"can_discard": true,
+	"xp": 3 # xp upon crafting
+}
+
+onready var item_tree_tapper = {
+	"name": "Tree Tapper",
+	"description": "A small, metal tube used to collect resources from certain trees.",
+	"type": ITEM_TYPES.TAPPER,
+	"can_discard": true,
+	"xp": 3 # xp upon crafting
+}
 
 
 # useful objects
@@ -330,6 +346,12 @@ onready var item_wooden_handle = {
 	"description": "A handle made of softwood. Can be used to craft various items.",
 	"type": ITEM_TYPES.CRAFTING_PART,
 	"xp": 1
+}
+
+onready var item_latex = {
+	"name": "Latex",
+	"description": "A milky substance collected from a rubber tree. Can be used to craft various items.",
+	"type": ITEM_TYPES.CRAFTING_PART
 }
 
 # a helper function for adding items to a unit

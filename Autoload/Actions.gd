@@ -71,6 +71,8 @@ const TAMED_MISC = " spoke softly..."
 const HELD_A_MEETING = " held a meeting..."
 const STARTED_WRITING = " started writing..."
 
+const TAPPED_TREE_AND_RECEIVED = " tapped the tree and received some "
+
 const FISH_RECEIVED_TEXT = "and caught a "
 const WOOD_RECEIVED_TEXT = "and got some "
 const ORE_RECEIVED_TEXT = "and got some "
@@ -104,6 +106,7 @@ enum COMPLETE_ACTION_LIST {
 	FISH,
 	MINE,
 	CHOP,
+	TAP_RUBBER_TREE, # for collecting latex (rubber)
 	CHECK_BIRDHOUSE, # used for Beast Mastery
 	PET_CAT, # used for Beast Mastery
 	TAME_BEAVER, # used for Beast Mastery
@@ -156,6 +159,7 @@ const ACTION_LIST_NAMES = [ # in the same order as actions above
 	'FISH',
 	'MINE',
 	'CHOP',
+	'TAP',
 	'CHECK',
 	'PET',
 	'TAME',
@@ -270,6 +274,8 @@ func do_action(action, parent, additional_params = null):
 			initiate_mine_action()
 		COMPLETE_ACTION_LIST.CHOP:
 			initiate_woodcutting_action()
+		COMPLETE_ACTION_LIST.TAP_RUBBER_TREE:
+			initiate_tap_tree_action()
 		COMPLETE_ACTION_LIST.CHECK_BIRDHOUSE:
 			initiate_check_birdhouse_action()
 		COMPLETE_ACTION_LIST.PET_CAT:
@@ -1229,6 +1235,49 @@ func initiate_mine_action():
 			show_action_window(constants.MINING, received_ore)
 	else:
 		player.hud.typeTextWithBuffer(active_unit.CANT_MINE_WITHOUT_PICKAXE_TEXT, false, 'finished_action_failed') # they did not succeed
+
+# if the unit is tapping a tree
+func initiate_tap_tree_action():
+	# first, determine if the unit has a tapper
+	var tapper = null
+	for item in active_unit.current_items:
+		# make sure the unit cant wield this item as well
+		if (item.type == global_items_list.ITEM_TYPES.TAPPER):
+			tapper = item
+	
+	if (tapper):
+		# determine the spot the unit is targeting
+		var spot = map_actions.get_action_spot_at_coordinates(Vector2(player.curs_pos_x, player.curs_pos_y))
+		
+		
+		# get a list of resources that can be tapped at this tree
+		var available_resources = map_actions.get_items_at_coordinates(player.curs_pos_x, player.curs_pos_y)
+		
+
+		if (available_resources.size() == 0):
+			player.hud.typeTextWithBuffer(active_unit.NOTHING_HERE_GENERIC_TEXT, false, 'finished_action_failed') # they did not succeed 
+		elif (active_unit.is_inventory_full()):
+			player.hud.typeTextWithBuffer(active_unit.INVENTORY_FULL_TEXT, false, 'finished_action_failed') # they did not succeed
+		else:
+			# they can tap the tree!
+			available_resources.shuffle()
+			
+			var received_resource = available_resources[0]
+
+			# remove the resource from the list of available resources
+			available_resources.remove(0)
+			
+			# and update the used_tile items (for if the unit continues to tap here)
+			map_actions.set_items_at_coordinates(player.curs_pos_x, player.curs_pos_y, available_resources)
+			
+			# give the unit the item
+			active_unit.receive_item(received_resource)
+			
+			# read the tap tree text!
+			player.hud.typeTextWithBuffer(active_unit.unit_name + TAPPED_TREE_AND_RECEIVED + received_resource.name + "!", false, 'finished_action_success') # they did not succeed
+			
+	else:
+		player.hud.typeTextWithBuffer(active_unit.CANT_TAP_WITHOUT_TAPPER_TEXT, false, 'finished_action_failed') # they did not succeed
 
 func _ready():
 	signals.connect("finished_action_success", self, "_on_finished_action", [true])
