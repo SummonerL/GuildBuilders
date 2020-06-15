@@ -174,6 +174,13 @@ onready var item_rubber_boots = { # crafted from latex
 	"type": ITEM_TYPES.CLOTHING,
 	"can_discard": true,
 	"can_stack_effect": false, # this effect can not be added more than once
+	"terrain_affected": [
+		"MARSH_DEC1",
+		"MARSH_DEC2",
+		"MARSH_DEC3",
+		"MARSH_DEC4",
+		],
+	"terrain_affected_value": -1,
 	"xp": 3, # xp upon receiving
 }
 
@@ -381,6 +388,13 @@ func add_item_to_unit(unit, item):
 			# we can add the effect
 			if (item.has('stat_effected')):
 				unit[item.stat_effected] += item.stat_effected_value
+			elif (item.has('terrain_affected')):
+				# if the effect is terrain-related
+				for terrain in item.terrain_affected:
+					if (unit.terrain_modifiers.has(terrain)):
+						unit.terrain_modifiers[terrain] += item.terrain_affected_value
+					else:
+						unit.terrain_modifiers[terrain] = item.terrain_affected_value
 		
 		# add custom effects below
 
@@ -418,6 +432,13 @@ func remove_item_from_unit(unit, index):
 						i += 1
 				else:
 					unit[item.stat_effected] -= item.stat_effected_value
+			elif (item.has('terrain_affected')):
+				# if the effect is terrain-related
+				for terrain in item.terrain_affected:
+					if (unit.terrain_modifiers.has(terrain)):
+						unit.terrain_modifiers[terrain] -= item.terrain_affected_value
+						if (unit.terrain_modifiers[terrain] == 0):
+							unit.terrain_modifiers.erase(terrain)
 				
 			# add custom effect removals below
 

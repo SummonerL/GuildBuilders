@@ -119,6 +119,14 @@ var age = 0
 # keep track of the unit's starting ability
 var starting_ability
 
+# keep track of any terrain cost modifiers (can be changed via clothes + equipment) 
+# key / value pair, with key being terrain name
+var terrain_modifiers = {
+	
+}
+
+
+
 # a short bio about the unit
 var unit_bio = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
 
@@ -623,6 +631,10 @@ func flood_fill(foc_x, foc_y, remaining_move, visited_tiles):
 	# subtract the cost of the l1 tiles (if they exist. Else, we DEFINITELY can't move there!)
 	if (tile_name_l1 != null):
 		var l1_cost = tileset_props_l1.get_movement_cost(tile_name_l1)
+		# modify the cost, if necessary, based on any equipment the unit has
+		if (terrain_modifiers.has(tile_name_l1)):
+			l1_cost += terrain_modifiers[tile_name_l1]
+		
 		remaining_move -= l1_cost
 		total_tile_cost += l1_cost
 	else:
@@ -632,6 +644,10 @@ func flood_fill(foc_x, foc_y, remaining_move, visited_tiles):
 	# subtract the cost of the l2 tiles, if they exist
 	if (tile_name_l2 != null):
 		var l2_cost = tileset_props_l2.get_movement_cost(tile_name_l2)
+		# modify the cost, if necessary, based on any equipment the unit has
+		if (terrain_modifiers.has(tile_name_l2)):
+			l2_cost += terrain_modifiers[tile_name_l2]
+		
 		remaining_move -= l2_cost
 		total_tile_cost += l2_cost
 		

@@ -26,12 +26,10 @@ const HUNGRY_TEXT = 'I wish I had eaten yesterday...'
 
 const TOWER_CLIMB_TEXT = 'What a stunning view!'
 
-func unit_init():
-	#TEMP-----
-	unit_pos_x = 35
-	unit_pos_y = 12
-	#----------
-	
+func unit_init():	
+	#TEMP ---------
+	unit_pos_x = -2
+	unit_pos_y = 13
 	
 	unit_portrait_sprite = ps
 	
@@ -57,7 +55,7 @@ func unit_init():
 	#TEMP
 	global_items_list.add_item_to_unit(self, global_items_list.item_tree_tapper)
 	skill_levels[constants.FASHIONING] = 5
-	
+	global_items_list.add_item_to_unit(self, global_items_list.item_rubber_boots)
 	# add the unit's starting ability
 	starting_ability = global_ability_list.ability_insomniac
 	global_ability_list.add_ability_to_unit(self, global_ability_list.ability_insomniac)
