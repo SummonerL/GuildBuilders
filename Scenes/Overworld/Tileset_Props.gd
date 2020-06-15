@@ -55,6 +55,8 @@ const TILES = {
 				76: 'GRAVE',
 				
 				31: 'CABIN',
+				82: 'CABIN',
+				
 				34: 'HOUSE',
 				55: 'HOUSE',
 				40: 'BARN',
@@ -66,6 +68,7 @@ const TILES = {
 				75: 'BRIDGE',
 				78: 'BRIDGE',
 				79: 'BRIDGE',
+				83: 'DOCK',
 				
 				39: 'FENCE',
 				56: 'WALL',
@@ -152,6 +155,7 @@ const TILE_INFO_HUD_NAME = {
 	'BIRDHOUSE': 'Bird',
 	
 	'BRIDGE': 'Bridg',
+	'DOCK': 'Dock',
 	'FENCE': 'Fence',
 	'WALL': 'Wall',
 }
@@ -225,6 +229,7 @@ const MOVEMENT_COST = {
 	BIRDHOUSE = 0, # (l2) doesnt effect movement cost
 	
 	BRIDGE = -(CANT_MOVE - 1), # makes water movable
+	DOCK = -(CANT_MOVE - 1), # makes water movable
 	FENCE = CANT_MOVE,
 	WALL = CANT_MOVE,
 	

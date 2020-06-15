@@ -373,6 +373,36 @@ onready var npc_bellmare_head_chef_frederik = {
 	"pos_y": 10
 }
 
+onready var npc_swamp_traveller_bryna = {
+	"name": "Bryna",
+	"race": RACES.HUMAN,
+	"region": 4, # Sedgelin Swamplands
+	"dialogue": [
+		ml(["I tried to cross the Sedgelin Swamplands, but the water was up to my knees. ",
+		"If only I had some rubber boots."])
+	],
+	"initiates_quest_immediately": false,
+	"current_dialogue": 0, # initial dialogue
+	"overworld_sprite": get_node("Swamp_Traveller_Bryna"),
+	"pos_x": -3,
+	"pos_y": 12
+}
+
+onready var npc_swamp_shortcut_goblin_nexi = {
+	"name": "Nexi",
+	"race": RACES.GOBLIN,
+	"region": 4, # Sedgelin Swamplands
+	"dialogue": [
+		"SHAC DALAAN O DUUN OKHAAR TERTHAAN OR TAL.",
+		ml(["My brother and I used to play in the swamlands growing up. I know this area ",
+		"very well. I even know a shortcut to the Western side."])
+	],
+	"initiates_quest_immediately": false,
+	"current_dialogue": 1, # initial dialogue
+	"overworld_sprite": get_node("Swamp_Shortcut_Goblin_Nexi"),
+	"pos_x": -7,
+	"pos_y": 20
+}
 # keep track of all the npcs
 onready var npcs = [
 	npc_lonely_man_samuel,
@@ -391,7 +421,9 @@ onready var npcs = [
 	npc_horse_skyheart,
 	npc_guild_beaver,
 	npc_court_mage_ashan,
-	npc_bellmare_head_chef_frederik
+	npc_bellmare_head_chef_frederik,
+	npc_swamp_traveller_bryna,
+	npc_swamp_shortcut_goblin_nexi
 ]
 
 # keep track of the npc that is currently being interacted with

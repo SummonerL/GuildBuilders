@@ -28,8 +28,8 @@ const TOWER_CLIMB_TEXT = 'What a stunning view!'
 
 func unit_init():	
 	#TEMP ---------
-	unit_pos_x = -2
-	unit_pos_y = 13
+	unit_pos_x = -6
+	unit_pos_y = 20
 	
 	unit_portrait_sprite = ps
 	
@@ -55,6 +55,7 @@ func unit_init():
 	#TEMP
 	global_items_list.add_item_to_unit(self, global_items_list.item_tree_tapper)
 	skill_levels[constants.FASHIONING] = 5
+	skill_levels[constants.DIPLOMACY] = 5
 	global_items_list.add_item_to_unit(self, global_items_list.item_rubber_boots)
 	# add the unit's starting ability
 	starting_ability = global_ability_list.ability_insomniac
