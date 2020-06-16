@@ -904,3 +904,13 @@
 84/navigation_offset = Vector2( 0, 0 )
 84/shapes = [  ]
 84/z_index = 0
+85/name = "ghost"
+85/texture = ExtResource( 1 )
+85/tex_offset = Vector2( 0, 0 )
+85/modulate = Color( 1, 1, 1, 1 )
+85/region = Rect2( 368, 176, 16, 16 )
+85/tile_mode = 0
+85/occluder_offset = Vector2( 0, 0 )
+85/navigation_offset = Vector2( 0, 0 )
+85/shapes = [  ]
+85/z_index = 0

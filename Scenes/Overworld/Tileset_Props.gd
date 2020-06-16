@@ -82,6 +82,7 @@ const TILES = {
 				63: 'CAT',
 				69: 'HORSE',
 				64: 'GUARD',
+				85: 'GHOST',
 				65: 'KING',
 				66: 'GOBLIN',
 				77: 'BEAVER'
@@ -145,6 +146,7 @@ const TILE_INFO_HUD_NAME = {
 	'CAT': 'Cat',
 	'HORSE': 'Horse',
 	'GUARD': 'Guard',
+	'GHOST': 'Ghost',
 	'KING': 'King',
 	'GOBLIN': 'Gobln',
 	'BEAVER': 'Beavr',
@@ -221,6 +223,7 @@ const MOVEMENT_COST = {
 	HORSE = CANT_MOVE,
 	GUARD = CANT_MOVE,
 	KING = CANT_MOVE,
+	GHOST = CANT_MOVE,
 	GOBLIN = CANT_MOVE,
 	BEAVER = CANT_MOVE,
 	

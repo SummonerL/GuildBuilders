@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=2]
+[gd_scene load_steps=62 format=2]
 
 [ext_resource path="res://Entities/NPCs/NPC.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/characters/npcs/lonely_man_samuel_1.png" type="Texture" id=2]
@@ -39,6 +39,8 @@
 [ext_resource path="res://Sprites/characters/npcs/swamp_traveller_bryna2.png" type="Texture" id=37]
 [ext_resource path="res://Sprites/characters/npcs/swamp_shortcut_goblin_nexi_1.png" type="Texture" id=38]
 [ext_resource path="res://Sprites/characters/npcs/swamp_shortcut_goblin_nexi_2.png" type="Texture" id=39]
+[ext_resource path="res://Sprites/characters/npcs/sedgelin_ghost_rubin_2.png" type="Texture" id=40]
+[ext_resource path="res://Sprites/characters/npcs/sedgelin_ghost_rubin_1.png" type="Texture" id=41]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -192,6 +194,14 @@ animations = [ {
 "speed": 5.0
 } ]
 
+[sub_resource type="SpriteFrames" id=20]
+animations = [ {
+"frames": [ ExtResource( 41 ), ExtResource( 40 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
 [node name="NPC" type="Node2D"]
 z_index = 2
 script = ExtResource( 1 )
@@ -316,6 +326,13 @@ centered = false
 
 [node name="Swamp_Shortcut_Goblin_Nexi" type="AnimatedSprite" parent="."]
 frames = SubResource( 19 )
+speed_scale = 0.5
+playing = true
+centered = false
+
+[node name="Sedgelin_Ghost_Rubin" type="AnimatedSprite" parent="."]
+frames = SubResource( 20 )
+frame = 1
 speed_scale = 0.5
 playing = true
 centered = false

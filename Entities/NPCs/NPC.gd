@@ -39,6 +39,7 @@ enum RACES {
 	HUMAN,
 	GOBLIN,
 	ANIMAL,
+	GHOST,
 }
 
 onready var race_diplomacy_requirements = {
@@ -405,6 +406,21 @@ onready var npc_swamp_shortcut_goblin_nexi = {
 	"pos_x": -7,
 	"pos_y": 20
 }
+
+onready var npc_sedgelin_ghost_rubin = {
+	"name": "Rubin",
+	"race": RACES.GHOST,
+	"region": 4, # Sedgelin Swamplands
+	"dialogue": [
+		ml(["This spot is cute and all, but I wish I had been buried with some company."])
+	],
+	"initiates_quest_immediately": false,
+	"current_dialogue": 0, # initial dialogue
+	"overworld_sprite": get_node("Sedgelin_Ghost_Rubin"),
+	"pos_x": -14,
+	"pos_y": 4
+}
+
 # keep track of all the npcs
 onready var npcs = [
 	npc_lonely_man_samuel,
@@ -425,7 +441,8 @@ onready var npcs = [
 	npc_court_mage_ashan,
 	npc_bellmare_head_chef_frederik,
 	npc_swamp_traveller_bryna,
-	npc_swamp_shortcut_goblin_nexi
+	npc_swamp_shortcut_goblin_nexi,
+	npc_sedgelin_ghost_rubin
 ]
 
 # keep track of the npc that is currently being interacted with
