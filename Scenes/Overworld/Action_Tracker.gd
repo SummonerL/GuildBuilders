@@ -47,7 +47,9 @@ const ACTIONS = {
 	7: 'CAVE_CONNECTOR_1',
 	8: 'CAVE_CONNECTOR_2',
 	11: 'CAVE_CONNECTOR_3',
-	12: 'CAVE_CONNECTOR_4'
+	12: 'CAVE_CONNECTOR_4',
+	23: 'GENERIC_CONNECTOR_5',
+	24: 'GENERIC_CONNECTOR_6'
 }
 
 # keep track of the kind of resources that can be gained on specific action spots
@@ -115,7 +117,9 @@ onready var associated_actions = {
 	'CAVE_CONNECTOR_1': [global_action_list.COMPLETE_ACTION_LIST.TUNNEL],
 	'CAVE_CONNECTOR_2': [global_action_list.COMPLETE_ACTION_LIST.TUNNEL],
 	'CAVE_CONNECTOR_3': [global_action_list.COMPLETE_ACTION_LIST.TUNNEL],
-	'CAVE_CONNECTOR_4': [global_action_list.COMPLETE_ACTION_LIST.TUNNEL]
+	'CAVE_CONNECTOR_4': [global_action_list.COMPLETE_ACTION_LIST.TUNNEL],
+	'GENERIC_CONNECTOR_5': [global_action_list.COMPLETE_ACTION_LIST.FOLLOW_NPC],
+	'GENERIC_CONNECTOR_6': [],
 }
 
 # level requirements for specific spots
@@ -141,12 +145,14 @@ onready var level_requirements = {
 	'BEAST_MASTERY_SPOT_3': 5,
 }
 
-# matching connections (used for tunneling)
+# matching connections (used for tunneling and other connectors)
 onready var matching_connections = {
 	'CAVE_CONNECTOR_1': 'CAVE_CONNECTOR_2',
 	'CAVE_CONNECTOR_2': 'CAVE_CONNECTOR_1',
 	'CAVE_CONNECTOR_3': 'CAVE_CONNECTOR_4',
 	'CAVE_CONNECTOR_4': 'CAVE_CONNECTOR_3',
+	'GENERIC_CONNECTOR_5': 'GENERIC_CONNECTOR_6',
+	'GENERIC_CONNECTOR_6': 'GENERIC_CONNECTOR_5'
 }
 
 # river actions (used for crossing)
@@ -175,7 +181,8 @@ onready var adjacent_applicable = [
 	global_action_list.COMPLETE_ACTION_LIST.MEET_WITH_LEADER,
 	global_action_list.COMPLETE_ACTION_LIST.GIVE_GIFT_TO_LEADER,
 	global_action_list.COMPLETE_ACTION_LIST.ACCESS_DEPOT_VIA_MAGE_ASHEN,
-	global_action_list.COMPLETE_ACTION_LIST.ACCESS_DINING_VIA_CHEF_FREDERIK
+	global_action_list.COMPLETE_ACTION_LIST.ACCESS_DINING_VIA_CHEF_FREDERIK,
+	global_action_list.COMPLETE_ACTION_LIST.FOLLOW_NPC,
 ]
 
 func get_action_spot_at_coordinates(vec2):

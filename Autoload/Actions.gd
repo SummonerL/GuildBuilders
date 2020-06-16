@@ -117,6 +117,7 @@ enum COMPLETE_ACTION_LIST {
 	TALK, # used for NPCS
 	ACCESS_DEPOT_VIA_MAGE_ASHEN, # access depot
 	ACCESS_DINING_VIA_CHEF_FREDERIK, # access dining
+	FOLLOW_NPC, # follow an npc between matching connectors
 	READ_SIGN, # used for signs
 	CLIMB_TOWER, # used for towers + revealing regions
 	TUNNEL # for caves (Male Miner Only)
@@ -170,6 +171,7 @@ const ACTION_LIST_NAMES = [ # in the same order as actions above
 	'TALK',
 	'DEPOT',
 	'DINE',
+	'FOLLW',
 	'READ',
 	'CLIMB',
 	'TUNNL',
@@ -323,6 +325,9 @@ func do_action(action, parent, additional_params = null):
 		COMPLETE_ACTION_LIST.ACCESS_DINING_VIA_CHEF_FREDERIK:
 			# access the dining window, via npc
 			access_dining_via_npc(guild.bellmare_relation, 6, true) # requires 6 favor with bellmare, pulls from inv
+		COMPLETE_ACTION_LIST.FOLLOW_NPC:
+			# follow an npc from point A to point B
+			follow_npc()
 		COMPLETE_ACTION_LIST.TRADE_ITEMS:
 			# trade items between units
 			active_unit.show_trade_selector()
@@ -581,6 +586,74 @@ func access_dining_via_npc(relation, favor, pulls_from_inv = true):
 		yield(signals, "finished_viewing_text_generic")
 		# change the state back
 		player.player_state = player.PLAYER_STATE.SELECTING_TILE
+
+func follow_npc():
+	# find the corresponding npc (since this action can be taken from an adjacent tile)
+	var the_npc_pos = null
+	var the_npc_spot = null
+
+	for tile in get_tree().get_current_scene().get_cardinal_tiles(active_unit):
+		# check if the tile contains a follow_npc action
+		if (map_actions.get_actions_at_coordinates(tile.tile)).has(COMPLETE_ACTION_LIST.FOLLOW_NPC):
+			the_npc_pos = tile.tile
+			the_npc_spot = map_actions.get_action_spot_at_coordinates(tile.tile)
+			
+	if (the_npc_pos != null):
+		# get the npc 
+		var npc = get_tree().get_current_scene().npcs.get_npc_by_pos(the_npc_pos)
+		
+		# get the relation for this npc
+		var relation = npc.action_relation
+		
+		if (relation.favor >= npc.action_favor_requirement):
+			# follow the npc to the corresponding spot
+			var matching_connection = map_actions.get_cave_connection(the_npc_spot) # reuse cave function
+			var target_tile_id = map_actions.tile_set.find_tile_by_name(matching_connection)
+			var cells = map_actions.get_used_cells_by_id(target_tile_id)
+			var target_pos = cells[0]
+		
+			# make sure the target position isn't occupied
+			if player.party.is_unit_here(target_pos.x, target_pos.y):
+				player.hud.typeTextWithBuffer(PATH_BLOCKED, false, 'finished_viewing_text_generic')
+				yield(signals, "finished_viewing_text_generic")
+				player.player_state = player.PLAYER_STATE.SELECTING_TILE
+				return
+		
+			# first, fade out quickly
+			# scene transition fade out
+			var fade = scene_transitioner_scn.instance()
+			add_child(fade)
+			
+			fade.black_in.visible = false
+			fade.black_out.visible = true
+			
+			fade.fade_out_scene(0)
+			
+			yield(fade, "scene_faded_out")
+			
+			# with the screen faded out, move the unit to the connecting cave
+			active_unit.set_unit_pos(target_pos.x, target_pos.y)
+			get_tree().get_current_scene().cursor.focus_on(target_pos.x, target_pos.y)
+			
+			# fade back in the scene
+			fade.black_in.visible = true
+			fade.black_out.visible = false
+			fade.fade_in_scene(0)
+			
+			yield(fade, "scene_faded_in")
+			
+			remove_child(fade)
+			
+			# and let the unit know he/she has finished acting :)
+			active_unit.end_action(true) # success!
+		else:
+			player.hud.typeTextWithBuffer(NEED_AT_LEAST + String(npc.action_favor_requirement) + WITH_TEXT + relation.faction.name + TO_DO_THIS_TEXT, 
+				false, 'finished_viewing_text_generic')
+			yield(signals, "finished_viewing_text_generic")
+			# change the state back
+			player.player_state = player.PLAYER_STATE.SELECTING_TILE
+			
+	pass
 
 func initiate_climb_tower_action(the_tower):
 	if (the_tower.type == 'tower'):

@@ -353,7 +353,8 @@ onready var goblin_clan_relation = {
 
 # keep track of all relations and their current favor
 onready var guild_relations = [
-	bellmare_relation
+	bellmare_relation,
+	goblin_clan_relation
 ]
 
 func reduce_favor():

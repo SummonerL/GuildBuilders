@@ -399,6 +399,8 @@ onready var npc_swamp_shortcut_goblin_nexi = {
 	],
 	"initiates_quest_immediately": false,
 	"current_dialogue": 1, # initial dialogue
+	"action_relation": guild.goblin_clan_relation, # for the FOLLOW action
+	"action_favor_requirement": 7, # the favor required for FOLLOW action
 	"overworld_sprite": get_node("Swamp_Shortcut_Goblin_Nexi"),
 	"pos_x": -7,
 	"pos_y": 20
@@ -508,6 +510,14 @@ func get_npc_by_name(name):
 	# return the corresponding NPC
 	for npc in npcs:
 		if (name == npc.name):
+			return npc
+			
+	return null
+	
+func get_npc_by_pos(pos):
+	# return the corresponding NPC
+	for npc in npcs:
+		if (pos.x == npc.pos_x && pos.y == npc.pos_y):
 			return npc
 			
 	return null
