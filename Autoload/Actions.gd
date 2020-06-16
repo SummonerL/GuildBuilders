@@ -119,6 +119,7 @@ enum COMPLETE_ACTION_LIST {
 	ACCESS_DINING_VIA_CHEF_FREDERIK, # access dining
 	FOLLOW_NPC, # follow an npc between matching connectors
 	READ_SIGN, # used for signs
+	READ_GRAVE, # used for graves (basically signs)
 	CLIMB_TOWER, # used for towers + revealing regions
 	TUNNEL # for caves (Male Miner Only)
 	CROSS, # for rivers (Female Angler Only / Or wooden stilts)
@@ -172,6 +173,7 @@ const ACTION_LIST_NAMES = [ # in the same order as actions above
 	'DEPOT',
 	'DINE',
 	'FOLLW',
+	'READ',
 	'READ',
 	'CLIMB',
 	'TUNNL',
@@ -333,6 +335,9 @@ func do_action(action, parent, additional_params = null):
 			active_unit.show_trade_selector()
 		COMPLETE_ACTION_LIST.READ_SIGN:
 			# read an adjacent sign
+			initiate_read_sign_action(player.active_world_object)
+		COMPLETE_ACTION_LIST.READ_GRAVE:
+			# graves are basically signs
 			initiate_read_sign_action(player.active_world_object)
 		COMPLETE_ACTION_LIST.CLIMB_TOWER:
 			# climb an adjacent tower

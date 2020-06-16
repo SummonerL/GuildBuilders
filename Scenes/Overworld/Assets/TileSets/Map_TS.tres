@@ -894,3 +894,13 @@
 83/navigation_offset = Vector2( 0, 0 )
 83/shapes = [  ]
 83/z_index = 0
+84/name = "cypress"
+84/texture = ExtResource( 1 )
+84/tex_offset = Vector2( 0, 0 )
+84/modulate = Color( 1, 1, 1, 1 )
+84/region = Rect2( 320, 112, 16, 16 )
+84/tile_mode = 0
+84/occluder_offset = Vector2( 0, 0 )
+84/navigation_offset = Vector2( 0, 0 )
+84/shapes = [  ]
+84/z_index = 0

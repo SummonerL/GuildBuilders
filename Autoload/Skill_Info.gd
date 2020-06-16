@@ -83,6 +83,14 @@ onready var SKILL_UNLOCKS = {
 			'single_line': true,
 			'type': UNLOCK_TYPES.RESOURCE,
 			'level_required': 4,
+		},
+		{
+			'unlock_text': ' can now chop Cypress Trees!',
+			'can_text': 'Chop',
+			'skill_info_text': 'Cypress Trees',
+			'single_line': true,
+			'type': UNLOCK_TYPES.RESOURCE,
+			'level_required': 8,
 		}
 	],
 	

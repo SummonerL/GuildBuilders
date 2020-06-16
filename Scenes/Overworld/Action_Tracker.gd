@@ -26,6 +26,7 @@ const ACTIONS = {
 	3: 'WOODCUTTING_SPOT_2',
 	5: 'WOODCUTTING_SPOT_3',
 	9: 'WOODCUTTING_SPOT_4',
+	27: 'WOODCUTTING_SPOT_5',
 	
 	6: 'MINING_SPOT_1',
 	10: 'MINING_SPOT_2',
@@ -49,7 +50,9 @@ const ACTIONS = {
 	11: 'CAVE_CONNECTOR_3',
 	12: 'CAVE_CONNECTOR_4',
 	23: 'GENERIC_CONNECTOR_5',
-	24: 'GENERIC_CONNECTOR_6'
+	24: 'GENERIC_CONNECTOR_6',
+	25: 'CAVE_CONNECTOR_7',
+	26: 'CAVE_CONNECTOR_8',
 }
 
 # keep track of the kind of resources that can be gained on specific action spots
@@ -62,6 +65,7 @@ onready var ITEMS_AT_SPOT = {
 	'WOODCUTTING_SPOT_2': [global_items_list.item_ash_logs],
 	'WOODCUTTING_SPOT_3': [global_items_list.item_fir_logs],
 	'WOODCUTTING_SPOT_4': [global_items_list.item_birch_logs],
+	'WOODCUTTING_SPOT_5': [global_items_list.item_cypress_logs],
 	
 	'MINING_SPOT_1': [global_items_list.item_stone],
 	'MINING_SPOT_2': [global_items_list.item_iron_ore],
@@ -93,6 +97,7 @@ onready var associated_actions = {
 	'WOODCUTTING_SPOT_2': [global_action_list.COMPLETE_ACTION_LIST.CHOP],
 	'WOODCUTTING_SPOT_3': [global_action_list.COMPLETE_ACTION_LIST.CHOP],
 	'WOODCUTTING_SPOT_4': [global_action_list.COMPLETE_ACTION_LIST.CHOP],
+	'WOODCUTTING_SPOT_5': [global_action_list.COMPLETE_ACTION_LIST.CHOP],
 	
 	'MINING_SPOT_1': [global_action_list.COMPLETE_ACTION_LIST.MINE],
 	'MINING_SPOT_2': [global_action_list.COMPLETE_ACTION_LIST.MINE],
@@ -120,6 +125,8 @@ onready var associated_actions = {
 	'CAVE_CONNECTOR_4': [global_action_list.COMPLETE_ACTION_LIST.TUNNEL],
 	'GENERIC_CONNECTOR_5': [global_action_list.COMPLETE_ACTION_LIST.FOLLOW_NPC],
 	'GENERIC_CONNECTOR_6': [],
+	'CAVE_CONNECTOR_7': [global_action_list.COMPLETE_ACTION_LIST.TUNNEL],
+	'CAVE_CONNECTOR_8': [global_action_list.COMPLETE_ACTION_LIST.TUNNEL]
 }
 
 # level requirements for specific spots
@@ -128,6 +135,7 @@ onready var level_requirements = {
 	'WOODCUTTING_SPOT_2': 2,
 	'WOODCUTTING_SPOT_3': 3,
 	'WOODCUTTING_SPOT_4': 4,
+	'WOODCUTTING_SPOT_5': 8,
 	
 	'FISH_SPOT_1': 1,
 	'FISH_SPOT_2': 2,
@@ -152,7 +160,9 @@ onready var matching_connections = {
 	'CAVE_CONNECTOR_3': 'CAVE_CONNECTOR_4',
 	'CAVE_CONNECTOR_4': 'CAVE_CONNECTOR_3',
 	'GENERIC_CONNECTOR_5': 'GENERIC_CONNECTOR_6',
-	'GENERIC_CONNECTOR_6': 'GENERIC_CONNECTOR_5'
+	'GENERIC_CONNECTOR_6': 'GENERIC_CONNECTOR_5',
+	'CAVE_CONNECTOR_7': 'CAVE_CONNECTOR_8',
+	'CAVE_CONNECTOR_8': 'CAVE_CONNECTOR_7'
 }
 
 # river actions (used for crossing)
@@ -163,6 +173,9 @@ onready var npc_actions = [global_action_list.COMPLETE_ACTION_LIST.TALK]
 
 # sign actions
 onready var sign_actions = [global_action_list.COMPLETE_ACTION_LIST.READ_SIGN]
+
+# grave actions
+onready var grave_actions = [global_action_list.COMPLETE_ACTION_LIST.READ_GRAVE]
 
 # tower actions
 onready var tower_actions = [global_action_list.COMPLETE_ACTION_LIST.CLIMB_TOWER]

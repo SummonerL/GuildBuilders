@@ -300,6 +300,14 @@ onready var item_birch_logs = {
 	"xp": 2 # xp upon receiving
 }
 
+onready var item_cypress_logs = {
+	"name": "Cypress Logs",
+	"description": "A pale wood that is quite resistant to water. Can be used to craft various items.",
+	"type": ITEM_TYPES.WOOD,
+	"can_discard": true,
+	"xp": 4 # xp upon receiving
+}
+
 # may remove
 onready var item_softwood = {
 	"name": "Softwood",

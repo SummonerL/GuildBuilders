@@ -854,16 +854,27 @@ func populate_unique_actions(unit):
 		npcs.set_active_npc(adjacent_npc)
 		unique_actions += map_actions.npc_actions
 	
-	# determine if we are near any signs
+	# determine if we are near any signs (or graves)
 	var adjacent_sign = null
+	var adjacent_grave = null
 	var sign_id = l2_tiles.tile_set.find_tile_by_name('sign')
+	var grave_id = l2_tiles.tile_set.find_tile_by_name('grave')
 	for tile in get_cardinal_tiles(unit):
 		if (l2_tiles.get_cellv(tile.tile) == sign_id && adjacent_sign == null):
 			adjacent_sign = {'type': 'sign', 'pos': tile.tile}
-			
+		elif (l2_tiles.get_cellv(tile.tile) == grave_id && adjacent_grave == null):
+			adjacent_grave = {'type': 'sign', 'pos': tile.tile}
+
 	if (adjacent_sign != null):
 		player.active_world_object = adjacent_sign
 		unique_actions += map_actions.sign_actions
+		
+	print(adjacent_grave)
+	
+	if (adjacent_grave != null):
+		player.active_world_object = adjacent_grave
+		unique_actions += map_actions.grave_actions
+		
 		
 	# determine if we are near any towers
 	var adjacent_tower = null
