@@ -39,6 +39,7 @@ enum ITEM_TYPES {
 	CRAFTING_PART,
 	UTILITY,
 	DIPLOMATIC_GIFT,
+	QUEST_ITEM
 }
 
 const BROKE_TEXT = ' broke...'
@@ -181,6 +182,16 @@ onready var item_rubber_boots = { # crafted from latex
 		"MARSH_DEC4",
 		],
 	"terrain_affected_value": -1,
+	"xp": 3, # xp upon receiving
+}
+
+onready var item_shovel = { # crafted from iron and wooden handle
+	"name": "Shovel",
+	"description": "A metal shovel crafted from iron. When used, allows the unit to search the ground beneath them for hidden items.",
+	"type": ITEM_TYPES.UTILITY,
+	"can_use": true,
+	"triggers_action": global_action_list.COMPLETE_ACTION_LIST.DIG_GROUND, # using this item triggers another action
+	"can_discard": true,
 	"xp": 3, # xp upon receiving
 }
 
@@ -378,6 +389,21 @@ onready var item_latex = {
 	"description": "A milky substance collected from a rubber tree. Can be used to craft various items.",
 	"type": ITEM_TYPES.CRAFTING_PART
 }
+
+# quest items
+onready var item_rubins_remains = {
+	"name": "Rubin's Remains",
+	"description": "The remains of Rubin. This item is used in a quest.",
+	"type": ITEM_TYPES.QUEST_ITEM
+}
+
+# keep track of any items that can be found by digging (predefined)
+onready var predefined_ground_items = [
+	{
+		"pos": Vector2(-13, 5),
+		"item": item_rubins_remains
+	}
+]
 
 # a helper function for adding items to a unit
 func add_item_to_unit(unit, item):

@@ -53,7 +53,8 @@ func unit_init():
 	global_items_list.add_item_to_unit(self, global_items_list.item_jumbofish)
 	
 	#TEMP
-	global_items_list.add_item_to_unit(self, global_items_list.item_tree_tapper)
+	global_items_list.add_item_to_unit(self, global_items_list.item_shovel)
+	global_items_list.add_item_to_unit(self, global_items_list.item_shovel)
 	skill_levels[constants.FASHIONING] = 5
 	skill_levels[constants.DIPLOMACY] = 5
 	global_items_list.add_item_to_unit(self, global_items_list.item_rubber_boots)

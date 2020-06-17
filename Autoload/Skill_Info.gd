@@ -359,6 +359,26 @@ onready var SKILL_UNLOCKS = {
 			]
 		},
 		{
+			'unlock_text': ' can now craft Shovels!',
+			'can_text': 'Craft',
+			'skill_info_text': 'Shovels',
+			'single_line': true,
+			'type': UNLOCK_TYPES.RECIPE,
+			'level_required': 3,
+			'item': global_item_list.item_shovel,
+			'resources_required': [
+				{
+					'item': global_item_list.item_iron_ore,
+					'quantity': 1
+				},
+				{
+					'item': global_item_list.item_wooden_handle,
+					'quantity': 1
+				},
+			]
+		},
+		
+		{
 			'unlock_text': ' can now craft Tree Tapper!',
 			'can_text': 'Craft',
 			'skill_info_text': 'Tree Tapper',

@@ -89,6 +89,10 @@ const NO_ROOM_FOR_ANIMAL = "There's no room for an animal to be deployed..."
 const CANT_TAME_ANY_MORE = " can't tame any more animals today..."
 const CANT_PET_ANYMORE = "This cat doesn't want to be pet anymore..."
 const ALREADY_MET_TEXT = "This leader is not available for any more meetings..."
+const DUG_GROUND_FOUND_NOTHING = " dug up the ground and found nothing..."
+const DUG_GROUND_FOUND = " dug up the ground and found "
+const DUG_GROUND_INV_FULL = "There's something here, but "
+const CANT_HOLD_ANYTHING_ELSE = " can't hold anything else..."
 const NEED_AT_LEAST = "You need at least "
 const WITH_TEXT = " favor with "
 const TO_DO_THIS_TEXT = " to do this..."
@@ -134,6 +138,7 @@ enum COMPLETE_ACTION_LIST {
 	YES, # for confirmation
 	NO, # for confirmation
 	WRITE_LETTER, # write a diplomatic letter
+	DIG_GROUND, # when using a shovel
 	TRANSFER_ITEM_AT_DEPOT, # for depot screen
 	VIEW_ITEM_INFO_AT_DEPOT, # for depot screen
 	TRASH_ITEM_AT_DEPOT, # for depot screen
@@ -189,6 +194,7 @@ const ACTION_LIST_NAMES = [ # in the same order as actions above
 	'YES',
 	'NO',
 	'WRITE',
+	'DIG',
 	'MOVE',
 	'INFO',
 	'TRASH',
@@ -254,6 +260,9 @@ func do_action(action, parent, additional_params = null):
 		COMPLETE_ACTION_LIST.WRITE_LETTER:
 			# write a letter with a piece of paper
 			initiate_write_letter_action(additional_params)
+		COMPLETE_ACTION_LIST.DIG_GROUND:
+			# dig the ground using the unit's shovel
+			initiate_dig_ground_action(additional_params)
 		COMPLETE_ACTION_LIST.USE_ITEM_IN_UNIT_INFO_SCREEN:
 			parent.use_item()
 		COMPLETE_ACTION_LIST.TRASH_ITEM_IN_UNIT_SCREEN:
@@ -1120,6 +1129,42 @@ func initiate_write_letter_action(param_object):
 		# unpause the unit info screen
 		param_object.unit_info_screen.set_process_input(true)	
 	pass
+
+# dig the ground beneath the unit!
+func initiate_dig_ground_action(param_object):
+	# first, close the info screen
+	param_object.unit_info_screen.close_unit_screen()
+	
+	# make sure we close the dialogue box as well, if it's present
+	player.hud.clearText()
+	player.hud.completeText()
+	player.hud.kill_timers()
+	
+	# make sure the player state is not set to selecting tile
+	player.player_state = player.PLAYER_STATE.SELECTING_ACTION
+
+	var item_here = null
+	
+	# first, determine if there are any items in this location (from the predefined_list)
+	for ground_item in global_items_list.predefined_ground_items:
+		if (ground_item.pos == Vector2(active_unit.unit_pos_x, active_unit.unit_pos_y)):
+			item_here = ground_item.item
+	
+	if (item_here != null):
+		
+		# make sure the unit can hold this item
+		if (active_unit.is_inventory_full()):
+			player.hud.typeTextWithBuffer(DUG_GROUND_INV_FULL + active_unit.unit_name + CANT_HOLD_ANYTHING_ELSE, false, 'finished_action_failed') # they did not complete the action 
+		else:
+			# give the unit the item!
+			active_unit.receive_item(item_here)
+			
+			# spends an action
+			player.hud.typeTextWithBuffer(active_unit.unit_name + DUG_GROUND_FOUND + item_here.name + "!", false, 'finished_action_success') # they completed the action 
+	else:
+		# spends an action
+		player.hud.typeTextWithBuffer(active_unit.unit_name + DUG_GROUND_FOUND_NOTHING, false, 'finished_action_success') # they completed the action
+
 
 # meet with a diplomatic leader
 func initiate_meet_with_leader_action():

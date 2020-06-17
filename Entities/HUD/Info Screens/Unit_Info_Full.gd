@@ -474,7 +474,7 @@ func use_item():
 		set_process_input(false)
 		
 		# initiate an action
-		global_action_list.do_action(global_action_list.COMPLETE_ACTION_LIST.WRITE_LETTER, active_unit, 
+		global_action_list.do_action(item.triggers_action, active_unit, 
 			{
 				"item": item,
 				"item_index": current_item,
