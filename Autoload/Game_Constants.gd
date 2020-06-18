@@ -296,6 +296,7 @@ const NEXT_LEVEL_TEXT = "Nxt."
 const WHERE_SHOULD_I_RETURN_TEXT = 'Where should I return?'
 const CANT_PLACE_HERE_TEXT = 'This item can only be placed in an empty grass tile.'
 const ITEM_PLACED_TEXT = 'The item was placed underneath '
+const TOO_SPOOKED = ' is too spooked to do that...'
 
 # helper function for chance tests, based on a passed percentage
 func chance_test(percent):

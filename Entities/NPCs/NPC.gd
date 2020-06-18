@@ -410,6 +410,7 @@ onready var npc_swamp_shortcut_goblin_nexi = {
 onready var npc_sedgelin_ghost_rubin = {
 	"name": "Rubin",
 	"race": RACES.GHOST,
+	"scary": true, # requires the unit to have some courage
 	"region": 4, # Sedgelin Swamplands
 	"dialogue": [
 		ml(["This spot is cute and all, but I wish I had been buried with some company."])
@@ -484,6 +485,14 @@ func talk_to_npc(unit, npc = null, dialogue_before_changer = 0, dialogue_after_c
 	
 	if (npc):
 		active_npc = npc
+		
+	# some npcs are scary, and the unit must have some courage to speak with them
+	if (npc && npc.has("scary") && npc.scary && unit.courage == 0):
+		# the unit is too spooked to talk to the npc...
+		player.hud.typeTextWithBuffer(active_unit.unit_name + constants.TOO_SPOOKED, false, "finished_viewing_text_generic")
+		yield(signals, "finished_viewing_text_generic")
+		player.player_state = player.PLAYER_STATE.SELECTING_TILE
+		return
 		
 	# first, check any quest conditions (this can sometimes change the npcs dialogue manually)
 	if (!quest_condition_bypass):

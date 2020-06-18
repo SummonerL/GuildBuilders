@@ -28,8 +28,8 @@ const TOWER_CLIMB_TEXT = 'What a stunning view!'
 
 func unit_init():	
 	#TEMP ---------
-	unit_pos_x = -12
-	unit_pos_y = 24
+	unit_pos_x = -11
+	unit_pos_y = 22
 	
 	unit_portrait_sprite = ps
 	
