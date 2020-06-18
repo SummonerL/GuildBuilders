@@ -223,10 +223,16 @@ func eat_food():
 	for ability in active_unit.unit_abilities:
 		if (ability.type == global_ability_list.ABILITY_TYPES.FOOD): 
 			# also make sure that the ability isn't 'FED', as that shouldn't take up a meal slot
-			if ability.name != global_ability_list.ABILITY_FED_NAME:
-				meal_count += 1
+			if (ability.name != global_ability_list.ABILITY_FED_NAME):
+				# if the ability 'doesn't contribute' to the meal limit
+				print (ability)
+				print (ability.get("contribute_meal_limit"))
+				if (ability.get("contribute_meal_limit") == false):
+					meal_count += 0
+				else:
+					meal_count += 1
 			
-	if (meal_count >= active_unit.meal_limit):
+	if (meal_count >= active_unit.meal_limit && (effect.get("contribute_meal_limit") == null || effect.get("contribute_meal_limit") == true)):
 		# reuse a signal (it does the same thing)
 		signals.connect("already_have_effect_dialogue_dining", self, "_on_already_have_effect_dialogue_completion", [], signals.CONNECT_ONESHOT)
 		
@@ -237,6 +243,7 @@ func eat_food():
 	# display a message if the user already has this food effect (and the effect is not stackable)
 	for ability in active_unit.unit_abilities:
 		if (ability.name == effect.name && !food.item.can_stack_effect):
+			
 			signals.connect("already_have_effect_dialogue_dining", self, "_on_already_have_effect_dialogue_completion", [], signals.CONNECT_ONESHOT)
 			
 			player.hud.dialogueState = player.hud.STATES.INACTIVE

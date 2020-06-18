@@ -28,8 +28,9 @@ const ABILITY_GEM_HUNTER_NAME = 'Gem Hunter'
 # food (daily) abilities
 const ABILITY_WELL_FED_NAME = 'Status: Well-Fed'
 const ABILITY_FED_NAME = 'Status: Fed'
-const ABILITY_FOOD_MUSCLEFISH_NAME = 'Food Effect'
-const ABILITY_FOOD_CATFISH_NAME = 'Food Effect'
+const ABILITY_FOOD_MUSCLEFISH_NAME = 'Musclefish Effect'
+const ABILITY_FOOD_CATFISH_NAME = 'Catfish Effect'
+const ABILITY_FOOD_GHOSTFISH_NAME = 'Ghostfish Effect'
 
 # other daily abilities
 const ABILITY_INSPIRED_NAME = 'Status: Inspired'
@@ -113,6 +114,13 @@ const ability_food_catfish = {
 	"name": ABILITY_FOOD_CATFISH_NAME,
 	"description": "For the remainder of the day, petting cats will grant this unit an additional 'Relaxed' effect (10% bonus XP).",
 	"type": ABILITY_TYPES.FOOD
+}
+
+const ability_food_ghostfish = {
+	"name": ABILITY_FOOD_GHOSTFISH_NAME,
+	"description": "This unit is feeling corageous. For the remainder of the day, this unit can take certain actions that they would otherwise not be able to.",
+	"type": ABILITY_TYPES.FOOD,
+	"contribute_meal_limit": false # this fish does not contribute to the daily meal limit
 }
 
 # daily abilities
@@ -216,7 +224,9 @@ func on_add_to_unit(unit, ability):
 		ABILITY_FOOD_MUSCLEFISH_NAME:
 			# add 3 to the unit's max inventory space
 			unit.item_limit += 3		
-			
+		ABILITY_FOOD_GHOSTFISH_NAME:
+			# add 1 to the unit's courage
+			unit.courage += 1
 				
 		# daily abilities / effects / statuses
 		ABILITY_INSPIRED_NAME:
@@ -300,6 +310,11 @@ func on_remove_from_unit(unit, ability):
 			unit.item_limit -= 3
 			if (unit.item_limit < 0):
 				unit.item_limit = 0
+		ABILITY_FOOD_GHOSTFISH_NAME:
+			# remove 1 from the unit's courage
+			unit.courage -= 1
+			if (unit.courage < 0):
+				unit.courage = 0
 				
 				
 		# daily abilities / effects / statuses

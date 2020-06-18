@@ -278,6 +278,16 @@ onready var item_catfish = {
 	"can_stack_effect": false # this effect can not be added more than once
 }
 
+onready var item_ghostfish = {
+	"name": "Ghostfish",
+	"description": "After eating this, the unit will gain some courage. For the remainder of the day, this unit can take certain actions that they would otherwise not be able to. This fish does not contribute to the unit's daily meal limit.",
+	"type": ITEM_TYPES.FISH,
+	"can_discard": true,
+	"xp": 4, # xp upon receiving
+	"connected_ability": global_ability_list.ability_food_ghostfish,
+	"can_stack_effect": false, # this effect can be added more than once
+}
+
 # wood
 onready var item_cedar_logs = {
 	"name": "Cedar Logs",
