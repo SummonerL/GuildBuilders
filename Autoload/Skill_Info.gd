@@ -476,13 +476,22 @@ onready var SKILL_UNLOCKS = {
 			'level_required': 3,
 		},
 		{
+			'unlock_text': ' can now pet Gators!',
+			'can_text': 'Pet',
+			'skill_info_text': 'Gators',
+			'single_line': true,
+			'type': UNLOCK_TYPES.ACTION,
+			'level_required': 4,
+		},
+		{
 			'unlock_text': ' can now tame Beavers!',
 			'can_text': 'Tame',
 			'skill_info_text': 'Beavers',
 			'single_line': true,
 			'type': UNLOCK_TYPES.ANIMAL,
 			'level_required': 5,
-		}		
+		},
+			
 	],
 	
 	# diplomacy
@@ -520,3 +529,4 @@ const beast_mastery_tame_restrictions = {
 
 # MISC XP GAINS
 const PET_CAT_XP = 2
+const PET_GATOR_XP = 4

@@ -248,7 +248,6 @@ func _input(event):
 		else:
 				match player.player_state:
 					player.PLAYER_STATE.SELECTING_TRADE_UNIT:
-						print('SELECTING TRADE UNIT')
 						# trade with the target unit
 						if (player.party.is_unit_here(player.curs_pos_x, player.curs_pos_y)):
 							party.get_active_unit().trade_with_unit_at_pos(player.curs_pos_x, player.curs_pos_y)

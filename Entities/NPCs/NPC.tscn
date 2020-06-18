@@ -1,4 +1,4 @@
-[gd_scene load_steps=62 format=2]
+[gd_scene load_steps=68 format=2]
 
 [ext_resource path="res://Entities/NPCs/NPC.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/characters/npcs/lonely_man_samuel_1.png" type="Texture" id=2]
@@ -41,6 +41,10 @@
 [ext_resource path="res://Sprites/characters/npcs/swamp_shortcut_goblin_nexi_2.png" type="Texture" id=39]
 [ext_resource path="res://Sprites/characters/npcs/sedgelin_ghost_rubin_2.png" type="Texture" id=40]
 [ext_resource path="res://Sprites/characters/npcs/sedgelin_ghost_rubin_1.png" type="Texture" id=41]
+[ext_resource path="res://Sprites/characters/animals/gator_1.png" type="Texture" id=42]
+[ext_resource path="res://Sprites/characters/animals/gator_2.png" type="Texture" id=43]
+[ext_resource path="res://Sprites/characters/animals/gator2_2.png" type="Texture" id=44]
+[ext_resource path="res://Sprites/characters/animals/gator2_1.png" type="Texture" id=45]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -202,53 +206,66 @@ animations = [ {
 "speed": 5.0
 } ]
 
+[sub_resource type="SpriteFrames" id=21]
+animations = [ {
+"frames": [ ExtResource( 42 ), ExtResource( 43 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="SpriteFrames" id=22]
+animations = [ {
+"frames": [ ExtResource( 45 ), ExtResource( 44 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
 [node name="NPC" type="Node2D"]
 z_index = 2
 script = ExtResource( 1 )
 
 [node name="Lonely_Man_Samuel_Sprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
-frame = 1
 speed_scale = 0.5
 playing = true
 centered = false
 
 [node name="Young_Girl_Rika" type="AnimatedSprite" parent="."]
 frames = SubResource( 2 )
-frame = 1
 speed_scale = 0.5
 playing = true
 centered = false
 
 [node name="Guild_Admirer_Harrison" type="AnimatedSprite" parent="."]
 frames = SubResource( 3 )
-frame = 1
 speed_scale = 0.5
 playing = true
 centered = false
 
 [node name="Rikas_Father_Bjorn" type="AnimatedSprite" parent="."]
 frames = SubResource( 4 )
-frame = 1
 speed_scale = 0.5
 playing = true
 centered = false
 
 [node name="Innkeeper_Henry" type="AnimatedSprite" parent="."]
 frames = SubResource( 5 )
-frame = 1
 speed_scale = 0.5
 playing = true
 centered = false
 
 [node name="Bellmare_Woman_Ema" type="AnimatedSprite" parent="."]
 frames = SubResource( 6 )
+frame = 1
 speed_scale = 0.5
 playing = true
 centered = false
 
 [node name="Farmer_Fred" type="AnimatedSprite" parent="."]
 frames = SubResource( 7 )
+frame = 1
 speed_scale = 0.5
 playing = true
 centered = false
@@ -261,78 +278,91 @@ centered = false
 
 [node name="Bellmare_Knight_Girault" type="AnimatedSprite" parent="."]
 frames = SubResource( 9 )
-frame = 1
 speed_scale = 0.5
 playing = true
 centered = false
 
 [node name="King_Raolet" type="AnimatedSprite" parent="."]
 frames = SubResource( 10 )
+frame = 1
 speed_scale = 0.5
 playing = true
 centered = false
 
 [node name="Goblin_Villager_Drig" type="AnimatedSprite" parent="."]
 frames = SubResource( 11 )
-frame = 1
 speed_scale = 0.5
 playing = true
 centered = false
 
 [node name="Goblin_Villager_Fafza" type="AnimatedSprite" parent="."]
 frames = SubResource( 12 )
-frame = 1
 speed_scale = 0.5
 playing = true
 centered = false
 
 [node name="Goblin_King_Rul" type="AnimatedSprite" parent="."]
 frames = SubResource( 13 )
+frame = 1
 speed_scale = 0.5
 playing = true
 centered = false
 
 [node name="Horse_Skyheart" type="AnimatedSprite" parent="."]
 frames = SubResource( 14 )
+frame = 1
 speed_scale = 0.5
 playing = true
 centered = false
 
 [node name="Guild_Beaver" type="AnimatedSprite" parent="."]
 frames = SubResource( 15 )
-frame = 1
 speed_scale = 0.5
 playing = true
 centered = false
 
 [node name="Court_Mage_Ashan" type="AnimatedSprite" parent="."]
 frames = SubResource( 16 )
-frame = 1
 speed_scale = 0.5
 playing = true
 centered = false
 
 [node name="Head_Chef_Frederik" type="AnimatedSprite" parent="."]
 frames = SubResource( 17 )
+frame = 1
 speed_scale = 0.5
 playing = true
 centered = false
 
 [node name="Swamp_Traveller_Bryna" type="AnimatedSprite" parent="."]
 frames = SubResource( 18 )
+frame = 1
 speed_scale = 0.5
 playing = true
 centered = false
 
 [node name="Swamp_Shortcut_Goblin_Nexi" type="AnimatedSprite" parent="."]
 frames = SubResource( 19 )
+frame = 1
 speed_scale = 0.5
 playing = true
 centered = false
 
 [node name="Sedgelin_Ghost_Rubin" type="AnimatedSprite" parent="."]
 frames = SubResource( 20 )
+speed_scale = 0.5
+playing = true
+centered = false
+
+[node name="Sedgelin_Gator" type="AnimatedSprite" parent="."]
+frames = SubResource( 21 )
 frame = 1
+speed_scale = 0.5
+playing = true
+centered = false
+
+[node name="Sedgelin_Gator2" type="AnimatedSprite" parent="."]
+frames = SubResource( 22 )
 speed_scale = 0.5
 playing = true
 centered = false

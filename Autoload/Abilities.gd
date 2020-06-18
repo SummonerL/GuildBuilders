@@ -36,6 +36,7 @@ const ABILITY_INSPIRED_NAME = 'Status: Inspired'
 const ABILITY_HUNGRY_NAME = 'Status: Hungry'
 const ABILITY_ECSTATIC_NAME = 'Status: Ecstatic'
 const ABILITY_CALM_NAME = 'Status: Calm'
+const ABILITY_BRAVE_NAME = 'Status: Brave'
 const ABILITY_RELAXED_NAME = 'Status: Relaxed'
 const ABILITY_SENSE_OF_DUTY_NAME = 'A Sense of Duty'
 
@@ -130,6 +131,12 @@ const ability_ecstatic = {
 const ability_calm = {
 	"name": ABILITY_CALM_NAME,
 	"description": "This unit receives 10% more XP for the remainder of the day.",
+	"type": ABILITY_TYPES.DAILY
+}
+
+const ability_brave = {
+	"name": ABILITY_BRAVE_NAME,
+	"description": "This unit is feeling brave. For the remainder of the day, this unit can take certain actions that they would otherwise not be able to.",
 	"type": ABILITY_TYPES.DAILY
 }
 
@@ -234,6 +241,9 @@ func on_add_to_unit(unit, ability):
 		ABILITY_CALM_NAME:
 			# the unit receives 10% more XP for the rest of the day
 			unit.general_bonus_xp += .1
+		ABILITY_BRAVE_NAME:
+			# the unit gains some courage!
+			unit.courage += 1
 		ABILITY_RELAXED_NAME:
 			# the unit receives 10% more XP for the rest of the day
 			unit.general_bonus_xp += .1
@@ -309,6 +319,9 @@ func on_remove_from_unit(unit, ability):
 		ABILITY_CALM_NAME:
 			# remove the additional bonus XP the unit received
 			unit.general_bonus_xp -= .1
+		ABILITY_BRAVE_NAME:
+			# the unit loses some courage
+			unit.courage -= 1
 		ABILITY_RELAXED_NAME:
 			# remove the additional bonus XP the unit received
 			unit.general_bonus_xp -= .1

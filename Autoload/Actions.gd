@@ -66,7 +66,8 @@ const WOODCUTTING_TEXT = " started chopping..."
 const MINING_TEXT = " started mining..."
 const CRAFTING_TEXT = " started crafting..."
 const CHECK_BIRDHOUSE = " checked the birdhouse..."
-const PET_CAT = " reached out..."
+const PET_ANIMAL = " reached out..."
+
 const TAMED_MISC = " spoke softly..."
 const HELD_A_MEETING = " held a meeting..."
 const STARTED_WRITING = " started writing..."
@@ -82,12 +83,13 @@ const PATH_BLOCKED = 'My path is blocked...'
 const UNLOCKED_TEXT = ' unlocked!'
 const BECAME_INSPIRED_TEXT = ' became Inspired!'
 const BECAME_CALM_TEXT = ' became Calm!'
+const BECAME_BRAVE_TEXT = ' became Brave!'
 const BECAME_RELAXED_TEXT = ' became Relaxed!'
 const DOT_DOT_DOT_TEXT = '...'
 
 const NO_ROOM_FOR_ANIMAL = "There's no room for an animal to be deployed..."
 const CANT_TAME_ANY_MORE = " can't tame any more animals today..."
-const CANT_PET_ANYMORE = "This cat doesn't want to be pet anymore..."
+const CANT_PET_ANYMORE = "This animal doesn't want to be pet anymore..."
 const ALREADY_MET_TEXT = "This leader is not available for any more meetings..."
 const DUG_GROUND_FOUND_NOTHING = " dug up the ground and found nothing..."
 const DUG_GROUND_FOUND = " dug up the ground and found "
@@ -113,6 +115,7 @@ enum COMPLETE_ACTION_LIST {
 	TAP_RUBBER_TREE, # for collecting latex (rubber)
 	CHECK_BIRDHOUSE, # used for Beast Mastery
 	PET_CAT, # used for Beast Mastery
+	PET_GATOR, # used for Beast Mastery
 	TAME_BEAVER, # used for Beast Mastery
 	MEET_WITH_LEADER, # used for Diplomacy
 	GIVE_GIFT_TO_LEADER, # used for Diplomacy
@@ -168,6 +171,7 @@ const ACTION_LIST_NAMES = [ # in the same order as actions above
 	'CHOP',
 	'TAP',
 	'CHECK',
+	'PET',
 	'PET',
 	'TAME',
 	'MEET',
@@ -294,6 +298,9 @@ func do_action(action, parent, additional_params = null):
 		COMPLETE_ACTION_LIST.PET_CAT:
 			# pet a cat!
 			initiate_pet_cat_action()
+		COMPLETE_ACTION_LIST.PET_GATOR:
+			# pet a gator!
+			initiate_pet_gator_action()
 		COMPLETE_ACTION_LIST.TAME_BEAVER:
 			# tame a beaver
 			initiate_tame_beaver_action()
@@ -432,6 +439,14 @@ func action_window_finished(skill, reward, levelled_up):
 					player.hud.typeText(active_unit.unit_name + BECAME_RELAXED_TEXT, false, 'finished_viewing_text_generic')
 					# give the unit RELAXED
 					global_ability_list.add_ability_to_unit(active_unit, global_ability_list.ability_relaxed)
+			
+			# for petting gators (gives the unit 'brave', if they don't have it)
+			elif (reward.name == 'Gator' && !global_ability_list.unit_has_ability(active_unit, global_ability_list.ABILITY_BRAVE_NAME)):
+				yield(signals, "finished_viewing_text_generic")
+				player.hud.typeText(active_unit.unit_name + BECAME_BRAVE_TEXT, false, 'finished_viewing_text_generic')
+				# give the unit BRAVE
+				global_ability_list.add_ability_to_unit(active_unit, global_ability_list.ability_brave)
+
 		constants.DIPLOMACY:
 			# assume the special conclusion is an array
 			var message_index = 0
@@ -986,7 +1001,7 @@ func initiate_pet_cat_action():
 			# the unit can pet the cat!
 			
 			# start petting
-			player.hud.typeTextWithBuffer(active_unit.unit_name + PET_CAT, true)
+			player.hud.typeTextWithBuffer(active_unit.unit_name + PET_ANIMAL, true)
 			
 			show_action_window(constants.BEAST_MASTERY, null, 'Pet', 'Cat', skill_info.PET_CAT_XP, '...and managed to pet the ') 
 			
@@ -994,6 +1009,46 @@ func initiate_pet_cat_action():
 
 			# and remove the BM icon from this tile
 			map_actions.remove_map_icon_at_coordinates(the_cat_pos.x, the_cat_pos.y)		
+	else:
+		player.hud.typeTextWithBuffer(CANT_PET_ANYMORE, false, 'finished_action_failed')	
+
+func initiate_pet_gator_action():
+	# since this action can be taken on an adjacent tile, determine where the gator is
+	var the_animal_pos = null
+	var the_animal_spot = null
+	var animal_action_id = map_actions.tile_set.find_tile_by_name("Beast_Mastery_Spot_4") # pet gator
+	
+	for tile in get_tree().get_current_scene().get_cardinal_tiles(active_unit):
+		if (map_actions.get_cellv(tile.tile) == animal_action_id):
+			the_animal_pos = tile.tile
+			the_animal_spot = map_actions.get_action_spot_at_coordinates(tile.tile)
+	
+	# determine if the gator has already been pet today (check for a BM icon)
+	var map_icons = get_tree().get_nodes_in_group(constants.MAP_ICONS_GROUP)[0]
+	var tileset = map_icons.get_tileset()
+	var empty_id = tileset.find_tile_by_name("empty_spot")
+	
+	var already_pet = (map_icons.get_cellv(the_animal_pos) == empty_id)
+	
+	if (!already_pet):
+		# get the level requirement for this spot
+		var level_requirement = map_actions.get_level_requirement_at_spot(the_animal_spot)
+		
+		# make sure we meet the requirement
+		if (level_requirement > active_unit.skill_levels[constants.BEAST_MASTERY]):
+			player.hud.typeTextWithBuffer(active_unit.NOT_SKILLED_ENOUGH_TEXT, false, 'finished_action_failed') # they did not succeed 
+		else:
+			# the unit can pet the gator!
+			
+			# start petting
+			player.hud.typeTextWithBuffer(active_unit.unit_name + PET_ANIMAL, true)
+			
+			show_action_window(constants.BEAST_MASTERY, null, 'Pet', 'Gator', skill_info.PET_GATOR_XP, '...and managed to pet the ') 
+			
+			yield(signals, "finished_action_success")
+
+			# and remove the BM icon from this tile
+			map_actions.remove_map_icon_at_coordinates(the_animal_pos.x, the_animal_pos.y)		
 	else:
 		player.hud.typeTextWithBuffer(CANT_PET_ANYMORE, false, 'finished_action_failed')	
 

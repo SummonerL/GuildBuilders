@@ -914,3 +914,13 @@
 85/navigation_offset = Vector2( 0, 0 )
 85/shapes = [  ]
 85/z_index = 0
+86/name = "gator"
+86/texture = ExtResource( 1 )
+86/tex_offset = Vector2( 0, 0 )
+86/modulate = Color( 1, 1, 1, 1 )
+86/region = Rect2( 384, 176, 16, 16 )
+86/tile_mode = 0
+86/occluder_offset = Vector2( 0, 0 )
+86/navigation_offset = Vector2( 0, 0 )
+86/shapes = [  ]
+86/z_index = 0

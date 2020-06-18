@@ -87,6 +87,9 @@ var item_limit = 5 # default
 # keep track of the player's meal limit
 var meal_limit = 1
 
+# keep track of the unit's courage (generally, as long as it is above 0, that is all that matters)
+var courage = 0
+
 # keep track of the number of points of favor this unit will increase when meeting with a leader
 var diplomacy_points = 4
 

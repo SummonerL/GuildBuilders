@@ -35,6 +35,7 @@ const ACTIONS = {
 	13: 'BEAST_MASTERY_SPOT_1',
 	14: 'BEAST_MASTERY_SPOT_2',
 	18: 'BEAST_MASTERY_SPOT_3',
+	28: 'BEAST_MASTERY_SPOT_4',
 	
 	15: 'DIPLOMACY_SPOT_1',
 	17: 'DIPLOMACY_SPOT_2',
@@ -104,6 +105,7 @@ onready var associated_actions = {
 	'BEAST_MASTERY_SPOT_1': [global_action_list.COMPLETE_ACTION_LIST.CHECK_BIRDHOUSE],
 	'BEAST_MASTERY_SPOT_2': [global_action_list.COMPLETE_ACTION_LIST.PET_CAT],
 	'BEAST_MASTERY_SPOT_3': [global_action_list.COMPLETE_ACTION_LIST.TAME_BEAVER],
+	'BEAST_MASTERY_SPOT_4': [global_action_list.COMPLETE_ACTION_LIST.PET_GATOR],
 	
 	'DIPLOMACY_SPOT_1': [global_action_list.COMPLETE_ACTION_LIST.MEET_WITH_LEADER,
 						global_action_list.COMPLETE_ACTION_LIST.GIVE_GIFT_TO_LEADER],
@@ -150,6 +152,7 @@ onready var level_requirements = {
 	
 	'BEAST_MASTERY_SPOT_2': 1,
 	'BEAST_MASTERY_SPOT_1': 3,
+	'BEAST_MASTERY_SPOT_4': 4,
 	'BEAST_MASTERY_SPOT_3': 5,
 }
 
@@ -190,6 +193,7 @@ onready var used_tile_items = {
 onready var adjacent_applicable = [
 	global_action_list.COMPLETE_ACTION_LIST.FISH,
 	global_action_list.COMPLETE_ACTION_LIST.PET_CAT,
+	global_action_list.COMPLETE_ACTION_LIST.PET_GATOR,
 	global_action_list.COMPLETE_ACTION_LIST.TAME_BEAVER,
 	global_action_list.COMPLETE_ACTION_LIST.MEET_WITH_LEADER,
 	global_action_list.COMPLETE_ACTION_LIST.GIVE_GIFT_TO_LEADER,

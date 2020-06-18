@@ -127,7 +127,6 @@ func _on_confirm_craft(crafting, recipe = null, item_indexes = []):
 		signals.disconnect("confirm_generic_yes", self, "_on_confirm_craft")
 	
 	if (crafting):
-		print(item_indexes)
 		# first, remove the items from the player
 		item_indexes.sort() # sort, so the indexes are in ascending order
 		item_indexes.invert() # invert, as we will be removing items as we iterate and want to prevent errors

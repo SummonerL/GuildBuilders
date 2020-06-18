@@ -421,6 +421,34 @@ onready var npc_sedgelin_ghost_rubin = {
 	"pos_y": 4
 }
 
+onready var npc_sedgelin_gator = {
+	"name": "Sedgelin Gator",
+	"race": RACES.ANIMAL,
+	"region": 4, # Sedgelin Swamplands
+	"dialogue": [
+		""
+	],
+	"initiates_quest_immediately": false,
+	"current_dialogue": 0, # initial dialogue
+	"overworld_sprite": get_node("Sedgelin_Gator"),
+	"pos_x": -11,
+	"pos_y": 23
+}
+
+onready var npc_sedgelin_gator2 = {
+	"name": "Sedgelin Gator 2",
+	"race": RACES.ANIMAL,
+	"region": 4, # Sedgelin Swamplands
+	"dialogue": [
+		""
+	],
+	"initiates_quest_immediately": false,
+	"current_dialogue": 0, # initial dialogue
+	"overworld_sprite": get_node("Sedgelin_Gator2"),
+	"pos_x": -22,
+	"pos_y": 8
+}
+
 # keep track of all the npcs
 onready var npcs = [
 	npc_lonely_man_samuel,
@@ -442,7 +470,9 @@ onready var npcs = [
 	npc_bellmare_head_chef_frederik,
 	npc_swamp_traveller_bryna,
 	npc_swamp_shortcut_goblin_nexi,
-	npc_sedgelin_ghost_rubin
+	npc_sedgelin_ghost_rubin,
+	npc_sedgelin_gator,
+	npc_sedgelin_gator2
 ]
 
 # keep track of the npc that is currently being interacted with

@@ -868,8 +868,6 @@ func populate_unique_actions(unit):
 	if (adjacent_sign != null):
 		player.active_world_object = adjacent_sign
 		unique_actions += map_actions.sign_actions
-		
-	print(adjacent_grave)
 	
 	if (adjacent_grave != null):
 		player.active_world_object = adjacent_grave
