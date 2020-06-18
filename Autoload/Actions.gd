@@ -60,6 +60,7 @@ const WAIT_FOR_REWARD_SCREEN = 2
 
 # text related to the various actions
 const END_TURN_CONFIRMATION_TEXT = 'End turn?'
+const STAY_AT_CAVE_PROMPT = "Sleep in the cave tonight?"
 
 const FISHING_TEXT = " started fishing..."
 const WOODCUTTING_TEXT = " started chopping..."
@@ -98,10 +99,14 @@ const CANT_HOLD_ANYTHING_ELSE = " can't hold anything else..."
 const NEED_AT_LEAST = "You need at least "
 const WITH_TEXT = " favor with "
 const TO_DO_THIS_TEXT = " to do this..."
+const SOMEONE_SLEEPING_HERE = "A unit has already planned to sleep here tonight..."
 
 const RELATION_ESTABLISHED = "New Relation established!"
 
 const YOU_MUST_ESTABLISH_RELATION = "You must establish a relationship with this person before gifting items..."
+
+const SLEEPING_IN_CAVE_TEXT = " decided to sleep in the cave tonight. "
+const CAN_RETURN_LATER_TEXT = " will now have the option to return here tonight."
 
 enum COMPLETE_ACTION_LIST {
 	MOVE,
@@ -128,7 +133,8 @@ enum COMPLETE_ACTION_LIST {
 	READ_SIGN, # used for signs
 	READ_GRAVE, # used for graves (basically signs)
 	CLIMB_TOWER, # used for towers + revealing regions
-	TUNNEL # for caves (Male Miner Only)
+	TUNNEL, # for caves (Male Miner Only)
+	SLEEP_IN_CAVE, # must have some courage
 	CROSS, # for rivers (Female Angler Only / Or wooden stilts)
 	BUILD_BEAVER_BRIDGE_HORIZONTAL, # for beavers!
 	BUILD_BEAVER_BRIDGE_VERTICAL, # for beavers
@@ -158,6 +164,7 @@ enum COMPLETE_ACTION_LIST {
 	RETURN_TO_GUILD, # for bedtime
 	RETURN_TO_CAMP, # for bedtime
 	RETURN_TO_INN, # for bedtime
+	RETURN_TO_CAVE, # for bedtime
 }
 
 const ACTION_LIST_NAMES = [ # in the same order as actions above
@@ -186,6 +193,7 @@ const ACTION_LIST_NAMES = [ # in the same order as actions above
 	'READ',
 	'CLIMB',
 	'TUNNL',
+	'SLEEP',
 	'CROSS',
 	'BUILD',
 	'BUILD',
@@ -214,7 +222,8 @@ const ACTION_LIST_NAMES = [ # in the same order as actions above
 	'INFO',
 	'GUILD',
 	'CAMP',
-	'INN'
+	'INN',
+	'CAVE',
 ]
 
 # list of exclusive actions
@@ -334,6 +343,11 @@ func do_action(action, parent, additional_params = null):
 			player.hud.full_text_destruction()
 			active_unit.return_to(COMPLETE_ACTION_LIST.RETURN_TO_INN)
 			get_tree().get_current_scene().send_units_to_bed(true, true)
+		COMPLETE_ACTION_LIST.RETURN_TO_CAVE:
+			# return the unit to the cave, and continue to send more units to bed (if necessary)
+			player.hud.full_text_destruction()
+			active_unit.return_to(COMPLETE_ACTION_LIST.RETURN_TO_CAVE)
+			get_tree().get_current_scene().send_units_to_bed(true, true)
 		COMPLETE_ACTION_LIST.TALK:
 			# talk to an NPC
 			get_tree().get_current_scene().npcs.talk_to_npc(active_unit)
@@ -362,6 +376,9 @@ func do_action(action, parent, additional_params = null):
 			# this action can only be taken by the male miner. Allows the unit to travel between 
 			# cave's (in the same region)
 			initiate_tunnel_action()
+		COMPLETE_ACTION_LIST.SLEEP_IN_CAVE:
+			# need courage to do this
+			initiate_sleep_in_cave_action()
 		COMPLETE_ACTION_LIST.CROSS:
 			# this action can only be taken by the female angler, or a unit holding wooden stilts
 			active_unit.cross_water()
@@ -791,6 +808,64 @@ func initiate_tunnel_action():
 	
 	# and let the unit know he/she has finished acting :)
 	active_unit.end_action(true) # success!
+
+# if the unit is sleeping in a cave
+func initiate_sleep_in_cave_action():
+	# using this action requires some courage
+	if (active_unit.courage == 0):
+		# the unit is too spooked to sleep in a cave
+		player.hud.typeTextWithBuffer(active_unit.unit_name + constants.TOO_SPOOKED, false, "finished_viewing_text_generic")
+		yield(signals, "finished_viewing_text_generic")
+		player.player_state = player.PLAYER_STATE.SELECTING_TILE
+	else:
+		# the unit can sleep here!
+		var cave = constants.get_cave_at_pos(Vector2(active_unit.unit_pos_x, active_unit.unit_pos_y))
+		
+		if (cave):
+			# determine if the cave is occupied
+			if (cave.occupants.size() < cave.max_occupancy):
+				# vacant cave!
+				# prompt the user to stay in the cave
+				var hud_selection_list_node = hud_selection_list_scn.instance()
+				camera = get_tree().get_nodes_in_group("Camera")[0]
+				camera.add_hud_item(hud_selection_list_node)
+				# connect signals for confirming whether or not the player stays at the inn
+				signals.connect("confirm_generic_yes", self, "_on_cave_confirmation", [true, cave], CONNECT_ONESHOT)
+				signals.connect("confirm_generic_no", self, "_on_cave_confirmation", [false], CONNECT_ONESHOT)
+				
+				# populate the selection list with a yes/no confirmation
+				hud_selection_list_node.populate_selection_list([], self, true, false, true, false, true, STAY_AT_CAVE_PROMPT,
+																'confirm_generic_yes', 'confirm_generic_no')
+			else:
+				
+				player.hud.typeTextWithBuffer(SOMEONE_SLEEPING_HERE, false, "finished_viewing_text_generic")
+				yield(signals, "finished_viewing_text_generic")
+				player.player_state = player.PLAYER_STATE.SELECTING_TILE
+		
+# if the player decides to sleep in the cave
+func _on_cave_confirmation(staying, cave = null):
+	if (staying):
+		signals.disconnect("confirm_generic_no", self, "_on_cave_confirmation")
+		
+		# add the active unit as to the list of occupants
+		cave.occupants.append(active_unit)
+		
+		# add CAVE to the list of places to return to (at night)
+		active_unit.shelter_locations.append(COMPLETE_ACTION_LIST.RETURN_TO_CAVE)
+		
+		# and make this inn the active inn for the unit
+		active_unit.active_cave = cave
+		
+		# read the follow up text
+		player.hud.typeTextWithBuffer(active_unit.unit_name + SLEEPING_IN_CAVE_TEXT + active_unit.unit_name + CAN_RETURN_LATER_TEXT, false, "finished_viewing_text_generic")
+	
+		yield(signals, "finished_viewing_text_generic")
+	else:
+		signals.disconnect("confirm_generic_yes", self, "_on_cave_confirmation")
+		
+	# once it's all over, set the player state back
+	player.player_state = player.PLAYER_STATE.SELECTING_TILE
+
 
 # if the unit is crafting
 func initiate_crafting_action():

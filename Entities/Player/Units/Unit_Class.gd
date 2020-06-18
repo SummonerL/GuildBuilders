@@ -107,6 +107,9 @@ onready var shelter_locations = [
 # if the unit is at an inn, keep track of it here
 var active_inn = null
 
+# or a cave (operates like an inn)
+var active_cave = null
+
 # a unique ID to identify this unit
 var unit_id = 0
 
@@ -534,6 +537,9 @@ func return_to(location):
 		global_action_list.COMPLETE_ACTION_LIST.RETURN_TO_INN:
 			# update coordinates
 			set_unit_pos(active_inn.pos.x, active_inn.pos.y)
+		global_action_list.COMPLETE_ACTION_LIST.RETURN_TO_CAVE:
+			# update coordinates
+			set_unit_pos(active_cave.pos.x, active_cave.pos.y)
 
 # once we've received the path the unit will take, this function will actually move
 # the unit based on a timer

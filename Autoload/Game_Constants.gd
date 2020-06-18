@@ -235,6 +235,52 @@ onready var inn_list = [
 	}
 ]
 
+# keep track of all the caves in the game world (treat them like inns)
+onready var cave_list = [
+	# guild region
+	{
+		"pos": Vector2(17, 22),
+		"occupants": [],
+		"max_occupancy": 1
+	},
+	{
+		"pos": Vector2(7, 5),
+		"occupants": [],
+		"max_occupancy": 1
+	},
+
+	# bellmare
+	{
+		"pos": Vector2(30, 14),
+		"occupants": [],
+		"max_occupancy": 1
+	},
+	{
+		"pos": Vector2(53, 5),
+		"occupants": [],
+		"max_occupancy": 1
+	},
+	
+	# sedgelin
+	{
+		"pos": Vector2(-10, 15),
+		"occupants": [],
+		"max_occupancy": 1
+	},
+	{
+		"pos": Vector2(-16, 26),
+		"occupants": [],
+		"max_occupancy": 1
+	},
+]
+
+func get_cave_at_pos(pos):
+	for cave in cave_list:
+		if (cave.pos == pos):
+			return cave
+		
+	return null
+
 # useful function for returning the sign text at given coordinates
 func get_sign_text(pos):
 	for the_sign in sign_list:

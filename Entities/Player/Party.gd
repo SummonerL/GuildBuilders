@@ -144,15 +144,23 @@ func remove_abilities_of_type(type):
 		
 		unit.unit_abilities += gained_abilities # any new abilities the unit may have gained as a result of doing this
 
-# every morning, the inn locations should be removed from each unit's shelter locations
+# every morning, the inn locations should be removed from each unit's shelter locations (and cave locations as well)
 func remove_inn_locations():
 	for unit in party_members:
 		if (unit.active_inn):
 			unit.active_inn.occupants = [] # clear the occupants
+		if (unit.active_cave):
+			unit.active_cave.occupants = [] # clear the occupants
+			
 		unit.active_inn = null # set the active_inn to null
+		unit.active_cave = null # set the active_cave to null
+		
 		var index = 0
 		for location in unit.shelter_locations:
 			if (location == global_action_list.COMPLETE_ACTION_LIST.RETURN_TO_INN):
+				unit.shelter_locations.remove(index)
+				break
+			elif (location == global_action_list.COMPLETE_ACTION_LIST.RETURN_TO_CAVE):
 				unit.shelter_locations.remove(index)
 				break
 			index += 1
