@@ -21,6 +21,7 @@ const ACTIONS = {
 	0: 'FISH_SPOT_1',
 	1: 'FISH_SPOT_2',
 	20: 'FISH_SPOT_3',
+	29: 'FISH_SPOT_4',
 	
 	2: 'WOODCUTTING_SPOT_1',
 	3: 'WOODCUTTING_SPOT_2',
@@ -61,6 +62,7 @@ onready var ITEMS_AT_SPOT = {
 	'FISH_SPOT_1': [global_items_list.item_jumbofish],
 	'FISH_SPOT_2': [global_items_list.item_musclefish],
 	'FISH_SPOT_3': [global_items_list.item_catfish],
+	'FISH_SPOT_4': [global_items_list.item_ghostfish],
 	
 	'WOODCUTTING_SPOT_1': [global_items_list.item_cedar_logs],
 	'WOODCUTTING_SPOT_2': [global_items_list.item_ash_logs],
@@ -93,6 +95,7 @@ onready var associated_actions = {
 	'FISH_SPOT_1': [global_action_list.COMPLETE_ACTION_LIST.FISH],
 	'FISH_SPOT_2': [global_action_list.COMPLETE_ACTION_LIST.FISH],
 	'FISH_SPOT_3': [global_action_list.COMPLETE_ACTION_LIST.FISH],
+	'FISH_SPOT_4': [global_action_list.COMPLETE_ACTION_LIST.FISH],
 	
 	'WOODCUTTING_SPOT_1': [global_action_list.COMPLETE_ACTION_LIST.CHOP],
 	'WOODCUTTING_SPOT_2': [global_action_list.COMPLETE_ACTION_LIST.CHOP],
@@ -142,6 +145,7 @@ onready var level_requirements = {
 	'FISH_SPOT_1': 1,
 	'FISH_SPOT_2': 2,
 	'FISH_SPOT_3': 3,
+	'FISH_SPOT_4': 7,
 	
 	'MINING_SPOT_1': 1,
 	'MINING_SPOT_2': 3,

@@ -46,7 +46,15 @@ onready var SKILL_UNLOCKS = {
 			'single_line': true,
 			'type': UNLOCK_TYPES.RESOURCE,
 			'level_required': 3,
-		}
+		},
+		{
+			'unlock_text': ' can now catch Ghostfish!',
+			'can_text': 'Catch',
+			'skill_info_text': 'Ghostfish',
+			'single_line': true,
+			'type': UNLOCK_TYPES.RESOURCE,
+			'level_required': 7,
+		},
 	],
 	
 	
