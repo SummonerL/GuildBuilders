@@ -28,8 +28,8 @@ const TOWER_CLIMB_TEXT = 'What a stunning view!'
 
 func unit_init():	
 	#TEMP ---------
-	#unit_pos_x = -11
-	#unit_pos_y = 22
+	unit_pos_x = -11
+	unit_pos_y = 22
 	
 	unit_portrait_sprite = ps
 	
@@ -53,13 +53,11 @@ func unit_init():
 	global_items_list.add_item_to_unit(self, global_items_list.item_jumbofish)
 	
 	#TEMP
-	global_items_list.add_item_to_unit(self, global_items_list.item_ghostfish)
-	global_items_list.add_item_to_unit(self, global_items_list.item_ghostfish)
-	global_items_list.add_item_to_unit(self, global_items_list.item_musclefish)
-	global_items_list.add_item_to_unit(self, global_items_list.item_musclefish)
+	global_items_list.add_item_to_unit(self, global_items_list.item_mushroom)
 	skill_levels[constants.BEAST_MASTERY] = 5
 	skill_levels[constants.DIPLOMACY] = 5
 	global_items_list.add_item_to_unit(self, global_items_list.item_rubber_boots)
+	
 	# add the unit's starting ability
 	starting_ability = global_ability_list.ability_insomniac
 	global_ability_list.add_ability_to_unit(self, global_ability_list.ability_insomniac)

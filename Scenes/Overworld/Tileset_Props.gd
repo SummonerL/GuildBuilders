@@ -44,6 +44,8 @@ const TILES = {
 				80: 'RUBBER_TREE',
 				84: 'CYPRESS_TREE',
 				
+				87: 'FUNGI',
+				
 				25: 'CAVE',
 				26: 'TOWER',
 				47: 'MILL',
@@ -114,6 +116,8 @@ const TILE_INFO_HUD_NAME = {
 	'BIRCH_TREE': 'Birch',
 	'RUBBER_TREE': 'Rubbr',
 	'CYPRESS_TREE': 'Cyprs',
+	
+	'FUNGI': 'Fungi',
 	
 	'SAND_TREE': 'Tree',
 	'HILL': 'Hill',
@@ -192,6 +196,8 @@ const MOVEMENT_COST = {
 	SAND_TREE = NORMAL_MOVE + 1,
 	RUBBER_TREE = NORMAL_MOVE + 1,
 	CYPRESS_TREE = 1, # this is an l2 tile and will get added to the base
+	
+	FUNGI = 0, # this will be added on top of l1
 	
 	HILL = NORMAL_MOVE + 1,
 	DUNE = NORMAL_MOVE + 1,

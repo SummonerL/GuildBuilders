@@ -924,3 +924,13 @@
 86/navigation_offset = Vector2( 0, 0 )
 86/shapes = [  ]
 86/z_index = 0
+87/name = "fungi"
+87/texture = ExtResource( 1 )
+87/tex_offset = Vector2( 0, 0 )
+87/modulate = Color( 1, 1, 1, 1 )
+87/region = Rect2( 304, 128, 16, 16 )
+87/tile_mode = 0
+87/occluder_offset = Vector2( 0, 0 )
+87/navigation_offset = Vector2( 0, 0 )
+87/shapes = [  ]
+87/z_index = 0

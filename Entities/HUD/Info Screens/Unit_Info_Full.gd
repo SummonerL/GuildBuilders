@@ -139,6 +139,7 @@ const TRASH_ITEM_TEXT = " discarded the item."
 const CANT_DISCARD_TEXT = "This item can not be discarded."
 const USE_ITEM_TEXT = " used the "
 const ALREADY_HAS_EFFECT_TEXT = ' already has that effect.'
+const DOESNT_NEED_ITEM = " doesn't need to use this item right now..."
 
 const CANT_USE_ITEM_ACTING = 'You can\'t use items after acting...'
 
@@ -483,6 +484,38 @@ func use_item():
 		
 		# let the action unpause this node (if needed)
 		return
+	# if an ability should be removed
+	elif (item.has("ability_remove")):
+		if (global_ability_list.unit_has_ability(active_unit, item.ability_remove.name)):
+			# text that is displayed when the item is used
+			if (item.has("use_text")):
+				player.hud.dialogueState = player.hud.STATES.INACTIVE
+				player.hud.typeTextWithBuffer(active_unit.unit_name + item.use_text, false, 'finished_viewing_text_generic') 
+			
+				yield(signals, "finished_viewing_text_generic")
+				
+			# remove the ability
+			var ability_index = global_ability_list.get_ability_index_from_unit(active_unit, item.ability_remove)
+			if (ability_index >= 0):
+				global_ability_list.remove_ability_from_unit(active_unit, item.ability_remove, ability_index)
+				
+			# remove the item, if it is a consumable
+			if (item.has("consumable") && item.consumable):
+				global_items_list.remove_item_from_unit(active_unit, current_item)
+				# reposition the cursor and repopulate the list, now that we've removed that item
+				if (current_item > (active_unit.current_items.size() - 1)):
+					if (current_item == inv_start_index_tracker && inv_start_index_tracker > 0):
+						inv_start_index_tracker -= 4
+					current_item -= 1
+			
+				change_screen(inv_start_index_tracker)
+		else:
+			# can't use the item right now (because the unit doesn't have the effect)
+			player.hud.dialogueState = player.hud.STATES.INACTIVE
+			player.hud.typeTextWithBuffer(active_unit.unit_name + DOESNT_NEED_ITEM, false, 'finished_viewing_text_generic') 
+		
+			yield(signals, "finished_viewing_text_generic")
+		pass
 	else:
 		pass
 	

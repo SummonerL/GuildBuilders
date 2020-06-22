@@ -74,6 +74,7 @@ const HELD_A_MEETING = " held a meeting..."
 const STARTED_WRITING = " started writing..."
 
 const TAPPED_TREE_AND_RECEIVED = " tapped the tree and received some "
+const FOUND_MUSHROOMS = " found some mushrooms!"
 
 const FISH_RECEIVED_TEXT = "and caught a "
 const WOOD_RECEIVED_TEXT = "and got some "
@@ -118,6 +119,7 @@ enum COMPLETE_ACTION_LIST {
 	MINE,
 	CHOP,
 	TAP_RUBBER_TREE, # for collecting latex (rubber)
+	TAKE_MUSHROOM, # for collecting mushrooms
 	CHECK_BIRDHOUSE, # used for Beast Mastery
 	PET_CAT, # used for Beast Mastery
 	PET_GATOR, # used for Beast Mastery
@@ -177,6 +179,7 @@ const ACTION_LIST_NAMES = [ # in the same order as actions above
 	'MINE',
 	'CHOP',
 	'TAP',
+	'TAKE',
 	'CHECK',
 	'PET',
 	'PET',
@@ -302,6 +305,8 @@ func do_action(action, parent, additional_params = null):
 			initiate_woodcutting_action()
 		COMPLETE_ACTION_LIST.TAP_RUBBER_TREE:
 			initiate_tap_tree_action()
+		COMPLETE_ACTION_LIST.TAKE_MUSHROOM:
+			initiate_take_mushroom_action()
 		COMPLETE_ACTION_LIST.CHECK_BIRDHOUSE:
 			initiate_check_birdhouse_action()
 		COMPLETE_ACTION_LIST.PET_CAT:
@@ -1531,6 +1536,38 @@ func initiate_tap_tree_action():
 			
 	else:
 		player.hud.typeTextWithBuffer(active_unit.CANT_TAP_WITHOUT_TAPPER_TEXT, false, 'finished_action_failed') # they did not succeed
+
+func initiate_take_mushroom_action():
+		# determine the spot the unit is targeting
+		var spot = map_actions.get_action_spot_at_coordinates(Vector2(player.curs_pos_x, player.curs_pos_y))
+		
+		
+		# get a list of resources that can be tapped at this tree
+		var available_resources = map_actions.get_items_at_coordinates(player.curs_pos_x, player.curs_pos_y)
+		
+
+		if (available_resources.size() == 0):
+			player.hud.typeTextWithBuffer(active_unit.NOTHING_HERE_GENERIC_TEXT, false, 'finished_action_failed') # they did not succeed 
+		elif (active_unit.is_inventory_full()):
+			player.hud.typeTextWithBuffer(active_unit.INVENTORY_FULL_TEXT, false, 'finished_action_failed') # they did not succeed
+		else:
+			# they can collect the mushrooms!
+			available_resources.shuffle()
+			
+			var received_resource = available_resources[0]
+
+			# remove the resource from the list of available resources
+			available_resources.remove(0)
+			
+			# and update the used_tile items (for if the unit continues to 'take' here)
+			map_actions.set_items_at_coordinates(player.curs_pos_x, player.curs_pos_y, available_resources)
+			
+			# give the unit the item
+			active_unit.receive_item(received_resource)
+			
+			# read the found mushroom text!
+			player.hud.typeTextWithBuffer(active_unit.unit_name + FOUND_MUSHROOMS, false, 'finished_action_success') # they did not succeed
+
 
 func _ready():
 	signals.connect("finished_action_success", self, "_on_finished_action", [true])

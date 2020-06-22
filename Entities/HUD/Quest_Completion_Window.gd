@@ -3,6 +3,9 @@ extends CanvasLayer
 # bring in our global constants
 onready var constants = get_node("/root/Game_Constants")
 
+# bring in our guild variables/functions
+onready var guild = get_node("/root/Guild")
+
 # bring in the global player variables
 onready var player = get_node("/root/Player_Globals")
 
@@ -109,6 +112,12 @@ func set_quest_name(quest, unit):
 			player.hud.typeTextWithBuffer(SENT_TO_DEPOT_TEXT, false, "finished_viewing_text_generic")
 			
 			yield(signals, "finished_viewing_text_generic")
+			
+	# check for any quest specific actions/rewards
+	match(quest.name):
+		guild.QUEST_HORSE_RESCUE_NAME:
+			# the horse npc needs to be moved 
+			
 	
 	# turn the music back up
 	get_tree().get_current_scene().heighten_background_music()

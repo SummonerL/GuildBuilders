@@ -29,6 +29,9 @@ onready var hud_quest_completion_screen_scn = preload("res://Entities/HUD/Quest_
 
 const SENT_TO_DEPOT_TEXT = 'Items sent to depot...'
 
+const QUEST_HORSE_RESCUE_NAME = 'Horse Rescue'
+const QUEST_FRIEND_WANTED_NAME = 'Friend Wanted'
+
 # keep track of the camera
 var camera
 
@@ -72,7 +75,7 @@ func ml(str_array):
 	return return_str
 
 onready var quest_friend_wanted = {
-	"name": "Friend Wanted",
+	"name": QUEST_FRIEND_WANTED_NAME,
 	"start_prompt": "Hear Brother Samuel out?",
 	"statuses": [
 		"A former member of the guild named Brother Samuel has asked you to bring over some wooden pipes and listen to his tale.",
@@ -96,7 +99,7 @@ onready var quest_friend_wanted = {
 }
 
 onready var quest_horse_rescue = {
-	"name": "Horse Rescue",
+	"name": QUEST_HORSE_RESCUE_NAME,
 	"start_prompt": "Listen to Farmer Fred?",
 	"statuses": [
 		"Farmer Fred has lost his horse, Skyheart. He suspects she was taken by a band of goblins, and has asked you to investigate.",
@@ -107,7 +110,7 @@ onready var quest_horse_rescue = {
 		ml(["King Rul spoke of a banquet held every year in honor of King Alag. It seems this banquet is of huge importance to the goblins. ",
 		"I should ask if there is any way Skyheart can be returned to Farmer Fred. "]),
 		
-		ml(["King Rul offered to return Skyheart if I can provide a food more delicious. I will need to provide enough for each villager."]),
+		ml(["King Rul agreed to return Skyheart if I can provide some Catfish. I will need to provide enough for each villager."]),
 		
 		"You completed the quest!"
 	],
@@ -136,7 +139,10 @@ onready var quest_horse_rescue = {
 		{
 			# requirements to move past progress 3
 			"items_required": [
-				# three fish
+				# three catfish
+				global_items_list.item_catfish,
+				global_items_list.item_catfish,
+				global_items_list.item_catfish
 			],
 			"items_for": "King Rul",
 			"set_dialogue": 6,

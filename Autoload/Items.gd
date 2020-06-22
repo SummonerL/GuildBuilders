@@ -243,8 +243,19 @@ onready var item_paper = { # used for writing letters
 	"level_requirement_for_action": 3, # should match whatever is in skill info
 	"use_linked_item": item_letter,
 	"type": ITEM_TYPES.UTILITY,
-	"can_discord": true,
+	"can_discard": true,
 	"xp": 2 # xp to craft
+}
+
+onready var item_mushroom = { # removes 'hunger' status
+	"name": "Mushrooms",
+	"description": "A handful of red-capped mushrooms. This item can be used to remove the 'Hungry' status.",
+	"can_use": true,
+	"type": ITEM_TYPES.UTILITY,
+	"can_discard": true,
+	"use_text": " ate the mushrooms. The 'Hunger' status was removed.",
+	"consumable": true,
+	"ability_remove" : global_ability_list.ability_hungry, # remove hunger
 }
 
 # fish

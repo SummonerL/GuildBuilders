@@ -188,6 +188,16 @@ func remove_ability_from_unit(unit, ability, index):
 	gained_abilities += on_remove_from_unit(unit, ability)
 	
 	return gained_abilities
+	
+# a helper function for getting the index of an ability from a unit
+func get_ability_index_from_unit(unit, ability):
+	var ability_index = 0
+	for abil in unit.unit_abilities:
+		if (abil.name == ability.name):
+			return ability_index
+		ability_index += 1
+	
+	return -1
 
 # when a specific ability is added to a unit
 func on_add_to_unit(unit, ability):
@@ -211,7 +221,7 @@ func on_add_to_unit(unit, ability):
 			
 		# food abilities / effects
 		ABILITY_WELL_FED_NAME:
-			# add remove 'fed' ability from the player, if it exists (to prevent confusion)
+			# remove 'fed' ability from the player, if it exists (to prevent confusion)
 			var index = 0
 			var fed_ability_index = -1
 			for abil in unit.unit_abilities:

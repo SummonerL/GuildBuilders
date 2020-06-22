@@ -313,11 +313,14 @@ onready var npc_goblin_king_rul = {
 		ml(["I see that old farmer has sent you for this horse. I can sympathize with the fact that the farmer thinks of this ",
 		"horse as his companion. We goblins also view horses as companions. However, it is customary for goblins to dine on horse. ",
 		"We view it as a horse's final sacrifice to us. I would be willing to make an exception for this year's feast. However, ",
-		"I would require a food just as delicious as horse. Additionally, we will need enough for each villager."]),
+		"I will still need some food for the feast. The villagers here love Catfish. Could you bring me enough Catfish for each villager?."]),
 		
-		"Please return with a food just as delicious as horse. We will require enough for each villager.",
+		"Please return with some Catfish. We will require enough for each goblin in this village.",
 		
-		"Catfish! Delicious! I see you've brought enough for everyone. As promised, I'll return Skyheart to that old farmer."
+		"Catfish! Delicious! I see you've brought enough for everyone. As promised, I'll return Skyheart to that old farmer.",
+		
+		ml(["I really appreciate that the guild is taking time to talk with us goblins. Most humans ",
+			 "despise us."]),
 	],
 	"initiates_quest_immediately": false,
 	"current_dialogue": 1, # initial dialogue
