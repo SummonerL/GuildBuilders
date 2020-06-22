@@ -184,9 +184,7 @@ onready var npc_farmer_fred = {
 		
 		"Please let me know if you find Skyheart!",
 		
-		"Ya finished! Yay!",
-		
-		"pizza?"
+		"Thanks so much for returning Skyheart to me! Feel free to ride her whenever you'd like.",
 	],
 	"current_dialogue": 0, # initial dialogue
 	"current_quest": 0, # quest that is active with this npc
@@ -313,7 +311,7 @@ onready var npc_goblin_king_rul = {
 		ml(["I see that old farmer has sent you for this horse. I can sympathize with the fact that the farmer thinks of this ",
 		"horse as his companion. We goblins also view horses as companions. However, it is customary for goblins to dine on horse. ",
 		"We view it as a horse's final sacrifice to us. I would be willing to make an exception for this year's feast. However, ",
-		"I will still need some food for the feast. The villagers here love Catfish. Could you bring me enough Catfish for each villager?."]),
+		"I will still need some food. The villagers here love Catfish. Could you bring me enough Catfish for each villager?"]),
 		
 		"Please return with some Catfish. We will require enough for each goblin in this village.",
 		

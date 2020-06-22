@@ -151,7 +151,7 @@ onready var quest_horse_rescue = {
 		},
 	],
 	"current_progress": 0,
-	"completion_text": "Pizza pie",
+	"completion_text": "King Rul returned Skyheart to Farmer Fred. You can now tame and ride Skyheart.",
 }
 
 onready var main_quests = []

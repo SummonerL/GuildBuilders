@@ -116,7 +116,23 @@ func set_quest_name(quest, unit):
 	# check for any quest specific actions/rewards
 	match(quest.name):
 		guild.QUEST_HORSE_RESCUE_NAME:
-			# the horse npc needs to be moved 
+			# the Skyheart horse npc needs to be moved 
+			var npc = get_tree().get_current_scene().npcs.npc_horse_skyheart
+			var farmer_fred = get_tree().get_current_scene().npcs.npc_farmer_fred
+
+			# and the l2 tile
+			var horse_id = get_tree().get_current_scene().l2_tiles.get_cellv(Vector2(npc.pos_x, npc.pos_y))
+			get_tree().get_current_scene().l2_tiles.set_cellv(Vector2(npc.pos_x, npc.pos_y), -1) # clear the tile
+			get_tree().get_current_scene().l2_tiles.set_cellv(Vector2(38, 8), horse_id) # clear the tile
+			
+			npc.pos_x = 38
+			npc.pos_y = 8
+			
+			# update farmer fred's dialogue
+			farmer_fred.current_dialogue = 3
+			
+			# reposition all the npcs
+			get_tree().get_current_scene().npcs.initialize_npcs()
 			
 	
 	# turn the music back up
