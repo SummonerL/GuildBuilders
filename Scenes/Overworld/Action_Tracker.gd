@@ -14,6 +14,7 @@ onready var constants = get_node("/root/Game_Constants")
 # our various animal scenes
 onready var dove_scn = preload("res://Entities/Player/Animals/Bird.tscn")
 onready var beaver_scn = preload("res://Entities/Player/Animals/Beaver.tscn")
+onready var horse_scn = preload("res://Entities/Player/Animals/Horse.tscn")
 
 var map_icons
 
@@ -37,6 +38,7 @@ const ACTIONS = {
 	14: 'BEAST_MASTERY_SPOT_2',
 	18: 'BEAST_MASTERY_SPOT_3',
 	28: 'BEAST_MASTERY_SPOT_4',
+	31: 'BEAST_MASTERY_SPOT_5',
 	
 	15: 'DIPLOMACY_SPOT_1',
 	17: 'DIPLOMACY_SPOT_2',
@@ -83,6 +85,7 @@ onready var ITEMS_AT_SPOT = {
 onready var ANIMALS_AT_SPOT = {
 	'BEAST_MASTERY_SPOT_1': [dove_scn],
 	'BEAST_MASTERY_SPOT_3': [beaver_scn],
+	'BEAST_MASTERY_SPOT_5': [horse_scn],
 }
 
 # keep track of the diplomatic leaders that can be found at specific spots
@@ -111,6 +114,7 @@ onready var associated_actions = {
 	'BEAST_MASTERY_SPOT_2': [global_action_list.COMPLETE_ACTION_LIST.PET_CAT],
 	'BEAST_MASTERY_SPOT_3': [global_action_list.COMPLETE_ACTION_LIST.TAME_BEAVER],
 	'BEAST_MASTERY_SPOT_4': [global_action_list.COMPLETE_ACTION_LIST.PET_GATOR],
+	'BEAST_MASTERY_SPOT_5': [global_action_list.COMPLETE_ACTION_LIST.TAME_HORSE],
 	
 	'DIPLOMACY_SPOT_1': [global_action_list.COMPLETE_ACTION_LIST.MEET_WITH_LEADER,
 						global_action_list.COMPLETE_ACTION_LIST.GIVE_GIFT_TO_LEADER],
@@ -161,6 +165,7 @@ onready var level_requirements = {
 	'BEAST_MASTERY_SPOT_1': 3,
 	'BEAST_MASTERY_SPOT_4': 4,
 	'BEAST_MASTERY_SPOT_3': 5,
+	'BEAST_MASTERY_SPOT_5': 5,
 }
 
 # matching connections (used for tunneling and other connectors)
@@ -202,6 +207,7 @@ onready var adjacent_applicable = [
 	global_action_list.COMPLETE_ACTION_LIST.PET_CAT,
 	global_action_list.COMPLETE_ACTION_LIST.PET_GATOR,
 	global_action_list.COMPLETE_ACTION_LIST.TAME_BEAVER,
+	global_action_list.COMPLETE_ACTION_LIST.TAME_HORSE,
 	global_action_list.COMPLETE_ACTION_LIST.MEET_WITH_LEADER,
 	global_action_list.COMPLETE_ACTION_LIST.GIVE_GIFT_TO_LEADER,
 	global_action_list.COMPLETE_ACTION_LIST.ACCESS_DEPOT_VIA_MAGE_ASHEN,

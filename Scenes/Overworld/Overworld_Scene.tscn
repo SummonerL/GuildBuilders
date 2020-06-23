@@ -489,6 +489,16 @@
 30/navigation_offset = Vector2( 0, 0 )
 30/shapes = [  ]
 30/z_index = 0
+31/name = "Beast_Mastery_Spot_5"
+31/texture = ExtResource( 8 )
+31/tex_offset = Vector2( 0, 0 )
+31/modulate = Color( 1, 1, 1, 1 )
+31/region = Rect2( 64, 48, 16, 16 )
+31/tile_mode = 0
+31/occluder_offset = Vector2( 0, 0 )
+31/navigation_offset = Vector2( 0, 0 )
+31/shapes = [  ]
+31/z_index = 0
 
 [sub_resource type="TileSet" id=3]
 0/name = "hidden_tile"

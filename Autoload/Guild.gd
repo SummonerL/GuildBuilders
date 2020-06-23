@@ -413,6 +413,17 @@ func check_misc_new_day_effects():
 			var bm_id = get_tree().get_current_scene().world_map_icons.tile_set.find_tile_by_name("beast_mastery_spot_icon")
 			get_tree().get_current_scene().world_map_icons.set_cellv(birdhouse.pos, bm_id)
 		
+func reset_tiles_quest_conditions():
+	# iterate through the completed quests and reset any quest, specific tiles
+	var all_completed_quests = []
+	all_completed_quests += side_completed + main_completed
+	for completed_quest in all_completed_quests:
+		match(completed_quest.name):
+			QUEST_HORSE_RESCUE_NAME:
+				# make sure the BM icon + action is present on Skyheart
+				var bm_id = get_tree().get_current_scene().world_map_icons.tile_set.find_tile_by_name("beast_mastery_spot_icon")
+				get_tree().get_current_scene().world_map_icons.set_cellv(Vector2(38, 8), bm_id)
+		
 func add_guild_ability(ability):
 	current_guild_abilities.append(ability)
 	

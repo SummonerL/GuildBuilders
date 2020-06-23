@@ -51,6 +51,9 @@ var unit_name = ""
 # the animals sprite
 var animal_sprite
 
+# the mounted indicator (for mounts)
+var mounted_indicator_sprite = null
+
 # keep track of the unit's items
 var item_limit = 0 # default
 
@@ -68,6 +71,8 @@ var has_acted = false
 var flying = false
 
 var swims_only = false
+
+var can_mount = false
 
 # whether or not the animal is awake
 var unit_awake = true

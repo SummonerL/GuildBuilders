@@ -124,10 +124,12 @@ enum COMPLETE_ACTION_LIST {
 	PET_CAT, # used for Beast Mastery
 	PET_GATOR, # used for Beast Mastery
 	TAME_BEAVER, # used for Beast Mastery
+	TAME_HORSE, # used for Beast Mastery
 	MEET_WITH_LEADER, # used for Diplomacy
 	GIVE_GIFT_TO_LEADER, # used for Diplomacy
 	GIVE_GIFT_ON_GIFT_SCREEN, # used for Gift screen
 	TRADE_ITEMS, # trade items between units
+	MOUNT_UNIT, # mount animals with can_mount
 	TALK, # used for NPCS
 	ACCESS_DEPOT_VIA_MAGE_ASHEN, # access depot
 	ACCESS_DINING_VIA_CHEF_FREDERIK, # access dining
@@ -184,10 +186,12 @@ const ACTION_LIST_NAMES = [ # in the same order as actions above
 	'PET',
 	'PET',
 	'TAME',
+	'TAME',
 	'MEET',
 	'GIVE',
 	'GIVE',
 	'TRADE',
+	'MOUNT',
 	'TALK',
 	'DEPOT',
 	'DINE',
@@ -318,6 +322,9 @@ func do_action(action, parent, additional_params = null):
 		COMPLETE_ACTION_LIST.TAME_BEAVER:
 			# tame a beaver
 			initiate_tame_beaver_action()
+		COMPLETE_ACTION_LIST.TAME_HORSE:
+			# tame a horse!
+			initiate_tame_horse_action()
 		COMPLETE_ACTION_LIST.MEET_WITH_LEADER:
 			# meet with a diplomatic leader
 			initiate_meet_with_leader_action()
@@ -1196,6 +1203,76 @@ func initiate_tame_beaver_action():
 			player.hud.typeTextWithBuffer(active_unit.unit_name + TAMED_MISC, true)
 			
 			show_action_window(constants.BEAST_MASTERY, null, 'Tamed', 'Beaver', animal.tame_xp, '...and tamed the ') 
+			
+			yield(signals, "finished_action_success")
+
+			# make the animal sprite visible
+			animal.animal_sprite.visible = true
+
+# tame a horse!
+func initiate_tame_horse_action():
+	# since this action can be taken on an adjacent tile, determine where the horse is
+	var the_animal_pos = null
+	var the_animal_spot = null
+	var animal_action_id = map_actions.tile_set.find_tile_by_name("Beast_Mastery_Spot_5") # tame horse
+	
+	for tile in get_tree().get_current_scene().get_cardinal_tiles(active_unit):
+		if (map_actions.get_cellv(tile.tile) == animal_action_id):
+			the_animal_pos = tile.tile
+			the_animal_spot = map_actions.get_action_spot_at_coordinates(tile.tile)
+		
+	var daily_tamed = active_unit.beasts_tamed_today
+	
+	# determine if the unit can tame any more beasts today
+	var level_for_more_beasts = skill_info.beast_mastery_tame_restrictions.get(daily_tamed + 1)
+	if (level_for_more_beasts != null && level_for_more_beasts <= active_unit.skill_levels[constants.BEAST_MASTERY]):
+		# get the level requirement for this spot
+		var level_requirement = map_actions.get_level_requirement_at_spot(the_animal_spot)
+		
+		if (level_requirement > active_unit.skill_levels[constants.BEAST_MASTERY]):
+			player.hud.typeTextWithBuffer(active_unit.NOT_SKILLED_ENOUGH_TEXT, false, 'finished_action_failed') # they did not succeed 
+		else:
+			# they can tame the horse!
+			var animal_scns = map_actions.get_animals_at_spot(the_animal_spot)
+			animal_scns.shuffle()
+			var animal_scn = animal_scns[0]
+			
+#			 create the animal instance!
+			var animal = guild.add_animal(animal_scn)
+			animal.set_animal_position(the_animal_pos)
+			
+			# the unit tamed a beast
+			active_unit.beasts_tamed_today += 1
+			
+			# and remove the BM icon from this tile
+			map_actions.remove_map_icon_at_coordinates(the_animal_pos.x, the_animal_pos.y)
+			
+			# remove the L2, 'HORSE' tile
+			var horse_id = get_tree().get_current_scene().l2_tiles.get_cellv(the_animal_pos)
+			get_tree().get_current_scene().l2_tiles.set_cellv(the_animal_pos, -1) # clear the tile
+			
+			# remove the action tracker from this tile
+			var action_id = map_actions.get_cellv(the_animal_pos)
+			map_actions.set_cellv(the_animal_pos, -1) # clear the tile
+			
+			# we also need to make sure this gets reset in new_day
+			get_tree().get_current_scene().reset_terrain_tracker += [{
+				"layer": get_tree().get_current_scene().l2_tiles,
+				"pos": the_animal_pos,
+				"id": horse_id
+			}, {
+				"layer": map_actions,
+				"pos": the_animal_pos,
+				"id": action_id
+			}]
+			
+			# set the npc animal's sprite as invisible since it will be converted to an actual animal unit
+			get_tree().get_current_scene().npcs.find_npc_at_tile(the_animal_pos).overworld_sprite.visible = false
+			
+			# start taming
+			player.hud.typeTextWithBuffer(active_unit.unit_name + TAMED_MISC, true)
+			
+			show_action_window(constants.BEAST_MASTERY, null, 'Tamed', 'Horse', animal.tame_xp, '...and tamed the ') 
 			
 			yield(signals, "finished_action_success")
 

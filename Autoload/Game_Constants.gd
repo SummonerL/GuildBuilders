@@ -78,6 +78,7 @@ enum UNIT_TYPES {
 enum ANIMAL_TYPES {
 	BIRD,
 	BEAVER,
+	HORSE
 }
 
 # times of day

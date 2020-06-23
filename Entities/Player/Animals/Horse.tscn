@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Entities/Player/Animals/Horse.gd" type="Script" id=1]
+[ext_resource path="res://Sprites/characters/animals/skyheart_2.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/characters/animals/skyheart_1.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/characters/animals/mounted_indicator.png" type="Texture" id=4]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 3 ), ExtResource( 2 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[node name="Horse" type="Node2D"]
+z_index = 3
+script = ExtResource( 1 )
+
+[node name="Horse" type="AnimatedSprite" parent="."]
+visible = false
+frames = SubResource( 1 )
+frame = 1
+speed_scale = 0.5
+playing = true
+centered = false
+
+[node name="Mounted_Indicator" type="Sprite" parent="."]
+visible = false
+texture = ExtResource( 4 )
+centered = false

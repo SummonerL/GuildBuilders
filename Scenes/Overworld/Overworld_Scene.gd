@@ -402,6 +402,9 @@ func new_day(fade = false, fade_node = null):
 	# reset any additional misc tiles
 	reset_misc_tiles()
 	
+	# set any special tiles, based on quest conditions
+	guild.reset_tiles_quest_conditions()
+	
 	# check for any misc new-day effects (such as birdhouse occupancy)
 	guild.check_misc_new_day_effects()
 	
@@ -884,6 +887,17 @@ func populate_unique_actions(unit):
 	if (adjacent_tower != null):
 		player.active_world_object = adjacent_tower
 		unique_actions += map_actions.tower_actions
+		
+	# determine if the unit is next to any mountable units (animals)
+	var adjacent_to_can_mount_unit = false
+	for tile in get_tree().get_current_scene().get_cardinal_tiles(unit):
+		if (player.party.is_unit_here(tile.tile.x, tile.tile.y)):
+			var unit_to_mount = player.party.get_unit_at_coordinates(tile.tile.x, tile.tile.y)
+			if (unit_to_mount.get("can_mount") == true):
+				adjacent_to_can_mount_unit = true
+			
+	if (adjacent_to_can_mount_unit):
+		unique_actions += [global_action_list.COMPLETE_ACTION_LIST.MOUNT_UNIT]
 	
 	return unique_actions
 	

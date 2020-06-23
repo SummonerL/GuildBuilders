@@ -123,7 +123,7 @@ func set_quest_name(quest, unit):
 			# and the l2 tile
 			var horse_id = get_tree().get_current_scene().l2_tiles.get_cellv(Vector2(npc.pos_x, npc.pos_y))
 			get_tree().get_current_scene().l2_tiles.set_cellv(Vector2(npc.pos_x, npc.pos_y), -1) # clear the tile
-			get_tree().get_current_scene().l2_tiles.set_cellv(Vector2(38, 8), horse_id) # clear the tile
+			get_tree().get_current_scene().l2_tiles.set_cellv(Vector2(38, 8), horse_id) # set the horse l2 tile
 			
 			npc.pos_x = 38
 			npc.pos_y = 8
@@ -133,6 +133,17 @@ func set_quest_name(quest, unit):
 			
 			# reposition all the npcs
 			get_tree().get_current_scene().npcs.initialize_npcs()
+			
+			# set the BM wm icon + Beast Mastery 5 action spot
+			var map_actions = get_tree().get_nodes_in_group(constants.MAP_ACTIONS_GROUP)[0]
+			var animal_action_id = map_actions.tile_set.find_tile_by_name("Beast_Mastery_Spot_5") # tame horse action spot
+			map_actions.set_cellv(Vector2(38, 8), animal_action_id)
+			
+			# bm icon
+			var map_icons = get_tree().get_nodes_in_group(constants.MAP_ICONS_GROUP)[0]
+			var tileset = map_icons.get_tileset()
+			
+			map_icons.set_cellv(Vector2(38, 8), tileset.find_tile_by_name("beast_mastery_spot_icon")) # the bm icon
 			
 	
 	# turn the music back up

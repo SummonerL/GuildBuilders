@@ -499,6 +499,14 @@ onready var SKILL_UNLOCKS = {
 			'type': UNLOCK_TYPES.ANIMAL,
 			'level_required': 5,
 		},
+		{
+			'unlock_text': ' can now tame Horses!',
+			'can_text': 'Tame',
+			'skill_info_text': 'Horses',
+			'single_line': true,
+			'type': UNLOCK_TYPES.ANIMAL,
+			'level_required': 5,
+		},
 			
 	],
 	
