@@ -100,9 +100,11 @@ func is_unit_here(x, y):
 
 func reset_unit_actions():
 	for unit in party_members:
-		unit.reset_action_list()
-		# also make sure we update their 'acted' state for the new turn
-		unit.set_has_acted_state(false)
+		# mounted units will not 'reset' they stay in their current state until DISMNT is selected (from the animal)
+		if (unit.get("unit_mounting") == null):
+			unit.reset_action_list()
+			# also make sure we update their 'acted' state for the new turn
+			unit.set_has_acted_state(false)
 		
 	# reset animals
 	for animal in guild.guild_animals:

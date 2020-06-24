@@ -73,6 +73,7 @@ var flying = false
 var swims_only = false
 
 var can_mount = false
+var carrying = [] # an array of units this animal is carrying
 
 # whether or not the animal is awake
 var unit_awake = true
@@ -134,6 +135,10 @@ onready var hidden_tiles = get_tree().get_nodes_in_group(constants.HIDDEN_TILES_
 # make sure we have access to the main camera node
 onready var camera = get_tree().get_nodes_in_group("Camera")[0]
 
+# misc constants
+const ALREADY_CARRYING_ANOTHER_UNIT = 'This animal is already carrying another unit...'
+const CARRYING_TOO_MUCH_FOR_MOUNTING = 'This animal is carrying too much to be mounted...'
+
 # called from extended script
 func animal_base_init():
 	current_action_list = initial_action_list.duplicate()
@@ -194,7 +199,34 @@ func show_trade_selector():
 		if (player.party.is_unit_here(tile.tile.x, tile.tile.y)):
 			show_movement_grid_square(tile.tile.x, tile.tile.y, true) # allow showing the square on a unit or restricted tile (since we aren't moving here')
 		
-		
+# when a unit decides to 'mount' this animal (only possible if can_mount == true)
+func carry_unit(unit):
+	# add the unit to the carrying array
+	carrying.append(unit)
+	
+	# give the animal the unit's 'item' representation
+	current_items.append(unit.item_mounting_representation)
+	
+	# show the 'mounted' icon
+	mounted_indicator_sprite.visible = true
+	
+	# drop off the unit that is being carried
+func commence_dismount(spot, unit_index): # after the unit has selected a dismount spot
+	# hide the 'mounted' icon
+	mounted_indicator_sprite.visible = false
+
+	# set the unit to the location
+	carrying[unit_index].set_unit_pos(spot.x, spot.y)
+	
+	# remove the unit_mounting
+	carrying[unit_index].unit_mounting = null
+	
+	# show the unit
+	carrying[unit_index].unit_sprite_node.visible = true
+	
+	# clear any movement grid squares
+	clear_movement_grid_squares()
+
 # open the trade screen for the selected unit
 func trade_with_unit_at_pos(target_x, target_y):
 	# find the unit at this position

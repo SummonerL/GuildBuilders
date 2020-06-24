@@ -43,6 +43,8 @@ func unit_init():
 	
 	base_move = 3
 	
+	item_mounting_representation = global_items_list.item_hazel_mount_representation
+	
 	skill_levels[constants.WOODWORKING] = 5
 	
 	# give the female woodworker some starting items

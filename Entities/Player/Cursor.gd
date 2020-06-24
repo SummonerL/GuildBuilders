@@ -178,7 +178,8 @@ func _input(event):
 	player.player_state == player.PLAYER_STATE.SELECTING_TILE ||
 	player.player_state == player.PLAYER_STATE.POSITIONING_UNIT ||
 	player.player_state == player.PLAYER_STATE.CROSSING_WATER ||
-	player.player_state == player.PLAYER_STATE.SELECTING_TRADE_UNIT):
+	player.player_state == player.PLAYER_STATE.SELECTING_TRADE_UNIT ||
+	player.player_state == player.PLAYER_STATE.SELECTING_MOUNT_UNIT):
 		# immediately move, then continue moving
 		if event.is_action_pressed("ui_up"):
 			# if we're changing directions, act as if we're resetting
@@ -251,6 +252,12 @@ func _input(event):
 						# trade with the target unit
 						if (player.party.is_unit_here(player.curs_pos_x, player.curs_pos_y)):
 							party.get_active_unit().trade_with_unit_at_pos(player.curs_pos_x, player.curs_pos_y)
+					player.PLAYER_STATE.SELECTING_MOUNT_UNIT:
+						# mount the target unit
+						if (player.party.is_unit_here(player.curs_pos_x, player.curs_pos_y)):
+							var target_unit = player.party.get_unit_at_coordinates(player.curs_pos_x, player.curs_pos_y)
+							if (target_unit.get('can_mount') == true):
+								party.get_active_unit().mount_target_unit(target_unit)
 						
 							
 	if event.is_action_pressed("ui_select"):
@@ -263,7 +270,8 @@ func _input(event):
 		if (player.player_state == player.PLAYER_STATE.SELECTING_MOVEMENT || 
 		player.player_state == player.PLAYER_STATE.POSITIONING_UNIT ||
 		player.player_state == player.PLAYER_STATE.CROSSING_WATER ||
-		player.player_state == player.PLAYER_STATE.SELECTING_TRADE_UNIT):		
+		player.player_state == player.PLAYER_STATE.SELECTING_TRADE_UNIT ||
+		player.player_state == player.PLAYER_STATE.SELECTING_MOUNT_UNIT):		
 			party.get_active_unit().clear_movement_grid_squares()
 			# change our state back to selecting tile
 			player.player_state = player.PLAYER_STATE.SELECTING_TILE

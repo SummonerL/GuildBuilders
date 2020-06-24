@@ -39,7 +39,8 @@ enum ITEM_TYPES {
 	CRAFTING_PART,
 	UTILITY,
 	DIPLOMATIC_GIFT,
-	QUEST_ITEM
+	QUEST_ITEM,
+	MOUNT_REPRESENTATION
 }
 
 const BROKE_TEXT = ' broke...'
@@ -416,6 +417,64 @@ onready var item_rubins_remains = {
 	"name": "Rubin's Remains",
 	"description": "The remains of Rubin. This item is used in a quest.",
 	"type": ITEM_TYPES.QUEST_ITEM
+}
+
+
+# representations of units that are mounting
+onready var item_ripley_mount_representation = {
+	"name": "Ripley",
+	"description": "This animal is carrying Ripley.",
+	"type": ITEM_TYPES.MOUNT_REPRESENTATION,
+	"can_discard": false,
+}
+
+onready var item_rodrik_mount_representation = {
+	"name": "Rodrik",
+	"description": "This animal is carrying Rodrik.",
+	"type": ITEM_TYPES.MOUNT_REPRESENTATION,
+	"can_discard": false,
+}
+
+onready var item_jade_mount_representation = {
+	"name": "Jade",
+	"description": "This animal is carrying Jade.",
+	"type": ITEM_TYPES.MOUNT_REPRESENTATION,
+	"can_discard": false,
+}
+
+onready var item_rocko_mount_representation = {
+	"name": "Rocko",
+	"description": "This animal is carrying Rocko.",
+	"type": ITEM_TYPES.MOUNT_REPRESENTATION,
+	"can_discard": false,
+}
+
+onready var item_willow_mount_representation = {
+	"name": "Willow",
+	"description": "This animal is carrying Willow.",
+	"type": ITEM_TYPES.MOUNT_REPRESENTATION,
+	"can_discard": false,
+}
+
+onready var item_axel_mount_representation = {
+	"name": "Axel",
+	"description": "This animal is carrying Axel.",
+	"type": ITEM_TYPES.MOUNT_REPRESENTATION,
+	"can_discard": false,
+}
+
+onready var item_hazel_mount_representation = {
+	"name": "Hazel",
+	"description": "This animal is carrying Hazel.",
+	"type": ITEM_TYPES.MOUNT_REPRESENTATION,
+	"can_discard": false,
+}
+
+onready var item_sawyer_mount_representation = {
+	"name": "Sawyer",
+	"description": "This animal is carrying Sawyer.",
+	"type": ITEM_TYPES.MOUNT_REPRESENTATION,
+	"can_discard": false,
 }
 
 # keep track of any items that can be found by digging (predefined)

@@ -648,6 +648,12 @@ func _on_finished_viewing_bedtime_text():
 		
 				yield(signals, "finished_viewing_text_generic")
 				
+			# temporarily hide the animal
+			focused_unit.animal_sprite.visible = false
+			if (focused_unit.carrying.size() > 0):
+				# drop the unit they are carrying
+				focused_unit.commence_dismount(Vector2(focused_unit.unit_pos_x, focused_unit.unit_pos_y), 0)
+				
 			# remove the animal from the game
 			guild.remove_animal(focused_unit.unit_id)
 			

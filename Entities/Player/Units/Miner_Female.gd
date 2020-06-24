@@ -45,6 +45,8 @@ func unit_init():
 	
 	base_move = 3
 	
+	item_mounting_representation = global_items_list.item_jade_mount_representation
+	
 	skill_levels[constants.MINING] = 5
 	
 	# give the male woodworker some starting items

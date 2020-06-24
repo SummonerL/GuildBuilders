@@ -375,6 +375,9 @@ func do_action(action, parent, additional_params = null):
 		COMPLETE_ACTION_LIST.TRADE_ITEMS:
 			# trade items between units
 			active_unit.show_trade_selector()
+		COMPLETE_ACTION_LIST.MOUNT_UNIT:
+			# mount a animal unit
+			active_unit.show_unit_selector('can_mount', true, player.PLAYER_STATE.SELECTING_MOUNT_UNIT)
 		COMPLETE_ACTION_LIST.READ_SIGN:
 			# read an adjacent sign
 			initiate_read_sign_action(player.active_world_object)
@@ -1196,15 +1199,15 @@ func initiate_tame_beaver_action():
 				"id": action_id
 			}]
 			
-			# set the npc animal's sprite as invisible since it will be converted to an actual animal unit
-			get_tree().get_current_scene().npcs.find_npc_at_tile(the_beaver_pos).overworld_sprite.visible = false
-			
 			# start taming
 			player.hud.typeTextWithBuffer(active_unit.unit_name + TAMED_MISC, true)
 			
 			show_action_window(constants.BEAST_MASTERY, null, 'Tamed', 'Beaver', animal.tame_xp, '...and tamed the ') 
 			
 			yield(signals, "finished_action_success")
+			
+			# set the npc animal's sprite as invisible since it will be converted to an actual animal unit
+			get_tree().get_current_scene().npcs.find_npc_at_tile(the_beaver_pos).overworld_sprite.visible = false
 
 			# make the animal sprite visible
 			animal.animal_sprite.visible = true
@@ -1266,15 +1269,15 @@ func initiate_tame_horse_action():
 				"id": action_id
 			}]
 			
-			# set the npc animal's sprite as invisible since it will be converted to an actual animal unit
-			get_tree().get_current_scene().npcs.find_npc_at_tile(the_animal_pos).overworld_sprite.visible = false
-			
 			# start taming
 			player.hud.typeTextWithBuffer(active_unit.unit_name + TAMED_MISC, true)
 			
 			show_action_window(constants.BEAST_MASTERY, null, 'Tamed', 'Horse', animal.tame_xp, '...and tamed the ') 
 			
 			yield(signals, "finished_action_success")
+
+			# set the npc animal's sprite as invisible since it will be converted to an actual animal unit
+			get_tree().get_current_scene().npcs.find_npc_at_tile(the_animal_pos).overworld_sprite.visible = false
 
 			# make the animal sprite visible
 			animal.animal_sprite.visible = true

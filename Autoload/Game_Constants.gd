@@ -40,6 +40,9 @@ const GAME_VOLUME = -2
 const ASLEEP_X = -1500
 const ASLEEP_Y = -1500
 
+const OFFSCREEN_X = -1501
+const OFFSCREEN_Y = -1501
+
 enum DIRECTIONS {
 	UP,
 	RIGHT,

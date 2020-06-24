@@ -78,6 +78,12 @@ var general_bonus_xp = .0
 # by default, all unit's are asleep
 var unit_awake = false
 
+# a reference to another unit, if this unit is mounted
+var unit_mounting = null
+
+# the item representation of this unit (when mounting, it shows up in the animal's inventory - lmao)
+onready var item_mounting_representation = null
+
 # the unit's bed time (default 9pm)
 var bed_time = 21
 
@@ -258,6 +264,57 @@ func determine_action_list():
 		
 		# sort them
 		current_action_list.sort()
+	
+# this is used for selecting 'target' unit. Can be used for things like 'mounting', 'trading', or any other targeting actions
+func show_unit_selector(key, condition_value, player_state):
+	# find adjacent units that meet the conditions
+	
+	# change the state (whatever was passed)
+	player.player_state = player_state
+	
+
+	for tile in get_tree().get_current_scene().get_cardinal_tiles(self):
+		if (player.party.is_unit_here(tile.tile.x, tile.tile.y)):
+			var target_unit = player.party.get_unit_at_coordinates(tile.tile.x, tile.tile.y)
+			if (target_unit.get(key) == condition_value):
+				show_movement_grid_square(tile.tile.x, tile.tile.y, true) # allow showing the square on a unit or restricted tile (since we aren't moving here')
+
+# when mounting an animal
+func mount_target_unit(target_animal):
+	# make sure the animal can carry another unit
+	if (target_animal.carrying.size() > 0):
+		# for now, animals can only carry one unit
+		player.player_state = player.PLAYER_STATE.ANIMATING_MOVEMENT # use to temporarily halt any input
+		player.hud.typeTextWithBuffer(target_animal.ALREADY_CARRYING_ANOTHER_UNIT, false, 'finished_viewing_text_generic')
+		yield(signals, "finished_viewing_text_generic")
+		clear_movement_grid_squares()
+		end_action(false) # action failed
+	elif (target_animal.is_inventory_full()):
+		# the animal is carrying too much
+		player.player_state = player.PLAYER_STATE.ANIMATING_MOVEMENT # use to temporarily halt any input
+		player.hud.typeTextWithBuffer(target_animal.CARRYING_TOO_MUCH_FOR_MOUNTING, false, 'finished_viewing_text_generic')
+		yield(signals, "finished_viewing_text_generic")
+		clear_movement_grid_squares()
+		end_action(false) # action failed
+	else:
+		# the animal starts carrying this unit (shows the mounted icon)
+		target_animal.carry_unit(self)
+		
+		# this unit is now mounting the animal
+		unit_mounting = target_animal
+		
+		# hide this unit
+		unit_sprite_node.visible = false
+		
+		# and set the position of the unit offscreen (they are theoretically with the animal, but we don't want to impede the cursor by actually layering the units on top of each other)
+		set_unit_pos(constants.OFFSCREEN_X, constants.OFFSCREEN_Y)
+		
+		# clear any movement grid squares
+		clear_movement_grid_squares()
+		
+		# and end this unit's turn
+		end_action(true)
+	
 	
 func show_action_list():
 	# add a selection list istance to our camera
@@ -507,12 +564,13 @@ func move_unit_if_eligible(target_x, target_y):
 	initiate_movement(a_star(target_x, target_y))
 
 # functions global to all unit types
-func show_movement_grid_square(pos_x, pos_y):
+func show_movement_grid_square(pos_x, pos_y, show_on_unit_and_restricted = false):
 	# if there is a unit here, don't show the square
 	var unit_here = false
-	for unit in player.party.get_all_units():
-		if (unit.unit_pos_x == pos_x && unit.unit_pos_y == pos_y):
-			unit_here = true
+	if (!show_on_unit_and_restricted):
+		for unit in player.party.get_all_units():
+			if (unit.unit_pos_x == pos_x && unit.unit_pos_y == pos_y):
+				unit_here = true
 	
 	if (!unit_here):
 		var square = movement_grid_square.instance()
