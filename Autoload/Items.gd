@@ -426,6 +426,7 @@ onready var item_ripley_mount_representation = {
 	"description": "This animal is carrying Ripley.",
 	"type": ITEM_TYPES.MOUNT_REPRESENTATION,
 	"can_discard": false,
+	"can_trade": false
 }
 
 onready var item_rodrik_mount_representation = {
@@ -433,6 +434,7 @@ onready var item_rodrik_mount_representation = {
 	"description": "This animal is carrying Rodrik.",
 	"type": ITEM_TYPES.MOUNT_REPRESENTATION,
 	"can_discard": false,
+	"can_trade": false
 }
 
 onready var item_jade_mount_representation = {
@@ -440,6 +442,7 @@ onready var item_jade_mount_representation = {
 	"description": "This animal is carrying Jade.",
 	"type": ITEM_TYPES.MOUNT_REPRESENTATION,
 	"can_discard": false,
+	"can_trade": false
 }
 
 onready var item_rocko_mount_representation = {
@@ -447,6 +450,7 @@ onready var item_rocko_mount_representation = {
 	"description": "This animal is carrying Rocko.",
 	"type": ITEM_TYPES.MOUNT_REPRESENTATION,
 	"can_discard": false,
+	"can_trade": false
 }
 
 onready var item_willow_mount_representation = {
@@ -454,6 +458,7 @@ onready var item_willow_mount_representation = {
 	"description": "This animal is carrying Willow.",
 	"type": ITEM_TYPES.MOUNT_REPRESENTATION,
 	"can_discard": false,
+	"can_trade": false
 }
 
 onready var item_axel_mount_representation = {
@@ -461,6 +466,7 @@ onready var item_axel_mount_representation = {
 	"description": "This animal is carrying Axel.",
 	"type": ITEM_TYPES.MOUNT_REPRESENTATION,
 	"can_discard": false,
+	"can_trade": false
 }
 
 onready var item_hazel_mount_representation = {
@@ -468,6 +474,7 @@ onready var item_hazel_mount_representation = {
 	"description": "This animal is carrying Hazel.",
 	"type": ITEM_TYPES.MOUNT_REPRESENTATION,
 	"can_discard": false,
+	"can_trade": false
 }
 
 onready var item_sawyer_mount_representation = {
@@ -475,6 +482,7 @@ onready var item_sawyer_mount_representation = {
 	"description": "This animal is carrying Sawyer.",
 	"type": ITEM_TYPES.MOUNT_REPRESENTATION,
 	"can_discard": false,
+	"can_trade": false
 }
 
 # keep track of any items that can be found by digging (predefined)

@@ -67,6 +67,7 @@ var active_unit
 # text for the trade screen
 const NO_ITEMS_TEXT = "No items..."
 const CANT_CARRY_TEXT = ' can\'t carry anything else...'
+const CANT_TRADE_TEXT = "This item can not be traded.'"
 
 func trade_screen_init():
 	letters_symbols_node = letters_symbols_scn.instance()
@@ -117,27 +118,33 @@ func transfer_current_item():
 	# now move the item
 	var item = focus.current_items[current_item]
 	
-	if (current_inv == SELECTIONS.ACTIVE_UNIT):
-		# remove from active unit
-		global_item_list.remove_item_from_unit(left_unit, current_item)
-		
-		# move to target unit
-		right_unit.receive_item(item)
-	elif (current_inv == SELECTIONS.TARGET_UNIT):
-		# remove from active unit
-		global_item_list.remove_item_from_unit(right_unit, current_item)
-		
-		# move to target unit
-		left_unit.receive_item(item)
-		
-		
-	# reposition the cursor and repopulate the list, now that we've removed that item
-	if (current_item > (focus.current_items.size() - 1)):
-		if (current_item == inv_start_index_tracker && inv_start_index_tracker > 0):
-			inv_start_index_tracker -= 4
-		current_item -= 1
-		
-	populate_items(inv_start_index_tracker)
+	if (item.get("can_trade") == false): # some items can't be traded / moved
+		player.hud.dialogueState = player.hud.STATES.INACTIVE
+		player.hud.typeTextWithBuffer(CANT_TRADE_TEXT, false, 'finished_viewing_text_generic') 
+		yield(signals, "finished_viewing_text_generic")
+	else:
+	
+		if (current_inv == SELECTIONS.ACTIVE_UNIT):
+			# remove from active unit
+			global_item_list.remove_item_from_unit(left_unit, current_item)
+			
+			# move to target unit
+			right_unit.receive_item(item)
+		elif (current_inv == SELECTIONS.TARGET_UNIT):
+			# remove from active unit
+			global_item_list.remove_item_from_unit(right_unit, current_item)
+			
+			# move to target unit
+			left_unit.receive_item(item)
+			
+			
+		# reposition the cursor and repopulate the list, now that we've removed that item
+		if (current_item > (focus.current_items.size() - 1)):
+			if (current_item == inv_start_index_tracker && inv_start_index_tracker > 0):
+				inv_start_index_tracker -= 4
+			current_item -= 1
+			
+		populate_items(inv_start_index_tracker)
 	
 	#since we just finished with the selection list, unpause input in this node
 	set_process_input(true)

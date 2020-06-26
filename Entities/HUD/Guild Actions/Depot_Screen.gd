@@ -71,6 +71,7 @@ const NO_ITEMS_TEXT = "No items..."
 const CANT_CARRY_TEXT = ' can\'t carry anything else...'
 const TRASH_ITEM_TEXT = ' discarded the item.'
 const CANT_DISCARD_TEXT = "This item can not be discarded."
+const CANT_MOVE_TEXT = "This item can not be moved."
 
 func depot_screen_init():
 	letters_symbols_node = letters_symbols_scn.instance()
@@ -128,31 +129,36 @@ func transfer_item():
 	# now move the item
 	var item = focus.current_items[current_item]
 	
-	if (current_inv == SELECTIONS.DEPOT):
-		# remove from guild
-		guild.remove_item_from_depot(current_item)
+	if (item.get("can_trade") == false): # some items can't be traded / moved
+		player.hud.dialogueState = player.hud.STATES.INACTIVE
+		player.hud.typeTextWithBuffer(CANT_MOVE_TEXT, false, 'finished_viewing_text_generic') 
+		yield(signals, "finished_viewing_text_generic")
+	else:
+		if (current_inv == SELECTIONS.DEPOT):
+			# remove from guild
+			guild.remove_item_from_depot(current_item)
+			
+			# move to unit
+			active_unit.receive_item(item)
+		elif (current_inv == SELECTIONS.UNIT):
+			# remove from unit
+			global_item_list.remove_item_from_unit(focus, current_item)
+			
+			# move to depot
+			guild.add_item_to_depot(item)
+			
+			# sort the guild items (for convenience)
+			guild.current_items.sort_custom(self, 'sort_items_by_name')
+			
+			
+		# reposition the cursor and repopulate the list, now that we've removed that item
+		if (current_item > (focus.current_items.size() - 1)):
+			if (current_item == inv_start_index_tracker && inv_start_index_tracker > 0):
+				inv_start_index_tracker -= 4
+			current_item -= 1
+			
+		populate_items(inv_start_index_tracker)
 		
-		# move to unit
-		active_unit.receive_item(item)
-	elif (current_inv == SELECTIONS.UNIT):
-		# remove from unit
-		global_item_list.remove_item_from_unit(focus, current_item)
-		
-		# move to depot
-		guild.add_item_to_depot(item)
-		
-		# sort the guild items (for convenience)
-		guild.current_items.sort_custom(self, 'sort_items_by_name')
-		
-		
-	# reposition the cursor and repopulate the list, now that we've removed that item
-	if (current_item > (focus.current_items.size() - 1)):
-		if (current_item == inv_start_index_tracker && inv_start_index_tracker > 0):
-			inv_start_index_tracker -= 4
-		current_item -= 1
-		
-	populate_items(inv_start_index_tracker)
-	
 	#since we just finished with the selection list, unpause input in this node
 	set_process_input(true)
 		

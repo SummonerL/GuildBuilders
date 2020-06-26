@@ -210,7 +210,7 @@ func carry_unit(unit):
 	# show the 'mounted' icon
 	mounted_indicator_sprite.visible = true
 	
-	# drop off the unit that is being carried
+# drop off the unit that is being carried
 func commence_dismount(spot, unit_index): # after the unit has selected a dismount spot
 	# hide the 'mounted' icon
 	mounted_indicator_sprite.visible = false
@@ -223,6 +223,14 @@ func commence_dismount(spot, unit_index): # after the unit has selected a dismou
 	
 	# show the unit
 	carrying[unit_index].unit_sprite_node.visible = true
+	
+	# remove any 'MOUNT_REPRESENTATION' items from this unit
+	var index = 0
+	for item in current_items:
+		if (item.type == global_items_list.ITEM_TYPES.MOUNT_REPRESENTATION):
+			global_items_list.remove_item_from_unit(self, index)
+			index -= 1
+		index += 1
 	
 	# clear any movement grid squares
 	clear_movement_grid_squares()
