@@ -46,7 +46,7 @@ func set_active_unit(unit):
 func reset_yet_to_act():
 	yet_to_act = []
 	for unit in party_members:
-		if (unit.unit_awake):
+		if (unit.unit_awake && unit.unit_mounting == null):
 			yet_to_act.append(unit)
 			
 	# append animals as well

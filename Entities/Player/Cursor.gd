@@ -53,6 +53,11 @@ onready var move_sound = get_node("Cursor_Move_Sound")
 # instanced nodes
 onready var camera = get_tree().get_nodes_in_group("Camera")[0]
 
+# have 2 layers of potential tiles
+onready var tileset_props_l1 = get_tree().get_nodes_in_group(constants.MAP_TILES_GROUP)[0]
+onready var tileset_props_l2 = get_tree().get_nodes_in_group(constants.MAP_TILES_GROUP)[1]
+onready var hidden_tiles = get_tree().get_nodes_in_group(constants.HIDDEN_TILES_GROUP)[0]
+
 func cursor_init():
 	# position cursor
 	self.global_position = Vector2(player.curs_pos_x*16, player.curs_pos_y*16)
@@ -179,7 +184,8 @@ func _input(event):
 	player.player_state == player.PLAYER_STATE.POSITIONING_UNIT ||
 	player.player_state == player.PLAYER_STATE.CROSSING_WATER ||
 	player.player_state == player.PLAYER_STATE.SELECTING_TRADE_UNIT ||
-	player.player_state == player.PLAYER_STATE.SELECTING_MOUNT_UNIT):
+	player.player_state == player.PLAYER_STATE.SELECTING_MOUNT_UNIT ||
+	player.player_state == player.PLAYER_STATE.SELECTING_DISMOUNT_SQUARE):
 		# immediately move, then continue moving
 		if event.is_action_pressed("ui_up"):
 			# if we're changing directions, act as if we're resetting
@@ -258,6 +264,38 @@ func _input(event):
 							var target_unit = player.party.get_unit_at_coordinates(player.curs_pos_x, player.curs_pos_y)
 							if (target_unit.get('can_mount') == true):
 								party.get_active_unit().mount_target_unit(target_unit)
+					player.PLAYER_STATE.SELECTING_DISMOUNT_SQUARE:
+						# dismount!
+						
+						var cardinal_tiles = get_tree().get_current_scene().get_cardinal_tiles(party.get_active_unit())
+						
+						# make sure the tile is in the cardinal tile
+						var cardinal = false
+						for tile in cardinal_tiles:
+							if (tile.tile == Vector2(player.curs_pos_x, player.curs_pos_y)):
+								cardinal = true
+						
+						if (cardinal):
+							var tile_name_l1 = tileset_props_l1.get_tile_at_coordinates(Vector2(player.curs_pos_x, player.curs_pos_y))
+							var tile_name_l2 = tileset_props_l2.get_tile_at_coordinates(Vector2(player.curs_pos_x, player.curs_pos_y))
+							var l1_cost = tileset_props_l1.get_movement_cost(tile_name_l1)
+							
+							var l2_cost = 0
+							if (tile_name_l2 != null):
+								l2_cost += tileset_props_l2.get_movement_cost(tile_name_l2)
+							
+							# if the tile is hidden, it's not accessible
+							var hidden_tile = (hidden_tiles.get_tile_at_coordinates(Vector2(player.curs_pos_x, player.curs_pos_y)) != null)
+							if (hidden_tile):
+								l1_cost += constants.CANT_MOVE
+								
+							if (l1_cost + l2_cost < constants.CANT_MOVE):
+								# dismount here!						
+								party.get_active_unit().commence_dismount(Vector2(player.curs_pos_x, player.curs_pos_y), 0)
+								
+								# and finish the animal's action
+								party.get_active_unit().end_action(true)
+					
 						
 							
 	if event.is_action_pressed("ui_select"):
@@ -271,7 +309,8 @@ func _input(event):
 		player.player_state == player.PLAYER_STATE.POSITIONING_UNIT ||
 		player.player_state == player.PLAYER_STATE.CROSSING_WATER ||
 		player.player_state == player.PLAYER_STATE.SELECTING_TRADE_UNIT ||
-		player.player_state == player.PLAYER_STATE.SELECTING_MOUNT_UNIT):		
+		player.player_state == player.PLAYER_STATE.SELECTING_MOUNT_UNIT ||
+		player.player_state == player.PLAYER_STATE.SELECTING_DISMOUNT_SQUARE):		
 			party.get_active_unit().clear_movement_grid_squares()
 			# change our state back to selecting tile
 			player.player_state = player.PLAYER_STATE.SELECTING_TILE

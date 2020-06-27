@@ -599,6 +599,11 @@ func return_to(location):
 			# update coordinates
 			set_unit_pos(active_cave.pos.x, active_cave.pos.y)
 
+	# if the unit is mounted, we need to dismount the animal (remove the mount icon)
+	if (unit_mounting != null):
+		var animal = unit_mounting
+		animal.commence_dismount(Vector2(unit_pos_x, unit_pos_y), 0, false)
+
 # once we've received the path the unit will take, this function will actually move
 # the unit based on a timer
 func initiate_movement(path):

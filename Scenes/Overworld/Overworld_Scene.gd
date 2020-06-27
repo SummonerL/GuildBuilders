@@ -729,6 +729,11 @@ func show_unit_bedtime(unit_to_bed, timer = null):
 		timer.stop()
 		remove_child	(timer)
 	
+	if (unit_to_bed.get("unit_mounting") != null):
+		# if the unit is mounting an animal, make sure we set their position to the animal before focusing
+		var animal = unit_to_bed.unit_mounting
+		unit_to_bed.set_unit_pos(animal.unit_pos_x, animal.unit_pos_y)
+	
 	# focus the cursor/camera on the unit
 	cursor.focus_on(unit_to_bed.unit_pos_x, unit_to_bed.unit_pos_y)
 	
@@ -938,6 +943,10 @@ func populate_unique_animal_actions(unit): # unique actions (exclusive to animal
 				elif (!constants.SWIM_TILES.has(l1_tiles.get_tile_at_coordinates(Vector2(unit.unit_pos_x - 1, unit.unit_pos_y))) &&
 					!constants.SWIM_TILES.has(l1_tiles.get_tile_at_coordinates(Vector2(unit.unit_pos_x + 1, unit.unit_pos_y)))):
 					unique_actions += [global_action_list.COMPLETE_ACTION_LIST.BUILD_BEAVER_BRIDGE_HORIZONTAL]
+	
+	# if the unit is carrying another unit, add DISMOUNT
+	if (unit.carrying.size() > 0):
+		unique_actions += [global_action_list.COMPLETE_ACTION_LIST.DISMOUNT_UNIT]
 	
 	return unique_actions
 	

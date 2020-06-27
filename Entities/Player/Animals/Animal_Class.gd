@@ -189,6 +189,34 @@ func determine_action_list():
 		# sort them
 		current_action_list.sort()
 		
+# function for showing tile selectors around the unit. Can be used for various actions like DISMOUNTING
+func show_tile_selector(player_state, must_be_accessible = true):
+	# show adjacent tiles
+
+	# change the state (whatever was passed)
+	player.player_state = player_state
+
+	for tile in get_tree().get_current_scene().get_cardinal_tiles(self):
+		if (must_be_accessible):
+			var tile_name_l1 = tileset_props_l1.get_tile_at_coordinates(Vector2(tile.tile.x, tile.tile.y))
+			var tile_name_l2 = tileset_props_l2.get_tile_at_coordinates(Vector2(tile.tile.x, tile.tile.y))
+			var l1_cost = tileset_props_l1.get_movement_cost(tile_name_l1)
+			
+			var l2_cost = 0
+			if (tile_name_l2 != null):
+				l2_cost += tileset_props_l2.get_movement_cost(tile_name_l2)
+			
+			# if the tile is hidden, it's not accessible
+			var hidden_tile = (hidden_tiles.get_tile_at_coordinates(Vector2(tile.tile.x, tile.tile.y)) != null)
+			if (hidden_tile):
+				l1_cost += constants.CANT_MOVE
+				
+			if (l1_cost + l2_cost < constants.CANT_MOVE):
+				show_movement_grid_square(tile.tile.x, tile.tile.y, false) # don't allow showing the square on a unit or restricted tile (since we are moving here)
+		else:
+			show_movement_grid_square(tile.tile.x, tile.tile.y, false)
+		
+		
 # allow the unit to select another unit to trade with
 func show_trade_selector():
 	# change the state (reuse a state)
@@ -211,7 +239,7 @@ func carry_unit(unit):
 	mounted_indicator_sprite.visible = true
 	
 # drop off the unit that is being carried
-func commence_dismount(spot, unit_index): # after the unit has selected a dismount spot
+func commence_dismount(spot, unit_index, show_unit = true): # after the unit has selected a dismount spot
 	# hide the 'mounted' icon
 	mounted_indicator_sprite.visible = false
 
@@ -221,8 +249,11 @@ func commence_dismount(spot, unit_index): # after the unit has selected a dismou
 	# remove the unit_mounting
 	carrying[unit_index].unit_mounting = null
 	
-	# show the unit
-	carrying[unit_index].unit_sprite_node.visible = true
+	# show the unit (unless this was initiated via bedtime)
+	carrying[unit_index].unit_sprite_node.visible = show_unit
+	
+	# make sure the unit's sprite is spent
+	#carrying[unit_index].unit_sprite_node.material = carrying[unit_index].unit_spent_shader
 	
 	# remove any 'MOUNT_REPRESENTATION' items from this unit
 	var index = 0
@@ -234,6 +265,12 @@ func commence_dismount(spot, unit_index): # after the unit has selected a dismou
 	
 	# clear any movement grid squares
 	clear_movement_grid_squares()
+	
+	# end the unit's turn
+	carrying[unit_index].end_action(true)
+
+	# remove the unit from 'carrying'
+	carrying.remove(unit_index)
 
 # open the trade screen for the selected unit
 func trade_with_unit_at_pos(target_x, target_y):

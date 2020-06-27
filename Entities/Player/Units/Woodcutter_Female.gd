@@ -28,8 +28,8 @@ const TOWER_CLIMB_TEXT = 'What a stunning view!'
 
 func unit_init():	
 	#TEMP ---------
-	#unit_pos_x = 39
-	#unit_pos_y = 9
+	unit_pos_x = 39
+	unit_pos_y = 9
 	
 	unit_portrait_sprite = ps
 	
@@ -53,15 +53,6 @@ func unit_init():
 	# give the female woodcutter some starting items
 	global_items_list.add_item_to_unit(self, global_items_list.item_sturdy_axe)
 	global_items_list.add_item_to_unit(self, global_items_list.item_jumbofish)
-	
-	#TEMP
-	skill_levels[constants.DIPLOMACY] = 5
-	skill_levels[constants.BEAST_MASTERY] = 5
-	global_items_list.add_item_to_unit(self, global_items_list.item_catfish)
-	global_items_list.add_item_to_unit(self, global_items_list.item_catfish)
-	global_items_list.add_item_to_unit(self, global_items_list.item_catfish)
-	global_items_list.add_item_to_unit(self, global_items_list.item_walking_stick)
-	global_items_list.add_item_to_unit(self, global_items_list.item_willow_mount_representation)
 	
 	# add the unit's starting ability
 	starting_ability = global_ability_list.ability_insomniac

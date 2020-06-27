@@ -130,6 +130,7 @@ enum COMPLETE_ACTION_LIST {
 	GIVE_GIFT_ON_GIFT_SCREEN, # used for Gift screen
 	TRADE_ITEMS, # trade items between units
 	MOUNT_UNIT, # mount animals with can_mount
+	DISMOUNT_UNIT, # dismount an animal
 	TALK, # used for NPCS
 	ACCESS_DEPOT_VIA_MAGE_ASHEN, # access depot
 	ACCESS_DINING_VIA_CHEF_FREDERIK, # access dining
@@ -192,6 +193,7 @@ const ACTION_LIST_NAMES = [ # in the same order as actions above
 	'GIVE',
 	'TRADE',
 	'MOUNT',
+	'DISMT',
 	'TALK',
 	'DEPOT',
 	'DINE',
@@ -378,6 +380,9 @@ func do_action(action, parent, additional_params = null):
 		COMPLETE_ACTION_LIST.MOUNT_UNIT:
 			# mount a animal unit
 			active_unit.show_unit_selector('can_mount', true, player.PLAYER_STATE.SELECTING_MOUNT_UNIT)
+		COMPLETE_ACTION_LIST.DISMOUNT_UNIT:
+			# show the tile selector (for dismounting)
+			active_unit.show_tile_selector(player.PLAYER_STATE.SELECTING_DISMOUNT_SQUARE, true) # must be accesible tiles
 		COMPLETE_ACTION_LIST.READ_SIGN:
 			# read an adjacent sign
 			initiate_read_sign_action(player.active_world_object)
