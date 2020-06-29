@@ -15,7 +15,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="A Test of Artistry"
+config/name="Guildbuilders"
 run/main_scene="res://Scenes/Overworld/Overworld_Scene.tscn"
 config/icon="res://icon.png"
 

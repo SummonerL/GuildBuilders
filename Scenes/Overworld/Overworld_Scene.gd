@@ -18,7 +18,7 @@ onready var map_actions = get_tree().get_nodes_in_group(constants.MAP_ACTIONS_GR
 # bring in our signals
 onready var signals = get_node("/root/Signal_Manager")
 
-# A Test of Artistry...
+# A Guildbuilders...
 # ... a game by
 # Arid Bard (Elliot Simpson)
 

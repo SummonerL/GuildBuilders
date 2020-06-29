@@ -64,7 +64,7 @@ onready var map_regions = [
 		"pos": Vector2(0, 2)
 	},
 	{
-		"name": '12',
+		"name": 'Sedgelin Swamplands',
 		"hidden": true,
 		"pos": Vector2(1, 2)
 	},
