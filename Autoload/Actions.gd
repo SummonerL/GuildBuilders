@@ -1372,6 +1372,22 @@ func initiate_dig_ground_action(param_object):
 	
 	if (item_here != null):
 		
+		# make sure the unit meets any quest conditions to 'see' this item
+		if (item_here.has("quest_conditions")):
+			var meets_conditions = false
+			
+			match (item_here.quest_condition_status):
+				constants.STARTED:
+					print(item_here.quest_conditions)
+					if (guild.started_quest(item_here.quest_conditions)):
+						meets_conditions = true
+			
+			if (!meets_conditions):
+				# spends an action
+				player.hud.typeTextWithBuffer(active_unit.unit_name + DUG_GROUND_FOUND_NOTHING, false, 'finished_action_success') # they completed the action
+				return
+			
+		
 		# make sure the unit can hold this item
 		if (active_unit.is_inventory_full()):
 			player.hud.typeTextWithBuffer(DUG_GROUND_INV_FULL + active_unit.unit_name + CANT_HOLD_ANYTHING_ELSE, false, 'finished_action_failed') # they did not complete the action 

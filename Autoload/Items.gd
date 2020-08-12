@@ -415,6 +415,8 @@ onready var item_latex = {
 # quest items
 onready var item_rubins_remains = {
 	"name": "Rubin's Remains",
+	"quest_conditions": guild.QUEST_GRAVEDIGGER_NAME, # this quest must be started 
+	"quest_condition_status": constants.STARTED,
 	"description": "The remains of Rubin. This item is used in a quest.",
 	"type": ITEM_TYPES.QUEST_ITEM
 }

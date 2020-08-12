@@ -19,6 +19,8 @@ const MAP_ICONS_GROUP = 'map_icons'
 const MAP_ACTIONS_GROUP = 'map_actions'
 const HIDDEN_TILES_GROUP = 'hidden_tiles'
 
+const STARTED = 'STARTED'
+
 const ABILITY_TEXT = "ABILITIES"
 
 const CHECK_SYMBOL = '¤' #164

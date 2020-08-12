@@ -31,6 +31,7 @@ const SENT_TO_DEPOT_TEXT = 'Items sent to depot...'
 
 const QUEST_HORSE_RESCUE_NAME = 'Horse Rescue'
 const QUEST_FRIEND_WANTED_NAME = 'Friend Wanted'
+const QUEST_GRAVEDIGGER_NAME = 'Gravedigger'
 
 # keep track of the camera
 var camera
@@ -154,10 +155,30 @@ onready var quest_horse_rescue = {
 	"completion_text": "King Rul returned Skyheart to Farmer Fred. You can now tame and ride Skyheart.",
 }
 
+onready var quest_gravedigger = {
+	"name": QUEST_GRAVEDIGGER_NAME,
+	"start_prompt": "Speak with the ghost?",
+	"statuses": [
+		ml(["A ghost living in Sedgelin Swamplands is not a fan of his burial location. He has asked you to dig up ",
+		"his remains and find a more suitable location. He desires some company."]),
+		
+		"You completed the quest!"
+	],
+	"progress_conditions": [
+		{
+			"empty_condition": true # this is an empty condition, and will be progressed by taking some action in the game
+			# this condition is passed by using Rubin's Remains on the correct dirt spot
+		}
+	],
+	"completion_text": "",
+	"current_progress": 0,
+}
+
 onready var main_quests = []
 onready var side_quests = [
 	quest_friend_wanted,
-	quest_horse_rescue
+	quest_horse_rescue,
+	quest_gravedigger
 ]
 
 func already_has_quest(quest_to_check):
@@ -172,6 +193,19 @@ func already_has_quest(quest_to_check):
 			has_quest = true
 			
 	return has_quest
+
+func started_quest(quest_name_to_check):
+	# check if the player has started the quest
+	var all_quests = []
+	all_quests += side_in_progress + main_in_progress
+	
+	var started_quest = false
+	
+	for quest in all_quests:
+		if (quest_name_to_check == quest.name):
+			started_quest = true
+			
+	return started_quest
 
 func start_quest(active_unit, quest_to_start, npc = null):
 	# first, make sure the player hasn't already started this quest

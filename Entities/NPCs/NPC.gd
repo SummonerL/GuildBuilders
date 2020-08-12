@@ -412,12 +412,23 @@ onready var npc_sedgelin_ghost_rubin = {
 	"name": "Rubin",
 	"race": RACES.GHOST,
 	"scary": true, # requires the unit to have some courage
+	"quests_initiated": [
+		guild.quest_gravedigger
+	],
+	"quests_involved_in": [
+		guild.quest_gravedigger # should at least contain the quests that this npc initiates
+	],
+	"initiates_quest_immediately": true,
 	"region": 4, # Sedgelin Swamplands
 	"dialogue": [
-		ml(["This spot is cute and all, but I wish I had been buried with some company."])
+		ml(["This spot is cute and all, but I wish I had been buried with some company."]),
+		
+		"Thanks for listening!",
+		
+		"YOU ARE ON THE QUEST"
 	],
-	"initiates_quest_immediately": false,
 	"current_dialogue": 0, # initial dialogue
+	"current_quest": 0, # quest that is active with this npc
 	"overworld_sprite": get_node("Sedgelin_Ghost_Rubin"),
 	"pos_x": -14,
 	"pos_y": 4
