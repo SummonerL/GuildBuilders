@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Scenes/Overworld/Assets/TileSets/Map_TS.tres" type="TileSet" id=1]
 [ext_resource path="res://Scenes/Overworld/Overworld_Scene.gd" type="Script" id=2]
@@ -15,6 +15,7 @@
 [ext_resource path="res://Sprites/Animated Textures/windmill.tres" type="Texture" id=13]
 [ext_resource path="res://Sprites/Animated Textures/fountain.tres" type="Texture" id=14]
 [ext_resource path="res://Sprites/Animated Textures/bellmare_castle.tres" type="Texture" id=15]
+[ext_resource path="res://Music/7AM_Loop.wav" type="AudioStream" id=16]
 
 [sub_resource type="TileSet" id=1]
 0/name = "tower_sprite"
@@ -596,6 +597,10 @@ tile_set = SubResource( 4 )
 cell_size = Vector2( 16, 16 )
 format = 1
 script = ExtResource( 3 )
+
+[node name="7AM_Loop" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 16 )
+volume_db = -8.0
 
 [node name="12PM_Loop" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )

@@ -100,6 +100,7 @@ const DAMPENED_VOL = -15
 var active_bg_music
 var max_vol
 
+onready var seven_am_loop = get_node("7AM_Loop")
 onready var twelve_pm_loop = get_node("12PM_Loop")
 onready var three_pm_loop = get_node("3PM_Loop")
 onready var five_pm_loop = get_node("5PM_Loop")
@@ -453,8 +454,10 @@ func show_clock_anim():
 # determine the current background music state. Whether or not it needs to be changed, based on the current time
 func determine_music_state():
 	match(player.current_time_of_day):
-		12:
+		7:
 			# time to change songs
+			fade_out_background_music()
+		12:
 			fade_out_background_music()
 		14:
 			fade_out_background_music()
@@ -513,6 +516,10 @@ func determine_background_vol_buffer():
 	
 func determine_background_music():
 	match(player.current_time_of_day):
+		7: 
+			active_bg_music = seven_am_loop
+			max_vol = active_bg_music.volume_db
+			fade_in(active_bg_music, 2)
 		12:
 			active_bg_music = twelve_pm_loop
 			max_vol = active_bg_music.volume_db
