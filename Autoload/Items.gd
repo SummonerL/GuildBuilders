@@ -417,6 +417,13 @@ onready var item_rubins_remains = {
 	"name": "Rubin's Remains",
 	"quest_conditions": guild.QUEST_GRAVEDIGGER_NAME, # this quest must be started 
 	"quest_condition_status": constants.STARTED,
+	"can_use": true,
+	"quest_use": {
+		"location": Vector2(-25, 7),
+		"progress": 0, # what the progress is set to on use
+		"use_text": " buried the remains...",
+		"remove_on_use": true
+	},
 	"description": "The remains of Rubin. This item is used in a quest.",
 	"type": ITEM_TYPES.QUEST_ITEM
 }

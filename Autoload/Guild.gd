@@ -534,3 +534,13 @@ func check_guild_abilities():
 				units.shuffle()
 				if (units.size() > 0):
 					global_ability_list.add_ability_to_unit(units[0], global_ability_list.ability_a_sense_of_duty)
+					
+func get_quest_by_name(quest_name):
+	var all_quests = []
+	all_quests += side_in_progress + side_completed + main_in_progress + main_completed
+	
+	for quest in all_quests:
+		if (quest_name == quest.name):
+			return quest
+			
+	return null

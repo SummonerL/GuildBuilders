@@ -15,6 +15,9 @@ onready var global_ability_list = get_node("/root/Abilities")
 # bring in our items
 onready var global_items_list = get_node("/root/Items")
 
+# bring in our guild variables/functions
+onready var guild = get_node("/root/Guild")
+
 # bring in our signals
 onready var signals = get_node("/root/Signal_Manager")
 
@@ -142,6 +145,8 @@ const ALREADY_HAS_EFFECT_TEXT = ' already has that effect.'
 const DOESNT_NEED_ITEM = " doesn't need to use this item right now..."
 
 const CANT_USE_ITEM_ACTING = 'You can\'t use items after acting...'
+
+const USED_NOTHING_HAPPENED = ' used the item. Nothing happened...'
 
 func unit_info_full_init():
 	letters_symbols_node = letters_symbols_scn.instance()
@@ -516,6 +521,37 @@ func use_item():
 		
 			yield(signals, "finished_viewing_text_generic")
 		pass
+	# if an item should be used in a quest
+	elif (item.has("quest_use")):
+		# ensure the unit is in the correct location
+		var location = item.quest_use.location
+		var quest = guild.get_quest_by_name(item.quest_conditions)
+		
+		if (active_unit.unit_pos_x == location.x && active_unit.unit_pos_y == location.y):
+			# display the usage text
+			player.hud.dialogueState = player.hud.STATES.INACTIVE
+			player.hud.typeTextWithBuffer(active_unit.unit_name + item.quest_use.use_text, false, 'finished_viewing_text_generic') 
+		
+			yield(signals, "finished_viewing_text_generic")
+			
+			# remove the item, if it should be removed on use
+			if (item.quest_use.has("remove_on_use") && item.quest_use.remove_on_use):
+				global_items_list.remove_item_from_unit(active_unit, current_item)
+				# reposition the cursor and repopulate the list, now that we've removed that item
+				if (current_item > (active_unit.current_items.size() - 1)):
+					if (current_item == inv_start_index_tracker && inv_start_index_tracker > 0):
+						inv_start_index_tracker -= 4
+					current_item -= 1
+			
+				change_screen(inv_start_index_tracker)
+			
+		else:
+			# the unit is not in the correct location, display 'nothing happened' text
+			player.hud.dialogueState = player.hud.STATES.INACTIVE
+			player.hud.typeTextWithBuffer(active_unit.unit_name + USED_NOTHING_HAPPENED, false, 'finished_viewing_text_generic') 
+		
+			yield(signals, "finished_viewing_text_generic")
+		
 	else:
 		pass
 	
