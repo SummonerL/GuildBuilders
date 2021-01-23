@@ -179,7 +179,7 @@ onready var npc_farmer_fred = {
 		
 		ml(["Skyheart... that was her name. A beautiful white horse that lived here on the farm with me. I awoke yesterday morning to find that she was gone. ",
 			"The fence was open, and I saw several tracks in the ground. I have a suspicion that she was taken by goblins. There is a goblin camp just ",
-			"Southwest of here. Nasty bunch. They're always giving the folks of Bellare trouble. I don't expect her",
+			"Southwest of here. Nasty bunch. They're always giving the folks of Bellmare trouble. I don't expect her",
 			" to still be alive, but could you please go investigate? If there's any possibility of getting her back, I'll do whatever it takes."]),
 		
 		"Please let me know if you find Skyheart!",
