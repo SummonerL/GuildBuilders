@@ -139,7 +139,7 @@ var regions = [
 		'name': 'Bellmare Region',
 		'x': 30,
 		'y': 0,
-		'hidden': false
+		'hidden': true
 	},
 	{
 		'name': 'Region South 1', # will change
@@ -151,7 +151,7 @@ var regions = [
 		'name': 'Sedgelin Swamplands', # will change
 		'x': -30,
 		'y': 0,
-		'hidden': false
+		'hidden': true
 	},
 	{
 		'name': 'Region Northeast 1', # will change
